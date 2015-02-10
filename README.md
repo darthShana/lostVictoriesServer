@@ -1,2 +1,0 @@
-# lostVictoriesSever
-lost victories server
