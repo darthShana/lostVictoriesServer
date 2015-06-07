@@ -1,11 +1,13 @@
 package lostVictories;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.util.concurrent.Executors;
 
-import org.elasticsearch.action.ActionListener;
+import org.apache.log4j.Logger;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
+import org.elasticsearch.action.admin.indices.create.CreateIndexRequestBuilder;
 import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
-import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsRequest;
 import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.IndicesAdminClient;
@@ -16,22 +18,19 @@ import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
 import org.elasticsearch.indices.IndexAlreadyExistsException;
+import org.jboss.netty.bootstrap.ServerBootstrap;
+import org.jboss.netty.channel.ChannelPipeline;
+import org.jboss.netty.channel.ChannelPipelineFactory;
+import org.jboss.netty.channel.Channels;
+import org.jboss.netty.channel.socket.nio.NioServerSocketChannelFactory;
+import org.jboss.netty.handler.codec.serialization.ClassResolvers;
+import org.jboss.netty.handler.codec.serialization.ObjectDecoder;
+import org.jboss.netty.handler.codec.serialization.ObjectEncoder;
 
-import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
-import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.SocketChannel;
-import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.codec.DelimiterBasedFrameDecoder;
-import io.netty.handler.codec.Delimiters;
-import io.netty.handler.codec.string.StringDecoder;
-import io.netty.handler.codec.string.StringEncoder;
 
 public class LostVictoriesSever {
 	
+	private static Logger log = Logger.getLogger(LostVictoriesSever.class); 
 	
 	private int port;
 	private String indexName;
@@ -43,57 +42,52 @@ public class LostVictoriesSever {
 	}
 	
 	private void run() throws InterruptedException, IOException {
-		
 		Client esClient = getESClient();
 		IndicesAdminClient adminClient = esClient.admin().indices();
-		try{
-			createIndex(adminClient);
-		}catch(IndexAlreadyExistsException e){}
+		CharacterDAO characterDAO = new CharacterDAO(esClient, indexName);
 		
+		createIndex(adminClient, characterDAO);
 		
-		EventLoopGroup bossGroup = new NioEventLoopGroup(); // (1)
-        EventLoopGroup workerGroup = new NioEventLoopGroup();
-        try {
-            ServerBootstrap b = new ServerBootstrap(); // (2)
-            b.group(bossGroup, workerGroup)
-             .channel(NioServerSocketChannel.class) // (3)
-             .childHandler(new ChannelInitializer<SocketChannel>() { // (4)
-                 @Override
-                 public void initChannel(SocketChannel ch) throws Exception {
-                	 ch.pipeline().addLast("framer", new DelimiterBasedFrameDecoder(8192, true, Delimiters.lineDelimiter())); 
-                	 ch.pipeline().addLast("decoder", new StringDecoder());
-                	 ch.pipeline().addLast("encoder", new StringEncoder());
-                     ch.pipeline().addLast("handler", new UnitStateHandler(esClient, indexName));
-                 }
-             })
-             .option(ChannelOption.SO_BACKLOG, 128)          // (5)
-             .childOption(ChannelOption.SO_KEEPALIVE, true); // (6)
-
-            // Bind and start to accept incoming connections.
-            ChannelFuture f = b.bind(port).sync(); // (7)
-            f.channel().closeFuture().sync();
-            
-        } finally {
-        	System.out.println("closign groupr");
-            workerGroup.shutdownGracefully();
-            bossGroup.shutdownGracefully();
-        }
+		ServerBootstrap bootstrap = new ServerBootstrap( new NioServerSocketChannelFactory(Executors.newCachedThreadPool(), Executors.newCachedThreadPool()));
+				 
+		 // Set up the pipeline factory.
+		bootstrap.setPipelineFactory(new ChannelPipelineFactory() {
+			public ChannelPipeline getPipeline() throws Exception {
+				return Channels.pipeline(
+					new ObjectDecoder(ClassResolvers.cacheDisabled(getClass().getClassLoader())),
+					new ObjectEncoder(),
+					new MessageHandler(characterDAO)
+				);
+			 };
+		 });
+		 
+		 // Bind and start to accept incoming connections.
+		 bootstrap.bind(new InetSocketAddress("0.0.0.0", port));
+		 log.info("Listening on "+port);
+		
 		
 	}
 
-	private void createIndex(IndicesAdminClient adminClient) throws IOException {
-		CreateIndexRequest request = new CreateIndexRequest(indexName);
-	    CreateIndexResponse response = adminClient.create(request).actionGet();
-	    if (!response.isAcknowledged()) {
-	        throw new RuntimeException("Failed to delete index " + indexName);
-	    }
-	    System.out.println("created index:"+indexName);
-	    
+	private void createIndex(IndicesAdminClient adminClient, CharacterDAO characterDAO) throws IOException {
+		final IndicesExistsResponse res = adminClient.prepareExists(indexName).execute().actionGet();
+        if (res.isExists()) {
+        	log.info("index:"+indexName+" already exisits");
+            return;
+        }
+        log.info("creating new index:"+indexName);
+
+        final CreateIndexRequestBuilder createIndexRequestBuilder = adminClient.prepareCreate(indexName);
+		
 	    XContentBuilder builder = XContentFactory.jsonBuilder().startObject().startObject("unitStatus").startObject("properties");
 	    builder.startObject("location")
         	.field("type", "geo_point")
         	.field("store", "yes")
         	.endObject();
+	    
+	    createIndexRequestBuilder.addMapping("unitStatus", builder);
+	    createIndexRequestBuilder.execute().actionGet();
+	    
+	    new LostVictoryScene().loadScene(characterDAO);
 	}
 
 	private Client getESClient() {
@@ -105,7 +99,6 @@ public class LostVictoriesSever {
 		
 	}
 	
-	class ExistsException extends RuntimeException{}
 
 	public static void main(String[] args) throws Exception {
 		

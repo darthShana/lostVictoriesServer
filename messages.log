@@ -1,0 +1,976 @@
+[Possessor] loaded [], sites []
+[Amergin] loaded [], sites []
+[Byrrah] loaded [], sites []
+[Aged Genghis] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Aged Genghis] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Aged Genghis] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Aged Genghis] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Aged Genghis] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Aged Genghis] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Aged Genghis] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Aged Genghis] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Aged Genghis] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Aged Genghis] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Aged Genghis] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Aged Genghis] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Aged Genghis] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Aged Genghis] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Aged Genghis] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Aged Genghis] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Aged Genghis] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Aged Genghis] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Aged Genghis] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Aged Genghis] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Aged Genghis] failed to connect to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]], removed from nodes list
+org.elasticsearch.transport.ConnectTransportException: [][inet[localhost/127.0.0.1:9300]] connect_timeout[30s]
+	at org.elasticsearch.transport.netty.NettyTransport.connectToChannelsLight(NettyTransport.java:772)
+	at org.elasticsearch.transport.netty.NettyTransport.connectToNode(NettyTransport.java:737)
+	at org.elasticsearch.transport.netty.NettyTransport.connectToNodeLight(NettyTransport.java:709)
+	at org.elasticsearch.transport.TransportService.connectToNodeLight(TransportService.java:154)
+	at org.elasticsearch.client.transport.TransportClientNodesService$SimpleNodeSampler.doSample(TransportClientNodesService.java:342)
+	at org.elasticsearch.client.transport.TransportClientNodesService$NodeSampler.sample(TransportClientNodesService.java:288)
+	at org.elasticsearch.client.transport.TransportClientNodesService.addTransportAddresses(TransportClientNodesService.java:171)
+	at org.elasticsearch.client.transport.TransportClient.addTransportAddress(TransportClient.java:241)
+	at lostVictories.LostVictoriesSever.getESClient(LostVictoriesSever.java:90)
+	at lostVictories.LostVictoriesSever.run(LostVictoriesSever.java:42)
+	at lostVictories.LostVictoriesSever.main(LostVictoriesSever.java:99)
+Caused by: java.net.ConnectException: Connection refused: localhost/127.0.0.1:9300
+	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method)
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:716)
+	at org.elasticsearch.common.netty.channel.socket.nio.NioClientBoss.connect(NioClientBoss.java:152)
+	at org.elasticsearch.common.netty.channel.socket.nio.NioClientBoss.processSelectedKeys(NioClientBoss.java:105)
+	at org.elasticsearch.common.netty.channel.socket.nio.NioClientBoss.process(NioClientBoss.java:79)
+	at org.elasticsearch.common.netty.channel.socket.nio.AbstractNioSelector.run(AbstractNioSelector.java:318)
+	at org.elasticsearch.common.netty.channel.socket.nio.NioClientBoss.run(NioClientBoss.java:42)
+	at org.elasticsearch.common.netty.util.ThreadRenamingRunnable.run(ThreadRenamingRunnable.java:108)
+	at org.elasticsearch.common.netty.util.internal.DeadLockProofWorker$1.run(DeadLockProofWorker.java:42)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:745)
+[Aged Genghis] failed to connect to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]], removed from nodes list
+org.elasticsearch.transport.ConnectTransportException: [][inet[localhost/127.0.0.1:9300]] connect_timeout[30s]
+	at org.elasticsearch.transport.netty.NettyTransport.connectToChannelsLight(NettyTransport.java:772)
+	at org.elasticsearch.transport.netty.NettyTransport.connectToNode(NettyTransport.java:737)
+	at org.elasticsearch.transport.netty.NettyTransport.connectToNodeLight(NettyTransport.java:709)
+	at org.elasticsearch.transport.TransportService.connectToNodeLight(TransportService.java:154)
+	at org.elasticsearch.client.transport.TransportClientNodesService$SimpleNodeSampler.doSample(TransportClientNodesService.java:342)
+	at org.elasticsearch.client.transport.TransportClientNodesService$NodeSampler.sample(TransportClientNodesService.java:288)
+	at org.elasticsearch.client.transport.TransportClientNodesService$ScheduledNodeSampler.run(TransportClientNodesService.java:321)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: java.net.ConnectException: Connection refused: localhost/127.0.0.1:9300
+	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method)
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:716)
+	at org.elasticsearch.common.netty.channel.socket.nio.NioClientBoss.connect(NioClientBoss.java:152)
+	at org.elasticsearch.common.netty.channel.socket.nio.NioClientBoss.processSelectedKeys(NioClientBoss.java:105)
+	at org.elasticsearch.common.netty.channel.socket.nio.NioClientBoss.process(NioClientBoss.java:79)
+	at org.elasticsearch.common.netty.channel.socket.nio.AbstractNioSelector.run(AbstractNioSelector.java:318)
+	at org.elasticsearch.common.netty.channel.socket.nio.NioClientBoss.run(NioClientBoss.java:42)
+	at org.elasticsearch.common.netty.util.ThreadRenamingRunnable.run(ThreadRenamingRunnable.java:108)
+	at org.elasticsearch.common.netty.util.internal.DeadLockProofWorker$1.run(DeadLockProofWorker.java:42)
+	... 3 more
+[Silverclaw] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Silverclaw] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Silverclaw] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Silverclaw] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Silverclaw] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Silverclaw] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Silverclaw] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Silverclaw] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Silverclaw] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Silverclaw] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Silverclaw] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Silverclaw] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Silverclaw] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Silverclaw] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Silverclaw] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Silverclaw] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Silverclaw] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Silverclaw] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Silverclaw] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Silverclaw] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Silverclaw] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Silverclaw] connected to node [[Maestro][u1f19lmJQnC5NpweozSsVw][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Airborne] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Airborne] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Airborne] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Airborne] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Airborne] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Airborne] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Airborne] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Airborne] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Airborne] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Airborne] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Airborne] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Airborne] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Airborne] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Airborne] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Airborne] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Airborne] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Airborne] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Airborne] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Airborne] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Airborne] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Airborne] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Airborne] connected to node [[Maestro][u1f19lmJQnC5NpweozSsVw][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Warhawk] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Warhawk] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Warhawk] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Warhawk] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Warhawk] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Warhawk] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Warhawk] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Warhawk] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Warhawk] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Warhawk] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Warhawk] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Warhawk] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Warhawk] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Warhawk] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Warhawk] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Warhawk] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Warhawk] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Warhawk] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Warhawk] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Warhawk] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Warhawk] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Warhawk] connected to node [[Eliminator][rDne14OrTx26qWbQDQJa_g][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+Loading Scene
+[Raggadorr] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Raggadorr] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Raggadorr] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Raggadorr] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Raggadorr] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Raggadorr] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Raggadorr] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Raggadorr] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Raggadorr] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Raggadorr] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Raggadorr] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Raggadorr] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Raggadorr] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Raggadorr] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Raggadorr] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Raggadorr] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Raggadorr] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Raggadorr] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Raggadorr] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Raggadorr] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Raggadorr] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Raggadorr] connected to node [[Eliminator][rDne14OrTx26qWbQDQJa_g][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+creating new index:test_lost_victories1_unit_status
+Loading Scene
+Listening on 5055
+[Thunderclap] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Thunderclap] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Thunderclap] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Thunderclap] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Thunderclap] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Thunderclap] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Thunderclap] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Thunderclap] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Thunderclap] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Thunderclap] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Thunderclap] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Thunderclap] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Thunderclap] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Thunderclap] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Thunderclap] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Thunderclap] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Thunderclap] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Thunderclap] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Thunderclap] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Thunderclap] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Thunderclap] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Thunderclap] connected to node [[Eliminator][rDne14OrTx26qWbQDQJa_g][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+index:test_lost_victories1_unit_status already exisits
+Listening on 5055
+returning scene
+returning scene
+[Doughboy] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Doughboy] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Doughboy] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Doughboy] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Doughboy] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Doughboy] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Doughboy] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Doughboy] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Doughboy] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Doughboy] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Doughboy] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Doughboy] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Doughboy] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Doughboy] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Doughboy] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Doughboy] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Doughboy] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Doughboy] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Doughboy] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Doughboy] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Doughboy] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Doughboy] connected to node [[Eliminator][rDne14OrTx26qWbQDQJa_g][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+index:test_lost_victories1_unit_status already exisits
+Listening on 5055
+returning scene
+[Elixir] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Elixir] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Elixir] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Elixir] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Elixir] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Elixir] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Elixir] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Elixir] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Elixir] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Elixir] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Elixir] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Elixir] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Elixir] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Elixir] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Elixir] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Elixir] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Elixir] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Elixir] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Elixir] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Elixir] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Elixir] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Elixir] connected to node [[Eliminator][rDne14OrTx26qWbQDQJa_g][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+index:test_lost_victories1_unit_status already exisits
+Listening on 5055
+returning scene
+returning scene
+[Moon-Boy] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Moon-Boy] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Moon-Boy] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Moon-Boy] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Moon-Boy] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Moon-Boy] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Moon-Boy] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Moon-Boy] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Moon-Boy] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Moon-Boy] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Moon-Boy] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Moon-Boy] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Moon-Boy] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Moon-Boy] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Moon-Boy] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Moon-Boy] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Moon-Boy] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Moon-Boy] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Moon-Boy] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Moon-Boy] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Moon-Boy] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Moon-Boy] connected to node [[Eliminator][rDne14OrTx26qWbQDQJa_g][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+index:test_lost_victories1_unit_status already exisits
+Listening on 5055
+[Blue Diamond] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Blue Diamond] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Blue Diamond] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Blue Diamond] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Blue Diamond] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Blue Diamond] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Blue Diamond] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Blue Diamond] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Blue Diamond] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Blue Diamond] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Blue Diamond] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Blue Diamond] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Blue Diamond] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Blue Diamond] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Blue Diamond] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Blue Diamond] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Blue Diamond] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Blue Diamond] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Blue Diamond] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Blue Diamond] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Blue Diamond] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Blue Diamond] connected to node [[Eliminator][rDne14OrTx26qWbQDQJa_g][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+index:test_lost_victories1_unit_status already exisits
+Listening on 5055
+[Thanos] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Thanos] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Thanos] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Thanos] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Thanos] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Thanos] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Thanos] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Thanos] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Thanos] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Thanos] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Thanos] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Thanos] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Thanos] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Thanos] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Thanos] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Thanos] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Thanos] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Thanos] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Thanos] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Thanos] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Thanos] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Thanos] connected to node [[Eliminator][rDne14OrTx26qWbQDQJa_g][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+index:test_lost_victories1_unit_status already exisits
+Listening on 5055
+returning scene
+[Freak of Science] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Freak of Science] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Freak of Science] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Freak of Science] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Freak of Science] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Freak of Science] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Freak of Science] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Freak of Science] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Freak of Science] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Freak of Science] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Freak of Science] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Freak of Science] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Freak of Science] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Freak of Science] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Freak of Science] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Freak of Science] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Freak of Science] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Freak of Science] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Freak of Science] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Freak of Science] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Freak of Science] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Freak of Science] connected to node [[Eliminator][rDne14OrTx26qWbQDQJa_g][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+index:test_lost_victories1_unit_status already exisits
+Listening on 5055
+returning scene
+[Killer Shrike] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Killer Shrike] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Killer Shrike] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Killer Shrike] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Killer Shrike] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Killer Shrike] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Killer Shrike] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Killer Shrike] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Killer Shrike] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Killer Shrike] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Killer Shrike] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Killer Shrike] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Killer Shrike] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Killer Shrike] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Killer Shrike] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Killer Shrike] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Killer Shrike] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Killer Shrike] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Killer Shrike] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Killer Shrike] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Killer Shrike] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Killer Shrike] connected to node [[Eliminator][rDne14OrTx26qWbQDQJa_g][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+index:test_lost_victories1_unit_status already exisits
+Listening on 5055
+returning scene
+[Jackhammer] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Jackhammer] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Jackhammer] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Jackhammer] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Jackhammer] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Jackhammer] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Jackhammer] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Jackhammer] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Jackhammer] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Jackhammer] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Jackhammer] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Jackhammer] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Jackhammer] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Jackhammer] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Jackhammer] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Jackhammer] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Jackhammer] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Jackhammer] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Jackhammer] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Jackhammer] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Jackhammer] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Jackhammer] connected to node [[Eliminator][rDne14OrTx26qWbQDQJa_g][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+index:test_lost_victories1_unit_status already exisits
+Listening on 5055
+returning scene
+[Ned Leeds] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Ned Leeds] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Ned Leeds] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Ned Leeds] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Ned Leeds] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Ned Leeds] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Ned Leeds] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Ned Leeds] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Ned Leeds] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Ned Leeds] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Ned Leeds] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Ned Leeds] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Ned Leeds] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Ned Leeds] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Ned Leeds] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Ned Leeds] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Ned Leeds] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Ned Leeds] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Ned Leeds] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Ned Leeds] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Ned Leeds] failed to connect to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]], removed from nodes list
+org.elasticsearch.transport.ConnectTransportException: [][inet[localhost/127.0.0.1:9300]] connect_timeout[30s]
+	at org.elasticsearch.transport.netty.NettyTransport.connectToChannelsLight(NettyTransport.java:772)
+	at org.elasticsearch.transport.netty.NettyTransport.connectToNode(NettyTransport.java:737)
+	at org.elasticsearch.transport.netty.NettyTransport.connectToNodeLight(NettyTransport.java:709)
+	at org.elasticsearch.transport.TransportService.connectToNodeLight(TransportService.java:154)
+	at org.elasticsearch.client.transport.TransportClientNodesService$SimpleNodeSampler.doSample(TransportClientNodesService.java:342)
+	at org.elasticsearch.client.transport.TransportClientNodesService$NodeSampler.sample(TransportClientNodesService.java:288)
+	at org.elasticsearch.client.transport.TransportClientNodesService.addTransportAddresses(TransportClientNodesService.java:171)
+	at org.elasticsearch.client.transport.TransportClient.addTransportAddress(TransportClient.java:241)
+	at lostVictories.LostVictoriesSever.getESClient(LostVictoriesSever.java:96)
+	at lostVictories.LostVictoriesSever.run(LostVictoriesSever.java:45)
+	at lostVictories.LostVictoriesSever.main(LostVictoriesSever.java:105)
+Caused by: java.net.ConnectException: Connection refused: localhost/127.0.0.1:9300
+	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method)
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:716)
+	at org.elasticsearch.common.netty.channel.socket.nio.NioClientBoss.connect(NioClientBoss.java:152)
+	at org.elasticsearch.common.netty.channel.socket.nio.NioClientBoss.processSelectedKeys(NioClientBoss.java:105)
+	at org.elasticsearch.common.netty.channel.socket.nio.NioClientBoss.process(NioClientBoss.java:79)
+	at org.elasticsearch.common.netty.channel.socket.nio.AbstractNioSelector.run(AbstractNioSelector.java:318)
+	at org.elasticsearch.common.netty.channel.socket.nio.NioClientBoss.run(NioClientBoss.java:42)
+	at org.elasticsearch.common.netty.util.ThreadRenamingRunnable.run(ThreadRenamingRunnable.java:108)
+	at org.elasticsearch.common.netty.util.internal.DeadLockProofWorker$1.run(DeadLockProofWorker.java:42)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:745)
+[Armadillo] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Armadillo] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Armadillo] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Armadillo] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Armadillo] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Armadillo] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Armadillo] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Armadillo] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Armadillo] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Armadillo] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Armadillo] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Armadillo] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Armadillo] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Armadillo] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Armadillo] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Armadillo] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Armadillo] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Armadillo] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Armadillo] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Armadillo] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Armadillo] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Armadillo] connected to node [[Asylum][IixLpJzVRBit1qABolr_-g][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+index:test_lost_victories1_unit_status already exisits
+Listening on 5055
+returning scene
+returning scene
+returning scene
+returning scene
+[Glob] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Glob] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Glob] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Glob] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Glob] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Glob] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Glob] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Glob] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Glob] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Glob] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Glob] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Glob] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Glob] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Glob] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Glob] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Glob] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Glob] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Glob] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Glob] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Glob] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Glob] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Glob] connected to node [[Asylum][IixLpJzVRBit1qABolr_-g][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+index:test_lost_victories1_unit_status already exisits
+Listening on 5055
+returning scene
+returning scene
+[Maur-Konn] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Maur-Konn] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Maur-Konn] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Maur-Konn] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Maur-Konn] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Maur-Konn] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Maur-Konn] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Maur-Konn] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Maur-Konn] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Maur-Konn] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Maur-Konn] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Maur-Konn] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Maur-Konn] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Maur-Konn] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Maur-Konn] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Maur-Konn] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Maur-Konn] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Maur-Konn] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Maur-Konn] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Maur-Konn] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Maur-Konn] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Maur-Konn] connected to node [[Asylum][IixLpJzVRBit1qABolr_-g][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+index:test_lost_victories1_unit_status already exisits
+Listening on 5055
+returning scene
+[Steve Rogers] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Steve Rogers] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Steve Rogers] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Steve Rogers] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Steve Rogers] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Steve Rogers] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Steve Rogers] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Steve Rogers] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Steve Rogers] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Steve Rogers] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Steve Rogers] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Steve Rogers] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Steve Rogers] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Steve Rogers] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Steve Rogers] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Steve Rogers] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Steve Rogers] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Steve Rogers] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Steve Rogers] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Steve Rogers] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Steve Rogers] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Steve Rogers] connected to node [[Asylum][IixLpJzVRBit1qABolr_-g][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+index:test_lost_victories1_unit_status already exisits
+Listening on 5055
+retrived :10 from elasticsearch
+returning scene
+[Manta] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Manta] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Manta] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Manta] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Manta] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Manta] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Manta] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Manta] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Manta] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Manta] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Manta] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Manta] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Manta] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Manta] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Manta] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Manta] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Manta] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Manta] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Manta] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Manta] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Manta] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Manta] connected to node [[Asylum][IixLpJzVRBit1qABolr_-g][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+creating new index:test_lost_victories1_unit_status
+Loading Scene
+[Captain America] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Captain America] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Captain America] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Captain America] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Captain America] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Captain America] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Captain America] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Captain America] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Captain America] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Captain America] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Captain America] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Captain America] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Captain America] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Captain America] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Captain America] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Captain America] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Captain America] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Captain America] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Captain America] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Captain America] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Captain America] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Captain America] connected to node [[Asylum][IixLpJzVRBit1qABolr_-g][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+index:test_lost_victories1_unit_status already exisits
+Listening on 5055
+[Farallah] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Farallah] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Farallah] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Farallah] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Farallah] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Farallah] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Farallah] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Farallah] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Farallah] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Farallah] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Farallah] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Farallah] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Farallah] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Farallah] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Farallah] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Farallah] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Farallah] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Farallah] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Farallah] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Farallah] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Farallah] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Farallah] connected to node [[Asylum][IixLpJzVRBit1qABolr_-g][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+creating new index:test_lost_victories1_unit_status
+Loading Scene
+Listening on 5055
+[Carnivore] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Carnivore] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Carnivore] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Carnivore] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Carnivore] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Carnivore] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Carnivore] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Carnivore] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Carnivore] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Carnivore] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Carnivore] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Carnivore] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Carnivore] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Carnivore] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Carnivore] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Carnivore] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Carnivore] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Carnivore] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Carnivore] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Carnivore] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Carnivore] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Carnivore] connected to node [[Asylum][IixLpJzVRBit1qABolr_-g][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+index:test_lost_victories1_unit_status already exisits
+Listening on 5055
+retrived :10 from elasticsearch
+returning scene
+[Wildboys] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Wildboys] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Wildboys] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Wildboys] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Wildboys] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Wildboys] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Wildboys] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Wildboys] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Wildboys] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Wildboys] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Wildboys] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Wildboys] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Wildboys] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Wildboys] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Wildboys] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Wildboys] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Wildboys] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Wildboys] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Wildboys] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Wildboys] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Wildboys] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Wildboys] connected to node [[Asylum][IixLpJzVRBit1qABolr_-g][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+creating new index:test_lost_victories1_unit_status
+Loading Scene
+Listening on 5055
+retrived :0 from elasticsearch
+returning scene
+retrived :0 from elasticsearch
+returning scene
+[Omerta] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Omerta] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Omerta] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Omerta] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Omerta] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Omerta] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Omerta] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Omerta] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Omerta] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Omerta] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Omerta] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Omerta] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Omerta] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Omerta] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Omerta] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Omerta] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Omerta] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Omerta] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Omerta] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Omerta] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Omerta] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Omerta] connected to node [[Left-Winger][NH2oI68eSoGbyk8YDAluPQ][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+index:test_lost_victories1_unit_status already exisits
+Listening on 5055
+retrived :0 from elasticsearch
+returning scene
+[Wundarr the Aquarian] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Wundarr the Aquarian] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Wundarr the Aquarian] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Wundarr the Aquarian] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Wundarr the Aquarian] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Wundarr the Aquarian] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Wundarr the Aquarian] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Wundarr the Aquarian] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Wundarr the Aquarian] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Wundarr the Aquarian] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Wundarr the Aquarian] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Wundarr the Aquarian] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Wundarr the Aquarian] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Wundarr the Aquarian] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Wundarr the Aquarian] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Wundarr the Aquarian] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Wundarr the Aquarian] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Wundarr the Aquarian] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Wundarr the Aquarian] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Wundarr the Aquarian] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Wundarr the Aquarian] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Wundarr the Aquarian] connected to node [[Lila Cheney][5U0KblC3RemjFtCsUPrDpw][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+index:test_lost_victories1_unit_status already exisits
+Listening on 5055
+retrived :0 from elasticsearch
+returning scene
+retrived :0 from elasticsearch
+returning scene
+[Killer Shrike] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Killer Shrike] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Killer Shrike] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Killer Shrike] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Killer Shrike] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Killer Shrike] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Killer Shrike] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Killer Shrike] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Killer Shrike] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Killer Shrike] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Killer Shrike] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Killer Shrike] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Killer Shrike] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Killer Shrike] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Killer Shrike] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Killer Shrike] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Killer Shrike] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Killer Shrike] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Killer Shrike] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Killer Shrike] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Killer Shrike] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Killer Shrike] connected to node [[Lila Cheney][5U0KblC3RemjFtCsUPrDpw][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+index:test_lost_victories1_unit_status already exisits
+Listening on 5055
+retrived :0 from elasticsearch
+returning scene
+[Charles Xavier] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Charles Xavier] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Charles Xavier] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Charles Xavier] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Charles Xavier] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Charles Xavier] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Charles Xavier] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Charles Xavier] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Charles Xavier] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Charles Xavier] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Charles Xavier] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Charles Xavier] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Charles Xavier] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Charles Xavier] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Charles Xavier] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Charles Xavier] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Charles Xavier] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Charles Xavier] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Charles Xavier] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Charles Xavier] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Charles Xavier] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Charles Xavier] connected to node [[Lila Cheney][5U0KblC3RemjFtCsUPrDpw][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+index:test_lost_victories1_unit_status already exisits
+Listening on 5055
+retrived :0 from elasticsearch
+returning scene
+[Fang] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Fang] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Fang] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Fang] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Fang] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Fang] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Fang] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Fang] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Fang] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Fang] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Fang] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Fang] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Fang] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Fang] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Fang] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Fang] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Fang] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Fang] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Fang] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Fang] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Fang] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Fang] connected to node [[Lila Cheney][5U0KblC3RemjFtCsUPrDpw][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+index:test_lost_victories1_unit_status already exisits
+Listening on 5055
+retrived :10 from elasticsearch
+returning scene
+[Justice] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Justice] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Justice] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Justice] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Justice] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Justice] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Justice] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Justice] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Justice] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Justice] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Justice] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Justice] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Justice] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Justice] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Justice] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Justice] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Justice] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Justice] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Justice] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Justice] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Justice] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Justice] connected to node [[Lila Cheney][5U0KblC3RemjFtCsUPrDpw][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+index:test_lost_victories1_unit_status already exisits
+Listening on 5055
+retrived :10 from elasticsearch
+returning scene
+[Haven] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Haven] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Haven] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Haven] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Haven] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Haven] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Haven] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Haven] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Haven] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Haven] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Haven] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Haven] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Haven] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Haven] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Haven] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Haven] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Haven] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Haven] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Haven] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Haven] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Haven] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Haven] connected to node [[Lila Cheney][5U0KblC3RemjFtCsUPrDpw][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+index:test_lost_victories1_unit_status already exisits
+Listening on 5055
+retrived :46 from elasticsearch
+returning scene
