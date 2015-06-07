@@ -14,7 +14,7 @@ import org.jboss.netty.channel.MessageEvent;
 import org.jboss.netty.channel.SimpleChannelHandler;
 
 import com.google.gson.Gson;
-import com.jme3.lostVictories.network.messages.Character;
+import com.jme3.lostVictories.network.messages.CharacterMessage;
 import com.jme3.lostVictories.network.messages.CheckoutScreenRequest;
 import com.jme3.lostVictories.network.messages.CheckoutScreenResponse;
 import com.jme3.lostVictories.network.messages.LostVictoryMessage;
@@ -37,7 +37,7 @@ public class MessageHandler extends SimpleChannelHandler {
 		LostVictoryMessage lostVictoryMessage;
 		
 		if(msg instanceof CheckoutScreenRequest){
-			Set<Character> allCharacters = characterDAO.getAllCharacters();
+			Set<CharacterMessage> allCharacters = characterDAO.getAllCharacters();
 			lostVictoryMessage = new CheckoutScreenResponse(allCharacters);
 			log.info("returning scene");
 		}else{

@@ -4,15 +4,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import com.jme3.lostVictories.network.messages.Character;
+import com.jme3.lostVictories.network.messages.CharacterMessage;
 
 public class ClientGameState {
 
 	private long timeStamp;
 	private UUID checkedOutBy;
-	private Map<UUID, Character> unitPositions = new HashMap<UUID, Character>();
+	private Map<UUID, CharacterMessage> unitPositions = new HashMap<UUID, CharacterMessage>();
 	
-	public ClientGameState(long timeStamp, UUID checkedOutBy, Map<UUID, Character> unitPossitions) {
+	public ClientGameState(long timeStamp, UUID checkedOutBy, Map<UUID, CharacterMessage> unitPossitions) {
 		this.timeStamp = timeStamp;
 		this.unitPositions = unitPossitions;
 		this.checkedOutBy = checkedOutBy;
@@ -28,7 +28,7 @@ public class ClientGameState {
 		return timeStamp;
 	}
 	
-	public Map<UUID, Character> getUnitPositions(){
+	public Map<UUID, CharacterMessage> getUnitPositions(){
 		return unitPositions;
 	}
 

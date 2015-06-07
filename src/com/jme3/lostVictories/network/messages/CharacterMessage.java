@@ -21,23 +21,22 @@ import org.elasticsearch.common.geo.GeoPoint;
 import org.elasticsearch.common.netty.util.internal.StringUtil;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 
-import com.google.gson.Gson;
-
-public class Character implements Serializable{
+public class CharacterMessage implements Serializable{
 	
 	UUID id;
 	Vector location;
 	Country country;
 	Weapon weapon;
-	Rank rank;
+	RankMessage rank;
 	UUID commandingOfficer;
 	Set<UUID> unitsUnderCommand = new HashSet<UUID>();
 	UUID checkout;
 	boolean gunnerDead;
 	CharacterType type;
-	Action action = new IdleAction();
+	double orientation = 0.0;
+	Action action = Action.IDLE;
 	
-	public Character(UUID identity, CharacterType type, Vector location, Country country, Weapon weapon, Rank rank, Character commandingOfficer, boolean gunnerDead) {
+	public CharacterMessage(UUID identity, CharacterType type, Vector location, Country country, Weapon weapon, RankMessage rank, CharacterMessage commandingOfficer, boolean gunnerDead) {
 		this.id = identity;
 		this.type = type;
 		this.location = location;
@@ -49,7 +48,7 @@ public class Character implements Serializable{
 		}
 	}
 	
-	public Character(UUID id, Map<String, Object> source) {
+	public CharacterMessage(UUID id, Map<String, Object> source) {
 		this.id = id;
 		HashMap<String, Double> location =  (HashMap<String, Double>) source.get("location");
 		long altitude = ((Double)source.get("altitude")).longValue();
@@ -57,8 +56,9 @@ public class Character implements Serializable{
 		this.location = new Vector(location.get("lon")/180*LostVictoryScene.SCENE_WIDTH, altitude, location.get("lat")/80*LostVictoryScene.SCENE_HEIGHT);
 		this.country = Country.valueOf((String)source.get("country"));
 		this.weapon = Weapon.valueOf((String) source.get("weapon"));
-		this.rank = Rank.valueOf((String) source.get("rank"));
-		this.action = new Gson().fromJson((String)source.get("action"), Action.class);
+		this.rank = RankMessage.valueOf((String) source.get("rank"));
+		this.action = Action.valueOf((String)source.get("action"));
+		this.orientation = (Double)source.get("orientation");
 		String co = (String) source.get("commandingOfficer");
 		if(co!=null && !co.isEmpty()){
 			this.commandingOfficer = UUID.fromString(co);
@@ -67,7 +67,7 @@ public class Character implements Serializable{
 		gunnerDead = (boolean) source.get("gunnerDead");
 	}
 
-	void addUnit(Character u){
+	void addUnit(CharacterMessage u){
 		unitsUnderCommand.add(u.id);
 	}
 
@@ -83,7 +83,7 @@ public class Character implements Serializable{
 		return weapon;
 	}
 	
-	public Rank getRank() {
+	public RankMessage getRank() {
 		return rank;
 	}
 	
@@ -91,11 +91,11 @@ public class Character implements Serializable{
 		return commandingOfficer;
 	}
 
-	public void addCharactersUnderCommand(Set<Character> cc) {
+	public void addCharactersUnderCommand(Set<CharacterMessage> cc) {
 		unitsUnderCommand.addAll(cc.stream().map(c -> c.id).collect(Collectors.toList()));
 	}
 
-	public void addCharactersUnderCommand(Character... atg) {
+	public void addCharactersUnderCommand(CharacterMessage... atg) {
 		unitsUnderCommand.addAll(Arrays.asList(atg).stream().map(c -> c.id).collect(Collectors.toList()));
 	}
 
@@ -109,10 +109,11 @@ public class Character implements Serializable{
 		                .field("date", new Date())
 		                .field("location", new GeoPoint(toLatitute(getLocation()), toLongitude(getLocation())))
 		                .field("altitude", getLocation().y)
+		                .field("orientation", orientation)
 		                .field("country", getCountry())
 		                .field("weapon", getWeapon())
 		                .field("rank", getRank())
-		                .field("action", new Gson().toJson(action))
+		                .field("action", action)
 		                .field("commandingOfficer", commandingOfficer)
 		                .field("unitsUnderCommand", unitsUnderCommand)
 		                .field("type", type)

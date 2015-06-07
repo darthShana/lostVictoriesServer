@@ -24,7 +24,7 @@ import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 
-import com.jme3.lostVictories.network.messages.Character;
+import com.jme3.lostVictories.network.messages.CharacterMessage;
 
 public class CharacterDAO {
 	private static Logger log = Logger.getLogger(CharacterDAO.class); 
@@ -38,7 +38,7 @@ public class CharacterDAO {
 		this.indexName = indexName;
 	}
 	
-	public void putCharacter(UUID uuid, UUID checkedOutBy, Character character) {
+	public void putCharacter(UUID uuid, UUID checkedOutBy, CharacterMessage character) {
 		try {
 			IndexResponse response = esClient.prepareIndex(indexName, "unitStatus", uuid.toString())
 			        .setSource(character.getJSONRepresentation())
@@ -52,8 +52,8 @@ public class CharacterDAO {
 
 	
 
-	public Set<Character> getAllCharacters() {
-		Set<Character> ret = new HashSet<Character>();
+	public Set<CharacterMessage> getAllCharacters() {
+		Set<CharacterMessage> ret = new HashSet<CharacterMessage>();
 		
 //		SearchResponse searchResponse = esClient.prepareSearch(indexName)
 //                .setQuery(matchAllQuery())
@@ -69,11 +69,11 @@ public class CharacterDAO {
 		return StreamSupport.stream(iterable.spliterator(), true).map(hit -> fromFields(UUID.fromString(hit.getId()), hit.getSource())).collect(Collectors.toSet());
 	}
 
-	private Character fromFields(UUID id, Map<String, Object> source) {
-		return new Character(id, source);
+	private CharacterMessage fromFields(UUID id, Map<String, Object> source) {
+		return new CharacterMessage(id, source);
 	}
 
-	public void updateCharacterState(UUID uuid, UUID checkedOutBy, Character character)  {
+	public void updateCharacterState(UUID uuid, UUID checkedOutBy, CharacterMessage character)  {
 		UpdateRequest updateRequest = new UpdateRequest();
 		updateRequest.index(indexName);
 		updateRequest.type("unitStatus");
