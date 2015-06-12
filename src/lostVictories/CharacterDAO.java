@@ -5,6 +5,8 @@ import static org.elasticsearch.index.query.FilterBuilders.geoBoundingBoxFilter;
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
@@ -52,7 +54,7 @@ public class CharacterDAO {
 
 	
 
-	public Set<CharacterMessage> getAllCharacters() {
+	public Set<CharacterMessage> getAllCharacters(long x, long y, long z, Long range) {
 		Set<CharacterMessage> ret = new HashSet<CharacterMessage>();
 		
 //		SearchResponse searchResponse = esClient.prepareSearch(indexName)
@@ -91,5 +93,15 @@ public class CharacterDAO {
 		} catch (ExecutionException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	public HashMap<UUID, CharacterMessage> getAllCharacters(Set<UUID> ids) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void save(Collection<CharacterMessage> values) {
+		// TODO Auto-generated method stub
+		
 	}
 }

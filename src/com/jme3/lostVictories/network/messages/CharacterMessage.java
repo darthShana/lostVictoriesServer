@@ -30,7 +30,8 @@ public class CharacterMessage implements Serializable{
 	RankMessage rank;
 	UUID commandingOfficer;
 	Set<UUID> unitsUnderCommand = new HashSet<UUID>();
-	UUID checkout;
+	UUID checkoutClient;
+	Long checkoutTime;
 	boolean gunnerDead;
 	CharacterType type;
 	double orientation = 0.0;
@@ -62,6 +63,11 @@ public class CharacterMessage implements Serializable{
 		String co = (String) source.get("commandingOfficer");
 		if(co!=null && !co.isEmpty()){
 			this.commandingOfficer = UUID.fromString(co);
+		}
+		String cc = (String) source.get("checkoutClient");
+		if(cc!=null && !cc.isEmpty()){
+			this.checkoutClient = UUID.fromString(cc);
+			this.checkoutTime = (Long) source.get("checkoutTime");
 		}
 		unitsUnderCommand = ((Collection<String>)source.get("unitsUnderCommand")).stream().map(s -> UUID.fromString(s)).collect(Collectors.toSet());
 		gunnerDead = (boolean) source.get("gunnerDead");
@@ -127,6 +133,25 @@ public class CharacterMessage implements Serializable{
 
 	public static double toLatitute(Vector location) {
 		return location.z/LostVictoryScene.SCENE_HEIGHT*80;
+	}
+
+	public boolean hasChanged(CharacterMessage other) {
+		//needs to handle null which means irs not changed
+		return false;
+	}
+
+	public boolean isCheckedOutBy(String clientID, long currentTimeMillis) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public void updateState(CharacterMessage characterMessage, String clientID, long currentTimeMillis) {
+		// TODO Auto-generated method stub
+	}
+
+	public boolean isNotCheckedOut() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 }

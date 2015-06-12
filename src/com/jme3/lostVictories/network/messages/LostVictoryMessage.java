@@ -4,13 +4,13 @@ import java.io.Serializable;
 
 public class LostVictoryMessage implements Serializable{
 	
-	private String message;
+	private String clientID;
 	
-	public LostVictoryMessage(String message) {
-		this.message = message;
+	public LostVictoryMessage(String clientID) {
+		this.clientID = clientID;
 	}
 
-	public String getMessage(){
-		return message;
+	public String getClientID(){
+		return clientID;
 	}
 }

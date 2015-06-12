@@ -1190,3 +1190,35 @@ retrived :46 from elasticsearch
 returning scene
 retrived :46 from elasticsearch
 returning scene
+[Wong] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Wong] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Wong] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Wong] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Wong] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Wong] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Wong] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Wong] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Wong] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Wong] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Wong] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Wong] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Wong] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Wong] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Wong] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Wong] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Wong] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Wong] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Wong] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Wong] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Wong] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Wong] connected to node [[Meggan][nUKAavZlRSWuxOtvmKxHRw][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+index:test_lost_victories1_unit_status already exisits
+Listening on 5055
+retrived :46 from elasticsearch
+returning scene
+retrived :46 from elasticsearch
+returning scene
