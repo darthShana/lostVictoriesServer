@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.concurrent.Executors;
 
+import lostVictories.messageHanders.MessageHandler;
+
 import org.apache.log4j.Logger;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequestBuilder;

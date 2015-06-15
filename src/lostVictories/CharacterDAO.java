@@ -54,7 +54,7 @@ public class CharacterDAO {
 
 	
 
-	public Set<CharacterMessage> getAllCharacters(long x, long y, long z, Long range) {
+	public Set<CharacterMessage> getAllCharacters(float x, float y, float z, Long range) {
 		Set<CharacterMessage> ret = new HashSet<CharacterMessage>();
 		
 //		SearchResponse searchResponse = esClient.prepareSearch(indexName)

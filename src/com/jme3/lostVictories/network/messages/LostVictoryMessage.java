@@ -1,16 +1,18 @@
 package com.jme3.lostVictories.network.messages;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 public class LostVictoryMessage implements Serializable{
+	private static final long serialVersionUID = -2422514305655908187L;
+
+	private UUID clientID;
 	
-	private String clientID;
-	
-	public LostVictoryMessage(String clientID) {
+	public LostVictoryMessage(UUID clientID) {
 		this.clientID = clientID;
 	}
 
-	public String getClientID(){
+	public UUID getClientID(){
 		return clientID;
 	}
 }

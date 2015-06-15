@@ -1,4 +1,4 @@
-package lostVictories;
+package lostVictories.messageHanders;
 
 
 import java.util.HashMap;
@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import lostVictories.CharacterDAO;
 
 import org.apache.log4j.Logger;
 import org.jboss.netty.channel.Channel;
@@ -28,12 +30,15 @@ import com.jme3.lostVictories.network.messages.UpdateCharactersRequest;
 public class MessageHandler extends SimpleChannelHandler {
 
 	private static Logger log = Logger.getLogger(MessageHandler.class);
-	private static Long CLIENT_RANGE = 400l;
 	
 	private CharacterDAO characterDAO;
+	private UpdateCharactersMessageHandler updateCharactersMessageHandler;
+	private CheckoutScreenMessageHandler checkoutScreenMessageHandler;
 
 	public MessageHandler(CharacterDAO characterDAO) {
 		this.characterDAO = characterDAO;
+		updateCharactersMessageHandler = new UpdateCharactersMessageHandler(characterDAO);
+		checkoutScreenMessageHandler = new CheckoutScreenMessageHandler(characterDAO);
 	}
 
 	@Override
@@ -43,22 +48,13 @@ public class MessageHandler extends SimpleChannelHandler {
 		LostVictoryMessage lostVictoryMessage;
 		
 		if(msg instanceof CheckoutScreenRequest){
-			CheckoutScreenRequest m = (CheckoutScreenRequest) msg;
-			Set<CharacterMessage> allCharacters = characterDAO.getAllCharacters(m.x, m.y, m.z, CLIENT_RANGE);
-			lostVictoryMessage = new CheckoutScreenResponse(allCharacters);
+			lostVictoryMessage = checkoutScreenMessageHandler.handle((CheckoutScreenRequest) msg);
 			log.info("returning scene");
 		}else if(msg instanceof UpdateCharactersRequest){
-			Set<CharacterMessage> allCharacters = ((UpdateCharactersRequest) msg).getCharacters();
-			HashMap<UUID, CharacterMessage> existing = characterDAO.getAllCharacters(allCharacters.stream().map(c->c.getId()).collect(Collectors.toSet()));
-			allCharacters = allCharacters.stream().filter(c->c.hasChanged(existing.get(c.getId()))).collect(Collectors.toSet());
-			HashMap<UUID, CharacterMessage> sent = (HashMap<UUID, CharacterMessage>) allCharacters.stream().filter(c->c.isCheckedOutBy(msg.getClientID(), System.currentTimeMillis()) || c.isNotCheckedOut()).collect(Collectors.toMap(c->c.getId(), c->c));
-			existing.values().stream().forEach(c->c.updateState(sent.get(c.getId()), msg.getClientID(), System.currentTimeMillis()));
-			characterDAO.save(existing.values());
-			lostVictoryMessage = new CheckoutScreenResponse(new HashSet<CharacterMessage>(existing.values()));
+			lostVictoryMessage = updateCharactersMessageHandler.handle((UpdateCharactersRequest)msg);
 		} else{
-			String newMessage = msg.getClientID() + " test 78";
-			lostVictoryMessage = new LostVictoryMessage(newMessage);
-			System.out.println("Hey Guys !  I got a date ! [" + msg.getClientID() + "] and I modified it to [" + newMessage + "]");
+			lostVictoryMessage = new LostVictoryMessage(UUID.randomUUID());
+			System.out.println("Hey Guys !  I got a date ! [" + msg.getClientID() + "] and I modified it to []");
 		}
 		
 		Channel channel = e.getChannel();

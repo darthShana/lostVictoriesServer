@@ -16,13 +16,14 @@ import java.util.stream.Collectors;
 
 import lostVictories.LostVictoryScene;
 
-import org.apache.lucene.queryparser.flexible.core.util.StringUtils;
 import org.elasticsearch.common.geo.GeoPoint;
-import org.elasticsearch.common.netty.util.internal.StringUtil;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 
 public class CharacterMessage implements Serializable{
 	
+	private static final long serialVersionUID = 2491659254334134796L;
+
+	public static final long CHECKOUT_TIMEOUT = 10*1000;
 	UUID id;
 	Vector location;
 	Country country;
@@ -136,22 +137,50 @@ public class CharacterMessage implements Serializable{
 	}
 
 	public boolean hasChanged(CharacterMessage other) {
-		//needs to handle null which means irs not changed
-		return false;
+		if(other==null){
+			return false;
+		}
+		return !location.equals(other.location) || orientation != other.orientation || action != other.action;
 	}
 
-	public boolean isCheckedOutBy(String clientID, long currentTimeMillis) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean isAvailableForUpdate(UUID clientID) {
+		return this.checkoutClient==null || this.checkoutClient.equals(clientID) || checkoutTime==null ||System.currentTimeMillis()-checkoutTime>CHECKOUT_TIMEOUT;
 	}
 
-	public void updateState(CharacterMessage characterMessage, String clientID, long currentTimeMillis) {
-		// TODO Auto-generated method stub
+	public void updateState(CharacterMessage other, UUID clientID, long checkoutTime) {
+		location = other.location;
+		orientation = other.orientation;
+		action = other.action;
+		this.checkoutClient = clientID;
+		this.checkoutTime = checkoutTime;
 	}
 
-	public boolean isNotCheckedOut() {
-		// TODO Auto-generated method stub
-		return false;
+	public void setAction(Action action) {
+		this.action = action;
+	}
+
+	public double getOrientation() {
+		return orientation;
+	}
+
+	public Action getAction() {
+		return action;
+	}
+
+	public void setOrientation(double orientation2) {
+		this.orientation = orientation2;
+	}
+
+	public UUID getCheckoutClient() {
+		return checkoutClient;
+	}
+
+	public void setCheckoutClient(UUID checkoutClient) {
+		this.checkoutClient = checkoutClient;
+	}
+
+	public void setCheckoutTime(long checkoutTime) {
+		this.checkoutTime = checkoutTime;
 	}
 	
 }
