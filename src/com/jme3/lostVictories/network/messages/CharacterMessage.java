@@ -35,8 +35,9 @@ public class CharacterMessage implements Serializable{
 	Long checkoutTime;
 	boolean gunnerDead;
 	CharacterType type;
-	double orientation = 0.0;
+	Vector orientation = new Vector(0, 0, 1);
 	Action action = Action.IDLE;
+	boolean isFiring;
 	
 	public CharacterMessage(UUID identity, CharacterType type, Vector location, Country country, Weapon weapon, RankMessage rank, CharacterMessage commandingOfficer, boolean gunnerDead) {
 		this.id = identity;
@@ -53,6 +54,7 @@ public class CharacterMessage implements Serializable{
 	public CharacterMessage(UUID id, Map<String, Object> source) {
 		this.id = id;
 		HashMap<String, Double> location =  (HashMap<String, Double>) source.get("location");
+		HashMap<String, Double> ori =  (HashMap<String, Double>) source.get("orientation");
 		long altitude = ((Double)source.get("altitude")).longValue();
 		this.type = CharacterType.valueOf((String) source.get("type"));
 		this.location = new Vector(location.get("lon")/180*LostVictoryScene.SCENE_WIDTH, altitude, location.get("lat")/80*LostVictoryScene.SCENE_HEIGHT);
@@ -60,7 +62,7 @@ public class CharacterMessage implements Serializable{
 		this.weapon = Weapon.valueOf((String) source.get("weapon"));
 		this.rank = RankMessage.valueOf((String) source.get("rank"));
 		this.action = Action.valueOf((String)source.get("action"));
-		this.orientation = (Double)source.get("orientation");
+		this.orientation = new Vector(ori.get("x"), ori.get("y"), ori.get("z"));
 		String co = (String) source.get("commandingOfficer");
 		if(co!=null && !co.isEmpty()){
 			this.commandingOfficer = UUID.fromString(co);
@@ -116,7 +118,7 @@ public class CharacterMessage implements Serializable{
 		                .field("date", new Date())
 		                .field("location", new GeoPoint(toLatitute(getLocation()), toLongitude(getLocation())))
 		                .field("altitude", getLocation().y)
-		                .field("orientation", orientation)
+		                .field("orientation", orientation.toMap())
 		                .field("country", getCountry())
 		                .field("weapon", getWeapon())
 		                .field("rank", getRank())
@@ -159,7 +161,7 @@ public class CharacterMessage implements Serializable{
 		this.action = action;
 	}
 
-	public double getOrientation() {
+	public Vector getOrientation() {
 		return orientation;
 	}
 
@@ -167,7 +169,7 @@ public class CharacterMessage implements Serializable{
 		return action;
 	}
 
-	public void setOrientation(double orientation2) {
+	public void setOrientation(Vector orientation2) {
 		this.orientation = orientation2;
 	}
 
@@ -181,6 +183,14 @@ public class CharacterMessage implements Serializable{
 
 	public void setCheckoutTime(long checkoutTime) {
 		this.checkoutTime = checkoutTime;
+	}
+
+	public XContentBuilder getJSONRepresentationUnChecked() {
+		try {
+			return getJSONRepresentation();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
 	
 }

@@ -1,6 +1,10 @@
 package com.jme3.lostVictories.network.messages;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.elasticsearch.common.xcontent.ToXContent;
 
 import com.jme3.math.Vector3f;
 
@@ -46,5 +50,13 @@ public class Vector implements Serializable{
 	@Override
 	public int hashCode() {
 		return (x+""+y+""+z).hashCode();
+	}
+
+	public Map<String, Float> toMap() {
+		HashMap<String, Float> hashMap = new HashMap<String, Float>();
+		hashMap.put("x", x);
+		hashMap.put("y", y);
+		hashMap.put("z", z);
+		return hashMap;
 	}
 }

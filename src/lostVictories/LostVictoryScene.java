@@ -40,7 +40,7 @@ public class LostVictoryScene {
 		characters.add(d);
 		characters.add(e);
 		
-		CharacterMessage a1 = new CharacterMessage(UUID.randomUUID(), CharacterType.AVATAR, new Vector(-210, 7, 380), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, gl1, false);
+		CharacterMessage a1 = new CharacterMessage(UUID.fromString("2fbe421f-f701-49c9-a0d4-abb0fa904204"), CharacterType.AVATAR, new Vector(-210, 7, 380), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, gl1, false);
 		loadSquad(characters, a1, new Vector(-215, 7, 385), Country.GERMAN, Weapon.RIFLE, Weapon.RIFLE, Weapon.RIFLE);
 		
 		CharacterMessage a2 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(-230, 7, 380), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, gl1, false);

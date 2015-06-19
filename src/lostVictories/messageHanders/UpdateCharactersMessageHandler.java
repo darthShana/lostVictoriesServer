@@ -18,6 +18,7 @@ import lostVictories.CharacterDAO;
 public class UpdateCharactersMessageHandler {
 
 	private CharacterDAO characterDAO;
+	
 
 	public UpdateCharactersMessageHandler(CharacterDAO characterDAO) {
 		this.characterDAO = characterDAO;
@@ -31,10 +32,11 @@ public class UpdateCharactersMessageHandler {
 		existing.values().stream().filter(c->c.isAvailableForUpdate(msg.getClientID())).forEach(c->c.updateState(sent.get(c.getId()), msg.getClientID(), System.currentTimeMillis()));
 		characterDAO.save(existing.values());
 		
-		Vector v = msg.getAvatar().getLocation();
-		Set<CharacterMessage> inRangeOfAvatar = characterDAO.getAllCharacters(v.x, v.y, v.z, CheckoutScreenMessageHandler.CLIENT_RANGE);
-		inRangeOfAvatar.stream().filter(c->!existing.containsKey(c.getId())).forEach(c->existing.put(c.getId(), c));
-		
+		if(msg.getAvatar()!=null){
+			Vector v = msg.getAvatar().getLocation();
+			Set<CharacterMessage> inRangeOfAvatar = characterDAO.getAllCharacters(v.x, v.y, v.z, CheckoutScreenMessageHandler.CLIENT_RANGE);
+			inRangeOfAvatar.stream().filter(c->!existing.containsKey(c.getId())).forEach(c->existing.put(c.getId(), c));
+		}
 		return new CheckoutScreenResponse(new HashSet<CharacterMessage>(existing.values()));
 	}
 }

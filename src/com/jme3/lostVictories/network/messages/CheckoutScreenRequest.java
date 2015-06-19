@@ -5,15 +5,10 @@ import java.util.UUID;
 public class CheckoutScreenRequest extends LostVictoryMessage {
     
 	private static final long serialVersionUID = 9030116083584783292L;
+	public final UUID avatar;
 
-	public final long x;
-	public final long y;
-	public final long z;
-
-    public CheckoutScreenRequest(UUID clientID, long x, long y, long z) {
+    public CheckoutScreenRequest(UUID clientID, UUID avatar) {
         super(clientID);
-        this.x = x;
-        this.y = y;
-        this.z = z;
+        this.avatar = avatar;
     }
 }
