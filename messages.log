@@ -1837,3 +1837,2879 @@ creating new index:test_lost_victories1_unit_status
 Listening on 5055
 returning scene
 returning scene
+[Kismet Deadly] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+returning scene
+returning scene
+[Ammo] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+returning scene
+[Terminator] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+returning scene
+[the Living Colossus It] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+returning scene
+[Robert "Bobby" Drake] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+returning scene
+[Blob] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+returning scene
+[Copycat] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+returning scene
+[Kubik] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+returning scene
+[Zarathos] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+returning scene
+[Justice] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+returning scene
+[Trapster] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+returning scene
+returning scene
+[Looter] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+returning scene
+returning scene
+returning scene
+returning scene
+returning scene
+[Charcoal] loaded [], sites []
+index:test_lost_victories1_unit_status already exisits
+Listening on 5055
+returning scene
+[Western Kid] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+returning scene
+[M] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+returning scene
+[Jimmy Woo] loaded [], sites []
+index:test_lost_victories1_unit_status already exisits
+Listening on 5055
+returning scene
+[Penance II] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Penance II] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Penance II] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Penance II] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Penance II] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Penance II] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Penance II] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Penance II] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Penance II] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Penance II] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Penance II] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Penance II] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Penance II] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Penance II] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Penance II] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Penance II] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Penance II] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Penance II] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Penance II] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Penance II] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Penance II] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Penance II] connected to node [[Swarm][bEdeN4xHTkig5H56p1gnTQ][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+index:test_lost_victories1_unit_status already exisits
+Listening on 5055
+retrived :23 from elasticsearch
+returning scene
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+[Avalanche] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Avalanche] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Avalanche] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Avalanche] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Avalanche] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Avalanche] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Avalanche] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Avalanche] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Avalanche] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Avalanche] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Avalanche] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Avalanche] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Avalanche] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Avalanche] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Avalanche] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Avalanche] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Avalanche] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Avalanche] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Avalanche] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Avalanche] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Avalanche] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Avalanche] connected to node [[Swarm][bEdeN4xHTkig5H56p1gnTQ][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+index:test_lost_victories1_unit_status already exisits
+Listening on 5055
+retrived :23 from elasticsearch
+returning scene
+retrived :23 from elasticsearch
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+retrived :23 from elasticsearch
+fond in range on avatar:-210.0,7.0,380.0 units: 23
+retrived :23 from elasticsearch
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+true
+retrived :23 from elasticsearch
+fond in range on avatar:-210.0,7.0,380.0 units: 23
+retrived :0 from elasticsearch
+nothing to save
+retrived :0 from elasticsearch
+nothing to save
+retrived :0 from elasticsearch
+nothing to save
+retrived :0 from elasticsearch
+nothing to save
+retrived :0 from elasticsearch
+nothing to save
+retrived :0 from elasticsearch
+nothing to save
+retrived :0 from elasticsearch
+nothing to save
+retrived :0 from elasticsearch
+nothing to save
+retrived :0 from elasticsearch
+nothing to save
+retrived :0 from elasticsearch
+nothing to save
+retrived :0 from elasticsearch
+nothing to save
+retrived :0 from elasticsearch
+nothing to save
+retrived :0 from elasticsearch
+nothing to save
+retrived :0 from elasticsearch
+nothing to save
+retrived :0 from elasticsearch
+nothing to save
+retrived :0 from elasticsearch
+nothing to save
+retrived :0 from elasticsearch
+nothing to save
+retrived :0 from elasticsearch
+nothing to save
+retrived :0 from elasticsearch
+nothing to save
+retrived :0 from elasticsearch
+nothing to save
+retrived :0 from elasticsearch
+nothing to save
+retrived :0 from elasticsearch
+nothing to save
+retrived :0 from elasticsearch
+nothing to save
+retrived :0 from elasticsearch
+nothing to save
+retrived :0 from elasticsearch
+nothing to save
+retrived :0 from elasticsearch
+nothing to save
+retrived :0 from elasticsearch
+nothing to save
+retrived :0 from elasticsearch
+nothing to save
+retrived :0 from elasticsearch
+nothing to save
+retrived :0 from elasticsearch
+nothing to save
+retrived :0 from elasticsearch
+nothing to save
+retrived :0 from elasticsearch
+nothing to save
+retrived :0 from elasticsearch
+nothing to save
+retrived :0 from elasticsearch
+nothing to save
+retrived :0 from elasticsearch
+nothing to save
+retrived :0 from elasticsearch
+nothing to save
+retrived :0 from elasticsearch
+nothing to save
+[Steel Raven] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Steel Raven] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Steel Raven] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Steel Raven] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Steel Raven] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Steel Raven] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Steel Raven] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Steel Raven] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Steel Raven] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Steel Raven] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Steel Raven] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Steel Raven] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Steel Raven] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Steel Raven] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Steel Raven] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Steel Raven] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Steel Raven] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Steel Raven] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Steel Raven] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Steel Raven] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Steel Raven] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Steel Raven] connected to node [[Swarm][bEdeN4xHTkig5H56p1gnTQ][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+creating new index:test_lost_victories1_unit_status
+Loading Scene
+Listening on 5055
+retrived :23 from elasticsearch
+returning scene
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.0,7.0,380.0 units: 23
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.0,7.0,380.0 units: 23
+retrived :0 from elasticsearch
+nothing to save
+retrived :0 from elasticsearch
+nothing to save
+retrived :0 from elasticsearch
+nothing to save
+retrived :0 from elasticsearch
+nothing to save
+retrived :0 from elasticsearch
+nothing to save
+retrived :0 from elasticsearch
+nothing to save
+retrived :0 from elasticsearch
+nothing to save
+retrived :0 from elasticsearch
+nothing to save
+retrived :0 from elasticsearch
+nothing to save
+retrived :0 from elasticsearch
+nothing to save
+retrived :0 from elasticsearch
+nothing to save
+retrived :0 from elasticsearch
+nothing to save
+retrived :0 from elasticsearch
+nothing to save
+retrived :0 from elasticsearch
+nothing to save
+[Optoman] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Optoman] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Optoman] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Optoman] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Optoman] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Optoman] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Optoman] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Optoman] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Optoman] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Optoman] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Optoman] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Optoman] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Optoman] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Optoman] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Optoman] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Optoman] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Optoman] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Optoman] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Optoman] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Optoman] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Optoman] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Optoman] connected to node [[Swarm][bEdeN4xHTkig5H56p1gnTQ][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+creating new index:test_lost_victories1_unit_status
+Loading Scene
+Listening on 5055
+retrived :23 from elasticsearch
+returning scene
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.0,7.0,380.0 units: 23
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.0,7.0,380.0 units: 23
+retrived :0 from elasticsearch
+nothing to save
+client did not send avatar for perspective
+retrived :0 from elasticsearch
+nothing to save
+client did not send avatar for perspective
+retrived :0 from elasticsearch
+nothing to save
+client did not send avatar for perspective
+retrived :0 from elasticsearch
+nothing to save
+client did not send avatar for perspective
+retrived :0 from elasticsearch
+nothing to save
+client did not send avatar for perspective
+retrived :0 from elasticsearch
+nothing to save
+client did not send avatar for perspective
+retrived :0 from elasticsearch
+nothing to save
+client did not send avatar for perspective
+retrived :0 from elasticsearch
+nothing to save
+client did not send avatar for perspective
+retrived :0 from elasticsearch
+nothing to save
+client did not send avatar for perspective
+retrived :0 from elasticsearch
+nothing to save
+client did not send avatar for perspective
+retrived :0 from elasticsearch
+nothing to save
+client did not send avatar for perspective
+retrived :0 from elasticsearch
+nothing to save
+client did not send avatar for perspective
+retrived :0 from elasticsearch
+nothing to save
+client did not send avatar for perspective
+retrived :0 from elasticsearch
+nothing to save
+client did not send avatar for perspective
+retrived :0 from elasticsearch
+nothing to save
+client did not send avatar for perspective
+retrived :0 from elasticsearch
+nothing to save
+client did not send avatar for perspective
+retrived :0 from elasticsearch
+nothing to save
+client did not send avatar for perspective
+retrived :0 from elasticsearch
+nothing to save
+client did not send avatar for perspective
+retrived :0 from elasticsearch
+nothing to save
+client did not send avatar for perspective
+retrived :0 from elasticsearch
+nothing to save
+client did not send avatar for perspective
+retrived :0 from elasticsearch
+nothing to save
+client did not send avatar for perspective
+retrived :0 from elasticsearch
+nothing to save
+client did not send avatar for perspective
+retrived :0 from elasticsearch
+nothing to save
+client did not send avatar for perspective
+retrived :0 from elasticsearch
+nothing to save
+client did not send avatar for perspective
+retrived :0 from elasticsearch
+nothing to save
+client did not send avatar for perspective
+[Futurist] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Futurist] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Futurist] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Futurist] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Futurist] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Futurist] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Futurist] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Futurist] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Futurist] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Futurist] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Futurist] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Futurist] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Futurist] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Futurist] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Futurist] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Futurist] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Futurist] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Futurist] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Futurist] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Futurist] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Futurist] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Futurist] connected to node [[Swarm][bEdeN4xHTkig5H56p1gnTQ][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+creating new index:test_lost_victories1_unit_status
+Loading Scene
+Listening on 5055
+retrived :23 from elasticsearch
+returning scene
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.0,7.0,380.0 units: 23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.0,7.0,380.0 units: 23
+client sending 0 characters to update
+retrived :0 from elasticsearch
+nothing to save
+retrived :23 from elasticsearch
+found in range on avatar:-210.0,7.0,380.0 units: 23
+client sending 0 characters to update
+retrived :0 from elasticsearch
+nothing to save
+retrived :23 from elasticsearch
+found in range on avatar:-210.0,7.0,380.0 units: 23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.0,7.0,380.0 units: 23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.0,7.0,380.0 units: 23
+client sending 0 characters to update
+retrived :0 from elasticsearch
+nothing to save
+retrived :23 from elasticsearch
+found in range on avatar:-210.0,7.0,380.0 units: 23
+client sending 0 characters to update
+retrived :0 from elasticsearch
+nothing to save
+retrived :23 from elasticsearch
+found in range on avatar:-210.0,7.0,380.0 units: 23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.0,7.0,380.0 units: 23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.0,7.0,380.0 units: 23
+client sending 0 characters to update
+retrived :0 from elasticsearch
+nothing to save
+retrived :23 from elasticsearch
+found in range on avatar:-210.0,7.0,380.0 units: 23
+client sending 0 characters to update
+retrived :0 from elasticsearch
+nothing to save
+retrived :23 from elasticsearch
+found in range on avatar:-210.0,7.0,380.0 units: 23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.0,7.0,380.0 units: 23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.0,7.0,380.0 units: 23
+client sending 0 characters to update
+retrived :0 from elasticsearch
+nothing to save
+retrived :23 from elasticsearch
+found in range on avatar:-210.0,7.0,380.0 units: 23
+client sending 0 characters to update
+retrived :0 from elasticsearch
+nothing to save
+retrived :23 from elasticsearch
+found in range on avatar:-210.0,7.0,380.0 units: 23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.0,7.0,380.0 units: 23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.0,7.0,380.0 units: 23
+client sending 0 characters to update
+retrived :0 from elasticsearch
+nothing to save
+retrived :23 from elasticsearch
+found in range on avatar:-210.0,7.0,380.0 units: 23
+client sending 0 characters to update
+retrived :0 from elasticsearch
+nothing to save
+retrived :23 from elasticsearch
+found in range on avatar:-210.0,7.0,380.0 units: 23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.0,7.0,380.0 units: 23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.0,7.0,380.0 units: 23
+client sending 0 characters to update
+retrived :0 from elasticsearch
+nothing to save
+retrived :23 from elasticsearch
+found in range on avatar:-210.0,7.0,380.0 units: 23
+client sending 0 characters to update
+retrived :0 from elasticsearch
+nothing to save
+retrived :23 from elasticsearch
+found in range on avatar:-210.0,7.0,380.0 units: 23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.0,7.0,380.0 units: 23
+[Monica Rappaccini] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Monica Rappaccini] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Monica Rappaccini] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Monica Rappaccini] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Monica Rappaccini] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Monica Rappaccini] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Monica Rappaccini] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Monica Rappaccini] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Monica Rappaccini] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Monica Rappaccini] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Monica Rappaccini] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Monica Rappaccini] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Monica Rappaccini] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Monica Rappaccini] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Monica Rappaccini] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Monica Rappaccini] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Monica Rappaccini] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Monica Rappaccini] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Monica Rappaccini] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Monica Rappaccini] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Monica Rappaccini] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Monica Rappaccini] connected to node [[Swarm][bEdeN4xHTkig5H56p1gnTQ][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+creating new index:test_lost_victories1_unit_status
+Loading Scene
+Listening on 5055
+retrived :23 from elasticsearch
+returning scene
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.0,7.0,380.0 units: 23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.0,7.0,380.0 units: 23
+[Maximus] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Maximus] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Maximus] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Maximus] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Maximus] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Maximus] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Maximus] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Maximus] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Maximus] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Maximus] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Maximus] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Maximus] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Maximus] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Maximus] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Maximus] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Maximus] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Maximus] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Maximus] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Maximus] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Maximus] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Maximus] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Maximus] connected to node [[Swarm][bEdeN4xHTkig5H56p1gnTQ][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+creating new index:test_lost_victories1_unit_status
+Loading Scene
+Listening on 5055
+retrived :23 from elasticsearch
+returning scene
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.0,7.0,380.0 units: 23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.0,7.0,380.0 units: 23
+[Savage Steel] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Savage Steel] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Savage Steel] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Savage Steel] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Savage Steel] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Savage Steel] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Savage Steel] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Savage Steel] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Savage Steel] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Savage Steel] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Savage Steel] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Savage Steel] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Savage Steel] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Savage Steel] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Savage Steel] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Savage Steel] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Savage Steel] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Savage Steel] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Savage Steel] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Savage Steel] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Savage Steel] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Savage Steel] connected to node [[Swarm][bEdeN4xHTkig5H56p1gnTQ][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+creating new index:test_lost_victories1_unit_status
+Loading Scene
+Listening on 5055
+retrived :23 from elasticsearch
+returning scene
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.0,7.0,380.0 units: 23
+sending back characters:0
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.0,7.0,380.0 units: 23
+sending back characters:0
+client sending 2 characters to update
+found in range on avatar:2.1,2.0,2.0 units: 2
+sending back characters:2
+client sending 2 characters to update
+found in range on avatar:2.2,2.0,2.0 units: 2
+sending back characters:2
+client sending 3 characters to update
+found in range on avatar:2.2,2.0,2.0 units: 2
+sending back characters:2
+client sending 2 characters to update
+found in range on avatar:2.2,2.0,2.0 units: 2
+sending back characters:2
+client sending 2 characters to update
+found in range on avatar:2.2,2.0,2.0 units: 3
+sending back characters:3
+client sending 2 characters to update
+found in range on avatar:2.1,2.0,2.0 units: 2
+sending back characters:2
+client sending 2 characters to update
+found in range on avatar:2.2,2.0,2.0 units: 2
+sending back characters:2
+client sending 3 characters to update
+found in range on avatar:2.2,2.0,2.0 units: 2
+sending back characters:2
+client sending 2 characters to update
+found in range on avatar:2.2,2.0,2.0 units: 2
+sending back characters:2
+client sending 2 characters to update
+found in range on avatar:2.2,2.0,2.0 units: 3
+sending back characters:3
+[Aftershock] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Aftershock] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Aftershock] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Aftershock] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Aftershock] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Aftershock] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Aftershock] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Aftershock] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Aftershock] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Aftershock] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Aftershock] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Aftershock] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Aftershock] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Aftershock] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Aftershock] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Aftershock] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Aftershock] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Aftershock] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Aftershock] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Aftershock] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Aftershock] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Aftershock] connected to node [[Swarm][bEdeN4xHTkig5H56p1gnTQ][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+creating new index:test_lost_victories1_unit_status
+Loading Scene
+Listening on 5055
+retrived :23 from elasticsearch
+returning scene
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.0,7.0,380.0 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.0,7.0,380.0 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.0,6.974745,380.0 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.0,6.9134355,380.0 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.0,6.821203,380.0 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.0,6.7024484,380.0 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.0,6.3999295,380.0 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.0,6.22218,380.0 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.0,6.030077,380.0 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00089,5.905472,380.0012 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00111,5.9168906,380.00183 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00113,5.9187675,380.00192 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00113,5.9190674,380.00192 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00116,5.9174676,380.00198 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00116,5.918891,380.00204 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00116,5.9190555,380.00204 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00116,5.9190555,380.00204 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00116,5.9190555,380.00204 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00116,5.9190555,380.00204 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00116,5.9190555,380.00204 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00116,5.9190555,380.00204 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00116,5.9190555,380.00204 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00116,5.9190555,380.00204 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00116,5.9190555,380.00204 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00116,5.9190555,380.00204 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00116,5.9190555,380.00204 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00116,5.9190555,380.00204 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00116,5.9190555,380.00204 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00116,5.9190555,380.00204 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00116,5.9190555,380.00204 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00116,5.9190555,380.00204 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00116,5.9190555,380.00204 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00116,5.9190555,380.00204 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00116,5.9190555,380.00204 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00116,5.9190555,380.00204 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00116,5.9190555,380.00204 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00116,5.9190555,380.00204 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00116,5.9190555,380.00204 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00116,5.9190555,380.00204 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00116,5.9190555,380.00204 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00116,5.9190555,380.00204 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00116,5.9190555,380.00204 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00116,5.9190555,380.00204 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00116,5.9190555,380.00204 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00116,5.9190555,380.00204 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00116,5.9190555,380.00204 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-209.08018,6.348757,377.08777 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-208.68631,6.7637353,375.84143 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-207.35133,7.676276,371.6172 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-206.64638,7.86223,369.3866 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-205.65536,7.1399975,366.2509 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-205.25478,6.935386,364.97244 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-204.74403,7.1949983,363.35742 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-204.26302,7.271895,361.83624 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-203.71225,7.073406,360.0946 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-203.37944,7.104944,359.07568 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-203.00572,7.1209865,357.88434 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-202.62108,7.152112,356.6631 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-202.28525,7.182315,355.597 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-202.02718,7.1990266,354.77908 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-201.8008,7.2125854,354.06094 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-201.5969,7.2103195,353.41608 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-201.34128,7.2103558,352.60452 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-201.14519,7.203518,351.98166 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-200.99673,7.190184,351.50943 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-200.89883,7.1839037,351.1988 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-200.79623,7.1753006,350.8732 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-200.71721,7.1637983,350.62247 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-200.6129,7.1562476,350.29092 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-200.53215,7.1482573,350.03455 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-200.4879,7.140776,349.89398 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-200.42336,7.1357694,349.68893 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-200.36745,7.129844,349.5114 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-200.33035,7.1257234,349.39365 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-200.2806,7.117635,349.23602 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-200.24689,7.1155725,349.1285 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-200.2377,7.115027,349.09924 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-200.2377,7.115165,349.09924 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-200.2377,7.1151986,349.09924 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-199.5609,7.0519824,347.42062 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-199.07895,7.0123577,346.22412 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-198.74101,6.990293,345.38132 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-197.81425,6.9570103,343.0552 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-196.51355,6.906376,339.823 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-196.02968,6.851552,338.6247 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-195.46149,6.7642717,337.21927 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-194.8288,6.6799273,335.65363 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-193.40851,6.473159,332.13602 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-192.76517,6.410685,330.53857 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-192.11363,6.3831034,328.92227 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-191.0194,6.2849903,326.22418 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-190.52274,6.2183027,324.9961 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-189.86212,6.111652,323.3667 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-189.38298,6.0290165,322.1873 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-188.48698,5.816387,319.97296 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-187.47894,5.6377215,318.21384 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-186.38614,5.4982677,316.8898 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-185.54935,5.4024343,315.87686 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-183.70493,5.207216,313.6455 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-182.32607,5.0866947,311.97534 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-181.93004,5.054251,311.49536 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-181.24771,4.996908,310.6714 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-179.73953,4.890628,308.84943 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-178.59996,4.8137507,307.47476 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-177.75461,4.750846,306.4545 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-176.27809,4.638035,304.67426 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-175.21002,4.570329,303.38742 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-173.94669,4.5232697,301.8655 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-172.991,4.5172315,300.71478 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-172.10301,4.5426593,299.6456 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-171.21556,4.5898433,298.57703 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-170.36488,4.6224265,297.55276 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-169.78445,4.605886,296.85385 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-169.19058,4.5973225,296.13834 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-168.6198,4.6251206,295.45087 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-168.45622,4.6329494,295.25372 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-168.0347,4.6525483,294.74594 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-167.67154,4.668313,294.3084 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-167.43004,4.6775546,294.01743 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-167.14325,4.6901875,293.67184 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-166.86296,4.7011003,293.33405 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-166.72736,4.706947,293.17062 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-166.52876,4.713594,292.93127 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-166.35712,4.719266,292.72415 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-166.26187,4.722136,292.6092 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-166.13933,4.724256,292.46124 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-166.03085,4.7291713,292.3301 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-165.92033,4.731425,292.19678 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-165.82553,4.734118,292.08237 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-165.74321,4.7358117,291.98364 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-165.74269,4.736009,291.98297 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-165.74269,4.736068,291.98297 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-165.74275,4.7355213,291.98297 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-165.74275,4.735971,291.98297 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-165.74275,4.7360535,291.98297 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-165.74281,4.7353725,291.98297 units: 23
+sending back characters:23
+[Warhawk] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+returning scene
+recieved death notification 10e2af42-d889-40b3-9da3-c6e55ff398c6 was killed by2fbe421f-f701-49c9-a0d4-abb0fa904204
+recieved death notification 2fbe421f-f701-49c9-a0d4-abb0fa904204 was killed by41fd0163-d664-4b7c-812e-f0f0f8c28d05
+recieved death notification 2fbe421f-f701-49c9-a0d4-abb0fa904204 was killed byd18bd5ae-cdc7-45b8-8b3c-71d8ed4d60fe
+recieved death notification c52a413c-ff77-4e0f-b298-53177a520149 was killed by29c0c6bd-5dc2-4664-a301-27060592e082
+recieved death notification 2fbe421f-f701-49c9-a0d4-abb0fa904204 was killed by80c5d789-5b0a-4f3a-8605-d16927f7e182
+[Magnum] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+returning scene
+[Tigra] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Tigra] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Tigra] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Tigra] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Tigra] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Tigra] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Tigra] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Tigra] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Tigra] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Tigra] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Tigra] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Tigra] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Tigra] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Tigra] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Tigra] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Tigra] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Tigra] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Tigra] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Tigra] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Tigra] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Tigra] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Tigra] connected to node [[Ghost Dancer][VI3hFJ5UTqCl3Rmrb0YJzg][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+creating new index:test_lost_victories1_unit_status
+Loading Scene
+Listening on 5055
+retrived :23 from elasticsearch
+returning scene
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.0,7.0,380.0 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.0,7.0,380.0 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.0,6.974745,380.0 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.0,6.9134355,380.0 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.0,6.821203,380.0 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.0,6.560945,380.0 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.0,6.22218,380.0 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-209.99998,5.8857193,380.0 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.0007,5.913566,380.0014 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00078,5.918238,380.00168 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00078,5.9190006,380.00168 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00078,5.919178,380.00168 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00078,5.9192204,380.00168 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00078,5.9192233,380.00168 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00078,5.9192233,380.00168 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00078,5.9192233,380.00168 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00078,5.9192233,380.00168 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00078,5.9192233,380.00168 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00078,5.9192233,380.00168 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00078,5.9192233,380.00168 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00078,5.9192233,380.00168 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00078,5.9192233,380.00168 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00078,5.9192233,380.00168 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00078,5.9192233,380.00168 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00078,5.9192233,380.00168 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00078,5.9192233,380.00168 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00078,5.9192233,380.00168 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00078,5.9192233,380.00168 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00078,5.9192233,380.00168 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00078,5.9192233,380.00168 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00078,5.9192233,380.00168 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00078,5.9192233,380.00168 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00078,5.9192233,380.00168 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00078,5.9192233,380.00168 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00078,5.9192233,380.00168 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00078,5.9192233,380.00168 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00078,5.9192233,380.00168 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00078,5.9192233,380.00168 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00078,5.9192233,380.00168 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00078,5.9192233,380.00168 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00078,5.9192233,380.00168 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00078,5.9192233,380.00168 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00078,5.9192233,380.00168 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00078,5.9192233,380.00168 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00078,5.9192233,380.00168 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-210.00078,5.9192233,380.00168 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-209.79007,5.9377933,379.75647 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-209.27577,5.9836698,379.15747 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-208.8158,6.022654,378.62173 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-208.39696,6.053574,378.1341 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-207.9187,6.0951505,377.57736 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-207.55923,6.120644,377.15872 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-207.14706,6.16158,376.6794 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-206.6555,6.199573,376.10687 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-206.17708,6.2268867,375.54993 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-205.81456,6.2571087,375.12793 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-205.35522,6.2949777,374.59323 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-205.01808,6.321947,374.2008 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-204.58183,6.363887,373.69315 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-204.22511,6.398787,373.27795 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-203.71869,6.454428,372.68845 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-203.25862,6.5050097,372.15274 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-202.83736,6.554922,371.66248 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-202.36336,6.614135,371.1108 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-201.87947,6.6698837,370.5476 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-201.52002,6.708831,370.1294 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-200.67216,6.816113,369.14243 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-200.20088,6.849646,368.59396 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-199.7158,6.8976274,368.0298 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-199.34518,6.931375,367.59866 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-198.9189,6.9701986,367.10284 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-198.4796,7.0030475,366.59158 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-198.06923,7.033839,366.1142 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-197.70238,7.0543437,365.68732 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-197.29579,7.0764837,365.21436 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-196.83127,7.0949426,364.6738 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-196.48659,7.1054044,364.27277 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-196.1547,7.111606,363.8869 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-195.74585,7.119751,363.4109 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-195.38994,7.1251287,362.99704 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-195.11487,7.1240616,362.67664 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-194.76208,7.119981,362.26575 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-194.42976,7.119845,361.87878 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-194.13765,7.1154475,361.53848 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-193.74991,7.11026,361.08664 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-193.38354,7.104992,360.65988 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-193.03947,7.100533,360.25882 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-192.56798,7.0971446,359.70938 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-192.15833,7.0955324,359.23166 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-191.79916,7.092499,358.81274 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-191.3817,7.0953965,358.32562 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-191.03319,7.095185,357.91907 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-190.63678,7.097153,357.45682 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-190.3197,7.0977507,357.0871 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-189.88289,7.0948586,356.57742 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-189.56003,7.093044,356.20096 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-189.20448,7.0869145,355.7863 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-188.93718,7.0840964,355.47418 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-188.64828,7.0782685,355.13748 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-188.41985,7.069754,354.87122 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-188.20598,7.06488,354.62177 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-188.00949,7.0591536,354.3926 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-187.83124,7.0532274,354.18478 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-187.64328,7.0448437,353.96594 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-187.49939,7.040605,353.7979 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-187.36855,7.036603,353.64536 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-187.23048,7.0318704,353.48438 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-187.10738,7.0275545,353.34082 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-187.01328,7.0235696,353.23093 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-186.91394,7.0196366,353.115 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-186.83746,7.017181,353.02588 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-186.75703,7.012574,352.9321 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-186.6944,7.0115457,352.8592 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-186.6944,7.0118327,352.8592 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-186.69437,7.011201,352.8592 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-186.69437,7.011741,352.8592 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-186.69437,7.0118937,352.8592 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-186.69435,7.0098257,352.8592 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-186.69434,7.01135,352.8592 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-186.69434,7.0117426,352.8592 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-186.6943,7.0110254,352.8592 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-186.6943,7.011679,352.8592 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-186.6943,7.009259,352.8592 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-186.69427,7.011231,352.8592 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-186.69427,7.011704,352.8592 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-186.69424,7.011015,352.8592 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-186.69424,7.011691,352.8592 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-186.69424,7.011881,352.8592 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-186.69421,7.011059,352.8592 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-186.61597,7.0083604,352.74353 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-186.39369,6.9991565,352.41504 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-186.08511,6.984519,351.95917 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-185.7659,6.976231,351.48776 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-185.49326,6.9684854,351.085 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-185.2724,6.960419,350.7589 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-185.04875,6.956359,350.4287 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-184.76451,6.9505606,350.00876 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-184.52797,6.9457874,349.65927 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-184.24397,6.939402,349.24106 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-183.95592,6.9338293,348.81546 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-183.64159,6.931266,348.35068 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-183.34966,6.922975,347.91895 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-183.09418,6.924233,347.54123 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-182.76872,6.9233785,347.05963 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-182.4691,6.9210396,346.61615 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-182.21924,6.919654,346.24634 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-181.93944,6.917751,345.8322 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-181.58984,6.913745,345.3147 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-181.3449,6.9145536,344.95215 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-181.01988,6.9088807,344.47086 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-180.70262,6.90351,344.00067 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-180.38435,6.8974457,343.52905 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-180.12576,6.8913436,343.14578 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-179.86137,6.8803096,342.75403 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-179.62863,6.8721786,342.40927 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-179.3391,6.8604617,341.98038 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-179.05872,6.842506,341.5648 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-178.76547,6.824622,341.13028 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-178.50357,6.8021164,340.7424 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-178.26709,6.7854104,340.39206 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-177.95082,6.7608166,339.92355 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-177.67116,6.733358,339.5097 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-177.35983,6.705766,339.04898 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-177.06644,6.6750774,338.6147 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-176.81454,6.6513696,338.2417 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-176.55937,6.6249366,337.86377 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-176.31636,6.601019,337.50388 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-176.02911,6.571749,337.0785 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-175.74765,6.5417542,336.66183 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-175.50827,6.5201583,336.30716 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-175.18773,6.485329,335.83228 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-174.91919,6.4626975,335.43436 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-174.58812,6.4286876,334.9442 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-174.37498,6.406584,334.62866 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-174.11136,6.3771873,334.2384 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-173.78691,6.345826,333.75885 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-173.48828,6.315319,333.3163 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-173.26204,6.28856,332.98123 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-173.0307,6.270542,332.63928 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-172.75316,6.2416167,332.22858 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-172.43825,6.212509,331.7626 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-172.2116,6.1907496,331.42722 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-171.97804,6.1650343,331.08102 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-171.66512,6.1355114,330.61795 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-171.43956,6.1130333,330.2836 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-171.17123,6.0859175,329.88632 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-170.80685,6.050311,329.3457 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-170.51593,6.0240107,328.91458 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-170.2455,5.9995866,328.51395 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-169.88672,5.9672217,327.98196 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-169.59132,5.9450803,327.54413 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-169.35022,5.9260764,327.18588 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-169.02158,5.90153,326.69843 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-168.76498,5.885417,326.31744 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-168.439,5.861115,325.83356 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-168.17563,5.8480015,325.44257 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-167.86163,5.830409,324.97638 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-167.61317,5.818155,324.60745 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-167.30055,5.7988806,324.14313 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-167.0887,5.7909484,323.82825 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-166.7888,5.7776446,323.38284 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-166.5659,5.7674303,323.05167 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-166.3003,5.7555118,322.65735 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-165.99393,5.738156,322.2024 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-165.77489,5.7322035,321.87692 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-165.4588,5.718894,321.4076 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-165.16406,5.7057657,320.96954 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-164.89122,5.688674,320.5645 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-164.61731,5.6772776,320.158 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-164.38959,5.6657343,319.81992 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-164.10806,5.64978,319.4022 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-163.79465,5.629327,318.93707 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-163.5194,5.613006,318.5287 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-163.23985,5.5954647,318.11386 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-162.94098,5.57196,317.6704 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-162.69519,5.5564175,317.3058 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-162.37682,5.533629,316.8337 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-162.08833,5.512172,316.4061 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-161.7796,5.487049,315.94858 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-161.5037,5.4653764,315.53934 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-161.25697,5.444867,315.17374 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-161.04225,5.4258285,314.85553 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-160.73042,5.4015293,314.39392 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-160.48677,5.3819594,314.03314 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-160.2668,5.36456,313.70758 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-160.03749,5.3466773,313.3683 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-159.70564,5.319378,312.87796 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-159.40932,5.295746,312.4402 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-159.18723,5.2776656,312.11176 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-158.87769,5.250952,311.6546 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-158.57767,5.22572,311.21194 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-158.25298,5.1979923,310.73297 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-158.01556,5.1777215,310.38278 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-157.70274,5.153745,309.9215 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-157.47371,5.1359453,309.58392 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-157.20761,5.1169972,309.192 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-156.9668,5.0998015,308.83612 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-156.77321,5.091268,308.55106 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-156.56879,5.0815196,308.25012 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-156.41206,5.0739465,308.01947 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-156.24701,5.066735,307.77673 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-156.1197,5.0639524,307.58966 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-156.00443,5.058667,307.42017 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-155.8827,5.057747,307.24112 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-155.7747,5.0556726,307.08228 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-155.67845,5.053789,306.94073 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-155.60405,5.053463,306.8315 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-155.53682,5.053106,306.7328 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-155.47523,5.0501485,306.6426 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-155.41167,5.051844,306.5491 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-155.40265,5.052198,306.53577 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-155.40265,5.0523148,306.53577 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-155.40265,5.0523376,306.53577 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-155.40265,5.052344,306.53577 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-155.40265,5.0523443,306.53577 units: 23
+sending back characters:23
+client sending 23 characters to update
+retrived :23 from elasticsearch
+retrived :23 from elasticsearch
+found in range on avatar:-155.40265,5.0523443,306.53577 units: 23
+sending back characters:23
+[Invisible Girl] loaded [], sites []
+index:test_lost_victories1_unit_status already exisits
+Listening on 5055
+returning scene
+[Ooze] loaded [], sites []
+index:test_lost_victories1_unit_status already exisits
+Listening on 5055
+returning scene
+[Siege] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+returning scene
+[Madam Slay] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+returning scene
+[Silly Seal] loaded [], sites []
+index:test_lost_victories1_unit_status already exisits
+Listening on 5055
+returning scene
+[Greer Grant] loaded [], sites []
+index:test_lost_victories1_unit_status already exisits
+[Black Panther] loaded [], sites []
+index:test_lost_victories1_unit_status already exisits
+[Hood] loaded [], sites []
+index:test_lost_victories1_unit_status already exisits
+Listening on 5055
+returning scene
+[Mother Earth] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+returning scene
+[Mr. M] loaded [], sites []
+index:test_lost_victories1_unit_status already exisits
+[Deborah Ritter] loaded [], sites []
+index:test_lost_victories1_unit_status already exisits
+Listening on 5055
+returning scene
+[Canasta] loaded [], sites []
+index:test_lost_victories1_unit_status already exisits
+Listening on 5055
+returning scene
+[Primal] loaded [], sites []
+index:test_lost_victories1_unit_status already exisits
+Listening on 5055
+returning scene
+[Monsoon] loaded [], sites []
+[Jekyll] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+returning scene
+[Spider Doppelganger] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+returning scene
+[Wiccan] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+returning scene
+[Anomaly] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+returning scene
+returning scene
+returning scene
+[Meltdown] loaded [], sites []
+index:test_lost_victories1_unit_status already exisits
+Listening on 5055
+returning scene
+[Emil Blonsky] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+returning scene

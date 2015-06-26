@@ -15,13 +15,16 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import lostVictories.LostVictoryScene;
+import lostVictories.messageHanders.MessageHandler;
 
+import org.apache.log4j.Logger;
 import org.elasticsearch.common.geo.GeoPoint;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 
 public class CharacterMessage implements Serializable{
 	
 	private static final long serialVersionUID = 2491659254334134796L;
+	private static Logger log = Logger.getLogger(CharacterMessage.class);
 
 	public static final long CHECKOUT_TIMEOUT = 10*1000;
 	UUID id;
@@ -38,6 +41,8 @@ public class CharacterMessage implements Serializable{
 	Vector orientation = new Vector(0, 0, 1);
 	Action action = Action.IDLE;
 	boolean isFiring;
+	boolean isDead;
+	Long timeOfDeath;
 	
 	public CharacterMessage(UUID identity, CharacterType type, Vector location, Country country, Weapon weapon, RankMessage rank, CharacterMessage commandingOfficer, boolean gunnerDead) {
 		this.id = identity;
@@ -55,14 +60,14 @@ public class CharacterMessage implements Serializable{
 		this.id = id;
 		HashMap<String, Double> location =  (HashMap<String, Double>) source.get("location");
 		HashMap<String, Double> ori =  (HashMap<String, Double>) source.get("orientation");
-		long altitude = ((Double)source.get("altitude")).longValue();
+		float altitude = ((Double)source.get("altitude")).floatValue();
 		this.type = CharacterType.valueOf((String) source.get("type"));
-		this.location = new Vector(location.get("lon")/180*LostVictoryScene.SCENE_WIDTH, altitude, location.get("lat")/80*LostVictoryScene.SCENE_HEIGHT);
+		this.location = new Vector(location.get("lon").floatValue()/180*LostVictoryScene.SCENE_WIDTH, altitude, location.get("lat").floatValue()/80*LostVictoryScene.SCENE_HEIGHT);
 		this.country = Country.valueOf((String)source.get("country"));
 		this.weapon = Weapon.valueOf((String) source.get("weapon"));
 		this.rank = RankMessage.valueOf((String) source.get("rank"));
 		this.action = Action.valueOf((String)source.get("action"));
-		this.orientation = new Vector(ori.get("x"), ori.get("y"), ori.get("z"));
+		this.orientation = new Vector(ori.get("x").floatValue(), ori.get("y").floatValue(), ori.get("z").floatValue());
 		String co = (String) source.get("commandingOfficer");
 		if(co!=null && !co.isEmpty()){
 			this.commandingOfficer = UUID.fromString(co);
@@ -74,6 +79,10 @@ public class CharacterMessage implements Serializable{
 		}
 		unitsUnderCommand = ((Collection<String>)source.get("unitsUnderCommand")).stream().map(s -> UUID.fromString(s)).collect(Collectors.toSet());
 		gunnerDead = (boolean) source.get("gunnerDead");
+		isDead = (boolean) source.get("isDead");
+		if(isDead){
+			this.checkoutTime = (Long) source.get("checkoutTime");
+		}
 	}
 
 	void addUnit(CharacterMessage u){
@@ -126,7 +135,11 @@ public class CharacterMessage implements Serializable{
 		                .field("commandingOfficer", commandingOfficer)
 		                .field("unitsUnderCommand", unitsUnderCommand)
 		                .field("type", type)
+		                .field("checkoutClient", checkoutClient)
+		                .field("checkoutTime", checkoutTime)
 		                .field("gunnerDead", gunnerDead)
+		                .field("isDead", isDead)
+		                .field("timeOfDeath", timeOfDeath)
 		            .endObject();
 	}
 
@@ -142,11 +155,11 @@ public class CharacterMessage implements Serializable{
 		if(other==null){
 			return false;
 		}
-		return !location.equals(other.location) || orientation != other.orientation || action != other.action;
+		return !location.equals(other.location) || !orientation.equals(other.orientation) || action != other.action;
 	}
 
 	public boolean isAvailableForUpdate(UUID clientID) {
-		return this.checkoutClient==null || this.checkoutClient.equals(clientID) || checkoutTime==null ||System.currentTimeMillis()-checkoutTime>CHECKOUT_TIMEOUT;
+		return this.checkoutClient==null || clientID.equals(this.checkoutClient) || checkoutTime==null ||System.currentTimeMillis()-checkoutTime>CHECKOUT_TIMEOUT;
 	}
 
 	public void updateState(CharacterMessage other, UUID clientID, long checkoutTime) {
@@ -192,5 +205,12 @@ public class CharacterMessage implements Serializable{
 			throw new RuntimeException(e);
 		}
 	}
+
+	public void kill() {
+		isDead = true;
+		timeOfDeath = System.currentTimeMillis();
+	}
+	
+
 	
 }

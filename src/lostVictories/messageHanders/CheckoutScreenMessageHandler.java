@@ -12,7 +12,7 @@ import lostVictories.CharacterDAO;
 
 public class CheckoutScreenMessageHandler{
 	
-	public static Long CLIENT_RANGE = 400l;
+	public static Long CLIENT_RANGE = 800l;
 
 	private CharacterDAO characterDAO;
 
@@ -21,7 +21,7 @@ public class CheckoutScreenMessageHandler{
 	}
 
 	public LostVictoryMessage handle(CheckoutScreenRequest m) {
-		CharacterMessage avatar = characterDAO.getCharacters(m.avatar);
+		CharacterMessage avatar = characterDAO.getCharacter(m.avatar);
 		Vector l = avatar.getLocation();
 		Set<CharacterMessage> allCharacters = characterDAO.getAllCharacters(l.x, l.y, l.z, CLIENT_RANGE);
 		return new CheckoutScreenResponse(allCharacters);

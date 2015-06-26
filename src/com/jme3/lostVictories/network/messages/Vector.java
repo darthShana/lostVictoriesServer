@@ -14,12 +14,6 @@ public class Vector implements Serializable{
 	public float y;
 	public float z;
 	
-	public Vector(double x, double y, double z) {
-		this.x = (float) x;
-		this.y = (float) y;
-		this.z = (float) z;
-	}
-	
 	public Vector(float x, float y, float z) {
 		this.x = x;
 		this.y = y;

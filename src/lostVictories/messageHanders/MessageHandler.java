@@ -23,6 +23,7 @@ import com.google.gson.Gson;
 import com.jme3.lostVictories.network.messages.CharacterMessage;
 import com.jme3.lostVictories.network.messages.CheckoutScreenRequest;
 import com.jme3.lostVictories.network.messages.CheckoutScreenResponse;
+import com.jme3.lostVictories.network.messages.DeathNotificationRequest;
 import com.jme3.lostVictories.network.messages.LostVictoryMessage;
 import com.jme3.lostVictories.network.messages.UpdateCharactersRequest;
 
@@ -34,11 +35,13 @@ public class MessageHandler extends SimpleChannelHandler {
 	private CharacterDAO characterDAO;
 	private UpdateCharactersMessageHandler updateCharactersMessageHandler;
 	private CheckoutScreenMessageHandler checkoutScreenMessageHandler;
+	private DeathNotificationMessageHandler deathNotificationMessageHandler;
 
 	public MessageHandler(CharacterDAO characterDAO) {
 		this.characterDAO = characterDAO;
 		updateCharactersMessageHandler = new UpdateCharactersMessageHandler(characterDAO);
 		checkoutScreenMessageHandler = new CheckoutScreenMessageHandler(characterDAO);
+		deathNotificationMessageHandler = new DeathNotificationMessageHandler(characterDAO);
 	}
 
 	@Override
@@ -50,9 +53,12 @@ public class MessageHandler extends SimpleChannelHandler {
 		if(msg instanceof CheckoutScreenRequest){
 			lostVictoryMessage = checkoutScreenMessageHandler.handle((CheckoutScreenRequest) msg);
 			log.info("returning scene");
-		}else if(msg instanceof UpdateCharactersRequest){
+		} else if(msg instanceof UpdateCharactersRequest){
 			lostVictoryMessage = updateCharactersMessageHandler.handle((UpdateCharactersRequest)msg);
-		} else{
+		} else if(msg instanceof DeathNotificationRequest) {
+			
+			lostVictoryMessage = deathNotificationMessageHandler.handle((DeathNotificationRequest)msg);
+		}else{
 			lostVictoryMessage = new LostVictoryMessage(UUID.randomUUID());
 			System.out.println("Hey Guys !  I got a date ! [" + msg.getClientID() + "] and I modified it to []");
 		}

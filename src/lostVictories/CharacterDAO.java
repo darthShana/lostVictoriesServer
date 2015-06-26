@@ -116,13 +116,17 @@ public class CharacterDAO {
 	}
 
 	public void save(Collection<CharacterMessage> values) {
+		if(values.isEmpty()){
+			log.debug("nothing to save");
+			return;
+		}
 		BulkRequestBuilder bulkRequest = esClient.prepareBulk();
 		values.stream().forEach(v->bulkRequest.add(new IndexRequest(indexName, "unitStatus", v.getId().toString()).source(v.getJSONRepresentationUnChecked())));
 		bulkRequest.execute().actionGet();
 	}
 
-	public CharacterMessage getCharacters(UUID avatar) {
-		GetResponse response = esClient.prepareGet(indexName, "unitStatus", avatar.toString())
+	public CharacterMessage getCharacter(UUID id) {
+		GetResponse response = esClient.prepareGet(indexName, "unitStatus", id.toString())
 		        .execute()
 		        .actionGet();
 		return fromFields(UUID.fromString(response.getId()), response.getSource());
