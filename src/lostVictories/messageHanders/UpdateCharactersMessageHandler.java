@@ -17,14 +17,17 @@ import com.jme3.lostVictories.network.messages.UpdateCharactersResponse;
 import com.jme3.lostVictories.network.messages.Vector;
 
 import lostVictories.CharacterDAO;
+import lostVictories.HouseDAO;
 
 public class UpdateCharactersMessageHandler {
 
 	private CharacterDAO characterDAO;
 	private static Logger log = Logger.getLogger(UpdateCharactersMessageHandler.class);
+	private HouseDAO houseDAO;
 
-	public UpdateCharactersMessageHandler(CharacterDAO characterDAO) {
+	public UpdateCharactersMessageHandler(CharacterDAO characterDAO, HouseDAO houseDAO) {
 		this.characterDAO = characterDAO;
+		this.houseDAO = houseDAO;
 	}
 
 	public LostVictoryMessage handle(UpdateCharactersRequest msg) {
@@ -49,6 +52,6 @@ public class UpdateCharactersMessageHandler {
 			log.debug("client did not send avatar for perspective");
 		}
 		log.debug("sending back characters:"+toReturn.size());
-		return new UpdateCharactersResponse(msg.getClientID(), new HashSet<CharacterMessage>(toReturn.values()));
+		return new UpdateCharactersResponse(msg.getClientID(), new HashSet<CharacterMessage>(toReturn.values()), houseDAO.getAllHouses());
 	}
 }

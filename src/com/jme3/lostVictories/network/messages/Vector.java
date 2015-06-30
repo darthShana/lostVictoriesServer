@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+import lostVictories.LostVictoryScene;
+
 import org.elasticsearch.common.xcontent.ToXContent;
 
 import com.jme3.math.Vector3f;
@@ -52,5 +54,9 @@ public class Vector implements Serializable{
 		hashMap.put("y", y);
 		hashMap.put("z", z);
 		return hashMap;
+	}
+	
+	public static Vector latLongToVector(HashMap<String, Double> location, float altitude){
+		return new Vector(location.get("lon").floatValue()/180*LostVictoryScene.SCENE_WIDTH, altitude, location.get("lat").floatValue()/80*LostVictoryScene.SCENE_HEIGHT);
 	}
 }

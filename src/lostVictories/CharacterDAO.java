@@ -62,7 +62,7 @@ public class CharacterDAO {
 
 	
 
-	public Set<CharacterMessage> getAllCharacters(float x, float y, float z, Long range) {
+	public Set<CharacterMessage> getAllCharacters(float x, float y, float z, float range) {
 		
 		Vector topLeft = new Vector(x-(range/2), y, z+(range/2));
 		Vector bottomRight = new Vector(x+(range/2), y, z-(range/2));

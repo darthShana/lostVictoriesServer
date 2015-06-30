@@ -8,6 +8,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import lostVictories.CharacterDAO;
+import lostVictories.HouseDAO;
 
 import org.apache.log4j.Logger;
 import org.jboss.netty.channel.Channel;
@@ -32,15 +33,13 @@ public class MessageHandler extends SimpleChannelHandler {
 
 	private static Logger log = Logger.getLogger(MessageHandler.class);
 	
-	private CharacterDAO characterDAO;
 	private UpdateCharactersMessageHandler updateCharactersMessageHandler;
 	private CheckoutScreenMessageHandler checkoutScreenMessageHandler;
 	private DeathNotificationMessageHandler deathNotificationMessageHandler;
 
-	public MessageHandler(CharacterDAO characterDAO) {
-		this.characterDAO = characterDAO;
-		updateCharactersMessageHandler = new UpdateCharactersMessageHandler(characterDAO);
-		checkoutScreenMessageHandler = new CheckoutScreenMessageHandler(characterDAO);
+	public MessageHandler(CharacterDAO characterDAO, HouseDAO houseDAO) {
+		updateCharactersMessageHandler = new UpdateCharactersMessageHandler(characterDAO, houseDAO);
+		checkoutScreenMessageHandler = new CheckoutScreenMessageHandler(characterDAO, houseDAO);
 		deathNotificationMessageHandler = new DeathNotificationMessageHandler(characterDAO);
 	}
 

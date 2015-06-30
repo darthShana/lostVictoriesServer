@@ -11,13 +11,13 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import lostVictories.CharacterDAO;
+import lostVictories.HouseDAO;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import com.jme3.lostVictories.network.messages.Action;
 import com.jme3.lostVictories.network.messages.CharacterMessage;
-import com.jme3.lostVictories.network.messages.CheckoutScreenResponse;
 import com.jme3.lostVictories.network.messages.UpdateCharactersRequest;
 import com.jme3.lostVictories.network.messages.UpdateCharactersResponse;
 import com.jme3.lostVictories.network.messages.Vector;
@@ -31,7 +31,7 @@ public class UpdateCharactersMessageHandlerTest {
 	@Before
 	public void setUp(){
 		characterDAO = mock(CharacterDAO.class);
-		handler = new UpdateCharactersMessageHandler(characterDAO);
+		handler = new UpdateCharactersMessageHandler(characterDAO, mock(HouseDAO.class));
 	}
 	
 	@Test

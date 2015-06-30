@@ -3,6 +3,8 @@ package lostVictories;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import lostVictories.messageHanders.MessageHandler;
 
@@ -10,6 +12,7 @@ import org.apache.log4j.Logger;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequestBuilder;
 import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
+import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.IndicesAdminClient;
@@ -35,10 +38,12 @@ public class LostVictoriesSever {
 	private static Logger log = Logger.getLogger(LostVictoriesSever.class); 
 	
 	private int port;
-	private String indexName;
+	private String characterIndexName;
+	private String houseIndexName;
 
 	public LostVictoriesSever(String instance, int port) {
-		indexName = instance+"_unit_status";
+		characterIndexName = instance+"_unit_status";
+		houseIndexName = instance+"_house_status";
 		this.port = port;
 		
 	}
@@ -46,9 +51,14 @@ public class LostVictoriesSever {
 	private void run() throws InterruptedException, IOException {
 		Client esClient = getESClient();
 		IndicesAdminClient adminClient = esClient.admin().indices();
-		CharacterDAO characterDAO = new CharacterDAO(esClient, indexName);
+		CharacterDAO characterDAO = new CharacterDAO(esClient, characterIndexName);
+		HouseDAO houseDAO = new HouseDAO(esClient, houseIndexName);
 		
-		createIndex(adminClient, characterDAO);
+		createIndex(adminClient, characterDAO, houseDAO);
+		
+		ScheduledExecutorService worldRunnerService = Executors.newScheduledThreadPool(1);;
+		WorldRunner worldRunner = WorldRunner.instance(characterDAO, houseDAO);
+		worldRunnerService.scheduleAtFixedRate(worldRunner, 0, 2, TimeUnit.SECONDS);
 		
 		ServerBootstrap bootstrap = new ServerBootstrap( new NioServerSocketChannelFactory(Executors.newCachedThreadPool(), Executors.newCachedThreadPool()));
 				 
@@ -58,7 +68,7 @@ public class LostVictoriesSever {
 				return Channels.pipeline(
 					new ObjectDecoder(ClassResolvers.cacheDisabled(getClass().getClassLoader())),
 					new ObjectEncoder(),
-					new MessageHandler(characterDAO)
+					new MessageHandler(characterDAO, houseDAO)
 				);
 			 };
 		 });
@@ -70,15 +80,21 @@ public class LostVictoriesSever {
 		
 	}
 
-	private void createIndex(IndicesAdminClient adminClient, CharacterDAO characterDAO) throws IOException {
-		final IndicesExistsResponse res = adminClient.prepareExists(indexName).execute().actionGet();
+	private void createIndex(IndicesAdminClient adminClient, CharacterDAO characterDAO, HouseDAO housesDAO) throws IOException {
+		final IndicesExistsResponse res = adminClient.prepareExists(characterIndexName).execute().actionGet();
         if (res.isExists()) {
-        	log.info("index:"+indexName+" already exisits");
+        	log.info("index:"+characterIndexName+" already exisits");
             return;
         }
-        log.info("creating new index:"+indexName);
-
-        final CreateIndexRequestBuilder createIndexRequestBuilder = adminClient.prepareCreate(indexName);
+        log.info("creating new index:"+characterIndexName);
+	    
+	    final IndicesExistsResponse house = adminClient.prepareExists(houseIndexName).execute().actionGet();
+        if (house.isExists()) {
+        	log.info("index:"+houseIndexName+" already exisits no deleting");
+            adminClient.delete(new DeleteIndexRequest(houseIndexName)).actionGet();
+        }
+        
+        final CreateIndexRequestBuilder createIndexRequestBuilder = adminClient.prepareCreate(characterIndexName);
 		
 	    XContentBuilder builder = XContentFactory.jsonBuilder().startObject().startObject("unitStatus").startObject("properties");
 	    builder.startObject("location")
@@ -89,7 +105,18 @@ public class LostVictoriesSever {
 	    createIndexRequestBuilder.addMapping("unitStatus", builder);
 	    createIndexRequestBuilder.execute().actionGet();
 	    
-	    new LostVictoryScene().loadScene(characterDAO);
+	    final CreateIndexRequestBuilder houseIndexRequestBuilder = adminClient.prepareCreate(houseIndexName);
+		
+	    builder = XContentFactory.jsonBuilder().startObject().startObject("houseStatus").startObject("properties");
+	    builder.startObject("location")
+        	.field("type", "geo_point")
+        	.field("store", "yes")
+        	.endObject();
+	    
+	    houseIndexRequestBuilder.addMapping("houseStatus", builder);
+	    houseIndexRequestBuilder.execute().actionGet();
+	    
+	    new LostVictoryScene().loadScene(characterDAO, housesDAO);
 	}
 
 	private Client getESClient() {

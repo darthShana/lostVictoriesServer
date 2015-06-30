@@ -1,6 +1,7 @@
 package com.jme3.lostVictories.network.messages;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
+import static com.jme3.lostVictories.network.messages.Vector.latLongToVector;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -62,7 +63,7 @@ public class CharacterMessage implements Serializable{
 		HashMap<String, Double> ori =  (HashMap<String, Double>) source.get("orientation");
 		float altitude = ((Double)source.get("altitude")).floatValue();
 		this.type = CharacterType.valueOf((String) source.get("type"));
-		this.location = new Vector(location.get("lon").floatValue()/180*LostVictoryScene.SCENE_WIDTH, altitude, location.get("lat").floatValue()/80*LostVictoryScene.SCENE_HEIGHT);
+		this.location = latLongToVector(location, altitude);
 		this.country = Country.valueOf((String)source.get("country"));
 		this.weapon = Weapon.valueOf((String) source.get("weapon"));
 		this.rank = RankMessage.valueOf((String) source.get("rank"));
