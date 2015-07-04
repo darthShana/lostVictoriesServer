@@ -37,6 +37,20 @@ public class HouseMessageTest {
 	}
 	
 	@Test
+	public void testCantCaptureCapturedHouse(){
+		HouseMessage house = new HouseMessage("type2", new Vector(100, 1, 100), new Quaternion(1, 1, 1, 1));
+		house.captureStatus = CaptureStatus.CAPTURED;
+		house.owner = Country.AMERICAN;
+		
+		CharacterDAO characterDAO = mock(CharacterDAO.class);
+		
+		when(characterDAO.getAllCharacters(100f, 1f, 100f, HouseMessage.CAPTURE_RANGE)).thenReturn(ImmutableSet.of(getCharacter(Country.AMERICAN), getCharacter(Country.AMERICAN)));
+		house.chechOwnership(characterDAO);
+		assertEquals(CaptureStatus.CAPTURED, house.getStatus());
+		assertEquals(Country.AMERICAN, house.getOwner());
+	}
+	
+	@Test
 	public void testCantHijachHouseCapture(){
 		CharacterDAO characterDAO = mock(CharacterDAO.class);
 		HouseMessage house = new HouseMessage("type2", new Vector(100, 1, 100), new Quaternion(1, 1, 1, 1));

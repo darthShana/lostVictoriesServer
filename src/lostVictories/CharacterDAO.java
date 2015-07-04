@@ -64,11 +64,21 @@ public class CharacterDAO {
 
 	public Set<CharacterMessage> getAllCharacters(float x, float y, float z, float range) {
 		
-		Vector topLeft = new Vector(x-(range/2), y, z+(range/2));
-		Vector bottomRight = new Vector(x+(range/2), y, z-(range/2));
+		Vector topLeft = new Vector(x-range, y, z+range);
+		Vector bottomRight = new Vector(x+range, y, z-range);
+		
+		double tl_latitute = toLatitute(topLeft);
+		double tl_longitude = toLongitude(topLeft);
+		double br_latitute = toLatitute(bottomRight);
+		double br_longitude = toLongitude(bottomRight);
+		
+		tl_latitute = tl_latitute > 80 ? 80 : tl_latitute;
+		tl_longitude = tl_longitude < -180 ? -180 : tl_longitude;
+		br_latitute = br_latitute < -80 ? -80 : br_latitute;
+		br_longitude = br_longitude > 180 ? 180 : br_longitude;
 		
 		SearchResponse searchResponse = esClient.prepareSearch(indexName)
-                .setQuery(filteredQuery(matchAllQuery(), geoBoundingBoxFilter("location").topLeft(toLatitute(topLeft), toLongitude(topLeft)).bottomRight(toLatitute(bottomRight), toLongitude(bottomRight)))).setSize(10000)
+                .setQuery(filteredQuery(matchAllQuery(), geoBoundingBoxFilter("location").topLeft(tl_latitute, tl_longitude).bottomRight(br_latitute, br_longitude))).setSize(10000)
                 .execute().actionGet();
 		
 		log.debug("retrived :"+searchResponse.getHits().hits().length+" from elasticsearch");
@@ -102,7 +112,6 @@ public class CharacterDAO {
 	}
 
 	public Map<UUID, CharacterMessage> getAllCharacters(Set<UUID> ids) {
-		Set<CharacterMessage> ret = new HashSet<CharacterMessage>();
 		String[] i = ids.stream().map(UUID::toString).toArray(size->new String[size]);
 		QueryBuilder qb = idsQuery().ids(i);
 		SearchResponse searchResponse = esClient.prepareSearch(indexName)
@@ -114,7 +123,18 @@ public class CharacterDAO {
 		Iterable<SearchHit> iterable = () -> iterator;
 		return StreamSupport.stream(iterable.spliterator(), true).map(hit -> fromFields(UUID.fromString(hit.getId()), hit.getSource())).collect(Collectors.toMap(CharacterMessage::getId, Function.identity()));
 	}
-
+	
+	public Set<CharacterMessage> getAllCharacters() {
+		SearchResponse searchResponse = esClient.prepareSearch(indexName)
+				.setQuery(matchAllQuery()).setSize(10000)
+				.execute().actionGet();
+		
+		log.debug("retrived :"+searchResponse.getHits().hits().length+" from elasticsearch");
+		Iterator<SearchHit> iterator = searchResponse.getHits().iterator();
+		Iterable<SearchHit> iterable = () -> iterator;
+		return StreamSupport.stream(iterable.spliterator(), true).map(hit -> fromFields(UUID.fromString(hit.getId()), hit.getSource())).collect(Collectors.toSet());
+	}
+	
 	public void save(Collection<CharacterMessage> values) {
 		if(values.isEmpty()){
 			log.debug("nothing to save");

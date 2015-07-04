@@ -10,16 +10,19 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import lostVictories.CharacterDAO;
+import lostVictories.HouseDAO;
 
+import org.apache.log4j.Logger;
 import org.elasticsearch.common.geo.GeoPoint;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 
 
 public class HouseMessage implements Serializable{
-
+	private static Logger log = Logger.getLogger(HouseMessage.class); 
 	public static final float CAPTURE_RANGE = 20;
 	
 	private final UUID id;
@@ -28,7 +31,7 @@ public class HouseMessage implements Serializable{
 	private Quaternion rotation;
 	Country owner;
 	Country contestingOwner;
-	CaptureStatus captureStatus = CaptureStatus.NONE;
+	CaptureStatus captureStatus;
 	Long statusChangeTime;
 
 	public HouseMessage(String type, Vector location, Quaternion rotation) {
@@ -36,6 +39,7 @@ public class HouseMessage implements Serializable{
 		this.type = type;
 		this.location = location;
 		this.rotation = rotation;
+		this.captureStatus = CaptureStatus.NONE;
 	}
 
 	public HouseMessage(UUID id, Map<String, Object> source) {
@@ -48,11 +52,14 @@ public class HouseMessage implements Serializable{
 		this.location = latLongToVector(loc, altitude);
 		this.rotation = toQuaternion(rot);
 		
-		if(source.get("country")!=null){
-			this.owner = (Country) source.get("owner");
+		if(source.get("owner")!=null){
+			this.owner = Country.valueOf((String) source.get("owner"));
+		}
+		if(source.get("contestingOwner")!=null){
+			this.contestingOwner = Country.valueOf((String) source.get("contestingOwner"));
 		}
 		if(source.get("captureStatus")!=null){
-			this.captureStatus = (CaptureStatus) source.get("captureStatus");
+			this.captureStatus = CaptureStatus.valueOf((String) source.get("captureStatus"));
 		}
 		if(source.get("statusChangeTime")!=null){
 			this.statusChangeTime = (Long) source.get("statusChangeTime");
@@ -67,7 +74,8 @@ public class HouseMessage implements Serializable{
 	                .field("altitude", getLocation().y)
 	                .field("rotation", rotation.toMap())
 	                .field("owner", getOwner())
-	                .field("status", getStatus())	                
+	                .field("contestingOwner", contestingOwner)
+	                .field("captureStatus", getStatus())
 	                .field("statusChangeTime", getStatusChangeTime())	                
 	            .endObject();
 	}
@@ -118,8 +126,14 @@ public class HouseMessage implements Serializable{
 	}
 
 	public boolean chechOwnership(CharacterDAO characterDAO) {
-		CaptureStatus c = captureStatus.transition(characterDAO.getAllCharacters(location.x, location.y, location.z, CAPTURE_RANGE), this);
+		Set<CharacterMessage> allCharacters = characterDAO.getAllCharacters(location.x, location.y, location.z, CAPTURE_RANGE);
+		
+		if(!allCharacters.isEmpty()){
+			log.debug("looking ofr characters near:"+location+" found chata:"+allCharacters.size());
+		}
+		CaptureStatus c = captureStatus.transition(allCharacters, this);
 		if(c!=captureStatus){
+			log.debug("changing capture status to:"+c);
 			captureStatus = c;
 			return true;
 		}else{
@@ -141,6 +155,10 @@ public class HouseMessage implements Serializable{
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	public boolean isOwned() {
+		return owner!=null;
 	}
 
 

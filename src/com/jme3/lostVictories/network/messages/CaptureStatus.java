@@ -37,7 +37,7 @@ public enum CaptureStatus {
 				houseMessage.contestOwnership(houseMessage.getOwner());
 				return CaptureStatus.DECAPTURING;
 			}
-			return NONE;
+			return CAPTURED;
 		}
 	}, DECAPTURING {
 		@Override

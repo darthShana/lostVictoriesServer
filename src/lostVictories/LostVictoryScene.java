@@ -17,8 +17,8 @@ import com.jme3.lostVictories.network.messages.Weapon;
 
 public class LostVictoryScene {
 	
-	public static int SCENE_WIDTH = 1024;
-	public static int SCENE_HEIGHT = 1024;
+	public static int SCENE_WIDTH = 512;
+	public static int SCENE_HEIGHT = 512;
 	
 	private static Logger log = Logger.getLogger(LostVictoryScene.class); 
 	
@@ -95,7 +95,7 @@ public class LostVictoryScene {
 		Set<HouseMessage> houses = new HashSet<HouseMessage>();
 
         houses.add(new HouseMessage("ahouse", new Vector(-50.0f, 5.0f, -250.0f), new Quaternion(0.0f, 0.0f, 0.0f, 1.0f)));
-        houses.add(new HouseMessage("ahouse", new Vector(160.0f, 5.0f, 50.0f), new Quaternion(0.0f, -0.70710677f, 0.0f, 0.70710677f)));
+		houses.add(new HouseMessage("ahouse", new Vector(160.0f, 5.0f, 50.0f), new Quaternion(0.0f, -0.70710677f, 0.0f, 0.70710677f)));
         houses.add(new HouseMessage("ahouse", new Vector(-80.0f, 5.0f, -250.0f), new Quaternion(0.0f, 0.0f, 0.0f, 1.0f)));
         houses.add(new HouseMessage("ahouse", new Vector(100.0f, 5.0f, -40.0f), new Quaternion(0.0f, 0.0f, 0.0f, 1.0f)));
         houses.add(new HouseMessage("ahouse", new Vector(100.0f, 5.0f, 50.0f), new Quaternion(0.0f, -0.70710677f, 0.0f, 0.70710677f)));

@@ -14,7 +14,7 @@ import lostVictories.HouseDAO;
 
 public class CheckoutScreenMessageHandler{
 	
-	public static Long CLIENT_RANGE = 800l;
+	public static Long CLIENT_RANGE = 400l;
 
 	private CharacterDAO characterDAO;
 
@@ -28,7 +28,7 @@ public class CheckoutScreenMessageHandler{
 	public LostVictoryMessage handle(CheckoutScreenRequest m) {
 		CharacterMessage avatar = characterDAO.getCharacter(m.avatar);
 		Vector l = avatar.getLocation();
-		Set<CharacterMessage> allCharacters = characterDAO.getAllCharacters(l.x, l.y, l.z, CLIENT_RANGE);
+       	Set<CharacterMessage> allCharacters = characterDAO.getAllCharacters(l.x, l.y, l.z, CLIENT_RANGE);
 		Set<HouseMessage> allHouses = houseDAO.getAllHouses();
 		return new CheckoutScreenResponse(allCharacters, allHouses);
 	}
