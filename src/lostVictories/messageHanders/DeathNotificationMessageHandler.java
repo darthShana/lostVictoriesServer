@@ -1,5 +1,7 @@
 package lostVictories.messageHanders;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 import org.apache.log4j.Logger;
@@ -20,9 +22,17 @@ public class DeathNotificationMessageHandler {
 	}
 
 	public LostVictoryMessage handle(DeathNotificationRequest msg) {
+		Set<CharacterMessage> toSave = new HashSet<CharacterMessage>();
+		
 		CharacterMessage character = characterDAO.getCharacter(msg.getVictim());
+		log.debug("received death notification:"+character.getId());
 		character.kill();
-		characterDAO.putCharacter(character.getId(), character.getCheckoutClient(), character);
+		toSave.add(character);
+		
+		Set<CharacterMessage> replacement = character.replaceMe(characterDAO);
+		toSave.addAll(replacement);
+		
+		characterDAO.save(toSave);
 		return new LostVictoryMessage(UUID.randomUUID());
 	}
 

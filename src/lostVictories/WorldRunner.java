@@ -1,16 +1,22 @@
 package lostVictories;
 
+import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
+import org.elasticsearch.common.collect.ImmutableSet;
 
 import com.jme3.lostVictories.network.messages.CharacterMessage;
 import com.jme3.lostVictories.network.messages.Country;
 import com.jme3.lostVictories.network.messages.HouseMessage;
+import com.jme3.lostVictories.network.messages.RankMessage;
 
 public class WorldRunner implements Runnable{
 
@@ -65,12 +71,52 @@ public class WorldRunner implements Runnable{
 	//              nextRespawnTime.put(c, (100-manPower.get(c))/structureOwnership.get(c)*2);
 	//          }
 			}
-			log.info("german vp:"+victoryPoints.get(Country.GERMAN));
-			log.info("american vp:"+victoryPoints.get(Country.AMERICAN));
+			
+			Set<CharacterMessage> allCharacters = characterDAO.getAllCharacters();
+			AvatarStore avatarStore = new AvatarStore(allCharacters);
+			
+			List<CharacterMessage> list = new ArrayList<CharacterMessage>(allCharacters);
+			list.sort((c1, c2)->c1.getRank()!=RankMessage.CADET_CORPORAL&&c2.getRank()==RankMessage.CADET_CORPORAL?1:-1);
+			
+			for(CharacterMessage c: list){
+                if(!c.isDead()){
+                    if(!c.isFullStrength() && hasManPowerToReenforce(c.getCountry())){
+                    	log.info("found understrenth unit to reenfoce:"+c.getRank());
+                        Optional<UUID> deadAvatars = avatarStore.getDeadAvatars(c.getCountry());
+						if(deadAvatars.isPresent()){
+							log.info("in here test reincarnate2");
+                            characterDAO.saveAndRefresh(avatarStore.reincarnateAvatar(deadAvatars.get(), c));
+                            characterDAO.delete(c);
+                        }else{
+                            characterDAO.save(c.reenforceCharacter(c.getLocation().add(0, 5, 15)));
+                        }
+                        reduceManPower(c.getCountry());
+                        
+                    }
+                }else{
+                	characterDAO.delete(c);
+                }
+            }
+			
+			log.debug("german vp:"+victoryPoints.get(Country.GERMAN));
+			log.debug("american vp:"+victoryPoints.get(Country.AMERICAN));
 		}catch(Throwable e){
 			e.printStackTrace();
-		}
+		}	
+		
 	}
+	
+	void reduceManPower(Country country) {
+        if(manPower.get(country)==null){
+            manPower.put(country, 0l);
+        }
+        manPower.put(country, manPower.get(country)-100);
+    }
+	
+    boolean hasManPowerToReenforce(Country country) {
+        return manPower.get(country)!=null && manPower.get(country)>=100;
+     
+    }
 
 
 }

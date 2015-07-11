@@ -14,11 +14,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import lostVictories.CharacterDAO;
 import lostVictories.LostVictoryScene;
 import lostVictories.messageHanders.MessageHandler;
 
 import org.apache.log4j.Logger;
+import org.elasticsearch.common.collect.ImmutableSet;
 import org.elasticsearch.common.geo.GeoPoint;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 
@@ -44,8 +47,9 @@ public class CharacterMessage implements Serializable{
 	boolean isFiring;
 	boolean isDead;
 	Long timeOfDeath;
+	long version;
 	
-	public CharacterMessage(UUID identity, CharacterType type, Vector location, Country country, Weapon weapon, RankMessage rank, CharacterMessage commandingOfficer, boolean gunnerDead) {
+	public CharacterMessage(UUID identity, CharacterType type, Vector location, Country country, Weapon weapon, RankMessage rank, UUID commandingOfficer, boolean gunnerDead) {
 		this.id = identity;
 		this.type = type;
 		this.location = location;
@@ -53,11 +57,11 @@ public class CharacterMessage implements Serializable{
 		this.weapon = weapon;
 		this.rank = rank;
 		if(commandingOfficer!=null){
-			this.commandingOfficer = commandingOfficer.id;
+			this.commandingOfficer = commandingOfficer;
 		}
 	}
 	
-	public CharacterMessage(UUID id, Map<String, Object> source) {
+	public CharacterMessage(UUID id, long version, Map<String, Object> source) {
 		this.id = id;
 		HashMap<String, Double> location =  (HashMap<String, Double>) source.get("location");
 		HashMap<String, Double> ori =  (HashMap<String, Double>) source.get("orientation");
@@ -84,6 +88,7 @@ public class CharacterMessage implements Serializable{
 		if(isDead){
 			this.checkoutTime = (Long) source.get("checkoutTime");
 		}
+		this.version = version;
 	}
 
 	void addUnit(CharacterMessage u){
@@ -153,9 +158,10 @@ public class CharacterMessage implements Serializable{
 	}
 
 	public boolean hasChanged(CharacterMessage other) {
-		if(other==null){
+		if(other==null || other.isDead){
 			return false;
 		}
+		
 		return !location.equals(other.location) || !orientation.equals(other.orientation) || action != other.action;
 	}
 
@@ -211,6 +217,64 @@ public class CharacterMessage implements Serializable{
 		isDead = true;
 		timeOfDeath = System.currentTimeMillis();
 	}
+
+	public boolean isDead() {
+		return isDead;
+	}
+
+	public boolean isFullStrength() {
+		return unitsUnderCommand.size()>=rank.getFullStrengthPopulation();
+	}
+
+	public Collection<CharacterMessage> reenforceCharacter(Vector spawnPoint) {
+		RankMessage rankToReenforce;
+        if(rank == RankMessage.COLONEL){
+        	rankToReenforce = RankMessage.LIEUTENANT;
+        }else if(rank == RankMessage.LIEUTENANT){
+            rankToReenforce = RankMessage.CADET_CORPORAL;
+        }else{
+            rankToReenforce = RankMessage.PRIVATE;
+        }
+		final CharacterMessage loadCharacter = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, spawnPoint, country, Weapon.RIFLE, rankToReenforce, commandingOfficer, false);
+        return ImmutableSet.of(loadCharacter);
+	}
+
+	public CharacterMessage replaceWithAvatar(UUID uuid) {
+		CharacterMessage characterMessage = new CharacterMessage(uuid, CharacterType.AVATAR, location, country, Weapon.RIFLE, RankMessage.CADET_CORPORAL, commandingOfficer, false);
+		characterMessage.unitsUnderCommand = unitsUnderCommand;
+		return characterMessage;
+	}
+
+	public long getVersion() {
+		return version;
+	}
+
+	public Set<CharacterMessage> replaceMe(CharacterDAO characterDAO) {
+		Set<CharacterMessage> ret = new HashSet<CharacterMessage>();
+		Map<UUID, CharacterMessage> allCharacters = characterDAO.getAllCharacters(unitsUnderCommand);
+		
+		if(commandingOfficer!=null){
+			CharacterMessage co = characterDAO.getCharacter(commandingOfficer);
+			co.unitsUnderCommand.remove(id);
+			ret.add(co);
+		}
+		
+		if(!allCharacters.isEmpty()){
+			final CharacterMessage toPromote = allCharacters.values().iterator().next();
+			toPromote.rank = rank;
+			if(commandingOfficer!=null){
+				toPromote.commandingOfficer = commandingOfficer;
+			}
+			log.debug("promoting:"+toPromote.getId()+" to "+rank);
+			Set<CharacterMessage> newSquad = allCharacters.values().stream().filter(c->!c.equals(toPromote)).collect(Collectors.toSet());
+			newSquad.forEach(c->c.commandingOfficer = toPromote.getId());
+			toPromote.addCharactersUnderCommand(newSquad);
+			ret.addAll(allCharacters.values());
+		}
+
+		return ret;
+	}
+
 	
 
 	

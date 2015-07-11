@@ -40,7 +40,11 @@ public class Vector implements Serializable{
 			return false;
 		}
 		Vector o = (Vector) obj;
-		return x == o.x && y == o.y && z == o.z;
+		return equals(x, o.x) && equals(y, o.y) && equals(z, o.z);
+	}
+	
+	private boolean equals(final float a, final float b) {
+	    return (Math.abs(a - b) < 0.1);
 	}
 	
 	@Override

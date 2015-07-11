@@ -7,6 +7,8 @@ package lostVictories;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
+import java.util.UUID;
 
 import org.elasticsearch.common.collect.ImmutableSet;
 import org.junit.After;
@@ -16,10 +18,13 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.jme3.lostVictories.network.messages.CharacterMessage;
+import com.jme3.lostVictories.network.messages.CharacterType;
 import com.jme3.lostVictories.network.messages.Country;
 import com.jme3.lostVictories.network.messages.HouseMessage;
 import com.jme3.lostVictories.network.messages.Quaternion;
+import com.jme3.lostVictories.network.messages.RankMessage;
 import com.jme3.lostVictories.network.messages.Vector;
+import com.jme3.lostVictories.network.messages.Weapon;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -85,6 +90,20 @@ public class WorldRunnerTest {
         instance.run();
         assertEquals(instance.manPower.get(Country.GERMAN), (Long)200l);
         assertEquals(instance.manPower.get(Country.AMERICAN), (Long)202l);
+    }
+    
+    @Test
+    public void testCharacterSorting(){
+    	List<CharacterMessage> list = new ArrayList<CharacterMessage>();
+    	list.add(new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.PRIVATE, null, false));
+    	list.add(new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.PRIVATE, null, false));
+    	list.add(new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.PRIVATE, null, false));
+    	list.add(new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, null, false));
+    	list.add(new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.PRIVATE, null, false));
+    	list.add(new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.PRIVATE, null, false));
+		list.sort((c1, c2)->c1.getRank()!=RankMessage.CADET_CORPORAL&&c2.getRank()==RankMessage.CADET_CORPORAL?1:-1);
+		
+		assertEquals(RankMessage.CADET_CORPORAL, list.get(0).getRank());
     }
 
     

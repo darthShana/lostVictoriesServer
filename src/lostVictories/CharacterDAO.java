@@ -20,7 +20,9 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import org.apache.log4j.Logger;
+import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
+import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
@@ -52,6 +54,7 @@ public class CharacterDAO {
 		try {
 			IndexResponse response = esClient.prepareIndex(indexName, "unitStatus", uuid.toString())
 			        .setSource(character.getJSONRepresentation())
+			        .setVersion(character.getVersion())
 			        .execute()
 			        .actionGet();
 
@@ -79,16 +82,17 @@ public class CharacterDAO {
 		
 		SearchResponse searchResponse = esClient.prepareSearch(indexName)
                 .setQuery(filteredQuery(matchAllQuery(), geoBoundingBoxFilter("location").topLeft(tl_latitute, tl_longitude).bottomRight(br_latitute, br_longitude))).setSize(10000)
+                .setVersion(true)
                 .execute().actionGet();
 		
 		log.debug("retrived :"+searchResponse.getHits().hits().length+" from elasticsearch");
 		Iterator<SearchHit> iterator = searchResponse.getHits().iterator();
 		Iterable<SearchHit> iterable = () -> iterator;
-		return StreamSupport.stream(iterable.spliterator(), true).map(hit -> fromFields(UUID.fromString(hit.getId()), hit.getSource())).collect(Collectors.toSet());
+		return StreamSupport.stream(iterable.spliterator(), true).map(hit -> fromFields(UUID.fromString(hit.getId()), hit.getVersion(), hit.getSource())).collect(Collectors.toSet());
 	}
 
-	private CharacterMessage fromFields(UUID id, Map<String, Object> source) {
-		return new CharacterMessage(id, source);
+	private CharacterMessage fromFields(UUID id, long version, Map<String, Object> source) {
+		return new CharacterMessage(id, version, source);
 	}
 
 	public void updateCharacterState(UUID uuid, UUID checkedOutBy, CharacterMessage character)  {
@@ -96,6 +100,7 @@ public class CharacterDAO {
 		updateRequest.index(indexName);
 		updateRequest.type("unitStatus");
 		updateRequest.id(uuid.toString());
+		updateRequest.version(character.getVersion());
 		try {
 			updateRequest.doc(jsonBuilder()
 			        .startObject()
@@ -116,23 +121,25 @@ public class CharacterDAO {
 		QueryBuilder qb = idsQuery().ids(i);
 		SearchResponse searchResponse = esClient.prepareSearch(indexName)
                 .setQuery(qb).setSize(10000)
+                .setVersion(true)
                 .execute().actionGet();
 		
 		log.debug("retrived :"+searchResponse.getHits().hits().length+" from elasticsearch");
 		Iterator<SearchHit> iterator = searchResponse.getHits().iterator();
 		Iterable<SearchHit> iterable = () -> iterator;
-		return StreamSupport.stream(iterable.spliterator(), true).map(hit -> fromFields(UUID.fromString(hit.getId()), hit.getSource())).collect(Collectors.toMap(CharacterMessage::getId, Function.identity()));
+		return StreamSupport.stream(iterable.spliterator(), true).map(hit -> fromFields(UUID.fromString(hit.getId()), hit.getVersion(), hit.getSource())).collect(Collectors.toMap(CharacterMessage::getId, Function.identity()));
 	}
 	
 	public Set<CharacterMessage> getAllCharacters() {
 		SearchResponse searchResponse = esClient.prepareSearch(indexName)
 				.setQuery(matchAllQuery()).setSize(10000)
+				.setVersion(true)
 				.execute().actionGet();
 		
 		log.debug("retrived :"+searchResponse.getHits().hits().length+" from elasticsearch");
 		Iterator<SearchHit> iterator = searchResponse.getHits().iterator();
 		Iterable<SearchHit> iterable = () -> iterator;
-		return StreamSupport.stream(iterable.spliterator(), true).map(hit -> fromFields(UUID.fromString(hit.getId()), hit.getSource())).collect(Collectors.toSet());
+		return StreamSupport.stream(iterable.spliterator(), true).map(hit -> fromFields(UUID.fromString(hit.getId()), hit.version(), hit.getSource())).collect(Collectors.toSet());
 	}
 	
 	public void save(Collection<CharacterMessage> values) {
@@ -141,7 +148,7 @@ public class CharacterDAO {
 			return;
 		}
 		BulkRequestBuilder bulkRequest = esClient.prepareBulk();
-		values.stream().forEach(v->bulkRequest.add(new IndexRequest(indexName, "unitStatus", v.getId().toString()).source(v.getJSONRepresentationUnChecked())));
+		values.stream().forEach(v->bulkRequest.add(new IndexRequest(indexName, "unitStatus", v.getId().toString()).source(v.getJSONRepresentationUnChecked()).version(v.getVersion())));
 		bulkRequest.execute().actionGet();
 	}
 
@@ -149,6 +156,21 @@ public class CharacterDAO {
 		GetResponse response = esClient.prepareGet(indexName, "unitStatus", id.toString())
 		        .execute()
 		        .actionGet();
-		return fromFields(UUID.fromString(response.getId()), response.getSource());
+		if(!response.isExists()){
+			return null;
+		}
+		return fromFields(UUID.fromString(response.getId()), response.getVersion(), response.getSource());
+	}
+
+	public boolean delete(CharacterMessage c) {
+		DeleteResponse response = esClient.prepareDelete(indexName, "unitStatus", c.getId().toString())
+		        .execute()
+		        .actionGet();
+		return response.isFound();
+	}
+
+	public void saveAndRefresh(CharacterMessage character) {
+		esClient.prepareIndex(indexName, "unitStatus", character.getId().toString()).setSource(character.getJSONRepresentationUnChecked()).setVersion(character.getVersion()).execute().actionGet();
+		esClient.admin().indices().refresh(new RefreshRequest(indexName)).actionGet();
 	}
 }

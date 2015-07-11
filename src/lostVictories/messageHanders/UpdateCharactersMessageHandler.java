@@ -42,7 +42,8 @@ public class UpdateCharactersMessageHandler {
 		
 		Map<UUID, CharacterMessage> toReturn;
 		if(msg.getAvatar()!=null){
-			Vector v = msg.getAvatar().getLocation();
+			CharacterMessage storedAvatar = characterDAO.getCharacter(msg.getAvatar().getId());
+			Vector v = (storedAvatar!=null)?storedAvatar.getLocation():msg.getAvatar().getLocation();
 			Map<UUID, CharacterMessage> inRangeOfAvatar = characterDAO.getAllCharacters(v.x, v.y, v.z, CheckoutScreenMessageHandler.CLIENT_RANGE).stream().collect(Collectors.toMap(CharacterMessage::getId, Function.identity()));
 			log.debug("found in range on avatar:"+v+" units: "+inRangeOfAvatar.size());
 			toReturn = existingInServer.entrySet().stream().filter(entry->inRangeOfAvatar.containsKey(entry.getKey())).collect(Collectors.toMap(p->p.getKey(), p->p.getValue()));
