@@ -3,6 +3,7 @@ package lostVictories.messageHanders;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -35,7 +36,7 @@ public class UpdateCharactersMessageHandlerTest {
 	}
 	
 	@Test
-	public void testUpdateAllVacantCharacter() {
+	public void testUpdateAllVacantCharacter() throws IOException {
 		UUID clientID = UUID.randomUUID();
 		
 		HashMap<UUID, CharacterMessage> storedValues = new HashMap<UUID, CharacterMessage>();
@@ -76,7 +77,7 @@ public class UpdateCharactersMessageHandlerTest {
 	}
 	
 	@Test
-	public void testDoesNotOverideCheckedOutCharacters(){
+	public void testDoesNotOverideCheckedOutCharacters() throws IOException{
 		UUID clientID = UUID.randomUUID();
 		UUID clientID2 = UUID.randomUUID();
 		
@@ -111,7 +112,7 @@ public class UpdateCharactersMessageHandlerTest {
 	}
 	
 	@Test 
-	public void testOveridesStaleCheckedoutCharacters(){
+	public void testOveridesStaleCheckedoutCharacters() throws IOException{
 		UUID clientID = UUID.randomUUID();
 		UUID clientID2 = UUID.randomUUID();
 		
@@ -145,7 +146,7 @@ public class UpdateCharactersMessageHandlerTest {
 	}
 	
 	@Test
-	public void testPlayerWondersIntoViewPort(){
+	public void testPlayerWondersIntoViewPort() throws IOException{
 		UUID clientID = UUID.randomUUID();
 		UUID clientID2 = UUID.randomUUID();
 		
@@ -195,7 +196,7 @@ public class UpdateCharactersMessageHandlerTest {
 	}
 	
 	@Test
-	public void testPlayerWondersOutOfViewPort(){
+	public void testPlayerWondersOutOfViewPort() throws IOException{
 		UUID clientID = UUID.randomUUID();
 		UUID clientID2 = UUID.randomUUID();
 		

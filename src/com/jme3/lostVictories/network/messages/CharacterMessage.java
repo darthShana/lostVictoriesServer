@@ -48,6 +48,7 @@ public class CharacterMessage implements Serializable{
 	boolean isDead;
 	Long timeOfDeath;
 	long version;
+	int kills;
 	
 	public CharacterMessage(UUID identity, CharacterType type, Vector location, Country country, Weapon weapon, RankMessage rank, UUID commandingOfficer, boolean gunnerDead) {
 		this.id = identity;
@@ -89,6 +90,7 @@ public class CharacterMessage implements Serializable{
 			this.checkoutTime = (Long) source.get("checkoutTime");
 		}
 		this.version = version;
+		this.kills = (int) source.get("kills");
 	}
 
 	void addUnit(CharacterMessage u){
@@ -137,6 +139,7 @@ public class CharacterMessage implements Serializable{
 		                .field("country", getCountry())
 		                .field("weapon", getWeapon())
 		                .field("rank", getRank())
+		                .field("kills", kills)
 		                .field("action", action)
 		                .field("commandingOfficer", commandingOfficer)
 		                .field("unitsUnderCommand", unitsUnderCommand)
@@ -235,8 +238,10 @@ public class CharacterMessage implements Serializable{
         }else{
             rankToReenforce = RankMessage.PRIVATE;
         }
-		final CharacterMessage loadCharacter = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, spawnPoint, country, Weapon.RIFLE, rankToReenforce, commandingOfficer, false);
-        return ImmutableSet.of(loadCharacter);
+		final CharacterMessage loadCharacter = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, spawnPoint, country, Weapon.RIFLE, rankToReenforce, id, false);
+		loadCharacter.commandingOfficer = id;
+		unitsUnderCommand.add(loadCharacter.getId());
+        return ImmutableSet.of(this, loadCharacter);
 	}
 
 	public CharacterMessage replaceWithAvatar(UUID uuid) {
@@ -262,10 +267,11 @@ public class CharacterMessage implements Serializable{
 		if(!allCharacters.isEmpty()){
 			final CharacterMessage toPromote = allCharacters.values().iterator().next();
 			toPromote.rank = rank;
+			toPromote.kills = 0;
 			if(commandingOfficer!=null){
 				toPromote.commandingOfficer = commandingOfficer;
 			}
-			log.debug("promoting:"+toPromote.getId()+" to "+rank);
+			log.info("promoting:"+toPromote.getId()+" to "+rank);
 			Set<CharacterMessage> newSquad = allCharacters.values().stream().filter(c->!c.equals(toPromote)).collect(Collectors.toSet());
 			newSquad.forEach(c->c.commandingOfficer = toPromote.getId());
 			toPromote.addCharactersUnderCommand(newSquad);
@@ -275,7 +281,28 @@ public class CharacterMessage implements Serializable{
 		return ret;
 	}
 
-	
+	public void incrementKillCount() {
+		kills++;
+		
+	}
 
-	
+    public boolean hasAchivedRankObjectives() {
+        return kills>=rank.getKillCountForPromotion();
+    }
+
+	public Set<CharacterMessage> promoteCharacter(CharacterMessage co, CharacterDAO characterDAO) {
+		Set<CharacterMessage> ret = new HashSet<CharacterMessage>();
+		RankMessage oldRank = rank;
+		rank = co.getRank();
+		co.rank = oldRank;
+		
+		co.unitsUnderCommand = unitsUnderCommand;
+		unitsUnderCommand = characterDAO.getAllCharacters(co.unitsUnderCommand).entrySet().stream().filter(c->!c.getKey().equals(id)).map(c->c.getValue().getId()).collect(Collectors.toSet());
+		
+		ret.add(this);
+		ret.add(co);
+		kills = 0;
+		return ret;
+	}
+
 }

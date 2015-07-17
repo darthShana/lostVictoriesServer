@@ -1,5 +1,6 @@
 package lostVictories.messageHanders;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
@@ -30,7 +31,7 @@ public class UpdateCharactersMessageHandler {
 		this.houseDAO = houseDAO;
 	}
 
-	public LostVictoryMessage handle(UpdateCharactersRequest msg) {
+	public LostVictoryMessage handle(UpdateCharactersRequest msg) throws IOException {
 		Set<CharacterMessage> allCharacter = ((UpdateCharactersRequest) msg).getCharacters();
 		log.debug("client sending "+allCharacter.size()+" characters to update");
 		Map<UUID, CharacterMessage> sentFromClient = allCharacter.stream().collect(Collectors.toMap(CharacterMessage::getId, Function.identity()));
@@ -38,7 +39,7 @@ public class UpdateCharactersMessageHandler {
 		Set<UUID> hasChanged = sentFromClient.values().stream().filter(c->c.hasChanged(existingInServer.get(c.getId()))).map(CharacterMessage::getId).collect(Collectors.toSet());
 		Collection<CharacterMessage> toSave = existingInServer.values().stream().filter(c->c.isAvailableForUpdate(msg.getClientID())).filter(c->hasChanged.contains(c.getId())).collect(Collectors.toList());
 		toSave.stream().forEach(c->c.updateState(sentFromClient.get(c.getId()), msg.getClientID(), System.currentTimeMillis()));
-		characterDAO.save(toSave);
+		characterDAO.updateLocation(toSave);
 		
 		Map<UUID, CharacterMessage> toReturn;
 		if(msg.getAvatar()!=null){

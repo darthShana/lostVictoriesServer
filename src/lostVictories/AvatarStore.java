@@ -9,10 +9,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import com.jme3.lostVictories.network.messages.CharacterMessage;
-import com.jme3.lostVictories.network.messages.CharacterType;
 import com.jme3.lostVictories.network.messages.Country;
-import com.jme3.lostVictories.network.messages.RankMessage;
-import com.jme3.lostVictories.network.messages.Weapon;
 
 public class AvatarStore {
 
@@ -32,7 +29,13 @@ public class AvatarStore {
 	}
 
 	public CharacterMessage reincarnateAvatar(UUID uuid, CharacterMessage c) {
-		return c.replaceWithAvatar(uuid);
+		CharacterMessage replaceWithAvatar = c.replaceWithAvatar(uuid);
+		allCharacters.put(uuid, replaceWithAvatar);
+		return replaceWithAvatar;
+	}
+
+	public Set<CharacterMessage> getLivingAvatars() {
+		return allCharacters.entrySet().stream().filter(e->avatars.containsKey(e.getKey()) && !e.getValue().isDead()).map(e->e.getValue()).collect(Collectors.toSet());
 	}
 
 }

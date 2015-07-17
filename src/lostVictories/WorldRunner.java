@@ -81,22 +81,38 @@ public class WorldRunner implements Runnable{
 			for(CharacterMessage c: list){
                 if(!c.isDead()){
                     if(!c.isFullStrength() && hasManPowerToReenforce(c.getCountry())){
-                    	log.info("found understrenth unit to reenfoce:"+c.getRank());
+                    	log.debug("found understrenth unit to reenfoce:"+c.getId()+" rank"+c.getRank());
                         Optional<UUID> deadAvatars = avatarStore.getDeadAvatars(c.getCountry());
 						if(deadAvatars.isPresent()){
-							log.info("in here test reincarnate2");
-                            characterDAO.saveAndRefresh(avatarStore.reincarnateAvatar(deadAvatars.get(), c));
+							log.debug("in here test reincarnate2");
+                            CharacterMessage reincarnateAvatar = avatarStore.reincarnateAvatar(deadAvatars.get(), c);
+							characterDAO.saveAndRefresh(reincarnateAvatar);
                             characterDAO.delete(c);
+                            characterDAO.save(reincarnateAvatar.reenforceCharacter(c.getLocation().add(0, 5, 15)));
                         }else{
+                        	log.debug("in here test reenforce:"+c.getId());
                             characterDAO.save(c.reenforceCharacter(c.getLocation().add(0, 5, 15)));
                         }
                         reduceManPower(c.getCountry());
                         
                     }
                 }else{
+                	System.out.println("removing dead character:"+c.getId());
                 	characterDAO.delete(c);
                 }
             }
+			
+			for(CharacterMessage avatar: avatarStore.getLivingAvatars()){
+				if(avatar.hasAchivedRankObjectives()){
+					log.info("promoting avatar:"+avatar.getId());
+					UUID coId = avatar.getCommandingOfficer();
+					if(coId!=null){
+						CharacterMessage co = characterDAO.getCharacter(coId);
+						Set<CharacterMessage> promotions = avatar.promoteCharacter(co, characterDAO);
+						characterDAO.save(promotions);
+					}
+				}
+			}
 			
 			log.debug("german vp:"+victoryPoints.get(Country.GERMAN));
 			log.debug("american vp:"+victoryPoints.get(Country.AMERICAN));

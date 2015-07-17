@@ -24,12 +24,15 @@ public class DeathNotificationMessageHandler {
 	public LostVictoryMessage handle(DeathNotificationRequest msg) {
 		Set<CharacterMessage> toSave = new HashSet<CharacterMessage>();
 		
-		CharacterMessage character = characterDAO.getCharacter(msg.getVictim());
-		log.debug("received death notification:"+character.getId());
-		character.kill();
-		toSave.add(character);
+		CharacterMessage victim = characterDAO.getCharacter(msg.getVictim());
+		CharacterMessage killer = characterDAO.getCharacter(msg.getKiller());
+		log.debug("received death notification:"+victim.getId());
+		victim.kill();
+		killer.incrementKillCount();
+		toSave.add(victim);
+		toSave.add(killer);
 		
-		Set<CharacterMessage> replacement = character.replaceMe(characterDAO);
+		Set<CharacterMessage> replacement = victim.replaceMe(characterDAO);
 		toSave.addAll(replacement);
 		
 		characterDAO.save(toSave);

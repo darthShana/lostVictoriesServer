@@ -30,6 +30,8 @@ import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.client.Client;
+import org.elasticsearch.common.geo.GeoPoint;
+import org.elasticsearch.index.engine.VersionConflictEngineException;
 import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -58,6 +60,8 @@ public class CharacterDAO {
 			        .execute()
 			        .actionGet();
 
+		} catch (VersionConflictEngineException ee){
+			log.info("Discarding update to character:"+uuid+", character has been updated since been loaded");
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -143,13 +147,29 @@ public class CharacterDAO {
 	}
 	
 	public void save(Collection<CharacterMessage> values) {
+		values.stream().forEach(c->putCharacter(c.getId(), c.getCheckoutClient(), c));
+	}
+	
+	public void updateLocation(Collection<CharacterMessage> values) throws IOException{
 		if(values.isEmpty()){
 			log.debug("nothing to save");
 			return;
 		}
+		
 		BulkRequestBuilder bulkRequest = esClient.prepareBulk();
-		values.stream().forEach(v->bulkRequest.add(new IndexRequest(indexName, "unitStatus", v.getId().toString()).source(v.getJSONRepresentationUnChecked()).version(v.getVersion())));
+		for(CharacterMessage v: values){
+			bulkRequest.add(
+				new UpdateRequest(indexName, "unitStatus", v.getId().toString()).doc(jsonBuilder()
+					.startObject()
+						.field("location", new GeoPoint(toLatitute(v.getLocation()), toLongitude(v.getLocation())))
+						.field("altitude", v.getLocation().y)
+						.field("orientation", v.getOrientation().toMap())
+					.endObject())
+				);
+		}
+				
 		bulkRequest.execute().actionGet();
+		
 	}
 
 	public CharacterMessage getCharacter(UUID id) {
