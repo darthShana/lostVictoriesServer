@@ -21,6 +21,7 @@ import lostVictories.LostVictoryScene;
 import lostVictories.messageHanders.MessageHandler;
 
 import org.apache.log4j.Logger;
+import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.common.collect.ImmutableSet;
 import org.elasticsearch.common.geo.GeoPoint;
 import org.elasticsearch.common.xcontent.XContentBuilder;
@@ -151,6 +152,17 @@ public class CharacterMessage implements Serializable{
 		                .field("timeOfDeath", timeOfDeath)
 		            .endObject();
 	}
+	
+	public XContentBuilder getJSONUpdate() throws IOException {
+		return jsonBuilder()
+				.startObject()
+				.field("location", new GeoPoint(toLatitute(getLocation()), toLongitude(getLocation())))
+				.field("orientation", orientation.toMap())
+				.field("checkoutClient", checkoutClient)
+				.field("checkoutTime", checkoutTime)
+				.field("gunnerDead", gunnerDead)
+				.endObject();
+	}
 
 	public static double toLongitude(Vector location) {
 		return location.x/LostVictoryScene.SCENE_WIDTH*180;
@@ -169,7 +181,7 @@ public class CharacterMessage implements Serializable{
 	}
 
 	public boolean isAvailableForUpdate(UUID clientID) {
-		return this.checkoutClient==null || clientID.equals(this.checkoutClient) || checkoutTime==null ||System.currentTimeMillis()-checkoutTime>CHECKOUT_TIMEOUT;
+		return this.id.equals(clientID) || this.checkoutClient==null || clientID.equals(this.checkoutClient) || checkoutTime==null ||System.currentTimeMillis()-checkoutTime>CHECKOUT_TIMEOUT;
 	}
 
 	public void updateState(CharacterMessage other, UUID clientID, long checkoutTime) {
@@ -304,5 +316,6 @@ public class CharacterMessage implements Serializable{
 		kills = 0;
 		return ret;
 	}
+
 
 }
