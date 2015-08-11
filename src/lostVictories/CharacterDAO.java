@@ -16,6 +16,9 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import org.apache.log4j.Logger;
+import org.codehaus.jackson.annotate.JsonMethod;
+import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
 import org.elasticsearch.action.delete.DeleteResponse;
@@ -32,7 +35,11 @@ import com.jme3.lostVictories.network.messages.Vector;
 
 public class CharacterDAO {
 	private static Logger log = Logger.getLogger(CharacterDAO.class); 
-
+	public static ObjectMapper MAPPER;
+	static{
+		MAPPER = new ObjectMapper();
+		MAPPER.setVisibility(JsonMethod.FIELD, Visibility.ANY);
+	}
 	
 	private Client esClient;
 	private String indexName;

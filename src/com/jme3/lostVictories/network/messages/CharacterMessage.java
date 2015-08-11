@@ -14,24 +14,29 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import lostVictories.CharacterDAO;
 import lostVictories.LostVictoryScene;
-import lostVictories.messageHanders.MessageHandler;
 
 import org.apache.log4j.Logger;
-import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.common.collect.ImmutableSet;
 import org.elasticsearch.common.geo.GeoPoint;
 import org.elasticsearch.common.xcontent.XContentBuilder;
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
+import org.codehaus.jackson.annotate.JsonMethod;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
+
+import com.jme3.lostVictories.network.messages.actions.Action;
 
 public class CharacterMessage implements Serializable{
 	
 	private static final long serialVersionUID = 2491659254334134796L;
 	private static Logger log = Logger.getLogger(CharacterMessage.class);
-
 	public static final long CHECKOUT_TIMEOUT = 10*1000;
+	
 	UUID id;
 	Vector location;
 	Country country;
@@ -44,8 +49,7 @@ public class CharacterMessage implements Serializable{
 	boolean gunnerDead;
 	CharacterType type;
 	Vector orientation = new Vector(0, 0, 1);
-	Action action = Action.IDLE;
-	boolean isFiring;
+	Set<Action> actions = new HashSet<Action>();
 	boolean isDead;
 	Long timeOfDeath;
 	long version;
@@ -73,7 +77,19 @@ public class CharacterMessage implements Serializable{
 		this.country = Country.valueOf((String)source.get("country"));
 		this.weapon = Weapon.valueOf((String) source.get("weapon"));
 		this.rank = RankMessage.valueOf((String) source.get("rank"));
-		this.action = Action.valueOf((String)source.get("action"));
+		
+		try {
+			String a = (String)source.get("actions");
+			if(!"[{}]".equals(a)){
+				this.actions = CharacterDAO.MAPPER.readValue(a, new TypeReference<Set<Action>>() {});
+			}
+		} catch (JsonParseException e) {
+			throw new RuntimeException(e);
+		} catch (JsonMappingException e) {
+			throw new RuntimeException(e);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 		this.orientation = new Vector(ori.get("x").floatValue(), ori.get("y").floatValue(), ori.get("z").floatValue());
 		String co = (String) source.get("commandingOfficer");
 		if(co!=null && !co.isEmpty()){
@@ -141,7 +157,7 @@ public class CharacterMessage implements Serializable{
 		                .field("weapon", getWeapon())
 		                .field("rank", getRank())
 		                .field("kills", kills)
-		                .field("action", action)
+		                .field("actions", CharacterDAO.MAPPER.writeValueAsString(actions))
 		                .field("commandingOfficer", commandingOfficer)
 		                .field("unitsUnderCommand", unitsUnderCommand)
 		                .field("type", type)
@@ -158,6 +174,7 @@ public class CharacterMessage implements Serializable{
 				.startObject()
 				.field("location", new GeoPoint(toLatitute(getLocation()), toLongitude(getLocation())))
 				.field("orientation", orientation.toMap())
+				.field("actions", CharacterDAO.MAPPER.writeValueAsString(actions))
 				.field("checkoutClient", checkoutClient)
 				.field("checkoutTime", checkoutTime)
 				.field("gunnerDead", gunnerDead)
@@ -177,7 +194,7 @@ public class CharacterMessage implements Serializable{
 			return false;
 		}
 		
-		return !location.equals(other.location) || !orientation.equals(other.orientation) || action != other.action;
+		return !location.equals(other.location) || !orientation.equals(other.orientation) || !actions.equals(other.actions);
 	}
 
 	public boolean isAvailableForUpdate(UUID clientID) {
@@ -187,21 +204,21 @@ public class CharacterMessage implements Serializable{
 	public void updateState(CharacterMessage other, UUID clientID, long checkoutTime) {
 		location = other.location;
 		orientation = other.orientation;
-		action = other.action;
+		actions = other.actions;
 		this.checkoutClient = clientID;
 		this.checkoutTime = checkoutTime;
 	}
 
-	public void setAction(Action action) {
-		this.action = action;
+	public void setActions(Set<Action> actions) {
+		this.actions = actions;
 	}
 
 	public Vector getOrientation() {
 		return orientation;
 	}
 
-	public Action getAction() {
-		return action;
+	public Set<Action> getActions() {
+		return actions;
 	}
 
 	public void setOrientation(Vector orientation2) {
