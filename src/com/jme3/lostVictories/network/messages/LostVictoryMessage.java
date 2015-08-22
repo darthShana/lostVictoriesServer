@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.UUID;
 
 public class LostVictoryMessage implements Serializable{
-	private static final long serialVersionUID = -2422514305655908187L;
+	protected static final long serialVersionUID = -2422514305655908187L;
 
 	private UUID clientID;
 	

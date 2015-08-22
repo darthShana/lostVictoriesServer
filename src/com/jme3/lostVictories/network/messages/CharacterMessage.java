@@ -50,6 +50,7 @@ public class CharacterMessage implements Serializable{
 	CharacterType type;
 	Vector orientation = new Vector(0, 0, 1);
 	Set<Action> actions = new HashSet<Action>();
+	Map<String, String> objectives = new HashMap<String, String>();
 	boolean isDead;
 	Long timeOfDeath;
 	long version;
@@ -77,6 +78,7 @@ public class CharacterMessage implements Serializable{
 		this.country = Country.valueOf((String)source.get("country"));
 		this.weapon = Weapon.valueOf((String) source.get("weapon"));
 		this.rank = RankMessage.valueOf((String) source.get("rank"));
+		this.objectives = ((HashMap<String, String>) source.get("objectives"));
 		
 		try {
 			String a = (String)source.get("actions");
@@ -100,6 +102,8 @@ public class CharacterMessage implements Serializable{
 			this.checkoutClient = UUID.fromString(cc);
 			this.checkoutTime = (Long) source.get("checkoutTime");
 		}
+		this.timeOfDeath = (Long) source.get("timeOfDeath");
+		
 		unitsUnderCommand = ((Collection<String>)source.get("unitsUnderCommand")).stream().map(s -> UUID.fromString(s)).collect(Collectors.toSet());
 		gunnerDead = (boolean) source.get("gunnerDead");
 		isDead = (boolean) source.get("isDead");
@@ -158,6 +162,7 @@ public class CharacterMessage implements Serializable{
 		                .field("rank", getRank())
 		                .field("kills", kills)
 		                .field("actions", CharacterDAO.MAPPER.writeValueAsString(actions))
+		                .field("objectives", objectives)
 		                .field("commandingOfficer", commandingOfficer)
 		                .field("unitsUnderCommand", unitsUnderCommand)
 		                .field("type", type)
@@ -282,6 +287,10 @@ public class CharacterMessage implements Serializable{
 	public long getVersion() {
 		return version;
 	}
+	
+	public long getTimeOfDeath(){
+		return timeOfDeath;
+	}
 
 	public Set<CharacterMessage> replaceMe(CharacterDAO characterDAO) {
 		Set<CharacterMessage> ret = new HashSet<CharacterMessage>();
@@ -332,6 +341,10 @@ public class CharacterMessage implements Serializable{
 		ret.add(co);
 		kills = 0;
 		return ret;
+	}
+
+	public void addObjective(UUID id, String objective) {
+		objectives.put(id.toString(), objective);
 	}
 
 
