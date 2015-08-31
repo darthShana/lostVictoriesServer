@@ -25,8 +25,12 @@ public class DeathNotificationMessageHandler {
 		Set<CharacterMessage> toSave = new HashSet<CharacterMessage>();
 		
 		CharacterMessage victim = characterDAO.getCharacter(msg.getVictim());
+		log.info("received death notification:"+victim.getId());
+		if(victim.isDead()){
+			return new LostVictoryMessage(UUID.randomUUID());
+		}
+		
 		CharacterMessage killer = characterDAO.getCharacter(msg.getKiller());
-		log.debug("received death notification:"+victim.getId());
 		victim.kill();
 		killer.incrementKillCount();
 		toSave.add(victim);

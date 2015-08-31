@@ -298,8 +298,12 @@ public class CharacterMessage implements Serializable{
 		
 		if(commandingOfficer!=null){
 			CharacterMessage co = characterDAO.getCharacter(commandingOfficer);
+			try{
 			co.unitsUnderCommand.remove(id);
 			ret.add(co);
+			}catch(NullPointerException e){
+				log.error(commandingOfficer+" not found in repo");
+			}
 		}
 		
 		if(!allCharacters.isEmpty()){

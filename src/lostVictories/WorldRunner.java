@@ -96,7 +96,7 @@ public class WorldRunner implements Runnable{
                         reduceManPower(c.getCountry());
                         
                     }
-                }else{
+                }else if(c.getTimeOfDeath()<(System.currentTimeMillis()-60000)){
                 	System.out.println("removing dead character:"+c.getId());
                 	characterDAO.delete(c);
                 }
@@ -114,8 +114,8 @@ public class WorldRunner implements Runnable{
 				}
 			}
 			
-			log.debug("german vp:"+victoryPoints.get(Country.GERMAN));
-			log.debug("american vp:"+victoryPoints.get(Country.AMERICAN));
+			log.trace("german vp:"+victoryPoints.get(Country.GERMAN));
+			log.trace("american vp:"+victoryPoints.get(Country.AMERICAN));
 		}catch(Throwable e){
 			e.printStackTrace();
 		}	

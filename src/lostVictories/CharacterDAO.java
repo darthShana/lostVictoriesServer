@@ -86,7 +86,7 @@ public class CharacterDAO {
                 .setVersion(true)
                 .execute().actionGet();
 		
-		log.debug("retrived :"+searchResponse.getHits().hits().length+" from elasticsearch");
+		log.trace("retrived :"+searchResponse.getHits().hits().length+" from elasticsearch");
 		Iterator<SearchHit> iterator = searchResponse.getHits().iterator();
 		Iterable<SearchHit> iterable = () -> iterator;
 		return StreamSupport.stream(iterable.spliterator(), true).map(hit -> fromFields(UUID.fromString(hit.getId()), hit.getVersion(), hit.getSource())).collect(Collectors.toSet());
@@ -104,7 +104,7 @@ public class CharacterDAO {
                 .setVersion(true)
                 .execute().actionGet();
 		
-		log.debug("retrived :"+searchResponse.getHits().hits().length+" from elasticsearch");
+		log.trace("retrived :"+searchResponse.getHits().hits().length+" from elasticsearch");
 		Iterator<SearchHit> iterator = searchResponse.getHits().iterator();
 		Iterable<SearchHit> iterable = () -> iterator;
 		return StreamSupport.stream(iterable.spliterator(), true).map(hit -> fromFields(UUID.fromString(hit.getId()), hit.getVersion(), hit.getSource())).collect(Collectors.toMap(CharacterMessage::getId, Function.identity()));
@@ -116,7 +116,6 @@ public class CharacterDAO {
 				.setVersion(true)
 				.execute().actionGet();
 		
-		log.debug("retrived :"+searchResponse.getHits().hits().length+" from elasticsearch");
 		Iterator<SearchHit> iterator = searchResponse.getHits().iterator();
 		Iterable<SearchHit> iterable = () -> iterator;
 		return StreamSupport.stream(iterable.spliterator(), true).map(hit -> fromFields(UUID.fromString(hit.getId()), hit.version(), hit.getSource())).collect(Collectors.toSet());
@@ -128,7 +127,7 @@ public class CharacterDAO {
 	
 	public void updateLocation(Collection<CharacterMessage> values) throws IOException{
 		if(values.isEmpty()){
-			log.debug("nothing to save");
+			log.trace("nothing to save");
 			return;
 		}
 		

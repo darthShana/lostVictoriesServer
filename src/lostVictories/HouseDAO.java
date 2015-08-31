@@ -53,7 +53,7 @@ public class HouseDAO {
                 .setQuery(matchAllQuery()).setSize(10000)
                 .execute().actionGet();
 		
-		log.debug("retrived :"+searchResponse.getHits().hits().length+" houses from elasticsearch");
+		log.trace("retrived :"+searchResponse.getHits().hits().length+" houses from elasticsearch");
 		Iterator<SearchHit> iterator = searchResponse.getHits().iterator();
 		Iterable<SearchHit> iterable = () -> iterator;
 		return StreamSupport.stream(iterable.spliterator(), true).map(hit -> fromFields(UUID.fromString(hit.getId()), hit.getSource())).collect(Collectors.toSet());
@@ -66,7 +66,7 @@ public class HouseDAO {
 
 	public void save(Set<HouseMessage> values) {
 		if(values.isEmpty()){
-			log.debug("nothing to save");
+			log.trace("nothing to save");
 			return;
 		}
 		BulkRequestBuilder bulkRequest = esClient.prepareBulk();

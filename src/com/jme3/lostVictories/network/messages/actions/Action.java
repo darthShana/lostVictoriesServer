@@ -15,7 +15,8 @@ import com.jme3.lostVictories.network.messages.Vector;
 @JsonSubTypes({  
     @Type(value = Idle.class, name = "idle"),  
     @Type(value = Move.class, name = "move"),
-    @Type(value = Shoot.class, name = "shoot")})  
+    @Type(value = Shoot.class, name = "shoot"),
+    @Type(value = SetupWeapon.class, name = "setupWeapon")})  
 public abstract class Action implements Serializable{
     
     public static Action idle(){
