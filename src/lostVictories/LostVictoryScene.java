@@ -1,10 +1,14 @@
 package lostVictories;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
 import org.apache.log4j.Logger;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.node.ObjectNode;
 
 import com.jme3.lostVictories.network.messages.CharacterMessage;
 import com.jme3.lostVictories.network.messages.CharacterType;
@@ -44,6 +48,7 @@ public class LostVictoryScene {
 		
 		CharacterMessage a1 = new CharacterMessage(UUID.fromString("2fbe421f-f701-49c9-a0d4-abb0fa904204"), CharacterType.AVATAR, new Vector(-210, 7, 380), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, gl1.getId(), false);
 		loadSquad(characters, a1, new Vector(-215, 7, 385), Country.GERMAN, Weapon.RIFLE, Weapon.RIFLE, Weapon.RIFLE);
+		a1.addObjective(UUID.randomUUID(), createBootCampObjective());
 		
 		CharacterMessage a2 = new CharacterMessage(UUID.fromString("d993932f-a185-4a6f-8d86-4ef6e2c5ff95"), CharacterType.AVATAR, new Vector(-230, 7, 380), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, gl1.getId(), false);
         loadSquad(characters, a2, new Vector(-235, 7, 385), Country.GERMAN, Weapon.RIFLE, Weapon.RIFLE, Weapon.MG42);
@@ -130,6 +135,16 @@ public class LostVictoryScene {
         houses.forEach(h->housesDAO.putHouse(h.getId(), h));
 	}
 	
+	private String createBootCampObjective()  {
+		ObjectNode node = CharacterDAO.MAPPER.createObjectNode();
+		node.put("classType", "com.jme3.lostVictories.objectives.CompleteBootCamp");
+		try {
+			return CharacterDAO.MAPPER.writeValueAsString(node);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 	private CharacterMessage loadAmoredCar(Vector vector, Country country, CharacterMessage c2) {
 		CharacterMessage armoredCar = new CharacterMessage(UUID.randomUUID(), CharacterType.ARMORED_CAR, vector, country, Weapon.MG42, RankMessage.PRIVATE, c2.getId(), false);
 		c2.addCharactersUnderCommand(armoredCar);
