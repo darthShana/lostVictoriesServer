@@ -1,6 +1,5 @@
 package lostVictories;
 
-import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 import static org.elasticsearch.index.query.FilterBuilders.geoBoundingBoxFilter;
 import static org.elasticsearch.index.query.QueryBuilders.*;
 import static com.jme3.lostVictories.network.messages.CharacterMessage.toLatitute;
@@ -8,33 +7,27 @@ import static com.jme3.lostVictories.network.messages.CharacterMessage.toLongitu
 
 import java.io.IOException;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-import java.util.concurrent.ExecutionException;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import org.apache.log4j.Logger;
+import org.codehaus.jackson.annotate.JsonMethod;
+import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetResponse;
-import org.elasticsearch.action.index.IndexRequest;
-import org.elasticsearch.action.index.IndexResponse;
-import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.client.Client;
-import org.elasticsearch.common.geo.GeoPoint;
 import org.elasticsearch.index.engine.VersionConflictEngineException;
-import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.index.query.QueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 
 import com.jme3.lostVictories.network.messages.CharacterMessage;
@@ -42,7 +35,11 @@ import com.jme3.lostVictories.network.messages.Vector;
 
 public class CharacterDAO {
 	private static Logger log = Logger.getLogger(CharacterDAO.class); 
-
+	public static ObjectMapper MAPPER;
+	static{
+		MAPPER = new ObjectMapper();
+		MAPPER.setVisibility(JsonMethod.FIELD, Visibility.ANY);
+	}
 	
 	private Client esClient;
 	private String indexName;
@@ -54,7 +51,7 @@ public class CharacterDAO {
 	
 	public void putCharacter(UUID uuid, UUID checkedOutBy, CharacterMessage character) {
 		try {
-			IndexResponse response = esClient.prepareIndex(indexName, "unitStatus", uuid.toString())
+			esClient.prepareIndex(indexName, "unitStatus", uuid.toString())
 			        .setSource(character.getJSONRepresentation())
 			        .setVersion(character.getVersion())
 			        .execute()
@@ -89,7 +86,7 @@ public class CharacterDAO {
                 .setVersion(true)
                 .execute().actionGet();
 		
-		log.debug("retrived :"+searchResponse.getHits().hits().length+" from elasticsearch");
+		log.trace("retrived :"+searchResponse.getHits().hits().length+" from elasticsearch");
 		Iterator<SearchHit> iterator = searchResponse.getHits().iterator();
 		Iterable<SearchHit> iterable = () -> iterator;
 		return StreamSupport.stream(iterable.spliterator(), true).map(hit -> fromFields(UUID.fromString(hit.getId()), hit.getVersion(), hit.getSource())).collect(Collectors.toSet());
@@ -97,28 +94,7 @@ public class CharacterDAO {
 
 	private CharacterMessage fromFields(UUID id, long version, Map<String, Object> source) {
 		return new CharacterMessage(id, version, source);
-	}
-
-	public void updateCharacterState(UUID uuid, UUID checkedOutBy, CharacterMessage character)  {
-		UpdateRequest updateRequest = new UpdateRequest();
-		updateRequest.index(indexName);
-		updateRequest.type("unitStatus");
-		updateRequest.id(uuid.toString());
-		updateRequest.version(character.getVersion());
-		try {
-			updateRequest.doc(jsonBuilder()
-			        .startObject()
-			            .field("location", character.getLocation())
-			        .endObject());
-			esClient.update(updateRequest).get();
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		} catch (InterruptedException e) {
-			throw new RuntimeException(e);
-		} catch (ExecutionException e) {
-			throw new RuntimeException(e);
-		}
-	}
+	}	
 
 	public Map<UUID, CharacterMessage> getAllCharacters(Set<UUID> ids) {
 		String[] i = ids.stream().map(UUID::toString).toArray(size->new String[size]);
@@ -128,7 +104,7 @@ public class CharacterDAO {
                 .setVersion(true)
                 .execute().actionGet();
 		
-		log.debug("retrived :"+searchResponse.getHits().hits().length+" from elasticsearch");
+		log.trace("retrived :"+searchResponse.getHits().hits().length+" from elasticsearch");
 		Iterator<SearchHit> iterator = searchResponse.getHits().iterator();
 		Iterable<SearchHit> iterable = () -> iterator;
 		return StreamSupport.stream(iterable.spliterator(), true).map(hit -> fromFields(UUID.fromString(hit.getId()), hit.getVersion(), hit.getSource())).collect(Collectors.toMap(CharacterMessage::getId, Function.identity()));
@@ -140,7 +116,6 @@ public class CharacterDAO {
 				.setVersion(true)
 				.execute().actionGet();
 		
-		log.debug("retrived :"+searchResponse.getHits().hits().length+" from elasticsearch");
 		Iterator<SearchHit> iterator = searchResponse.getHits().iterator();
 		Iterable<SearchHit> iterable = () -> iterator;
 		return StreamSupport.stream(iterable.spliterator(), true).map(hit -> fromFields(UUID.fromString(hit.getId()), hit.version(), hit.getSource())).collect(Collectors.toSet());
@@ -152,20 +127,15 @@ public class CharacterDAO {
 	
 	public void updateLocation(Collection<CharacterMessage> values) throws IOException{
 		if(values.isEmpty()){
-			log.debug("nothing to save");
+			log.trace("nothing to save");
 			return;
 		}
 		
 		BulkRequestBuilder bulkRequest = esClient.prepareBulk();
 		for(CharacterMessage v: values){
 			bulkRequest.add(
-				new UpdateRequest(indexName, "unitStatus", v.getId().toString()).doc(jsonBuilder()
-					.startObject()
-						.field("location", new GeoPoint(toLatitute(v.getLocation()), toLongitude(v.getLocation())))
-						.field("altitude", v.getLocation().y)
-						.field("orientation", v.getOrientation().toMap())
-					.endObject())
-				);
+				new UpdateRequest(indexName, "unitStatus", v.getId().toString()).doc(v.getJSONUpdate())
+			);
 		}
 				
 		bulkRequest.execute().actionGet();

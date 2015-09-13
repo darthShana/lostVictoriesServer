@@ -1,9 +1,5 @@
 package lostVictories;
 
-import static com.jme3.lostVictories.network.messages.CharacterMessage.toLatitute;
-import static com.jme3.lostVictories.network.messages.CharacterMessage.toLongitude;
-import static org.elasticsearch.index.query.FilterBuilders.geoBoundingBoxFilter;
-import static org.elasticsearch.index.query.QueryBuilders.filteredQuery;
 import static org.elasticsearch.index.query.QueryBuilders.matchAllQuery;
 
 import java.io.IOException;
@@ -23,7 +19,6 @@ import org.elasticsearch.client.Client;
 import org.elasticsearch.search.SearchHit;
 
 import com.jme3.lostVictories.network.messages.HouseMessage;
-import com.jme3.lostVictories.network.messages.Vector;
 
 public class HouseDAO {
 	private static Logger log = Logger.getLogger(HouseDAO.class); 
@@ -53,7 +48,7 @@ public class HouseDAO {
                 .setQuery(matchAllQuery()).setSize(10000)
                 .execute().actionGet();
 		
-		log.debug("retrived :"+searchResponse.getHits().hits().length+" houses from elasticsearch");
+		log.trace("retrived :"+searchResponse.getHits().hits().length+" houses from elasticsearch");
 		Iterator<SearchHit> iterator = searchResponse.getHits().iterator();
 		Iterable<SearchHit> iterable = () -> iterator;
 		return StreamSupport.stream(iterable.spliterator(), true).map(hit -> fromFields(UUID.fromString(hit.getId()), hit.getSource())).collect(Collectors.toSet());
@@ -66,7 +61,7 @@ public class HouseDAO {
 
 	public void save(Set<HouseMessage> values) {
 		if(values.isEmpty()){
-			log.debug("nothing to save");
+			log.trace("nothing to save");
 			return;
 		}
 		BulkRequestBuilder bulkRequest = esClient.prepareBulk();

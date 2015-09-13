@@ -21,6 +21,7 @@ import org.jboss.netty.channel.MessageEvent;
 import org.jboss.netty.channel.SimpleChannelHandler;
 
 import com.google.gson.Gson;
+import com.jme3.lostVictories.network.messages.AddObjectiveRequest;
 import com.jme3.lostVictories.network.messages.CharacterMessage;
 import com.jme3.lostVictories.network.messages.CheckoutScreenRequest;
 import com.jme3.lostVictories.network.messages.CheckoutScreenResponse;
@@ -36,11 +37,13 @@ public class MessageHandler extends SimpleChannelHandler {
 	private UpdateCharactersMessageHandler updateCharactersMessageHandler;
 	private CheckoutScreenMessageHandler checkoutScreenMessageHandler;
 	private DeathNotificationMessageHandler deathNotificationMessageHandler;
+	private AddObjectiveMessageHandler addObjectiveMessageHandler;
 
 	public MessageHandler(CharacterDAO characterDAO, HouseDAO houseDAO) {
 		updateCharactersMessageHandler = new UpdateCharactersMessageHandler(characterDAO, houseDAO);
 		checkoutScreenMessageHandler = new CheckoutScreenMessageHandler(characterDAO, houseDAO);
 		deathNotificationMessageHandler = new DeathNotificationMessageHandler(characterDAO);
+		addObjectiveMessageHandler = new AddObjectiveMessageHandler(characterDAO);
 	}
 
 	@Override
@@ -55,9 +58,11 @@ public class MessageHandler extends SimpleChannelHandler {
 		} else if(msg instanceof UpdateCharactersRequest){
 			lostVictoryMessage = updateCharactersMessageHandler.handle((UpdateCharactersRequest)msg);
 		} else if(msg instanceof DeathNotificationRequest) {
-			
 			lostVictoryMessage = deathNotificationMessageHandler.handle((DeathNotificationRequest)msg);
-		}else{
+		} else if(msg instanceof AddObjectiveRequest){
+			lostVictoryMessage = addObjectiveMessageHandler.handle((AddObjectiveRequest)msg);
+		} 
+		else{
 			lostVictoryMessage = new LostVictoryMessage(UUID.randomUUID());
 			System.out.println("Hey Guys !  I got a date ! [" + msg.getClientID() + "] and I modified it to []");
 		}

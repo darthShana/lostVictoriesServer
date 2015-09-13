@@ -4,9 +4,9 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import lostVictories.LostVictoryScene;
+import org.codehaus.jackson.annotate.JsonProperty;
 
-import org.elasticsearch.common.xcontent.ToXContent;
+import lostVictories.LostVictoryScene;
 
 import com.jme3.math.Vector3f;
 
@@ -16,14 +16,14 @@ public class Vector implements Serializable{
 	public float y;
 	public float z;
 	
-	public Vector(float x, float y, float z) {
+	public Vector(@JsonProperty("x")float x, @JsonProperty("y")float y, @JsonProperty("z")float z) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
 	}
 
 	
-	 @Override
+	@Override
 	public String toString() {
 		return x+","+y+","+z;
 	}

@@ -14,23 +14,29 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import lostVictories.CharacterDAO;
 import lostVictories.LostVictoryScene;
-import lostVictories.messageHanders.MessageHandler;
 
 import org.apache.log4j.Logger;
 import org.elasticsearch.common.collect.ImmutableSet;
 import org.elasticsearch.common.geo.GeoPoint;
 import org.elasticsearch.common.xcontent.XContentBuilder;
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
+import org.codehaus.jackson.annotate.JsonMethod;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
+
+import com.jme3.lostVictories.network.messages.actions.Action;
 
 public class CharacterMessage implements Serializable{
 	
 	private static final long serialVersionUID = 2491659254334134796L;
 	private static Logger log = Logger.getLogger(CharacterMessage.class);
-
 	public static final long CHECKOUT_TIMEOUT = 10*1000;
+	
 	UUID id;
 	Vector location;
 	Country country;
@@ -43,8 +49,8 @@ public class CharacterMessage implements Serializable{
 	boolean gunnerDead;
 	CharacterType type;
 	Vector orientation = new Vector(0, 0, 1);
-	Action action = Action.IDLE;
-	boolean isFiring;
+	Set<Action> actions = new HashSet<Action>();
+	Map<String, String> objectives = new HashMap<String, String>();
 	boolean isDead;
 	Long timeOfDeath;
 	long version;
@@ -72,7 +78,20 @@ public class CharacterMessage implements Serializable{
 		this.country = Country.valueOf((String)source.get("country"));
 		this.weapon = Weapon.valueOf((String) source.get("weapon"));
 		this.rank = RankMessage.valueOf((String) source.get("rank"));
-		this.action = Action.valueOf((String)source.get("action"));
+		this.objectives = ((HashMap<String, String>) source.get("objectives"));
+		
+		try {
+			String a = (String)source.get("actions");
+			if(!"[{}]".equals(a)){
+				this.actions = CharacterDAO.MAPPER.readValue(a, new TypeReference<Set<Action>>() {});
+			}
+		} catch (JsonParseException e) {
+			throw new RuntimeException(e);
+		} catch (JsonMappingException e) {
+			throw new RuntimeException(e);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 		this.orientation = new Vector(ori.get("x").floatValue(), ori.get("y").floatValue(), ori.get("z").floatValue());
 		String co = (String) source.get("commandingOfficer");
 		if(co!=null && !co.isEmpty()){
@@ -83,6 +102,8 @@ public class CharacterMessage implements Serializable{
 			this.checkoutClient = UUID.fromString(cc);
 			this.checkoutTime = (Long) source.get("checkoutTime");
 		}
+		this.timeOfDeath = (Long) source.get("timeOfDeath");
+		
 		unitsUnderCommand = ((Collection<String>)source.get("unitsUnderCommand")).stream().map(s -> UUID.fromString(s)).collect(Collectors.toSet());
 		gunnerDead = (boolean) source.get("gunnerDead");
 		isDead = (boolean) source.get("isDead");
@@ -140,7 +161,8 @@ public class CharacterMessage implements Serializable{
 		                .field("weapon", getWeapon())
 		                .field("rank", getRank())
 		                .field("kills", kills)
-		                .field("action", action)
+		                .field("actions", CharacterDAO.MAPPER.writeValueAsString(actions))
+		                .field("objectives", objectives)
 		                .field("commandingOfficer", commandingOfficer)
 		                .field("unitsUnderCommand", unitsUnderCommand)
 		                .field("type", type)
@@ -150,6 +172,18 @@ public class CharacterMessage implements Serializable{
 		                .field("isDead", isDead)
 		                .field("timeOfDeath", timeOfDeath)
 		            .endObject();
+	}
+	
+	public XContentBuilder getJSONUpdate() throws IOException {
+		return jsonBuilder()
+				.startObject()
+				.field("location", new GeoPoint(toLatitute(getLocation()), toLongitude(getLocation())))
+				.field("orientation", orientation.toMap())
+				.field("actions", CharacterDAO.MAPPER.writeValueAsString(actions))
+				.field("checkoutClient", checkoutClient)
+				.field("checkoutTime", checkoutTime)
+				.field("gunnerDead", gunnerDead)
+				.endObject();
 	}
 
 	public static double toLongitude(Vector location) {
@@ -165,31 +199,31 @@ public class CharacterMessage implements Serializable{
 			return false;
 		}
 		
-		return !location.equals(other.location) || !orientation.equals(other.orientation) || action != other.action;
+		return !location.equals(other.location) || !orientation.equals(other.orientation) || !actions.equals(other.actions);
 	}
 
 	public boolean isAvailableForUpdate(UUID clientID) {
-		return this.checkoutClient==null || clientID.equals(this.checkoutClient) || checkoutTime==null ||System.currentTimeMillis()-checkoutTime>CHECKOUT_TIMEOUT;
+		return this.id.equals(clientID) || this.checkoutClient==null || clientID.equals(this.checkoutClient) || checkoutTime==null ||System.currentTimeMillis()-checkoutTime>CHECKOUT_TIMEOUT;
 	}
 
 	public void updateState(CharacterMessage other, UUID clientID, long checkoutTime) {
 		location = other.location;
 		orientation = other.orientation;
-		action = other.action;
+		actions = other.actions;
 		this.checkoutClient = clientID;
 		this.checkoutTime = checkoutTime;
 	}
 
-	public void setAction(Action action) {
-		this.action = action;
+	public void setActions(Set<Action> actions) {
+		this.actions = actions;
 	}
 
 	public Vector getOrientation() {
 		return orientation;
 	}
 
-	public Action getAction() {
-		return action;
+	public Set<Action> getActions() {
+		return actions;
 	}
 
 	public void setOrientation(Vector orientation2) {
@@ -253,6 +287,10 @@ public class CharacterMessage implements Serializable{
 	public long getVersion() {
 		return version;
 	}
+	
+	public long getTimeOfDeath(){
+		return timeOfDeath;
+	}
 
 	public Set<CharacterMessage> replaceMe(CharacterDAO characterDAO) {
 		Set<CharacterMessage> ret = new HashSet<CharacterMessage>();
@@ -260,8 +298,12 @@ public class CharacterMessage implements Serializable{
 		
 		if(commandingOfficer!=null){
 			CharacterMessage co = characterDAO.getCharacter(commandingOfficer);
+			try{
 			co.unitsUnderCommand.remove(id);
 			ret.add(co);
+			}catch(NullPointerException e){
+				log.error(commandingOfficer+" not found in repo");
+			}
 		}
 		
 		if(!allCharacters.isEmpty()){
@@ -304,5 +346,10 @@ public class CharacterMessage implements Serializable{
 		kills = 0;
 		return ret;
 	}
+
+	public void addObjective(UUID id, String objective) {
+		objectives.put(id.toString(), objective);
+	}
+
 
 }
