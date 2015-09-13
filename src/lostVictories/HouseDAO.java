@@ -1,9 +1,5 @@
 package lostVictories;
 
-import static com.jme3.lostVictories.network.messages.CharacterMessage.toLatitute;
-import static com.jme3.lostVictories.network.messages.CharacterMessage.toLongitude;
-import static org.elasticsearch.index.query.FilterBuilders.geoBoundingBoxFilter;
-import static org.elasticsearch.index.query.QueryBuilders.filteredQuery;
 import static org.elasticsearch.index.query.QueryBuilders.matchAllQuery;
 
 import java.io.IOException;
@@ -23,7 +19,6 @@ import org.elasticsearch.client.Client;
 import org.elasticsearch.search.SearchHit;
 
 import com.jme3.lostVictories.network.messages.HouseMessage;
-import com.jme3.lostVictories.network.messages.Vector;
 
 public class HouseDAO {
 	private static Logger log = Logger.getLogger(HouseDAO.class); 

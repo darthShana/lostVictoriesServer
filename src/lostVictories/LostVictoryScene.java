@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.node.ObjectNode;
 
@@ -48,10 +49,10 @@ public class LostVictoryScene {
 		
 		CharacterMessage a1 = new CharacterMessage(UUID.fromString("2fbe421f-f701-49c9-a0d4-abb0fa904204"), CharacterType.AVATAR, new Vector(-210, 7, 380), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, gl1.getId(), false);
 		loadSquad(characters, a1, new Vector(-215, 7, 385), Country.GERMAN, Weapon.RIFLE, Weapon.RIFLE, Weapon.RIFLE);
-		a1.addObjective(UUID.randomUUID(), createBootCampObjective());
 		
 		CharacterMessage a2 = new CharacterMessage(UUID.fromString("d993932f-a185-4a6f-8d86-4ef6e2c5ff95"), CharacterType.AVATAR, new Vector(-230, 7, 380), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, gl1.getId(), false);
         loadSquad(characters, a2, new Vector(-235, 7, 385), Country.GERMAN, Weapon.RIFLE, Weapon.RIFLE, Weapon.MG42);
+        a2.addObjective(UUID.randomUUID(), createBootCampObjective(new Vector(-285, 0, 335)));
         
         CharacterMessage a3 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(-250, 7, 380), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, gl1.getId(), false);
         loadSquad(characters, a3, new Vector(-55, 10, 385), Country.GERMAN, Weapon.RIFLE, Weapon.RIFLE, Weapon.RIFLE);
@@ -135,10 +136,12 @@ public class LostVictoryScene {
         houses.forEach(h->housesDAO.putHouse(h.getId(), h));
 	}
 	
-	private String createBootCampObjective()  {
+	private String createBootCampObjective(final Vector vector)  {
 		ObjectNode node = CharacterDAO.MAPPER.createObjectNode();
-		node.put("classType", "com.jme3.lostVictories.objectives.CompleteBootCamp");
 		try {
+			node.put("classType", "com.jme3.lostVictories.objectives.CompleteBootCamp");
+			JsonNode valueToTree = CharacterDAO.MAPPER.valueToTree(vector);
+			node.put("location", valueToTree);
 			return CharacterDAO.MAPPER.writeValueAsString(node);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
