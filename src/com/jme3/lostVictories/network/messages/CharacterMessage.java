@@ -23,10 +23,7 @@ import org.elasticsearch.common.collect.ImmutableSet;
 import org.elasticsearch.common.geo.GeoPoint;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
-import org.codehaus.jackson.annotate.JsonMethod;
 import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 
 import com.jme3.lostVictories.network.messages.actions.Action;
@@ -78,20 +75,24 @@ public class CharacterMessage implements Serializable{
 		this.country = Country.valueOf((String)source.get("country"));
 		this.weapon = Weapon.valueOf((String) source.get("weapon"));
 		this.rank = RankMessage.valueOf((String) source.get("rank"));
-		this.objectives = ((HashMap<String, String>) source.get("objectives"));
 		
-		try {
-			String a = (String)source.get("actions");
-			if(!"[{}]".equals(a)){
-				this.actions = CharacterDAO.MAPPER.readValue(a, new TypeReference<Set<Action>>() {});
+		try{
+			String o = (String)source.get("objectives");
+			if(!"[{}]".equals(o)){
+				this.objectives = CharacterDAO.MAPPER.readValue(o, new TypeReference<Map<String, String>>() {});
 			}
-		} catch (JsonParseException e) {
-			throw new RuntimeException(e);
-		} catch (JsonMappingException e) {
-			throw new RuntimeException(e);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+		try {
+			String a = (String)source.get("actions");
+			if(!"{}".equals(a)){
+				this.actions = CharacterDAO.MAPPER.readValue(a, new TypeReference<Set<Action>>() {});
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		
 		this.orientation = new Vector(ori.get("x").floatValue(), ori.get("y").floatValue(), ori.get("z").floatValue());
 		String co = (String) source.get("commandingOfficer");
 		if(co!=null && !co.isEmpty()){
@@ -162,7 +163,7 @@ public class CharacterMessage implements Serializable{
 		                .field("rank", getRank())
 		                .field("kills", kills)
 		                .field("actions", CharacterDAO.MAPPER.writeValueAsString(actions))
-		                .field("objectives", objectives)
+		                .field("objectives", CharacterDAO.MAPPER.writeValueAsString(objectives))
 		                .field("commandingOfficer", commandingOfficer)
 		                .field("unitsUnderCommand", unitsUnderCommand)
 		                .field("type", type)
@@ -174,12 +175,14 @@ public class CharacterMessage implements Serializable{
 		            .endObject();
 	}
 	
-	public XContentBuilder getJSONUpdate() throws IOException {
+	
+	public XContentBuilder getJSONUpdate() throws IOException {	
 		return jsonBuilder()
 				.startObject()
 				.field("location", new GeoPoint(toLatitute(getLocation()), toLongitude(getLocation())))
 				.field("orientation", orientation.toMap())
 				.field("actions", CharacterDAO.MAPPER.writeValueAsString(actions))
+				.field("objectives", CharacterDAO.MAPPER.writeValueAsString(objectives))				
 				.field("checkoutClient", checkoutClient)
 				.field("checkoutTime", checkoutTime)
 				.field("gunnerDead", gunnerDead)
@@ -210,6 +213,7 @@ public class CharacterMessage implements Serializable{
 		location = other.location;
 		orientation = other.orientation;
 		actions = other.actions;
+		objectives = objectives.entrySet().stream().filter(e->other.objectives.containsKey(e.getKey())).collect(Collectors.toMap(e->e.getKey(), e->e.getValue()));
 		this.checkoutClient = clientID;
 		this.checkoutTime = checkoutTime;
 	}
@@ -324,8 +328,7 @@ public class CharacterMessage implements Serializable{
 	}
 
 	public void incrementKillCount() {
-		kills++;
-		
+		kills++;		
 	}
 
     public boolean hasAchivedRankObjectives() {
