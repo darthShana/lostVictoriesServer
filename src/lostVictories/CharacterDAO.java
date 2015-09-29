@@ -1,5 +1,6 @@
 package lostVictories;
 
+import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 import static org.elasticsearch.index.query.FilterBuilders.geoBoundingBoxFilter;
 import static org.elasticsearch.index.query.QueryBuilders.*;
 import static com.jme3.lostVictories.network.messages.CharacterMessage.toLatitute;
@@ -26,6 +27,8 @@ import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.client.Client;
+import org.elasticsearch.common.geo.GeoPoint;
+import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.index.engine.VersionConflictEngineException;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.search.SearchHit;
@@ -125,21 +128,47 @@ public class CharacterDAO {
 		values.stream().forEach(c->putCharacter(c.getId(), c.getCheckoutClient(), c));
 	}
 	
-	public void updateLocation(Collection<CharacterMessage> values) throws IOException{
-		if(values.isEmpty()){
+	public void updateLocation(Map<UUID, CharacterMessage> map) throws IOException{
+		if(map.isEmpty()){
 			log.trace("nothing to save");
 			return;
 		}
 		
 		BulkRequestBuilder bulkRequest = esClient.prepareBulk();
-		for(CharacterMessage v: values){
+		for(CharacterMessage v: map.values()){
 			bulkRequest.add(
-				new UpdateRequest(indexName, "unitStatus", v.getId().toString()).doc(v.getJSONUpdate())
+				new UpdateRequest(indexName, "unitStatus", v.getId().toString()).doc(v.getStateUpdate())
 			);
 		}
 				
 		bulkRequest.execute().actionGet();
 		
+	}
+	
+	public void saveCommandStructure(Map<UUID, CharacterMessage> map) throws IOException {
+		if(map.isEmpty()){
+			log.trace("nothing to save");
+			return;
+		}
+		
+		BulkRequestBuilder bulkRequest = esClient.prepareBulk();
+		for(CharacterMessage v: map.values()){
+			bulkRequest.add(
+				new UpdateRequest(indexName, "unitStatus", v.getId().toString()).doc(v.getCommandStructureUpdate())
+			);
+		}
+				
+		bulkRequest.execute().actionGet();
+		
+	}
+	
+	public void updateCharactersUnderCommand(CharacterMessage c) throws IOException {
+		esClient.prepareUpdate(indexName, "unitStatus", c.getId().toString())
+        .setDoc(jsonBuilder()               
+            .startObject()
+                .field("unitsUnderCommand", c.getUnitsUnderCommand())
+            .endObject())
+        .get();
 	}
 
 	public CharacterMessage getCharacter(UUID id) {
@@ -163,4 +192,8 @@ public class CharacterDAO {
 		esClient.prepareIndex(indexName, "unitStatus", character.getId().toString()).setSource(character.getJSONRepresentationUnChecked()).setVersion(character.getVersion()).execute().actionGet();
 		esClient.admin().indices().refresh(new RefreshRequest(indexName)).actionGet();
 	}
+
+	
+
+
 }

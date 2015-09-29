@@ -1,6 +1,9 @@
 package lostVictories.messageHanders;
 
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -22,7 +25,7 @@ public class DeathNotificationMessageHandler {
 	}
 
 	public LostVictoryMessage handle(DeathNotificationRequest msg) {
-		Set<CharacterMessage> toSave = new HashSet<CharacterMessage>();
+		Map<UUID, CharacterMessage> toSave = new HashMap<UUID, CharacterMessage>();
 		
 		CharacterMessage victim = characterDAO.getCharacter(msg.getVictim());
 		log.info("received death notification:"+victim.getId());
@@ -33,13 +36,17 @@ public class DeathNotificationMessageHandler {
 		CharacterMessage killer = characterDAO.getCharacter(msg.getKiller());
 		victim.kill();
 		killer.incrementKillCount();
-		toSave.add(victim);
-		toSave.add(killer);
+		toSave.put(victim.getId(), victim);
+		toSave.put(killer.getId(), killer);
 		
-		Set<CharacterMessage> replacement = victim.replaceMe(characterDAO);
-		toSave.addAll(replacement);
+		Map<UUID, CharacterMessage> replacement = victim.replaceMe(characterDAO);
+		toSave.putAll(replacement);
 		
-		characterDAO.save(toSave);
+		try {
+			characterDAO.saveCommandStructure(toSave);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 		return new LostVictoryMessage(UUID.randomUUID());
 	}
 

@@ -19,8 +19,10 @@ import lostVictories.CharacterDAO;
 import lostVictories.LostVictoryScene;
 
 import org.apache.log4j.Logger;
+import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.common.collect.ImmutableSet;
 import org.elasticsearch.common.geo.GeoPoint;
+import org.elasticsearch.common.xcontent.ToXContent;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -176,7 +178,18 @@ public class CharacterMessage implements Serializable{
 	}
 	
 	
-	public XContentBuilder getJSONUpdate() throws IOException {	
+	public XContentBuilder getCommandStructureUpdate() throws IOException {	
+		return jsonBuilder()
+				.startObject()
+				.field("unitsUnderCommand", unitsUnderCommand)
+				.field("commandingOfficer", commandingOfficer)
+				.field("isDead", isDead)
+				.field("timeOfDeath", timeOfDeath)
+				.field("kills", kills)				
+				.endObject();
+	}
+	
+	public XContentBuilder getStateUpdate() throws IOException{
 		return jsonBuilder()
 				.startObject()
 				.field("location", new GeoPoint(toLatitute(getLocation()), toLongitude(getLocation())))
@@ -279,7 +292,7 @@ public class CharacterMessage implements Serializable{
 		final CharacterMessage loadCharacter = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, spawnPoint, country, Weapon.RIFLE, rankToReenforce, id, false);
 		loadCharacter.commandingOfficer = id;
 		unitsUnderCommand.add(loadCharacter.getId());
-        return ImmutableSet.of(this, loadCharacter);
+        return ImmutableSet.of(loadCharacter);
 	}
 
 	public CharacterMessage replaceWithAvatar(UUID uuid) {
@@ -296,15 +309,15 @@ public class CharacterMessage implements Serializable{
 		return timeOfDeath;
 	}
 
-	public Set<CharacterMessage> replaceMe(CharacterDAO characterDAO) {
-		Set<CharacterMessage> ret = new HashSet<CharacterMessage>();
+	public Map<UUID, CharacterMessage> replaceMe(CharacterDAO characterDAO) {
+		Map<UUID, CharacterMessage> ret = new HashMap<UUID, CharacterMessage>();
 		Map<UUID, CharacterMessage> allCharacters = characterDAO.getAllCharacters(unitsUnderCommand);
 		
 		if(commandingOfficer!=null){
 			CharacterMessage co = characterDAO.getCharacter(commandingOfficer);
 			try{
-			co.unitsUnderCommand.remove(id);
-			ret.add(co);
+				co.unitsUnderCommand.remove(id);
+				ret.put(co.getId(), co);
 			}catch(NullPointerException e){
 				log.error(commandingOfficer+" not found in repo");
 			}
@@ -321,7 +334,7 @@ public class CharacterMessage implements Serializable{
 			Set<CharacterMessage> newSquad = allCharacters.values().stream().filter(c->!c.equals(toPromote)).collect(Collectors.toSet());
 			newSquad.forEach(c->c.commandingOfficer = toPromote.getId());
 			toPromote.addCharactersUnderCommand(newSquad);
-			ret.addAll(allCharacters.values());
+			ret.putAll(allCharacters);
 		}
 
 		return ret;
@@ -353,6 +366,12 @@ public class CharacterMessage implements Serializable{
 	public void addObjective(UUID id, String objective) {
 		objectives.put(id.toString(), objective);
 	}
+
+	public Set<UUID> getUnitsUnderCommand() {
+		return unitsUnderCommand;
+	}
+
+	
 
 
 }

@@ -29,10 +29,13 @@ public class CheckoutScreenMessageHandler{
 	public LostVictoryMessage handle(CheckoutScreenRequest m) {
 		log.info("checking out scene for avatar:"+m.avatar);
 		CharacterMessage avatar = characterDAO.getCharacter(m.avatar);
-		Vector l = avatar.getLocation();
-       	Set<CharacterMessage> allCharacters = characterDAO.getAllCharacters(l.x, l.y, l.z, CLIENT_RANGE);
-		Set<HouseMessage> allHouses = houseDAO.getAllHouses();
-		return new CheckoutScreenResponse(allCharacters, allHouses);
+		if(avatar!=null){
+			Vector l = avatar.getLocation();
+	       	Set<CharacterMessage> allCharacters = characterDAO.getAllCharacters(l.x, l.y, l.z, CLIENT_RANGE);
+			Set<HouseMessage> allHouses = houseDAO.getAllHouses();
+			return new CheckoutScreenResponse(allCharacters, allHouses);
+		}
+		return new LostVictoryMessage(m.getClientID());
 	}
 
 }

@@ -18,7 +18,7 @@ public class AvatarStore {
 	
 	static{
 		avatars.put(UUID.fromString("2fbe421f-f701-49c9-a0d4-abb0fa904204"), Country.GERMAN);
-		avatars.put(UUID.fromString("d993932f-a185-4a6f-8d86-4ef6e2c5ff95"), Country.GERMAN);
+		avatars.put(UUID.fromString("d993932f-a185-4a6f-8d86-4ef6e2c5ff95"), Country.AMERICAN);
 	}
 
 	public AvatarStore(Set<CharacterMessage> allCharacters) {
