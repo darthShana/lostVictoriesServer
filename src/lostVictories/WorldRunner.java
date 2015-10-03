@@ -91,7 +91,7 @@ public class WorldRunner implements Runnable{
                     	log.debug("found understrenth unit to reenfoce:"+c.getId()+" rank"+c.getRank());
                         Optional<UUID> deadAvatars = avatarStore.getDeadAvatars(c.getCountry());
 						if(deadAvatars.isPresent()){
-							log.debug("in here test reincarnate2");
+							log.debug("in here test reincarnate avatar");
                             CharacterMessage reincarnateAvatar = avatarStore.reincarnateAvatar(deadAvatars.get(), c);
 							characterDAO.saveAndRefresh(reincarnateAvatar);
                             characterDAO.delete(c);
@@ -106,7 +106,7 @@ public class WorldRunner implements Runnable{
                         
                     }
                 }else if(c.getTimeOfDeath()<(System.currentTimeMillis()-60000)){
-                	System.out.println("removing dead character:"+c.getId());
+                	log.debug("removing dead character:"+c.getId());
                 	characterDAO.delete(c);
                 }
             }
@@ -155,6 +155,7 @@ public class WorldRunner implements Runnable{
 		
 		statistics.setVictorypoints(victoryPoints.get(country), victoryPoints.get(other));
 		statistics.setHousesCaptured(structureOwnership.get(country), structureOwnership.get(other));
+		statistics.setAvatarRespawnEstimate(nextRespawnTime.get(country));
 		
 		return statistics;
 	}

@@ -38,5 +38,9 @@ public class AvatarStore {
 	public Set<CharacterMessage> getLivingAvatars() {
 		return allCharacters.entrySet().stream().filter(e->avatars.containsKey(e.getKey()) && !e.getValue().isDead()).map(e->e.getValue()).collect(Collectors.toSet());
 	}
+	
+	public static Country getAvatarCountry(UUID id){
+		return avatars.get(id);
+	}
 
 }

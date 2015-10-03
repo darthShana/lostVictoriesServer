@@ -129,7 +129,7 @@ public class HouseMessage implements Serializable{
 		Set<CharacterMessage> allCharacters = characterDAO.getAllCharacters(location.x, location.y, location.z, CAPTURE_RANGE);
 		
 		if(!allCharacters.isEmpty()){
-			log.debug("looking ofr characters near:"+location+" found chata:"+allCharacters.size());
+			log.trace("looking ofr characters near:"+location+" found chata:"+allCharacters.size());
 		}
 		CaptureStatus c = captureStatus.transition(allCharacters, this);
 		if(c!=captureStatus){

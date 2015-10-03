@@ -9,7 +9,7 @@ public class GameStatistics implements Serializable{
 	private Long redHouses;
 	private Integer blueVictoryPoints;
 	private Integer redVictoryPoints;
-	private Integer avatarRespawnEstimate;
+	private Long avatarRespawnEstimate;
 
 	public void setHousesCaptured(Long blue, Long red){
 		this.blueHouses = blue;
@@ -21,7 +21,7 @@ public class GameStatistics implements Serializable{
 		this.redVictoryPoints = red;
 	}
 	
-	public void setAvatarRespawnEstimate(Integer time){
+	public void setAvatarRespawnEstimate(Long time){
 		this.avatarRespawnEstimate = time;
 	}
 }

@@ -2,9 +2,7 @@ package lostVictories.messageHanders;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 
 import org.apache.log4j.Logger;
@@ -28,10 +26,10 @@ public class DeathNotificationMessageHandler {
 		Map<UUID, CharacterMessage> toSave = new HashMap<UUID, CharacterMessage>();
 		
 		CharacterMessage victim = characterDAO.getCharacter(msg.getVictim());
-		log.info("received death notification:"+victim.getId());
-		if(victim.isDead()){
+		if(victim==null || victim.isDead()){
 			return new LostVictoryMessage(UUID.randomUUID());
 		}
+		log.info("received death notification:"+victim.getId());
 		
 		CharacterMessage killer = characterDAO.getCharacter(msg.getKiller());
 		victim.kill();

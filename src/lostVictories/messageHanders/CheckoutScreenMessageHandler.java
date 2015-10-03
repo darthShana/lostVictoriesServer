@@ -17,7 +17,7 @@ import lostVictories.HouseDAO;
 public class CheckoutScreenMessageHandler{
 	
 	private static Logger log = Logger.getLogger(CheckoutScreenMessageHandler.class); 
-	public static Long CLIENT_RANGE = 400l;
+	public static Long CLIENT_RANGE = 250l;
 	private CharacterDAO characterDAO;
 	private HouseDAO houseDAO;
 

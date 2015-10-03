@@ -1,14 +1,11 @@
 package lostVictories;
 
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
 import org.apache.log4j.Logger;
-import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.node.ObjectNode;
 
 import com.jme3.lostVictories.network.messages.CharacterMessage;
@@ -73,10 +70,10 @@ public class LostVictoryScene {
         characters.add(loadHalfTrack(new Vector(-195, 7, 400), Country.GERMAN, gv2));
         
         CharacterMessage gv3 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(-200, 7, 360), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, gl2.getId(), false);
-        loadSquad(characters, a3, new Vector(-205, 10, 365), Country.GERMAN, Weapon.RIFLE, Weapon.RIFLE, Weapon.RIFLE);
+        loadSquad(characters, gv3, new Vector(-205, 10, 365), Country.GERMAN, Weapon.RIFLE, Weapon.RIFLE, Weapon.RIFLE);
         
         CharacterMessage gv4 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(-295, 7, 360), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, gl2.getId(), false);
-        loadSquad(characters, a4, new Vector(-300, 7, 365), Country.GERMAN, Weapon.RIFLE, Weapon.RIFLE, Weapon.MG42);
+        loadSquad(characters, gv4, new Vector(-300, 7, 365), Country.GERMAN, Weapon.RIFLE, Weapon.RIFLE, Weapon.MG42);
         
         CharacterMessage b1 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(180, 7, -385), Country.AMERICAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, al1.getId(), false);
         loadSquad(characters, b1, new Vector(175, 7, -390), Country.AMERICAN, Weapon.RIFLE, Weapon.RIFLE, Weapon.RIFLE);

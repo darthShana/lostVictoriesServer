@@ -184,6 +184,7 @@ public class CharacterMessage implements Serializable{
 				.field("unitsUnderCommand", unitsUnderCommand)
 				.field("commandingOfficer", commandingOfficer)
 				.field("isDead", isDead)
+				.field("rank", getRank())
 				.field("timeOfDeath", timeOfDeath)
 				.field("kills", kills)				
 				.endObject();
@@ -312,6 +313,7 @@ public class CharacterMessage implements Serializable{
 	public Map<UUID, CharacterMessage> replaceMe(CharacterDAO characterDAO) {
 		Map<UUID, CharacterMessage> ret = new HashMap<UUID, CharacterMessage>();
 		Map<UUID, CharacterMessage> allCharacters = characterDAO.getAllCharacters(unitsUnderCommand);
+		log.debug("finding field replacement for"+country+":"+id+" ->["+unitsUnderCommand+"]");
 		
 		if(commandingOfficer!=null){
 			CharacterMessage co = characterDAO.getCharacter(commandingOfficer);
