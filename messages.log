@@ -6736,3 +6736,1623 @@ removing dead character:dafe815d-6a14-4b99-a8f0-0610b474d384
 removing dead character:9bdf2099-7a9f-4988-b420-fcf29c034980
 found understrenth unit to reenfoce:2fbe421f-f701-49c9-a0d4-abb0fa904204 rankCADET_CORPORAL
 in here test reenforce:2fbe421f-f701-49c9-a0d4-abb0fa904204
+[Sigyn] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Sigyn] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Sigyn] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Sigyn] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Sigyn] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Sigyn] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Sigyn] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Sigyn] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Sigyn] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Sigyn] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Sigyn] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Sigyn] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Sigyn] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Sigyn] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Sigyn] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Sigyn] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Sigyn] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Sigyn] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Sigyn] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Sigyn] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Sigyn] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Sigyn] connected to node [[James Howlett][L-BSFr8_R4OKTeaDgHeI5w][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+creating new index:test_lost_victories1_unit_status
+Loading Scene
+Listening on 5055
+checking out scene for avatar:2fbe421f-f701-49c9-a0d4-abb0fa904204
+returning scene
+changing capture status to:CAPTURING
+changing capture status to:CAPTURED
+[American Samurai] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[American Samurai] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[American Samurai] creating thread_pool [generic], type [cached], keep_alive [30s]
+[American Samurai] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[American Samurai] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[American Samurai] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[American Samurai] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[American Samurai] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[American Samurai] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[American Samurai] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[American Samurai] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[American Samurai] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[American Samurai] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[American Samurai] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[American Samurai] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[American Samurai] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[American Samurai] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[American Samurai] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[American Samurai] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[American Samurai] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[American Samurai] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[American Samurai] connected to node [[Monet St. Croix][HFlUM40OQIimWuoDKptZNg][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+creating new index:test_lost_victories1_unit_status
+Loading Scene
+Listening on 5055
+checking out scene for avatar:2fbe421f-f701-49c9-a0d4-abb0fa904204
+returning scene
+[Eson the Searcher] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Eson the Searcher] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Eson the Searcher] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Eson the Searcher] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Eson the Searcher] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Eson the Searcher] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Eson the Searcher] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Eson the Searcher] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Eson the Searcher] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Eson the Searcher] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Eson the Searcher] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Eson the Searcher] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Eson the Searcher] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Eson the Searcher] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Eson the Searcher] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Eson the Searcher] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Eson the Searcher] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Eson the Searcher] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Eson the Searcher] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Eson the Searcher] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Eson the Searcher] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Eson the Searcher] connected to node [[Stellaris][qxUk1RC2RqS9EIXwLVv_4g][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+creating new index:test_lost_victories1_unit_status
+Loading Scene
+Listening on 5055
+checking out scene for avatar:2fbe421f-f701-49c9-a0d4-abb0fa904204
+returning scene
+changing capture status to:CAPTURING
+changing capture status to:CAPTURED
+changing capture status to:CAPTURING
+changing capture status to:CAPTURED
+changing capture status to:CAPTURING
+changing capture status to:CAPTURED
+changing capture status to:CAPTURING
+changing capture status to:CAPTURED
+changing capture status to:CAPTURING
+changing capture status to:CAPTURED
+received death notification:d0437403-b77a-46f0-87bb-fab5bebead53
+finding field replacement forAMERICAN:d0437403-b77a-46f0-87bb-fab5bebead53 ->[[]]
+received death notification:a53c12a1-b215-4d8d-97be-0ef4500e2947
+finding field replacement forAMERICAN:a53c12a1-b215-4d8d-97be-0ef4500e2947 ->[[]]
+received death notification:2fbe421f-f701-49c9-a0d4-abb0fa904204
+finding field replacement forGERMAN:2fbe421f-f701-49c9-a0d4-abb0fa904204 ->[[11261985-ee4b-404e-abfb-aa62ef96e348, eed3f3e6-f2ce-4299-8ee3-ac4ea6ce1cc0, 822af90a-1660-4862-bf7e-474a0198b9c9]]
+promoting:11261985-ee4b-404e-abfb-aa62ef96e348 to CADET_CORPORAL
+changing capture status to:CAPTURING
+changing capture status to:CAPTURING
+found understrenth unit to reenfoce:11261985-ee4b-404e-abfb-aa62ef96e348 rankCADET_CORPORAL
+in here test reincarnate avatar
+found understrenth unit to reenfoce:ec86d347-2340-491c-b20f-902220e73737 rankLIEUTENANT
+in here test reenforce:ec86d347-2340-491c-b20f-902220e73737
+found understrenth unit to reenfoce:f6fc469f-feb3-482a-b285-04fef9071ca7 rankCADET_CORPORAL
+in here test reenforce:f6fc469f-feb3-482a-b285-04fef9071ca7
+found understrenth unit to reenfoce:2fbe421f-f701-49c9-a0d4-abb0fa904204 rankCADET_CORPORAL
+in here test reenforce:2fbe421f-f701-49c9-a0d4-abb0fa904204
+received death notification:e824b5b6-adb8-430b-bbe6-c5531e97a6e6
+finding field replacement forGERMAN:e824b5b6-adb8-430b-bbe6-c5531e97a6e6 ->[[]]
+received death notification:cc9cd36f-e288-4c18-af2e-4dbd426ca03e
+finding field replacement forAMERICAN:cc9cd36f-e288-4c18-af2e-4dbd426ca03e ->[[88ab8fe4-8039-41c0-8e0a-c23fbe0a94ed, bcc1999e-a9fc-4ef3-a5d6-e11cc96f76b9]]
+promoting:88ab8fe4-8039-41c0-8e0a-c23fbe0a94ed to CADET_CORPORAL
+received death notification:2fbe421f-f701-49c9-a0d4-abb0fa904204
+finding field replacement forGERMAN:2fbe421f-f701-49c9-a0d4-abb0fa904204 ->[[eed3f3e6-f2ce-4299-8ee3-ac4ea6ce1cc0, 822af90a-1660-4862-bf7e-474a0198b9c9, 9dbdf935-5f9c-4632-bfec-8688439b16d5]]
+promoting:eed3f3e6-f2ce-4299-8ee3-ac4ea6ce1cc0 to CADET_CORPORAL
+changing capture status to:CAPTURED
+changing capture status to:CAPTURED
+received death notification:d58cf358-4d74-40a0-a034-3ae755aaa68c
+finding field replacement forAMERICAN:d58cf358-4d74-40a0-a034-3ae755aaa68c ->[[]]
+changing capture status to:CAPTURING
+received death notification:1ed12951-9131-47b6-abe4-971d33a463e4
+finding field replacement forAMERICAN:1ed12951-9131-47b6-abe4-971d33a463e4 ->[[561cf791-c291-44a7-bd74-59df18a9d46a, de59eb08-4aca-4855-b180-ce5f591ee204, 3b12b62d-55fd-4ba9-a346-46102753c000]]
+promoting:561cf791-c291-44a7-bd74-59df18a9d46a to CADET_CORPORAL
+received death notification:822af90a-1660-4862-bf7e-474a0198b9c9
+finding field replacement forGERMAN:822af90a-1660-4862-bf7e-474a0198b9c9 ->[[]]
+received death notification:ad1e7602-ab75-421a-9188-7d0209161cca
+finding field replacement forAMERICAN:ad1e7602-ab75-421a-9188-7d0209161cca ->[[]]
+changing capture status to:CAPTURED
+found understrenth unit to reenfoce:f6fc469f-feb3-482a-b285-04fef9071ca7 rankCADET_CORPORAL
+in here test reincarnate avatar
+removing dead character:d0437403-b77a-46f0-87bb-fab5bebead53
+removing dead character:a53c12a1-b215-4d8d-97be-0ef4500e2947
+removing dead character:e824b5b6-adb8-430b-bbe6-c5531e97a6e6
+removing dead character:cc9cd36f-e288-4c18-af2e-4dbd426ca03e
+removing dead character:d58cf358-4d74-40a0-a034-3ae755aaa68c
+removing dead character:1ed12951-9131-47b6-abe4-971d33a463e4
+found understrenth unit to reenfoce:eed3f3e6-f2ce-4299-8ee3-ac4ea6ce1cc0 rankCADET_CORPORAL
+in here test reenforce:eed3f3e6-f2ce-4299-8ee3-ac4ea6ce1cc0
+removing dead character:822af90a-1660-4862-bf7e-474a0198b9c9
+removing dead character:ad1e7602-ab75-421a-9188-7d0209161cca
+found understrenth unit to reenfoce:88ab8fe4-8039-41c0-8e0a-c23fbe0a94ed rankCADET_CORPORAL
+in here test reincarnate avatar
+found understrenth unit to reenfoce:2fbe421f-f701-49c9-a0d4-abb0fa904204 rankCADET_CORPORAL
+in here test reenforce:2fbe421f-f701-49c9-a0d4-abb0fa904204
+found understrenth unit to reenfoce:830f7ec3-26dd-4be9-95d9-f35001b8e047 rankCADET_CORPORAL
+in here test reenforce:830f7ec3-26dd-4be9-95d9-f35001b8e047
+found understrenth unit to reenfoce:eed3f3e6-f2ce-4299-8ee3-ac4ea6ce1cc0 rankCADET_CORPORAL
+in here test reenforce:eed3f3e6-f2ce-4299-8ee3-ac4ea6ce1cc0
+found understrenth unit to reenfoce:2fbe421f-f701-49c9-a0d4-abb0fa904204 rankCADET_CORPORAL
+in here test reenforce:2fbe421f-f701-49c9-a0d4-abb0fa904204
+found understrenth unit to reenfoce:561cf791-c291-44a7-bd74-59df18a9d46a rankCADET_CORPORAL
+in here test reenforce:561cf791-c291-44a7-bd74-59df18a9d46a
+found understrenth unit to reenfoce:37a06855-35bc-469a-b211-49f22cc10b90 rankCADET_CORPORAL
+in here test reenforce:37a06855-35bc-469a-b211-49f22cc10b90
+[Inertia] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Inertia] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Inertia] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Inertia] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Inertia] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Inertia] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Inertia] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Inertia] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Inertia] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Inertia] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Inertia] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Inertia] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Inertia] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Inertia] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Inertia] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Inertia] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Inertia] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Inertia] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Inertia] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Inertia] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Inertia] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Inertia] connected to node [[Stellaris][qxUk1RC2RqS9EIXwLVv_4g][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+index:test_lost_victories1_unit_status already exisits
+Listening on 5055
+checking out scene for avatar:2fbe421f-f701-49c9-a0d4-abb0fa904204
+returning scene
+found understrenth unit to reenfoce:8eaf3217-fc1e-4394-ae81-e3e08ec4b27c rankCADET_CORPORAL
+in here test reenforce:8eaf3217-fc1e-4394-ae81-e3e08ec4b27c
+found understrenth unit to reenfoce:d993932f-a185-4a6f-8d86-4ef6e2c5ff95 rankCADET_CORPORAL
+in here test reenforce:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+received death notification:7184529b-38b1-4357-a222-812fa5b17dfa
+finding field replacement forGERMAN:7184529b-38b1-4357-a222-812fa5b17dfa ->[[]]
+found understrenth unit to reenfoce:2fbe421f-f701-49c9-a0d4-abb0fa904204 rankCADET_CORPORAL
+in here test reenforce:2fbe421f-f701-49c9-a0d4-abb0fa904204
+received death notification:63a73dae-f1a2-4860-b751-35668b36aa5f
+finding field replacement forGERMAN:63a73dae-f1a2-4860-b751-35668b36aa5f ->[[]]
+found understrenth unit to reenfoce:2fbe421f-f701-49c9-a0d4-abb0fa904204 rankCADET_CORPORAL
+in here test reenforce:2fbe421f-f701-49c9-a0d4-abb0fa904204
+found understrenth unit to reenfoce:d993932f-a185-4a6f-8d86-4ef6e2c5ff95 rankCADET_CORPORAL
+in here test reenforce:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+received death notification:928829ef-6f4c-45a3-b0b3-1c749b4f8de9
+finding field replacement forGERMAN:928829ef-6f4c-45a3-b0b3-1c749b4f8de9 ->[[]]
+found understrenth unit to reenfoce:2fbe421f-f701-49c9-a0d4-abb0fa904204 rankCADET_CORPORAL
+in here test reenforce:2fbe421f-f701-49c9-a0d4-abb0fa904204
+removing dead character:7184529b-38b1-4357-a222-812fa5b17dfa
+removing dead character:63a73dae-f1a2-4860-b751-35668b36aa5f
+found understrenth unit to reenfoce:83d7d643-45cf-4ba5-88e3-21d0abb5fdee rankLIEUTENANT
+in here test reenforce:83d7d643-45cf-4ba5-88e3-21d0abb5fdee
+removing dead character:928829ef-6f4c-45a3-b0b3-1c749b4f8de9
+found understrenth unit to reenfoce:b5b5fcaa-8ec0-4a05-952a-9eb76dbbf469 rankCADET_CORPORAL
+in here test reenforce:b5b5fcaa-8ec0-4a05-952a-9eb76dbbf469
+found understrenth unit to reenfoce:b5b5fcaa-8ec0-4a05-952a-9eb76dbbf469 rankCADET_CORPORAL
+in here test reenforce:b5b5fcaa-8ec0-4a05-952a-9eb76dbbf469
+received death notification:971d8dc8-11c5-4ba3-85d9-1b9eae3436a1
+finding field replacement forGERMAN:971d8dc8-11c5-4ba3-85d9-1b9eae3436a1 ->[[]]
+found understrenth unit to reenfoce:2fbe421f-f701-49c9-a0d4-abb0fa904204 rankCADET_CORPORAL
+in here test reenforce:2fbe421f-f701-49c9-a0d4-abb0fa904204
+found understrenth unit to reenfoce:b5b5fcaa-8ec0-4a05-952a-9eb76dbbf469 rankCADET_CORPORAL
+in here test reenforce:b5b5fcaa-8ec0-4a05-952a-9eb76dbbf469
+removing dead character:971d8dc8-11c5-4ba3-85d9-1b9eae3436a1
+received death notification:b2fb813d-f8ff-4d1a-a63d-70d8f28b6253
+finding field replacement forGERMAN:b2fb813d-f8ff-4d1a-a63d-70d8f28b6253 ->[[]]
+found understrenth unit to reenfoce:2fbe421f-f701-49c9-a0d4-abb0fa904204 rankCADET_CORPORAL
+in here test reenforce:2fbe421f-f701-49c9-a0d4-abb0fa904204
+found understrenth unit to reenfoce:83d7d643-45cf-4ba5-88e3-21d0abb5fdee rankLIEUTENANT
+in here test reenforce:83d7d643-45cf-4ba5-88e3-21d0abb5fdee
+[Layla Miller] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Layla Miller] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Layla Miller] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Layla Miller] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Layla Miller] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Layla Miller] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Layla Miller] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Layla Miller] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Layla Miller] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Layla Miller] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Layla Miller] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Layla Miller] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Layla Miller] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Layla Miller] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Layla Miller] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Layla Miller] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Layla Miller] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Layla Miller] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Layla Miller] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Layla Miller] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Layla Miller] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Layla Miller] connected to node [[Stellaris][qxUk1RC2RqS9EIXwLVv_4g][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+index:test_lost_victories1_unit_status already exisits
+Listening on 5055
+removing dead character:b2fb813d-f8ff-4d1a-a63d-70d8f28b6253
+[Garrison Kane] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Garrison Kane] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Garrison Kane] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Garrison Kane] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Garrison Kane] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Garrison Kane] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Garrison Kane] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Garrison Kane] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Garrison Kane] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Garrison Kane] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Garrison Kane] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Garrison Kane] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Garrison Kane] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Garrison Kane] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Garrison Kane] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Garrison Kane] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Garrison Kane] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Garrison Kane] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Garrison Kane] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Garrison Kane] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Garrison Kane] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Garrison Kane] connected to node [[Stellaris][qxUk1RC2RqS9EIXwLVv_4g][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+index:test_lost_victories1_unit_status already exisits
+Listening on 5055
+found understrenth unit to reenfoce:ef3f6ca8-d6ed-4386-94eb-c199cdfb3772 rankCADET_CORPORAL
+in here test reenforce:ef3f6ca8-d6ed-4386-94eb-c199cdfb3772
+found understrenth unit to reenfoce:ef3f6ca8-d6ed-4386-94eb-c199cdfb3772 rankCADET_CORPORAL
+in here test reenforce:ef3f6ca8-d6ed-4386-94eb-c199cdfb3772
+found understrenth unit to reenfoce:ef3f6ca8-d6ed-4386-94eb-c199cdfb3772 rankCADET_CORPORAL
+in here test reenforce:ef3f6ca8-d6ed-4386-94eb-c199cdfb3772
+[Crimson Commando] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Crimson Commando] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Crimson Commando] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Crimson Commando] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Crimson Commando] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Crimson Commando] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Crimson Commando] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Crimson Commando] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Crimson Commando] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Crimson Commando] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Crimson Commando] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Crimson Commando] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Crimson Commando] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Crimson Commando] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Crimson Commando] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Crimson Commando] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Crimson Commando] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Crimson Commando] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Crimson Commando] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Crimson Commando] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Crimson Commando] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Crimson Commando] connected to node [[Stellaris][qxUk1RC2RqS9EIXwLVv_4g][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+creating new index:test_lost_victories1_unit_status
+index:test_lost_victories1_house_status already exisits no deleting
+Loading Scene
+Listening on 5055
+checking out scene for avatar:2fbe421f-f701-49c9-a0d4-abb0fa904204
+returning scene
+changing capture status to:CAPTURING
+changing capture status to:CAPTURED
+changing capture status to:CAPTURING
+changing capture status to:CAPTURED
+changing capture status to:CAPTURING
+changing capture status to:CAPTURED
+changing capture status to:CAPTURING
+changing capture status to:CAPTURED
+received death notification:2fbe421f-f701-49c9-a0d4-abb0fa904204
+finding field replacement forGERMAN:2fbe421f-f701-49c9-a0d4-abb0fa904204 ->[[4431c4a1-32f0-4c67-8e97-4ca9b94b3a52, ed2b75ff-ddb3-48b4-8a79-f3e92fc08185, b2a273a9-e328-462f-9e01-18545e1ba81f]]
+promoting:4431c4a1-32f0-4c67-8e97-4ca9b94b3a52 to CADET_CORPORAL
+received death notification:1b7d7ce4-afba-4660-99b6-55391f19805c
+finding field replacement forAMERICAN:1b7d7ce4-afba-4660-99b6-55391f19805c ->[[fc8d92f3-69d6-479a-97ca-eb5a39241284, 94ef8934-f4e0-4038-9987-0f0333a31fa9, 2dba33aa-84e9-4bb4-8982-498142587399]]
+promoting:fc8d92f3-69d6-479a-97ca-eb5a39241284 to CADET_CORPORAL
+found understrenth unit to reenfoce:4431c4a1-32f0-4c67-8e97-4ca9b94b3a52 rankCADET_CORPORAL
+in here test reincarnate avatar
+found understrenth unit to reenfoce:90430eb7-2baa-489c-847b-60121464357b rankLIEUTENANT
+in here test reenforce:90430eb7-2baa-489c-847b-60121464357b
+received death notification:9be6ae3e-de5d-4445-8d3b-0296b5c1b611
+finding field replacement forAMERICAN:9be6ae3e-de5d-4445-8d3b-0296b5c1b611 ->[[b68e81b7-9558-4c19-824c-940c271f5214, dbbddffe-8cd9-4afb-b845-fa83a979aa39, 7a2ba92e-40a2-4ec3-ac2a-3673af614ab2]]
+promoting:b68e81b7-9558-4c19-824c-940c271f5214 to CADET_CORPORAL
+received death notification:f2d03837-fe89-4189-8401-538d84f4cc1d
+finding field replacement forGERMAN:f2d03837-fe89-4189-8401-538d84f4cc1d ->[[]]
+received death notification:9df776ff-f6f4-4678-b8cd-fe33d3957275
+finding field replacement forAMERICAN:9df776ff-f6f4-4678-b8cd-fe33d3957275 ->[[]]
+received death notification:dbbddffe-8cd9-4afb-b845-fa83a979aa39
+finding field replacement forAMERICAN:dbbddffe-8cd9-4afb-b845-fa83a979aa39 ->[[]]
+received death notification:ed2b75ff-ddb3-48b4-8a79-f3e92fc08185
+finding field replacement forGERMAN:ed2b75ff-ddb3-48b4-8a79-f3e92fc08185 ->[[]]
+4431c4a1-32f0-4c67-8e97-4ca9b94b3a52 not found in repo
+received death notification:2fbe421f-f701-49c9-a0d4-abb0fa904204
+finding field replacement forGERMAN:2fbe421f-f701-49c9-a0d4-abb0fa904204 ->[[ed2b75ff-ddb3-48b4-8a79-f3e92fc08185, b2a273a9-e328-462f-9e01-18545e1ba81f]]
+promoting:ed2b75ff-ddb3-48b4-8a79-f3e92fc08185 to CADET_CORPORAL
+changing capture status to:CAPTURING
+received death notification:b2a273a9-e328-462f-9e01-18545e1ba81f
+finding field replacement forGERMAN:b2a273a9-e328-462f-9e01-18545e1ba81f ->[[]]
+changing capture status to:CAPTURING
+changing capture status to:CAPTURED
+found understrenth unit to reenfoce:de541b35-701c-4066-a556-abf5a34f19a0 rankCADET_CORPORAL
+in here test reincarnate avatar
+changing capture status to:CAPTURED
+removing dead character:1b7d7ce4-afba-4660-99b6-55391f19805c
+removing dead character:9be6ae3e-de5d-4445-8d3b-0296b5c1b611
+removing dead character:f2d03837-fe89-4189-8401-538d84f4cc1d
+removing dead character:dbbddffe-8cd9-4afb-b845-fa83a979aa39
+removing dead character:9df776ff-f6f4-4678-b8cd-fe33d3957275
+removing dead character:ed2b75ff-ddb3-48b4-8a79-f3e92fc08185
+removing dead character:b2a273a9-e328-462f-9e01-18545e1ba81f
+found understrenth unit to reenfoce:2fbe421f-f701-49c9-a0d4-abb0fa904204 rankCADET_CORPORAL
+in here test reenforce:2fbe421f-f701-49c9-a0d4-abb0fa904204
+changing capture status to:CAPTURING
+changing capture status to:CAPTURED
+received death notification:18841fef-32bc-4733-96a0-474b56bcf378
+finding field replacement forGERMAN:18841fef-32bc-4733-96a0-474b56bcf378 ->[[]]
+found understrenth unit to reenfoce:2fbe421f-f701-49c9-a0d4-abb0fa904204 rankCADET_CORPORAL
+in here test reenforce:2fbe421f-f701-49c9-a0d4-abb0fa904204
+found understrenth unit to reenfoce:5ab45fae-b01b-4cc0-bb82-8f3f02000174 rankCADET_CORPORAL
+in here test reincarnate avatar
+found understrenth unit to reenfoce:2fbe421f-f701-49c9-a0d4-abb0fa904204 rankCADET_CORPORAL
+in here test reenforce:2fbe421f-f701-49c9-a0d4-abb0fa904204
+removing dead character:18841fef-32bc-4733-96a0-474b56bcf378
+found understrenth unit to reenfoce:2fbe421f-f701-49c9-a0d4-abb0fa904204 rankCADET_CORPORAL
+in here test reenforce:2fbe421f-f701-49c9-a0d4-abb0fa904204
+found understrenth unit to reenfoce:fc8d92f3-69d6-479a-97ca-eb5a39241284 rankCADET_CORPORAL
+in here test reenforce:fc8d92f3-69d6-479a-97ca-eb5a39241284
+found understrenth unit to reenfoce:d993932f-a185-4a6f-8d86-4ef6e2c5ff95 rankCADET_CORPORAL
+in here test reenforce:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+found understrenth unit to reenfoce:b68e81b7-9558-4c19-824c-940c271f5214 rankCADET_CORPORAL
+in here test reenforce:b68e81b7-9558-4c19-824c-940c271f5214
+[Maximus] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Maximus] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Maximus] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Maximus] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Maximus] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Maximus] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Maximus] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Maximus] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Maximus] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Maximus] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Maximus] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Maximus] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Maximus] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Maximus] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Maximus] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Maximus] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Maximus] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Maximus] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Maximus] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Maximus] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Maximus] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Maximus] connected to node [[Stellaris][qxUk1RC2RqS9EIXwLVv_4g][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+creating new index:test_lost_victories1_unit_status
+index:test_lost_victories1_house_status already exisits no deleting
+Loading Scene
+Listening on 5055
+checking out scene for avatar:2fbe421f-f701-49c9-a0d4-abb0fa904204
+returning scene
+changing capture status to:CAPTURING
+changing capture status to:CAPTURED
+changing capture status to:CAPTURING
+changing capture status to:CAPTURED
+changing capture status to:CAPTURING
+changing capture status to:CAPTURED
+changing capture status to:CAPTURING
+changing capture status to:CAPTURED
+received death notification:f3d00bab-2a45-43e2-ab18-aa487d62d504
+finding field replacement forGERMAN:f3d00bab-2a45-43e2-ab18-aa487d62d504 ->[[]]
+received death notification:2fbe421f-f701-49c9-a0d4-abb0fa904204
+finding field replacement forGERMAN:2fbe421f-f701-49c9-a0d4-abb0fa904204 ->[[6468ca31-0708-4039-a933-494e1707c9db, 95176b2b-0ab4-47c2-b2e7-321ee8cfb551]]
+promoting:6468ca31-0708-4039-a933-494e1707c9db to CADET_CORPORAL
+received death notification:d7680f64-07f8-411f-9902-beb91902f732
+changing capture status to:CAPTURING
+finding field replacement forAMERICAN:d7680f64-07f8-411f-9902-beb91902f732 ->[[]]
+found understrenth unit to reenfoce:6468ca31-0708-4039-a933-494e1707c9db rankCADET_CORPORAL
+in here test reincarnate avatar
+received death notification:2fbe421f-f701-49c9-a0d4-abb0fa904204
+finding field replacement forGERMAN:2fbe421f-f701-49c9-a0d4-abb0fa904204 ->[[95176b2b-0ab4-47c2-b2e7-321ee8cfb551]]
+promoting:95176b2b-0ab4-47c2-b2e7-321ee8cfb551 to CADET_CORPORAL
+found understrenth unit to reenfoce:95176b2b-0ab4-47c2-b2e7-321ee8cfb551 rankCADET_CORPORAL
+in here test reincarnate avatar
+received death notification:c6c4bb12-e0ba-4e51-9003-cd124d2651ee
+finding field replacement forGERMAN:c6c4bb12-e0ba-4e51-9003-cd124d2651ee ->[[]]
+received death notification:cd8f7b29-b8b1-4960-88bb-667689cd7830
+finding field replacement forGERMAN:cd8f7b29-b8b1-4960-88bb-667689cd7830 ->[[]]
+received death notification:2fbe421f-f701-49c9-a0d4-abb0fa904204
+finding field replacement forGERMAN:2fbe421f-f701-49c9-a0d4-abb0fa904204 ->[[]]
+changing capture status to:CAPTURED
+changing capture status to:CAPTURING
+found understrenth unit to reenfoce:93403f23-9439-4663-98e0-dd8a89a8b4f3 rankLIEUTENANT
+in here test reincarnate avatar
+changing capture status to:CAPTURED
+removing dead character:f3d00bab-2a45-43e2-ab18-aa487d62d504
+removing dead character:d7680f64-07f8-411f-9902-beb91902f732
+removing dead character:c6c4bb12-e0ba-4e51-9003-cd124d2651ee
+removing dead character:cd8f7b29-b8b1-4960-88bb-667689cd7830
+found understrenth unit to reenfoce:18fce5d5-c164-4468-8dd9-6f1b2abc029a rankCADET_CORPORAL
+in here test reincarnate avatar
+found understrenth unit to reenfoce:d993932f-a185-4a6f-8d86-4ef6e2c5ff95 rankCADET_CORPORAL
+in here test reenforce:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+[Fandral] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Fandral] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Fandral] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Fandral] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Fandral] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Fandral] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Fandral] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Fandral] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Fandral] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Fandral] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Fandral] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Fandral] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Fandral] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Fandral] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Fandral] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Fandral] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Fandral] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Fandral] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Fandral] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Fandral] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Fandral] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Fandral] connected to node [[Lorelei Travis][XZgGCaPhTlG-T2wEGyZX8Q][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+creating new index:test_lost_victories1_unit_status
+Loading Scene
+Listening on 5055
+checking out scene for avatar:2fbe421f-f701-49c9-a0d4-abb0fa904204
+returning scene
+[Tag] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Tag] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Tag] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Tag] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Tag] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Tag] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Tag] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Tag] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Tag] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Tag] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Tag] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Tag] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Tag] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Tag] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Tag] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Tag] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Tag] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Tag] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Tag] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Tag] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Tag] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Tag] connected to node [[Lorelei Travis][XZgGCaPhTlG-T2wEGyZX8Q][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+index:test_lost_victories1_unit_status already exisits
+Listening on 5055
+checking out scene for avatar:2fbe421f-f701-49c9-a0d4-abb0fa904204
+returning scene
+changing capture status to:CAPTURING
+changing capture status to:CAPTURED
+changing capture status to:CAPTURING
+changing capture status to:CAPTURED
+changing capture status to:CAPTURING
+changing capture status to:CAPTURED
+changing capture status to:CAPTURING
+changing capture status to:CAPTURED
+received death notification:6a3e048f-78aa-4608-9b88-162eefaaa518
+finding field replacement forAMERICAN:6a3e048f-78aa-4608-9b88-162eefaaa518 ->[[4717e416-5a00-4400-bd29-c6437ac5507b, c071b2ee-ff85-43aa-a9ba-67f441d6dd13, a62528ce-a0bb-4c0f-ab3c-edc35ef69869]]
+promoting:4717e416-5a00-4400-bd29-c6437ac5507b to CADET_CORPORAL
+received death notification:a62528ce-a0bb-4c0f-ab3c-edc35ef69869
+finding field replacement forAMERICAN:a62528ce-a0bb-4c0f-ab3c-edc35ef69869 ->[[]]
+received death notification:2766d337-8be1-4b73-90b1-af5cc3cea80c
+finding field replacement forAMERICAN:2766d337-8be1-4b73-90b1-af5cc3cea80c ->[[cbe74580-bcd4-4d33-bb12-26713ef67204, 32fbd3c8-0389-4080-b905-156df1167ac0, c7da5173-fbf4-4a78-b236-cdc7d999543a, 12d597cd-281a-437d-8a6b-ddfc8c4e337b]]
+promoting:cbe74580-bcd4-4d33-bb12-26713ef67204 to LIEUTENANT
+received death notification:6b15b98a-ffd1-4124-844a-f91a53984f81
+finding field replacement forAMERICAN:6b15b98a-ffd1-4124-844a-f91a53984f81 ->[[]]
+received death notification:1dc8a3f1-170f-4a09-b715-38bc6197ec37
+finding field replacement forGERMAN:1dc8a3f1-170f-4a09-b715-38bc6197ec37 ->[[]]
+received death notification:386f4144-2d5c-4e48-af10-052505064f4a
+finding field replacement forGERMAN:386f4144-2d5c-4e48-af10-052505064f4a ->[[]]
+found understrenth unit to reenfoce:2fbe421f-f701-49c9-a0d4-abb0fa904204 rankCADET_CORPORAL
+in here test reenforce:2fbe421f-f701-49c9-a0d4-abb0fa904204
+received death notification:078d24da-865d-410c-9468-d501eeaa7295
+finding field replacement forGERMAN:078d24da-865d-410c-9468-d501eeaa7295 ->[[]]
+found understrenth unit to reenfoce:2fbe421f-f701-49c9-a0d4-abb0fa904204 rankCADET_CORPORAL
+in here test reenforce:2fbe421f-f701-49c9-a0d4-abb0fa904204
+received death notification:798a8857-e56e-489a-99a5-815d01220da5
+finding field replacement forGERMAN:798a8857-e56e-489a-99a5-815d01220da5 ->[[]]
+received death notification:2fbe421f-f701-49c9-a0d4-abb0fa904204
+finding field replacement forGERMAN:2fbe421f-f701-49c9-a0d4-abb0fa904204 ->[[749f7592-de8a-4b37-8a3a-79e3bc24eba8]]
+promoting:749f7592-de8a-4b37-8a3a-79e3bc24eba8 to CADET_CORPORAL
+received death notification:300761a0-0cd6-4355-863f-04d0f996f5de
+finding field replacement forAMERICAN:300761a0-0cd6-4355-863f-04d0f996f5de ->[[]]
+received death notification:fcb0863c-5530-4a58-834f-e162f1e7853a
+finding field replacement forAMERICAN:fcb0863c-5530-4a58-834f-e162f1e7853a ->[[]]
+changing capture status to:CAPTURING
+changing capture status to:CAPTURING
+changing capture status to:CAPTURED
+changing capture status to:CAPTURED
+found understrenth unit to reenfoce:749f7592-de8a-4b37-8a3a-79e3bc24eba8 rankCADET_CORPORAL
+in here test reincarnate avatar
+received death notification:2fbe421f-f701-49c9-a0d4-abb0fa904204
+finding field replacement forGERMAN:2fbe421f-f701-49c9-a0d4-abb0fa904204 ->[[]]
+removing dead character:6a3e048f-78aa-4608-9b88-162eefaaa518
+removing dead character:a62528ce-a0bb-4c0f-ab3c-edc35ef69869
+removing dead character:2766d337-8be1-4b73-90b1-af5cc3cea80c
+removing dead character:6b15b98a-ffd1-4124-844a-f91a53984f81
+removing dead character:1dc8a3f1-170f-4a09-b715-38bc6197ec37
+removing dead character:386f4144-2d5c-4e48-af10-052505064f4a
+removing dead character:078d24da-865d-410c-9468-d501eeaa7295
+removing dead character:798a8857-e56e-489a-99a5-815d01220da5
+removing dead character:300761a0-0cd6-4355-863f-04d0f996f5de
+removing dead character:fcb0863c-5530-4a58-834f-e162f1e7853a
+found understrenth unit to reenfoce:1c699d5e-68c5-4b6d-9b7a-f3ec133c4aec rankLIEUTENANT
+in here test reincarnate avatar
+found understrenth unit to reenfoce:4717e416-5a00-4400-bd29-c6437ac5507b rankCADET_CORPORAL
+in here test reincarnate avatar
+found understrenth unit to reenfoce:2fbe421f-f701-49c9-a0d4-abb0fa904204 rankCADET_CORPORAL
+in here test reenforce:2fbe421f-f701-49c9-a0d4-abb0fa904204
+found understrenth unit to reenfoce:2fbe421f-f701-49c9-a0d4-abb0fa904204 rankCADET_CORPORAL
+in here test reenforce:2fbe421f-f701-49c9-a0d4-abb0fa904204
+[Scorpia] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Scorpia] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Scorpia] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Scorpia] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Scorpia] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Scorpia] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Scorpia] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Scorpia] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Scorpia] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Scorpia] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Scorpia] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Scorpia] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Scorpia] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Scorpia] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Scorpia] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Scorpia] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Scorpia] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Scorpia] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Scorpia] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Scorpia] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Scorpia] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Scorpia] connected to node [[Lorelei Travis][XZgGCaPhTlG-T2wEGyZX8Q][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+index:test_lost_victories1_unit_status already exisits
+Listening on 5055
+checking out scene for avatar:2fbe421f-f701-49c9-a0d4-abb0fa904204
+returning scene
+[Jolt] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Jolt] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Jolt] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Jolt] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Jolt] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Jolt] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Jolt] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Jolt] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Jolt] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Jolt] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Jolt] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Jolt] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Jolt] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Jolt] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Jolt] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Jolt] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Jolt] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Jolt] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Jolt] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Jolt] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Jolt] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Jolt] connected to node [[Lorelei Travis][XZgGCaPhTlG-T2wEGyZX8Q][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+creating new index:test_lost_victories1_unit_status
+index:test_lost_victories1_house_status already exisits no deleting
+Loading Scene
+Listening on 5055
+checking out scene for avatar:2fbe421f-f701-49c9-a0d4-abb0fa904204
+returning scene
+received death notification:ff68531e-b40c-44b3-a357-38d05e7bf03d
+finding field replacement forGERMAN:ff68531e-b40c-44b3-a357-38d05e7bf03d ->[[]]
+changing capture status to:CAPTURING
+changing capture status to:NONE
+changing capture status to:CAPTURING
+removing dead character:ff68531e-b40c-44b3-a357-38d05e7bf03d
+changing capture status to:NONE
+changing capture status to:CAPTURING
+changing capture status to:CAPTURED
+changing capture status to:CAPTURING
+changing capture status to:CAPTURED
+changing capture status to:CAPTURING
+changing capture status to:CAPTURED
+found understrenth unit to reenfoce:2fbe421f-f701-49c9-a0d4-abb0fa904204 rankCADET_CORPORAL
+in here test reenforce:2fbe421f-f701-49c9-a0d4-abb0fa904204
+changing capture status to:CAPTURING
+changing capture status to:CAPTURED
+changing capture status to:CAPTURING
+received death notification:40c99611-5dad-4c26-937c-f5684c0e4446
+finding field replacement forAMERICAN:40c99611-5dad-4c26-937c-f5684c0e4446 ->[[e0b4ada1-b6e5-4a17-a943-0215f8b2c0b6, e2d8003c-3911-48cf-9305-495fbd15d75d, db08821c-e889-46db-9081-433101275539, 7a18775b-40cb-4023-a584-2c6a41481930]]
+promoting:e0b4ada1-b6e5-4a17-a943-0215f8b2c0b6 to LIEUTENANT
+changing capture status to:CAPTURING
+changing capture status to:CAPTURING
+changing capture status to:CAPTURING
+received death notification:8ad6f983-afe4-4eed-ac62-e6e36493d075
+finding field replacement forAMERICAN:8ad6f983-afe4-4eed-ac62-e6e36493d075 ->[[]]
+received death notification:1200ff90-3bd1-40ff-938b-af794cecfc3b
+finding field replacement forAMERICAN:1200ff90-3bd1-40ff-938b-af794cecfc3b ->[[]]
+received death notification:ba30aade-b228-4fbe-b46d-ff6333ff976d
+finding field replacement forAMERICAN:ba30aade-b228-4fbe-b46d-ff6333ff976d ->[[]]
+received death notification:b06ed838-194f-4a1e-85a1-2cd0881309d3
+finding field replacement forGERMAN:b06ed838-194f-4a1e-85a1-2cd0881309d3 ->[[]]
+changing capture status to:CAPTURING
+received death notification:ff944606-4dff-4fd7-bd93-91e0f1c2b722
+finding field replacement forAMERICAN:ff944606-4dff-4fd7-bd93-91e0f1c2b722 ->[[]]
+found understrenth unit to reenfoce:2fbe421f-f701-49c9-a0d4-abb0fa904204 rankCADET_CORPORAL
+in here test reenforce:2fbe421f-f701-49c9-a0d4-abb0fa904204
+received death notification:d972cfe5-0072-4b68-b4c7-e8eb9600e108
+finding field replacement forAMERICAN:d972cfe5-0072-4b68-b4c7-e8eb9600e108 ->[[]]
+received death notification:40cd8e6e-e266-4a9a-92ce-721f1bb835bc
+finding field replacement forGERMAN:40cd8e6e-e266-4a9a-92ce-721f1bb835bc ->[[]]
+found understrenth unit to reenfoce:2fbe421f-f701-49c9-a0d4-abb0fa904204 rankCADET_CORPORAL
+in here test reenforce:2fbe421f-f701-49c9-a0d4-abb0fa904204
+received death notification:2fbe421f-f701-49c9-a0d4-abb0fa904204
+finding field replacement forGERMAN:2fbe421f-f701-49c9-a0d4-abb0fa904204 ->[[35a76e2c-b6ab-4925-b5bd-394d60010ad0, 132ec223-08ca-4fae-9ebc-320cfacc049c, 44aec575-42ea-4fda-bebe-537274554feb]]
+promoting:44aec575-42ea-4fda-bebe-537274554feb to CADET_CORPORAL
+received death notification:132ec223-08ca-4fae-9ebc-320cfacc049c
+finding field replacement forGERMAN:132ec223-08ca-4fae-9ebc-320cfacc049c ->[[]]
+changing capture status to:CAPTURED
+changing capture status to:CAPTURED
+received death notification:35a76e2c-b6ab-4925-b5bd-394d60010ad0
+finding field replacement forGERMAN:35a76e2c-b6ab-4925-b5bd-394d60010ad0 ->[[]]
+received death notification:04b866d2-ed9e-49a3-9b7c-aa040e19acb3
+finding field replacement forAMERICAN:04b866d2-ed9e-49a3-9b7c-aa040e19acb3 ->[[]]
+changing capture status to:CAPTURED
+changing capture status to:CAPTURED
+changing capture status to:CAPTURED
+received death notification:e0b4ada1-b6e5-4a17-a943-0215f8b2c0b6
+finding field replacement forAMERICAN:e0b4ada1-b6e5-4a17-a943-0215f8b2c0b6 ->[[c71b783e-1a91-45db-93f3-384d9fc00c85, e2d8003c-3911-48cf-9305-495fbd15d75d, db08821c-e889-46db-9081-433101275539, 7a18775b-40cb-4023-a584-2c6a41481930, 4b503a20-6000-4525-87a2-e2198eb6a9a6, 9f7627be-9a24-4340-a15b-545eaaf35805]]
+promoting:c71b783e-1a91-45db-93f3-384d9fc00c85 to LIEUTENANT
+received death notification:44aec575-42ea-4fda-bebe-537274554feb
+finding field replacement forGERMAN:44aec575-42ea-4fda-bebe-537274554feb ->[[]]
+found understrenth unit to reenfoce:d28492e6-91a0-4c2c-ad95-9465319f76f4 rankCADET_CORPORAL
+in here test reincarnate avatar
+found understrenth unit to reenfoce:96d76f80-5770-48d9-8ab4-4be186a291c4 rankLIEUTENANT
+in here test reincarnate avatar
+removing dead character:40c99611-5dad-4c26-937c-f5684c0e4446
+removing dead character:b06ed838-194f-4a1e-85a1-2cd0881309d3
+removing dead character:1200ff90-3bd1-40ff-938b-af794cecfc3b
+removing dead character:ba30aade-b228-4fbe-b46d-ff6333ff976d
+removing dead character:8ad6f983-afe4-4eed-ac62-e6e36493d075
+removing dead character:ff944606-4dff-4fd7-bd93-91e0f1c2b722
+removing dead character:40cd8e6e-e266-4a9a-92ce-721f1bb835bc
+removing dead character:d972cfe5-0072-4b68-b4c7-e8eb9600e108
+removing dead character:132ec223-08ca-4fae-9ebc-320cfacc049c
+removing dead character:04b866d2-ed9e-49a3-9b7c-aa040e19acb3
+removing dead character:35a76e2c-b6ab-4925-b5bd-394d60010ad0
+removing dead character:44aec575-42ea-4fda-bebe-537274554feb
+removing dead character:e0b4ada1-b6e5-4a17-a943-0215f8b2c0b6
+[Hulk] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Hulk] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Hulk] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Hulk] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Hulk] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Hulk] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Hulk] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Hulk] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Hulk] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Hulk] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Hulk] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Hulk] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Hulk] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Hulk] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Hulk] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Hulk] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Hulk] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Hulk] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Hulk] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Hulk] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Hulk] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Hulk] connected to node [[Lorelei Travis][XZgGCaPhTlG-T2wEGyZX8Q][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+index:test_lost_victories1_unit_status already exisits
+Listening on 5055
+checking out scene for avatar:2fbe421f-f701-49c9-a0d4-abb0fa904204
+returning scene
+found understrenth unit to reenfoce:d993932f-a185-4a6f-8d86-4ef6e2c5ff95 rankCADET_CORPORAL
+in here test reenforce:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+found understrenth unit to reenfoce:2fbe421f-f701-49c9-a0d4-abb0fa904204 rankCADET_CORPORAL
+in here test reenforce:2fbe421f-f701-49c9-a0d4-abb0fa904204
+found understrenth unit to reenfoce:361c6e7c-f543-4346-960a-66a375973249 rankCADET_CORPORAL
+in here test reenforce:361c6e7c-f543-4346-960a-66a375973249
+found understrenth unit to reenfoce:2fbe421f-f701-49c9-a0d4-abb0fa904204 rankCADET_CORPORAL
+in here test reenforce:2fbe421f-f701-49c9-a0d4-abb0fa904204
+received death notification:d0e3cad0-522a-4901-8932-7172d0d7c032
+finding field replacement forGERMAN:d0e3cad0-522a-4901-8932-7172d0d7c032 ->[[]]
+received death notification:2fbe421f-f701-49c9-a0d4-abb0fa904204
+finding field replacement forGERMAN:2fbe421f-f701-49c9-a0d4-abb0fa904204 ->[[3a260011-5b5e-4ff1-b1aa-e8a617edca53]]
+promoting:3a260011-5b5e-4ff1-b1aa-e8a617edca53 to CADET_CORPORAL
+received death notification:3a260011-5b5e-4ff1-b1aa-e8a617edca53
+finding field replacement forGERMAN:3a260011-5b5e-4ff1-b1aa-e8a617edca53 ->[[]]
+found understrenth unit to reenfoce:590ef464-611c-48b3-9810-3d11e3f62b99 rankCADET_CORPORAL
+in here test reenforce:590ef464-611c-48b3-9810-3d11e3f62b99
+found understrenth unit to reenfoce:96d76f80-5770-48d9-8ab4-4be186a291c4 rankLIEUTENANT
+in here test reincarnate avatar
+[Chaos] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Chaos] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Chaos] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Chaos] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Chaos] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Chaos] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Chaos] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Chaos] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Chaos] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Chaos] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Chaos] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Chaos] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Chaos] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Chaos] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Chaos] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Chaos] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Chaos] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Chaos] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Chaos] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Chaos] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Chaos] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Chaos] connected to node [[Lorelei Travis][XZgGCaPhTlG-T2wEGyZX8Q][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+creating new index:test_lost_victories1_unit_status
+index:test_lost_victories1_house_status already exisits no deleting
+Loading Scene
+Listening on 5055
+checking out scene for avatar:2fbe421f-f701-49c9-a0d4-abb0fa904204
+returning scene
+changing capture status to:CAPTURING
+changing capture status to:CAPTURED
+changing capture status to:CAPTURING
+changing capture status to:CAPTURED
+changing capture status to:CAPTURING
+changing capture status to:CAPTURED
+changing capture status to:CAPTURING
+changing capture status to:CAPTURED
+received death notification:399f9566-223b-4dfb-aecd-7a636e057b3c
+finding field replacement forAMERICAN:399f9566-223b-4dfb-aecd-7a636e057b3c ->[[6b8bc1df-aa25-4d03-a301-e4f303ba42db, 98400d8d-6770-47e8-928e-bb5ad6d33ec6, d9dbbae6-eaf5-4965-acfa-1ebe86864c03]]
+promoting:6b8bc1df-aa25-4d03-a301-e4f303ba42db to CADET_CORPORAL
+received death notification:2fbe421f-f701-49c9-a0d4-abb0fa904204
+finding field replacement forGERMAN:2fbe421f-f701-49c9-a0d4-abb0fa904204 ->[[bdb7f115-17c7-40cf-b149-6cbb4e5366e9, fbd6e3e7-9cd1-4d2a-b5b2-c928cdebf91c, 2f919bf7-472d-4209-92af-d1cbd1cc5190]]
+promoting:bdb7f115-17c7-40cf-b149-6cbb4e5366e9 to CADET_CORPORAL
+found understrenth unit to reenfoce:bdb7f115-17c7-40cf-b149-6cbb4e5366e9 rankCADET_CORPORAL
+in here test reincarnate avatar
+found understrenth unit to reenfoce:00f50709-a6c4-4f18-a0dd-05432fb27bb3 rankLIEUTENANT
+in here test reenforce:00f50709-a6c4-4f18-a0dd-05432fb27bb3
+received death notification:88c0dfbc-8d8e-48da-8e6a-7ef009caf7f9
+finding field replacement forAMERICAN:88c0dfbc-8d8e-48da-8e6a-7ef009caf7f9 ->[[]]
+received death notification:2fbe421f-f701-49c9-a0d4-abb0fa904204
+finding field replacement forGERMAN:2fbe421f-f701-49c9-a0d4-abb0fa904204 ->[[fbd6e3e7-9cd1-4d2a-b5b2-c928cdebf91c, 2f919bf7-472d-4209-92af-d1cbd1cc5190]]
+promoting:fbd6e3e7-9cd1-4d2a-b5b2-c928cdebf91c to CADET_CORPORAL
+received death notification:d9dbbae6-eaf5-4965-acfa-1ebe86864c03
+finding field replacement forAMERICAN:d9dbbae6-eaf5-4965-acfa-1ebe86864c03 ->[[]]
+found understrenth unit to reenfoce:fbd6e3e7-9cd1-4d2a-b5b2-c928cdebf91c rankCADET_CORPORAL
+in here test reincarnate avatar
+removing dead character:399f9566-223b-4dfb-aecd-7a636e057b3c
+[Cordelia Frost] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Cordelia Frost] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Cordelia Frost] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Cordelia Frost] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Cordelia Frost] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Cordelia Frost] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Cordelia Frost] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Cordelia Frost] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Cordelia Frost] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Cordelia Frost] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Cordelia Frost] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Cordelia Frost] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Cordelia Frost] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Cordelia Frost] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Cordelia Frost] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Cordelia Frost] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Cordelia Frost] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Cordelia Frost] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Cordelia Frost] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Cordelia Frost] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Cordelia Frost] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Cordelia Frost] connected to node [[Victor Mancha][6q93QK0hQDut9oDSBLhq1w][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+creating new index:test_lost_victories1_unit_status
+Loading Scene
+Listening on 5055
+checking out scene for avatar:2fbe421f-f701-49c9-a0d4-abb0fa904204
+returning scene
+changing capture status to:CAPTURING
+changing capture status to:CAPTURED
+changing capture status to:CAPTURING
+changing capture status to:CAPTURED
+changing capture status to:CAPTURING
+changing capture status to:CAPTURED
+changing capture status to:CAPTURING
+changing capture status to:CAPTURED
+received death notification:ffc6f3d8-8802-48e0-889b-3d0374b569e0
+finding field replacement forAMERICAN:ffc6f3d8-8802-48e0-889b-3d0374b569e0 ->[[]]
+received death notification:637663c7-e384-4ec2-812b-944ab652f535
+finding field replacement forAMERICAN:637663c7-e384-4ec2-812b-944ab652f535 ->[[]]
+received death notification:2fbe421f-f701-49c9-a0d4-abb0fa904204
+finding field replacement forGERMAN:2fbe421f-f701-49c9-a0d4-abb0fa904204 ->[[b3fd7305-ae95-4981-8d8e-fba51a353f63, 10ff7e3f-2530-4f8b-9ef4-9d38b35a3bea, c3929085-347c-4ba0-8e9e-393b36c786d2]]
+promoting:b3fd7305-ae95-4981-8d8e-fba51a353f63 to CADET_CORPORAL
+found understrenth unit to reenfoce:b3fd7305-ae95-4981-8d8e-fba51a353f63 rankCADET_CORPORAL
+in here test reincarnate avatar
+found understrenth unit to reenfoce:c48d997e-4fb0-4cce-9234-e063b9f63eeb rankLIEUTENANT
+in here test reenforce:c48d997e-4fb0-4cce-9234-e063b9f63eeb
+received death notification:6ef0cce5-4bb3-41c3-90fb-19b6dc1060ef
+finding field replacement forAMERICAN:6ef0cce5-4bb3-41c3-90fb-19b6dc1060ef ->[[675768bd-6f23-44c4-b1de-7d82cd7c9248, f87cc05b-c892-4564-a1a8-9d5393abc1f9, 60efc669-7438-4804-b1fb-4544e93f6637, 2c4d783a-5dd7-4cd1-ad81-741bd250fea4]]
+promoting:675768bd-6f23-44c4-b1de-7d82cd7c9248 to LIEUTENANT
+received death notification:10ff7e3f-2530-4f8b-9ef4-9d38b35a3bea
+finding field replacement forGERMAN:10ff7e3f-2530-4f8b-9ef4-9d38b35a3bea ->[[]]
+b3fd7305-ae95-4981-8d8e-fba51a353f63 not found in repo
+received death notification:ea757041-2420-4335-9c5a-b9e9de6e9b71
+finding field replacement forAMERICAN:ea757041-2420-4335-9c5a-b9e9de6e9b71 ->[[6dc271ca-8a2b-4870-9d76-9d63c8deb44c, 97909667-9fd8-49fc-9801-9d67a98efb83]]
+promoting:6dc271ca-8a2b-4870-9d76-9d63c8deb44c to CADET_CORPORAL
+received death notification:44985df5-1bb8-4955-b3d7-029ec72483c6
+finding field replacement forAMERICAN:44985df5-1bb8-4955-b3d7-029ec72483c6 ->[[]]
+received death notification:c3929085-347c-4ba0-8e9e-393b36c786d2
+finding field replacement forGERMAN:c3929085-347c-4ba0-8e9e-393b36c786d2 ->[[]]
+b3fd7305-ae95-4981-8d8e-fba51a353f63 not found in repo
+received death notification:2fbe421f-f701-49c9-a0d4-abb0fa904204
+finding field replacement forGERMAN:2fbe421f-f701-49c9-a0d4-abb0fa904204 ->[[10ff7e3f-2530-4f8b-9ef4-9d38b35a3bea, c3929085-347c-4ba0-8e9e-393b36c786d2]]
+promoting:10ff7e3f-2530-4f8b-9ef4-9d38b35a3bea to CADET_CORPORAL
+received death notification:0b742ec2-78ec-467a-bb12-737363935845
+finding field replacement forGERMAN:0b742ec2-78ec-467a-bb12-737363935845 ->[[]]
+changing capture status to:DECAPTURING
+changing capture status to:CAPTURING
+changing capture status to:CAPTURING
+changing capture status to:CAPTURING
+found understrenth unit to reenfoce:e94c43b8-d925-4f1b-a4e1-02879d600a58 rankCADET_CORPORAL
+in here test reincarnate avatar
+changing capture status to:NONE
+changing capture status to:CAPTURED
+changing capture status to:CAPTURED
+changing capture status to:CAPTURING
+changing capture status to:CAPTURED
+[MODOK] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[MODOK] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[MODOK] creating thread_pool [generic], type [cached], keep_alive [30s]
+[MODOK] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[MODOK] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[MODOK] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[MODOK] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[MODOK] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[MODOK] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[MODOK] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[MODOK] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[MODOK] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[MODOK] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[MODOK] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[MODOK] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[MODOK] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[MODOK] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[MODOK] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[MODOK] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[MODOK] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[MODOK] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[MODOK] connected to node [[Rictor][7mMYikvkTFuqfscWheSndw][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+creating new index:test_lost_victories1_unit_status
+Loading Scene
+Listening on 5055
+checking out scene for avatar:2fbe421f-f701-49c9-a0d4-abb0fa904204
+returning scene
+changing capture status to:CAPTURING
+changing capture status to:CAPTURED
+changing capture status to:CAPTURING
+changing capture status to:CAPTURED
+received death notification:9a7652da-b0df-4b5e-a2ca-712f89f7de46
+finding field replacement forAMERICAN:9a7652da-b0df-4b5e-a2ca-712f89f7de46 ->[[]]
+received death notification:fbb2246a-4e0e-48d6-9930-f15d59bcb6c6
+finding field replacement forAMERICAN:fbb2246a-4e0e-48d6-9930-f15d59bcb6c6 ->[[dc13ebba-ca26-47e1-b5b2-0a5e83b18f27, ef9d6246-3fb6-4377-ba85-53c1f549c991, 04ca34eb-6e44-4506-b67d-b799f160460f]]
+promoting:dc13ebba-ca26-47e1-b5b2-0a5e83b18f27 to CADET_CORPORAL
+received death notification:361639a7-3804-4189-ac15-0bf4a6883ed4
+finding field replacement forGERMAN:361639a7-3804-4189-ac15-0bf4a6883ed4 ->[[]]
+received death notification:0a695098-ec4a-4be4-975c-973744fa0e07
+finding field replacement forAMERICAN:0a695098-ec4a-4be4-975c-973744fa0e07 ->[[c9c8adbd-23ec-468d-a9eb-435863bae441, 43b37c54-2f92-4940-865e-346874f0c49e]]
+promoting:c9c8adbd-23ec-468d-a9eb-435863bae441 to COLONEL
+received death notification:ce742420-e01b-44cb-b528-dae203e38ad5
+finding field replacement forGERMAN:ce742420-e01b-44cb-b528-dae203e38ad5 ->[[]]
+received death notification:2fbe421f-f701-49c9-a0d4-abb0fa904204
+finding field replacement forGERMAN:2fbe421f-f701-49c9-a0d4-abb0fa904204 ->[[4cd370c2-7198-49a7-a9d0-d346c3478eb6]]
+promoting:4cd370c2-7198-49a7-a9d0-d346c3478eb6 to CADET_CORPORAL
+received death notification:c9c8adbd-23ec-468d-a9eb-435863bae441
+finding field replacement forAMERICAN:c9c8adbd-23ec-468d-a9eb-435863bae441 ->[[d5542217-7de0-4f10-b18c-59cc3b6c6c6a, 8a7f0e57-2c01-463d-af43-9b37fb8bb24d, f121c0d0-61ef-4cf5-b0c9-efae6fc6c1c2, 43b37c54-2f92-4940-865e-346874f0c49e, 2a47ba87-8292-4cd6-b3c8-5448d648ee82]]
+promoting:d5542217-7de0-4f10-b18c-59cc3b6c6c6a to COLONEL
+changing capture status to:CAPTURING
+received death notification:4cd370c2-7198-49a7-a9d0-d346c3478eb6
+finding field replacement forGERMAN:4cd370c2-7198-49a7-a9d0-d346c3478eb6 ->[[]]
+found understrenth unit to reenfoce:47cbeace-4f36-443a-a751-e5e16267fb36 rankLIEUTENANT
+in here test reincarnate avatar
+changing capture status to:CAPTURED
+removing dead character:9a7652da-b0df-4b5e-a2ca-712f89f7de46
+removing dead character:fbb2246a-4e0e-48d6-9930-f15d59bcb6c6
+removing dead character:361639a7-3804-4189-ac15-0bf4a6883ed4
+removing dead character:0a695098-ec4a-4be4-975c-973744fa0e07
+removing dead character:ce742420-e01b-44cb-b528-dae203e38ad5
+removing dead character:c9c8adbd-23ec-468d-a9eb-435863bae441
+removing dead character:4cd370c2-7198-49a7-a9d0-d346c3478eb6
+checking out scene for avatar:2fbe421f-f701-49c9-a0d4-abb0fa904204
+returning scene
+found understrenth unit to reenfoce:2fbe421f-f701-49c9-a0d4-abb0fa904204 rankCADET_CORPORAL
+in here test reenforce:2fbe421f-f701-49c9-a0d4-abb0fa904204
+found understrenth unit to reenfoce:2fbe421f-f701-49c9-a0d4-abb0fa904204 rankCADET_CORPORAL
+in here test reenforce:2fbe421f-f701-49c9-a0d4-abb0fa904204
+found understrenth unit to reenfoce:2a47ba87-8292-4cd6-b3c8-5448d648ee82 rankCADET_CORPORAL
+in here test reincarnate avatar
+[Don Fortunato] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Don Fortunato] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Don Fortunato] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Don Fortunato] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Don Fortunato] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Don Fortunato] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Don Fortunato] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Don Fortunato] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Don Fortunato] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Don Fortunato] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Don Fortunato] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Don Fortunato] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Don Fortunato] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Don Fortunato] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Don Fortunato] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Don Fortunato] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Don Fortunato] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Don Fortunato] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Don Fortunato] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Don Fortunato] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Don Fortunato] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Don Fortunato] connected to node [[Rictor][7mMYikvkTFuqfscWheSndw][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+creating new index:test_lost_victories1_unit_status
+index:test_lost_victories1_house_status already exisits no deleting
+Loading Scene
+Listening on 5055
+[Orikal] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Orikal] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Orikal] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Orikal] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Orikal] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Orikal] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Orikal] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Orikal] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Orikal] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Orikal] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Orikal] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Orikal] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Orikal] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Orikal] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Orikal] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Orikal] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Orikal] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Orikal] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Orikal] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Orikal] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Orikal] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Orikal] connected to node [[Rictor][7mMYikvkTFuqfscWheSndw][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+creating new index:test_lost_victories1_unit_status
+index:test_lost_victories1_house_status already exisits no deleting
+Loading Scene
+Listening on 5055
+checking out scene for avatar:2fbe421f-f701-49c9-a0d4-abb0fa904204
+returning scene
+changing capture status to:CAPTURING
+changing capture status to:NONE
+[Kate Bishop] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Kate Bishop] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Kate Bishop] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Kate Bishop] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Kate Bishop] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Kate Bishop] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Kate Bishop] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Kate Bishop] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Kate Bishop] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Kate Bishop] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Kate Bishop] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Kate Bishop] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Kate Bishop] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Kate Bishop] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Kate Bishop] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Kate Bishop] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Kate Bishop] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Kate Bishop] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Kate Bishop] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Kate Bishop] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Kate Bishop] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Kate Bishop] connected to node [[Kwannon][7B1TKs4KSPSKLDeJB5ifiA][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+creating new index:test_lost_victories1_unit_status
+Loading Scene
+Listening on 5055
+checking out scene for avatar:2fbe421f-f701-49c9-a0d4-abb0fa904204
+returning scene
+changing capture status to:CAPTURING
+changing capture status to:CAPTURED
+changing capture status to:CAPTURING
+changing capture status to:CAPTURING
+changing capture status to:CAPTURED
+changing capture status to:CAPTURED
+[Portal] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Portal] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Portal] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Portal] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Portal] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Portal] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Portal] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Portal] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Portal] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Portal] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Portal] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Portal] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Portal] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Portal] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Portal] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Portal] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Portal] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Portal] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Portal] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Portal] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Portal] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Portal] connected to node [[Kwannon][7B1TKs4KSPSKLDeJB5ifiA][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+creating new index:test_lost_victories1_unit_status
+index:test_lost_victories1_house_status already exisits no deleting
+Loading Scene
+Listening on 5055
+checking out scene for avatar:2fbe421f-f701-49c9-a0d4-abb0fa904204
+returning scene
+changing capture status to:CAPTURING
+changing capture status to:CAPTURED
+received death notification:abce173f-609a-4e66-938e-ba9ad054a39f
+finding field replacement forAMERICAN:abce173f-609a-4e66-938e-ba9ad054a39f ->[[]]
+received death notification:b1e5c02f-6f2d-492a-879f-7c7128d32197
+finding field replacement forAMERICAN:b1e5c02f-6f2d-492a-879f-7c7128d32197 ->[[4d7cc80c-d4a1-4d26-9722-86862e56cbdf, ca5cf583-0428-480c-ada9-20cc55e87d3a]]
+promoting:4d7cc80c-d4a1-4d26-9722-86862e56cbdf to CADET_CORPORAL
+changing capture status to:CAPTURING
+received death notification:e0805624-0712-4f12-be89-cf54eb732935
+finding field replacement forAMERICAN:e0805624-0712-4f12-be89-cf54eb732935 ->[[]]
+changing capture status to:CAPTURING
+received death notification:ca5cf583-0428-480c-ada9-20cc55e87d3a
+finding field replacement forAMERICAN:ca5cf583-0428-480c-ada9-20cc55e87d3a ->[[]]
+changing capture status to:CAPTURED
+changing capture status to:CAPTURED
+received death notification:facacaa3-f6aa-41f2-93da-4f5c8e51d43c
+finding field replacement forGERMAN:facacaa3-f6aa-41f2-93da-4f5c8e51d43c ->[[]]
+received death notification:64afd8ee-5f7f-45ab-a75f-84da0cb176c6
+finding field replacement forGERMAN:64afd8ee-5f7f-45ab-a75f-84da0cb176c6 ->[[]]
+received death notification:2fbe421f-f701-49c9-a0d4-abb0fa904204
+finding field replacement forGERMAN:2fbe421f-f701-49c9-a0d4-abb0fa904204 ->[[69ba9d6b-4008-4d09-9ec7-02e523326636]]
+promoting:69ba9d6b-4008-4d09-9ec7-02e523326636 to CADET_CORPORAL
+received death notification:69ba9d6b-4008-4d09-9ec7-02e523326636
+finding field replacement forGERMAN:69ba9d6b-4008-4d09-9ec7-02e523326636 ->[[]]
+removing dead character:abce173f-609a-4e66-938e-ba9ad054a39f
+removing dead character:b1e5c02f-6f2d-492a-879f-7c7128d32197
+removing dead character:e0805624-0712-4f12-be89-cf54eb732935
+changing capture status to:DECAPTURING
+removing dead character:ca5cf583-0428-480c-ada9-20cc55e87d3a
+changing capture status to:CAPTURING
+removing dead character:facacaa3-f6aa-41f2-93da-4f5c8e51d43c
+changing capture status to:NONE
+changing capture status to:CAPTURED
+changing capture status to:CAPTURING
+removing dead character:64afd8ee-5f7f-45ab-a75f-84da0cb176c6
+removing dead character:2fbe421f-f701-49c9-a0d4-abb0fa904204
+removing dead character:69ba9d6b-4008-4d09-9ec7-02e523326636
+changing capture status to:CAPTURED
+found understrenth unit to reenfoce:266734f4-fb73-47c7-8230-1a365e5bc0af rankCADET_CORPORAL
+in here test reincarnate avatar
+[Stakar] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Stakar] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Stakar] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Stakar] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Stakar] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Stakar] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Stakar] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Stakar] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Stakar] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Stakar] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Stakar] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Stakar] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Stakar] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Stakar] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Stakar] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Stakar] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Stakar] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Stakar] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Stakar] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Stakar] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Stakar] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Stakar] connected to node [[Kwannon][7B1TKs4KSPSKLDeJB5ifiA][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+creating new index:test_lost_victories1_unit_status
+index:test_lost_victories1_house_status already exisits no deleting
+Loading Scene
+Listening on 5055
+checking out scene for avatar:2fbe421f-f701-49c9-a0d4-abb0fa904204
+returning scene
+changing capture status to:CAPTURING
+changing capture status to:CAPTURED
+changing capture status to:CAPTURING
+changing capture status to:CAPTURED
+changing capture status to:CAPTURING
+changing capture status to:CAPTURING
+changing capture status to:CAPTURED
+changing capture status to:CAPTURED
+changing capture status to:CAPTURING
+changing capture status to:CAPTURING
+changing capture status to:CAPTURED
+changing capture status to:CAPTURED
+received death notification:f1ffc7d5-eead-4f33-b7d7-6e003a13e4cb
+finding field replacement forAMERICAN:f1ffc7d5-eead-4f33-b7d7-6e003a13e4cb ->[[531adb72-566f-4678-befd-3104aada044e, 143bb4a2-b9b8-43c9-802e-856821c68a0f, 4b5d435a-af87-4d99-b0c5-c771aea7b1f7]]
+promoting:531adb72-566f-4678-befd-3104aada044e to CADET_CORPORAL
+found understrenth unit to reenfoce:531adb72-566f-4678-befd-3104aada044e rankCADET_CORPORAL
+in here test reincarnate avatar
+received death notification:d2d7000c-c466-4612-a8de-993446d31855
+finding field replacement forAMERICAN:d2d7000c-c466-4612-a8de-993446d31855 ->[[]]
+received death notification:2fbe421f-f701-49c9-a0d4-abb0fa904204
+finding field replacement forGERMAN:2fbe421f-f701-49c9-a0d4-abb0fa904204 ->[[99e1f85d-1fa6-497c-b14e-615c8e09fa1f, 1f27ea17-ed62-4dc2-834a-1ad2e8faca17, 4473150d-d0d1-4704-9be0-31f4dfb32f06]]
+promoting:99e1f85d-1fa6-497c-b14e-615c8e09fa1f to CADET_CORPORAL
+received death notification:33c032bc-5158-4fa1-93bb-e07f158cbc38
+finding field replacement forAMERICAN:33c032bc-5158-4fa1-93bb-e07f158cbc38 ->[[]]
+received death notification:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+finding field replacement forAMERICAN:d993932f-a185-4a6f-8d86-4ef6e2c5ff95 ->[[143bb4a2-b9b8-43c9-802e-856821c68a0f, 4b5d435a-af87-4d99-b0c5-c771aea7b1f7]]
+promoting:143bb4a2-b9b8-43c9-802e-856821c68a0f to CADET_CORPORAL
+found understrenth unit to reenfoce:99e1f85d-1fa6-497c-b14e-615c8e09fa1f rankCADET_CORPORAL
+in here test reincarnate avatar
+received death notification:143bb4a2-b9b8-43c9-802e-856821c68a0f
+finding field replacement forAMERICAN:143bb4a2-b9b8-43c9-802e-856821c68a0f ->[[4b5d435a-af87-4d99-b0c5-c771aea7b1f7]]
+promoting:4b5d435a-af87-4d99-b0c5-c771aea7b1f7 to CADET_CORPORAL
+received death notification:2fbe421f-f701-49c9-a0d4-abb0fa904204
+finding field replacement forGERMAN:2fbe421f-f701-49c9-a0d4-abb0fa904204 ->[[1f27ea17-ed62-4dc2-834a-1ad2e8faca17, 4473150d-d0d1-4704-9be0-31f4dfb32f06]]
+promoting:1f27ea17-ed62-4dc2-834a-1ad2e8faca17 to CADET_CORPORAL
+received death notification:d7365d0d-ab97-4df8-a35d-c2b9617837da
+finding field replacement forAMERICAN:d7365d0d-ab97-4df8-a35d-c2b9617837da ->[[]]
+received death notification:4b5d435a-af87-4d99-b0c5-c771aea7b1f7
+finding field replacement forAMERICAN:4b5d435a-af87-4d99-b0c5-c771aea7b1f7 ->[[]]
+received death notification:37ff736d-ec66-433b-9e90-e51fce90c63a
+finding field replacement forGERMAN:37ff736d-ec66-433b-9e90-e51fce90c63a ->[[]]
+received death notification:1f27ea17-ed62-4dc2-834a-1ad2e8faca17
+finding field replacement forGERMAN:1f27ea17-ed62-4dc2-834a-1ad2e8faca17 ->[[4473150d-d0d1-4704-9be0-31f4dfb32f06]]
+promoting:4473150d-d0d1-4704-9be0-31f4dfb32f06 to CADET_CORPORAL
+received death notification:4473150d-d0d1-4704-9be0-31f4dfb32f06
+finding field replacement forGERMAN:4473150d-d0d1-4704-9be0-31f4dfb32f06 ->[[]]
+changing capture status to:CAPTURING
+found understrenth unit to reenfoce:aae0e00d-4850-432a-8656-7fae7cf69828 rankLIEUTENANT
+in here test reincarnate avatar
+changing capture status to:CAPTURED
+found understrenth unit to reenfoce:8a297a05-6704-4fe4-88dd-ccab932d702f rankCADET_CORPORAL
+in here test reincarnate avatar
+removing dead character:f1ffc7d5-eead-4f33-b7d7-6e003a13e4cb
+removing dead character:d2d7000c-c466-4612-a8de-993446d31855
+removing dead character:33c032bc-5158-4fa1-93bb-e07f158cbc38
+removing dead character:143bb4a2-b9b8-43c9-802e-856821c68a0f
+removing dead character:d7365d0d-ab97-4df8-a35d-c2b9617837da
+[Neuronne] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Neuronne] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Neuronne] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Neuronne] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Neuronne] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Neuronne] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Neuronne] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Neuronne] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Neuronne] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Neuronne] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Neuronne] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Neuronne] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Neuronne] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Neuronne] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Neuronne] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Neuronne] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Neuronne] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Neuronne] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Neuronne] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Neuronne] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Neuronne] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Neuronne] connected to node [[Kwannon][7B1TKs4KSPSKLDeJB5ifiA][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+creating new index:test_lost_victories1_unit_status
+index:test_lost_victories1_house_status already exisits no deleting
+Loading Scene
+Listening on 5055
+checking out scene for avatar:2fbe421f-f701-49c9-a0d4-abb0fa904204
+returning scene
+changing capture status to:CAPTURING
+changing capture status to:CAPTURED
+changing capture status to:CAPTURING
+changing capture status to:CAPTURED
+[Isis] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Isis] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Isis] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Isis] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Isis] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Isis] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Isis] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Isis] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Isis] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Isis] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Isis] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Isis] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Isis] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Isis] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Isis] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Isis] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Isis] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Isis] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Isis] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Isis] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Isis] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Isis] connected to node [[Kwannon][7B1TKs4KSPSKLDeJB5ifiA][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+creating new index:test_lost_victories1_unit_status
+index:test_lost_victories1_house_status already exisits no deleting
+Loading Scene
+Listening on 5055
+checking out scene for avatar:2fbe421f-f701-49c9-a0d4-abb0fa904204
+returning scene
+changing capture status to:CAPTURING
+changing capture status to:CAPTURED
+changing capture status to:CAPTURING
+changing capture status to:CAPTURED
+changing capture status to:CAPTURING
+changing capture status to:CAPTURED
+[Horus] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Horus] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Horus] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Horus] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Horus] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Horus] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Horus] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Horus] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Horus] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Horus] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Horus] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Horus] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Horus] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Horus] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Horus] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Horus] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Horus] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Horus] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Horus] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Horus] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Horus] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Horus] connected to node [[Kwannon][7B1TKs4KSPSKLDeJB5ifiA][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+creating new index:test_lost_victories1_unit_status
+index:test_lost_victories1_house_status already exisits no deleting
+Loading Scene
+Listening on 5055
+checking out scene for avatar:2fbe421f-f701-49c9-a0d4-abb0fa904204
+returning scene
+changing capture status to:CAPTURING
+changing capture status to:CAPTURING
+changing capture status to:CAPTURED
+changing capture status to:CAPTURED
+[Puishannt] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Puishannt] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Puishannt] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Puishannt] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Puishannt] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Puishannt] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Puishannt] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Puishannt] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Puishannt] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Puishannt] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Puishannt] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Puishannt] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Puishannt] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Puishannt] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Puishannt] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Puishannt] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Puishannt] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Puishannt] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Puishannt] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Puishannt] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Puishannt] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Puishannt] connected to node [[Kwannon][7B1TKs4KSPSKLDeJB5ifiA][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+creating new index:test_lost_victories1_unit_status
+index:test_lost_victories1_house_status already exisits no deleting
+Loading Scene
+Listening on 5055
+[Giant-Man] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Giant-Man] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Giant-Man] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Giant-Man] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Giant-Man] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Giant-Man] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Giant-Man] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Giant-Man] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Giant-Man] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Giant-Man] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Giant-Man] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Giant-Man] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Giant-Man] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Giant-Man] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Giant-Man] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Giant-Man] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Giant-Man] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Giant-Man] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Giant-Man] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Giant-Man] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Giant-Man] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Giant-Man] connected to node [[Kwannon][7B1TKs4KSPSKLDeJB5ifiA][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+creating new index:test_lost_victories1_unit_status
+index:test_lost_victories1_house_status already exisits no deleting
+Loading Scene
+Listening on 5055
+checking out scene for avatar:2fbe421f-f701-49c9-a0d4-abb0fa904204
+returning scene
+[Reignfire] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Reignfire] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Reignfire] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Reignfire] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Reignfire] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Reignfire] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Reignfire] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Reignfire] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Reignfire] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Reignfire] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Reignfire] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Reignfire] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Reignfire] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Reignfire] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Reignfire] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Reignfire] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Reignfire] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Reignfire] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Reignfire] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Reignfire] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Reignfire] failed to connect to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]], removed from nodes list
+org.elasticsearch.transport.ConnectTransportException: [][inet[localhost/127.0.0.1:9300]] connect_timeout[30s]
+	at org.elasticsearch.transport.netty.NettyTransport.connectToChannelsLight(NettyTransport.java:772)
+	at org.elasticsearch.transport.netty.NettyTransport.connectToNode(NettyTransport.java:737)
+	at org.elasticsearch.transport.netty.NettyTransport.connectToNodeLight(NettyTransport.java:709)
+	at org.elasticsearch.transport.TransportService.connectToNodeLight(TransportService.java:154)
+	at org.elasticsearch.client.transport.TransportClientNodesService$SimpleNodeSampler.doSample(TransportClientNodesService.java:342)
+	at org.elasticsearch.client.transport.TransportClientNodesService$NodeSampler.sample(TransportClientNodesService.java:288)
+	at org.elasticsearch.client.transport.TransportClientNodesService.addTransportAddresses(TransportClientNodesService.java:171)
+	at org.elasticsearch.client.transport.TransportClient.addTransportAddress(TransportClient.java:241)
+	at lostVictories.LostVictoriesSever.getESClient(LostVictoriesSever.java:125)
+	at lostVictories.LostVictoriesSever.run(LostVictoriesSever.java:52)
+	at lostVictories.LostVictoriesSever.main(LostVictoriesSever.java:134)
+Caused by: java.net.ConnectException: Connection refused: localhost/127.0.0.1:9300
+	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method)
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:716)
+	at org.elasticsearch.common.netty.channel.socket.nio.NioClientBoss.connect(NioClientBoss.java:152)
+	at org.elasticsearch.common.netty.channel.socket.nio.NioClientBoss.processSelectedKeys(NioClientBoss.java:105)
+	at org.elasticsearch.common.netty.channel.socket.nio.NioClientBoss.process(NioClientBoss.java:79)
+	at org.elasticsearch.common.netty.channel.socket.nio.AbstractNioSelector.run(AbstractNioSelector.java:318)
+	at org.elasticsearch.common.netty.channel.socket.nio.NioClientBoss.run(NioClientBoss.java:42)
+	at org.elasticsearch.common.netty.util.ThreadRenamingRunnable.run(ThreadRenamingRunnable.java:108)
+	at org.elasticsearch.common.netty.util.internal.DeadLockProofWorker$1.run(DeadLockProofWorker.java:42)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:745)
+[Kleinstocks] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Kleinstocks] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Kleinstocks] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Kleinstocks] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Kleinstocks] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Kleinstocks] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Kleinstocks] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Kleinstocks] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Kleinstocks] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Kleinstocks] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Kleinstocks] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Kleinstocks] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Kleinstocks] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Kleinstocks] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Kleinstocks] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Kleinstocks] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Kleinstocks] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Kleinstocks] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Kleinstocks] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Kleinstocks] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Kleinstocks] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Kleinstocks] connected to node [[Ozymandias][8oMHlbzVTPa7oUBz63b-cg][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+creating new index:test_lost_victories1_unit_status
+Loading Scene
+Listening on 5055
+checking out scene for avatar:2fbe421f-f701-49c9-a0d4-abb0fa904204
+returning scene
+[Aquarius] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Aquarius] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Aquarius] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Aquarius] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Aquarius] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Aquarius] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Aquarius] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Aquarius] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Aquarius] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Aquarius] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Aquarius] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Aquarius] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Aquarius] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Aquarius] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Aquarius] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Aquarius] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Aquarius] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Aquarius] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Aquarius] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Aquarius] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Aquarius] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Aquarius] connected to node [[Ozymandias][8oMHlbzVTPa7oUBz63b-cg][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+creating new index:test_lost_victories1_unit_status
+index:test_lost_victories1_house_status already exisits no deleting
+Loading Scene
+Listening on 5055
+checking out scene for avatar:2fbe421f-f701-49c9-a0d4-abb0fa904204
+returning scene
+checking out scene for avatar:2fbe421f-f701-49c9-a0d4-abb0fa904204
+returning scene
+[Mary Jane Parker] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Mary Jane Parker] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Mary Jane Parker] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Mary Jane Parker] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Mary Jane Parker] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Mary Jane Parker] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Mary Jane Parker] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Mary Jane Parker] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Mary Jane Parker] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Mary Jane Parker] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Mary Jane Parker] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Mary Jane Parker] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Mary Jane Parker] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Mary Jane Parker] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Mary Jane Parker] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Mary Jane Parker] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Mary Jane Parker] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Mary Jane Parker] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Mary Jane Parker] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Mary Jane Parker] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Mary Jane Parker] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Mary Jane Parker] connected to node [[Ozymandias][8oMHlbzVTPa7oUBz63b-cg][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+creating new index:test_lost_victories1_unit_status
+index:test_lost_victories1_house_status already exisits no deleting
+Loading Scene
+Listening on 5055
+checking out scene for avatar:2fbe421f-f701-49c9-a0d4-abb0fa904204
+returning scene
+[Arkady Rossovich] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Arkady Rossovich] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Arkady Rossovich] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Arkady Rossovich] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Arkady Rossovich] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Arkady Rossovich] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Arkady Rossovich] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Arkady Rossovich] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Arkady Rossovich] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Arkady Rossovich] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Arkady Rossovich] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Arkady Rossovich] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Arkady Rossovich] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Arkady Rossovich] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Arkady Rossovich] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Arkady Rossovich] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Arkady Rossovich] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Arkady Rossovich] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Arkady Rossovich] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Arkady Rossovich] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Arkady Rossovich] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Arkady Rossovich] connected to node [[Ozymandias][8oMHlbzVTPa7oUBz63b-cg][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+creating new index:test_lost_victories1_unit_status
+index:test_lost_victories1_house_status already exisits no deleting
+Loading Scene
+Listening on 5055
+checking out scene for avatar:2fbe421f-f701-49c9-a0d4-abb0fa904204
+returning scene
+checking out scene for avatar:2fbe421f-f701-49c9-a0d4-abb0fa904204
+returning scene

@@ -1,5 +1,6 @@
 package lostVictories;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -29,9 +30,9 @@ public class AvatarStore {
 		return avatars.keySet().stream().filter(a->avatars.get(a)==country && (!allCharacters.containsKey(a) || allCharacters.get(a).isDead())).findAny();
 	}
 
-	public CharacterMessage reincarnateAvatar(UUID uuid, CharacterMessage c) {
-		CharacterMessage replaceWithAvatar = c.replaceWithAvatar(uuid);
-		allCharacters.put(uuid, replaceWithAvatar);
+	public boolean reincarnateAvatar(UUID uuid, CharacterMessage c, Collection<CharacterMessage> updated) {
+		boolean replaceWithAvatar = c.replaceWithAvatar(uuid, updated);
+		allCharacters.putAll(updated.stream().collect(Collectors.toMap(u->u.getId(), Function.identity())));
 		return replaceWithAvatar;
 	}
 

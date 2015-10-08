@@ -283,23 +283,37 @@ public class CharacterMessage implements Serializable{
 
 	public Collection<CharacterMessage> reenforceCharacter(Vector spawnPoint) {
 		RankMessage rankToReenforce;
-        if(rank == RankMessage.COLONEL){
-        	rankToReenforce = RankMessage.LIEUTENANT;
-        }else if(rank == RankMessage.LIEUTENANT){
-            rankToReenforce = RankMessage.CADET_CORPORAL;
-        }else{
-            rankToReenforce = RankMessage.PRIVATE;
-        }
+        rankToReenforce = reenformentCharacterRank(rank);
 		final CharacterMessage loadCharacter = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, spawnPoint, country, Weapon.RIFLE, rankToReenforce, id, false);
 		loadCharacter.commandingOfficer = id;
 		unitsUnderCommand.add(loadCharacter.getId());
         return ImmutableSet.of(loadCharacter);
 	}
 
-	public CharacterMessage replaceWithAvatar(UUID uuid) {
-		CharacterMessage characterMessage = new CharacterMessage(uuid, CharacterType.AVATAR, location, country, Weapon.RIFLE, RankMessage.CADET_CORPORAL, commandingOfficer, false);
-		characterMessage.unitsUnderCommand = unitsUnderCommand;
-		return characterMessage;
+	private RankMessage reenformentCharacterRank(RankMessage rankMessage) {
+		RankMessage rankToReenforce;
+		if(rankMessage == RankMessage.COLONEL){
+        	rankToReenforce = RankMessage.LIEUTENANT;
+        }else if(rankMessage == RankMessage.LIEUTENANT){
+            rankToReenforce = RankMessage.CADET_CORPORAL;
+        }else{
+            rankToReenforce = RankMessage.PRIVATE;
+        }
+		return rankToReenforce;
+	}
+
+	public boolean replaceWithAvatar(UUID uuid, Collection<CharacterMessage> toUpdate) {
+		if(RankMessage.CADET_CORPORAL==rank){
+			CharacterMessage characterMessage = new CharacterMessage(uuid, CharacterType.AVATAR, location, country, Weapon.RIFLE, RankMessage.CADET_CORPORAL, commandingOfficer, false);
+			characterMessage.unitsUnderCommand = unitsUnderCommand;
+			toUpdate.add(characterMessage);
+			return true;
+		}
+		else{
+			CharacterMessage characterMessage = new CharacterMessage(uuid, CharacterType.AVATAR, location, country, Weapon.RIFLE, reenformentCharacterRank(rank), id, false);
+			toUpdate.add(characterMessage);
+			return false;
+		}
 	}
 
 	public long getVersion() {

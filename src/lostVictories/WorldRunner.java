@@ -92,10 +92,14 @@ public class WorldRunner implements Runnable{
                         Optional<UUID> deadAvatars = avatarStore.getDeadAvatars(c.getCountry());
 						if(deadAvatars.isPresent()){
 							log.debug("in here test reincarnate avatar");
-                            CharacterMessage reincarnateAvatar = avatarStore.reincarnateAvatar(deadAvatars.get(), c);
-							characterDAO.saveAndRefresh(reincarnateAvatar);
-                            characterDAO.delete(c);
-                            characterDAO.save(reincarnateAvatar.reenforceCharacter(c.getLocation().add(0, 5, 15)));
+							Collection<CharacterMessage> toUpdate = new ArrayList<CharacterMessage>();
+							boolean replaceWithAvatar = avatarStore.reincarnateAvatar(deadAvatars.get(), c, toUpdate);
+							characterDAO.save(toUpdate);
+							if(replaceWithAvatar){
+								characterDAO.delete(c);
+								characterDAO.save(toUpdate.iterator().next().reenforceCharacter(c.getLocation().add(0, 5, 15)));
+							}
+							characterDAO.refresh();
                         }else{
                         	log.debug("in here test reenforce:"+c.getId());
                             Collection<CharacterMessage> reenforceCharacter = c.reenforceCharacter(c.getLocation().add(0, 5, 15));

@@ -188,8 +188,7 @@ public class CharacterDAO {
 		return response.isFound();
 	}
 
-	public void saveAndRefresh(CharacterMessage character) {
-		esClient.prepareIndex(indexName, "unitStatus", character.getId().toString()).setSource(character.getJSONRepresentationUnChecked()).setVersion(character.getVersion()).execute().actionGet();
+	public void refresh() {
 		esClient.admin().indices().refresh(new RefreshRequest(indexName)).actionGet();
 	}
 
