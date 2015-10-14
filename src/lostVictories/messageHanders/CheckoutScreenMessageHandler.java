@@ -11,8 +11,8 @@ import com.jme3.lostVictories.network.messages.HouseMessage;
 import com.jme3.lostVictories.network.messages.LostVictoryMessage;
 import com.jme3.lostVictories.network.messages.Vector;
 
-import lostVictories.CharacterDAO;
-import lostVictories.HouseDAO;
+import lostVictories.dao.CharacterDAO;
+import lostVictories.dao.HouseDAO;
 
 public class CheckoutScreenMessageHandler{
 	

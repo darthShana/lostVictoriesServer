@@ -15,8 +15,8 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import lostVictories.CharacterDAO;
 import lostVictories.LostVictoryScene;
+import lostVictories.dao.CharacterDAO;
 
 import org.apache.log4j.Logger;
 import org.elasticsearch.action.index.IndexRequest;
@@ -34,7 +34,7 @@ public class CharacterMessage implements Serializable{
 	
 	private static final long serialVersionUID = 2491659254334134796L;
 	private static Logger log = Logger.getLogger(CharacterMessage.class);
-	public static final long CHECKOUT_TIMEOUT = 10*1000;
+	public static final long CHECKOUT_TIMEOUT = 2*1000;
 	
 	UUID id;
 	Vector location;
@@ -223,11 +223,15 @@ public class CharacterMessage implements Serializable{
 		return this.id.equals(clientID) || this.checkoutClient==null || clientID.equals(this.checkoutClient) || checkoutTime==null ||System.currentTimeMillis()-checkoutTime>CHECKOUT_TIMEOUT;
 	}
 
+	public boolean isAvailableForCheckout() {
+		return this.checkoutClient==null || checkoutTime==null ||System.currentTimeMillis()-checkoutTime>CHECKOUT_TIMEOUT;
+	}
+	
 	public void updateState(CharacterMessage other, UUID clientID, long checkoutTime) {
 		location = other.location;
 		orientation = other.orientation;
 		actions = other.actions;
-		objectives = objectives.entrySet().stream().filter(e->other.objectives.containsKey(e.getKey())).collect(Collectors.toMap(e->e.getKey(), e->e.getValue()));
+		objectives = other.objectives;
 		this.checkoutClient = clientID;
 		this.checkoutTime = checkoutTime;
 	}
@@ -266,6 +270,10 @@ public class CharacterMessage implements Serializable{
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
+	}
+	
+	public Map<String, String> getObjectives(){
+		return objectives;
 	}
 
 	public void kill() {
@@ -386,6 +394,11 @@ public class CharacterMessage implements Serializable{
 	public Set<UUID> getUnitsUnderCommand() {
 		return unitsUnderCommand;
 	}
+
+	public void setLocation(Vector vector) {
+		this.location = vector;
+	}
+
 
 	
 

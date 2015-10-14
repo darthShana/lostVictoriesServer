@@ -10,6 +10,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 
+import lostVictories.dao.CharacterDAO;
+import lostVictories.dao.HouseDAO;
+
 import org.elasticsearch.common.collect.ImmutableSet;
 import org.junit.After;
 import org.junit.AfterClass;

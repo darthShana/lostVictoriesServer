@@ -1,4 +1,4 @@
-package lostVictories;
+package lostVictories.dao;
 
 import static org.elasticsearch.index.query.QueryBuilders.matchAllQuery;
 

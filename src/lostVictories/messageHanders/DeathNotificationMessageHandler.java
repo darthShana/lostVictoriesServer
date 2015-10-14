@@ -11,7 +11,7 @@ import com.jme3.lostVictories.network.messages.CharacterMessage;
 import com.jme3.lostVictories.network.messages.DeathNotificationRequest;
 import com.jme3.lostVictories.network.messages.LostVictoryMessage;
 
-import lostVictories.CharacterDAO;
+import lostVictories.dao.CharacterDAO;
 
 public class DeathNotificationMessageHandler {
 

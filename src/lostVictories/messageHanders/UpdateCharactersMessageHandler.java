@@ -17,9 +17,9 @@ import com.jme3.lostVictories.network.messages.UpdateCharactersResponse;
 import com.jme3.lostVictories.network.messages.Vector;
 
 import lostVictories.AvatarStore;
-import lostVictories.CharacterDAO;
-import lostVictories.HouseDAO;
 import lostVictories.WorldRunner;
+import lostVictories.dao.CharacterDAO;
+import lostVictories.dao.HouseDAO;
 
 public class UpdateCharactersMessageHandler {
 
@@ -48,7 +48,7 @@ public class UpdateCharactersMessageHandler {
 			.collect(Collectors.toMap(c->c.getId(), Function.identity()));
 		
 		toSave.values().stream().forEach(c->c.updateState(sentFromClient.get(c.getId()), msg.getClientID(), System.currentTimeMillis()));
-		characterDAO.updateLocation(toSave);
+		characterDAO.updateCharacterState(toSave);
 		
 		Map<UUID, CharacterMessage> toReturn;
 		if(msg.getAvatar()!=null){

@@ -6,6 +6,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import lostVictories.dao.CharacterDAO;
+import lostVictories.dao.HouseDAO;
 import lostVictories.messageHanders.MessageHandler;
 
 import org.apache.log4j.Logger;
@@ -56,9 +58,11 @@ public class LostVictoriesSever {
 		
 		createIndex(adminClient, characterDAO, houseDAO);
 		
-		ScheduledExecutorService worldRunnerService = Executors.newScheduledThreadPool(1);;
+		ScheduledExecutorService worldRunnerService = Executors.newScheduledThreadPool(2);
 		WorldRunner worldRunner = WorldRunner.instance(characterDAO, houseDAO);
 		worldRunnerService.scheduleAtFixedRate(worldRunner, 0, 2, TimeUnit.SECONDS);
+		CharacterRunner characterRunner = CharacterRunner.instance(characterDAO, houseDAO);
+		worldRunnerService.scheduleAtFixedRate(characterRunner, 0, 2, TimeUnit.SECONDS);
 		
 		ServerBootstrap bootstrap = new ServerBootstrap( new NioServerSocketChannelFactory(Executors.newCachedThreadPool(), Executors.newCachedThreadPool()));
 				 

@@ -1,4 +1,4 @@
-package lostVictories;
+package lostVictories.dao;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 import static org.elasticsearch.index.query.FilterBuilders.geoBoundingBoxFilter;
@@ -128,7 +128,7 @@ public class CharacterDAO {
 		values.stream().forEach(c->putCharacter(c.getId(), c.getCheckoutClient(), c));
 	}
 	
-	public void updateLocation(Map<UUID, CharacterMessage> map) throws IOException{
+	public void updateCharacterState(Map<UUID, CharacterMessage> map) throws IOException{
 		if(map.isEmpty()){
 			log.trace("nothing to save");
 			return;

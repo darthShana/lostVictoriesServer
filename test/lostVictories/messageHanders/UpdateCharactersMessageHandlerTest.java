@@ -11,8 +11,8 @@ import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import lostVictories.CharacterDAO;
-import lostVictories.HouseDAO;
+import lostVictories.dao.CharacterDAO;
+import lostVictories.dao.HouseDAO;
 
 import org.elasticsearch.common.collect.ImmutableSet;
 import org.junit.Before;
