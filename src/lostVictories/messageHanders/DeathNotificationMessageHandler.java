@@ -37,8 +37,7 @@ public class DeathNotificationMessageHandler {
 		toSave.put(victim.getId(), victim);
 		toSave.put(killer.getId(), killer);
 		
-		Map<UUID, CharacterMessage> replacement = victim.replaceMe(characterDAO);
-		toSave.putAll(replacement);
+		victim.replaceMe(characterDAO, toSave, msg.getClientID());
 		
 		try {
 			characterDAO.saveCommandStructure(toSave);

@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import org.apache.log4j.Logger;
 
 import com.jme3.lostVictories.network.messages.CharacterMessage;
+import com.jme3.lostVictories.network.messages.GameStatistics;
 import com.jme3.lostVictories.network.messages.LostVictoryMessage;
 import com.jme3.lostVictories.network.messages.UpdateCharactersRequest;
 import com.jme3.lostVictories.network.messages.UpdateCharactersResponse;
@@ -56,16 +57,23 @@ public class UpdateCharactersMessageHandler {
 			Vector v = (storedAvatar!=null)?storedAvatar.getLocation():msg.getAvatar().getLocation();
 			Map<UUID, CharacterMessage> inRangeOfAvatar = characterDAO.getAllCharacters(v.x, v.y, v.z, CheckoutScreenMessageHandler.CLIENT_RANGE).stream().collect(Collectors.toMap(CharacterMessage::getId, Function.identity()));
 			log.trace("found in range on avatar:"+v+" units: "+inRangeOfAvatar.size());
+			
 			toReturn = existingInServer.entrySet().stream()
 					.filter(entry->inRangeOfAvatar.containsKey(entry.getKey()))
 					.collect(Collectors.toMap(p->p.getKey(), p->p.getValue()));
 			inRangeOfAvatar.values().stream().filter(c->!existingInServer.containsKey(c.getId())).forEach(c->toReturn.put(c.getId(), c));
-			return new UpdateCharactersResponse(msg.getClientID(), new HashSet<CharacterMessage>(toReturn.values()), houseDAO.getAllHouses(), WorldRunner.instance(characterDAO, houseDAO).getStatistics(AvatarStore.getAvatarCountry(msg.getAvatar().getId())));
+			
+			Set<CharacterMessage> relatedCharacters = toReturn.values().stream()
+				.map(c->c.getUnitsUnderCommand()).filter(u->!toReturn.containsKey(u))
+				.map(u->characterDAO.getAllCharacters(u).values()).flatMap(l->l.stream()).collect(Collectors.toSet());
+			
+			GameStatistics statistics = WorldRunner.instance(characterDAO, houseDAO).getStatistics(AvatarStore.getAvatarCountry(msg.getAvatar().getId()));
+			return new UpdateCharactersResponse(msg.getClientID(), new HashSet<CharacterMessage>(toReturn.values()), relatedCharacters, houseDAO.getAllHouses(), statistics);
 		}else{
 			toReturn = existingInServer;
 			log.debug("client did not send avatar for perspective");
 		}
 		log.debug("sending back characters:"+toReturn.size());
-		return new UpdateCharactersResponse(msg.getClientID(), new HashSet<CharacterMessage>(toReturn.values()), houseDAO.getAllHouses(), null);
+		return new UpdateCharactersResponse(msg.getClientID(), new HashSet<CharacterMessage>(toReturn.values()), new HashSet<CharacterMessage>(), houseDAO.getAllHouses(), null);
 	}
 }
