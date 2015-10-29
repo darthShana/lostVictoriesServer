@@ -9282,3 +9282,2158 @@ received death notification:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
 promoting:adc5709b-aadd-4e4f-a860-aed6ac463d4a to CADET_CORPORAL
 received death notification:02bc6f51-60db-43d1-ab6f-352f6a21299d
 received death notification:1d628a97-3ff2-46ac-a5e0-4202e19d4612
+[Pyro] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+[Gregory Gideon] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+[Sin] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Sin] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Sin] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Sin] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Sin] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Sin] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Sin] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Sin] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Sin] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Sin] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Sin] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Sin] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Sin] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Sin] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Sin] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Sin] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Sin] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Sin] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Sin] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Sin] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Sin] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Sin] connected to node [[James Jaspers][eBO8JYQGRryRBq8j40R08w][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+creating new index:test_lost_victories1_unit_status
+index:test_lost_victories1_house_status already exisits no deleting
+Loading Scene
+Listening on 5055
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+"com.jme3.lostVictories.objectives.CompleteBootCamp" not found on Character runner
+[Douglock] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+index:test_lost_victories1_house_status already exisits no deleting
+Listening on 5055
+[Godfrey Calthrop] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Godfrey Calthrop] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Godfrey Calthrop] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Godfrey Calthrop] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Godfrey Calthrop] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Godfrey Calthrop] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Godfrey Calthrop] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Godfrey Calthrop] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Godfrey Calthrop] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Godfrey Calthrop] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Godfrey Calthrop] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Godfrey Calthrop] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Godfrey Calthrop] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Godfrey Calthrop] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Godfrey Calthrop] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Godfrey Calthrop] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Godfrey Calthrop] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Godfrey Calthrop] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Godfrey Calthrop] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Godfrey Calthrop] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Godfrey Calthrop] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Godfrey Calthrop] connected to node [[James Jaspers][eBO8JYQGRryRBq8j40R08w][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+creating new index:test_lost_victories1_unit_status
+index:test_lost_victories1_house_status already exisits no deleting
+Loading Scene
+Listening on 5055
+changing capture status to:CAPTURING
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+complted travel objective
+complted travel objective
+complted travel objective
+complted travel objective
+complted travel objective
+complted travel objective
+complted travel objective
+complted travel objective
+complted travel objective
+complted travel objective
+complted travel objective
+complted travel objective
+changing capture status to:CAPTURED
+complted travel objective
+complted travel objective
+complted travel objective
+complted travel objective
+complted travel objective
+complted travel objective
+complted travel objective
+complted travel objective
+complted travel objective
+complted travel objective
+complted travel objective
+complted travel objective
+complted travel objective
+complted travel objective
+complted travel objective
+complted travel objective
+changing capture status to:CAPTURING
+complted travel objective
+complted travel objective
+complted travel objective
+complted travel objective
+complted travel objective
+complted travel objective
+complted travel objective
+complted travel objective
+complted travel objective
+complted travel objective
+complted travel objective
+complted travel objective
+complted travel objective
+complted travel objective
+complted travel objective
+complted travel objective
+complted travel objective
+complted travel objective
+complted travel objective
+complted travel objective
+changing capture status to:CAPTURED
+complted travel objective
+complted travel objective
+complted travel objective
+complted travel objective
+complted travel objective
+complted travel objective
+complted travel objective
+complted travel objective
+complted travel objective
+complted travel objective
+complted travel objective
+complted travel objective
+complted travel objective
+[Maverick] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Maverick] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Maverick] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Maverick] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Maverick] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Maverick] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Maverick] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Maverick] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Maverick] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Maverick] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Maverick] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Maverick] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Maverick] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Maverick] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Maverick] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Maverick] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Maverick] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Maverick] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Maverick] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Maverick] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Maverick] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Maverick] connected to node [[James Jaspers][eBO8JYQGRryRBq8j40R08w][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+creating new index:test_lost_victories1_unit_status
+index:test_lost_victories1_house_status already exisits no deleting
+Loading Scene
+Listening on 5055
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+changing capture status to:CAPTURING
+changing capture status to:CAPTURED
+changing capture status to:CAPTURING
+changing capture status to:CAPTURED
+[Mimic] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Mimic] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Mimic] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Mimic] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Mimic] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Mimic] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Mimic] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Mimic] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Mimic] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Mimic] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Mimic] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Mimic] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Mimic] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Mimic] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Mimic] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Mimic] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Mimic] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Mimic] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Mimic] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Mimic] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Mimic] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Mimic] connected to node [[James Jaspers][eBO8JYQGRryRBq8j40R08w][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+creating new index:test_lost_victories1_unit_status
+index:test_lost_victories1_house_status already exisits no deleting
+Loading Scene
+Listening on 5055
+changing capture status to:CAPTURING
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+changing capture status to:NONE
+changing capture status to:CAPTURING
+changing capture status to:CAPTURING
+changing capture status to:NONE
+changing capture status to:CAPTURED
+changing capture status to:CAPTURING
+changing capture status to:NONE
+changing capture status to:CAPTURING
+changing capture status to:CAPTURED
+changing capture status to:CAPTURING
+changing capture status to:NONE
+changing capture status to:CAPTURING
+changing capture status to:NONE
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.CoverObjectve" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.CoverObjectve" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.CoverObjectve" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.CoverObjectve" not found on Character runner
+changing capture status to:CAPTURING
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.CoverObjectve" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.CoverObjectve" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.CoverObjectve" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.CoverObjectve" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.CoverObjectve" not found on Character runner
+changing capture status to:CAPTURED
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.CoverObjectve" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.CoverObjectve" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.CoverObjectve" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.CoverObjectve" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.CoverObjectve" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.CoverObjectve" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.CoverObjectve" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.CoverObjectve" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.CoverObjectve" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.CoverObjectve" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.CoverObjectve" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.CoverObjectve" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.CoverObjectve" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.CoverObjectve" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.CoverObjectve" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.CoverObjectve" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.CoverObjectve" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.CoverObjectve" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.RemanVehicle" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.CoverObjectve" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.RemanVehicle" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.CoverObjectve" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.RemanVehicle" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.CoverObjectve" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.RemanVehicle" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.CoverObjectve" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.RemanVehicle" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.CoverObjectve" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.RemanVehicle" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.CoverObjectve" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.RemanVehicle" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.CoverObjectve" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.RemanVehicle" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.CoverObjectve" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.RemanVehicle" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.CoverObjectve" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.RemanVehicle" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.CoverObjectve" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.RemanVehicle" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.CoverObjectve" not found on Character runner
+"com.jme3.lostVictories.objectives.SurvivalObjective" not found on Character runner
+"com.jme3.lostVictories.objectives.MoveInFormation" not found on Character runner
+[Ch'od] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+[Hawkeye] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+index:test_lost_victories1_house_status already exisits no deleting
+Listening on 5055
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+[Black Tarantula] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+index:test_lost_victories1_house_status already exisits no deleting
+Listening on 5055
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+[Mary Jane Watson] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+index:test_lost_victories1_house_status already exisits no deleting
+Listening on 5055
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+[Shanga] loaded [], sites []
+index:test_lost_victories1_unit_status already exisits
+Listening on 5055
+[Deacon Frost] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+index:test_lost_victories1_house_status already exisits no deleting
+Listening on 5055
+setting new structure to capture:ec10aa04-854b-482a-bd44-4681c44cf02a
+setting new structure to capture:ec1e9ec9-2bdb-4e6e-9614-193d722e5804
+setting new structure to capture:ec1e9ec9-2bdb-4e6e-9614-193d722e5804
+setting new structure to capture:ec10aa04-854b-482a-bd44-4681c44cf02a
+setting new structure to capture:ec1e9ec9-2bdb-4e6e-9614-193d722e5804
+setting new structure to capture:ec10aa04-854b-482a-bd44-4681c44cf02a
+completed stucture capture:ec10aa04-854b-482a-bd44-4681c44cf02a
+completed stucture capture:ec10aa04-854b-482a-bd44-4681c44cf02a
+completed stucture capture:ec10aa04-854b-482a-bd44-4681c44cf02a
+setting new structure to capture:d8e2d023-9dc6-48e7-8fd0-f9362a3298a4
+setting new structure to capture:d8e2d023-9dc6-48e7-8fd0-f9362a3298a4
+setting new structure to capture:d8e2d023-9dc6-48e7-8fd0-f9362a3298a4
+completed stucture capture:ec1e9ec9-2bdb-4e6e-9614-193d722e5804
+completed stucture capture:ec1e9ec9-2bdb-4e6e-9614-193d722e5804
+completed stucture capture:ec1e9ec9-2bdb-4e6e-9614-193d722e5804
+setting new structure to capture:414f122a-ecd2-4e0e-8d0d-58ade47b7b40
+setting new structure to capture:414f122a-ecd2-4e0e-8d0d-58ade47b7b40
+setting new structure to capture:414f122a-ecd2-4e0e-8d0d-58ade47b7b40
+[Grasshopper II] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+index:test_lost_victories1_house_status already exisits no deleting
+Listening on 5055
+AMERICAN- setting new structure to capture:75785443-5be0-4341-a8eb-1989fef0e26f
+GERMAN- setting new structure to capture:4233aa40-6618-4ff3-ac92-3f2ccf0d7df1
+AMERICAN- setting new structure to capture:75785443-5be0-4341-a8eb-1989fef0e26f
+GERMAN- setting new structure to capture:4233aa40-6618-4ff3-ac92-3f2ccf0d7df1
+AMERICAN- setting new structure to capture:75785443-5be0-4341-a8eb-1989fef0e26f
+GERMAN- setting new structure to capture:4233aa40-6618-4ff3-ac92-3f2ccf0d7df1
+completed stucture capture:75785443-5be0-4341-a8eb-1989fef0e26f
+completed stucture capture:75785443-5be0-4341-a8eb-1989fef0e26f
+completed stucture capture:75785443-5be0-4341-a8eb-1989fef0e26f
+AMERICAN- setting new structure to capture:7f2b6366-066f-4873-a139-d3d23c9f203c
+AMERICAN- setting new structure to capture:7f2b6366-066f-4873-a139-d3d23c9f203c
+AMERICAN- setting new structure to capture:7f2b6366-066f-4873-a139-d3d23c9f203c
+completed stucture capture:4233aa40-6618-4ff3-ac92-3f2ccf0d7df1
+completed stucture capture:4233aa40-6618-4ff3-ac92-3f2ccf0d7df1
+completed stucture capture:4233aa40-6618-4ff3-ac92-3f2ccf0d7df1
+GERMAN- setting new structure to capture:cddf779e-cc7a-4973-a57c-5c6e7b38151c
+GERMAN- setting new structure to capture:cddf779e-cc7a-4973-a57c-5c6e7b38151c
+GERMAN- setting new structure to capture:cddf779e-cc7a-4973-a57c-5c6e7b38151c
+[Chi Demon] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+index:test_lost_victories1_house_status already exisits no deleting
+Listening on 5055
+AMERICAN- setting new structure to capture:22578b69-6b70-4dc9-8ff3-e88f7757f542
+GERMAN- setting new structure to capture:81920389-31d1-416c-867e-749979a17165
+AMERICAN- setting new structure to capture:9bcca73e-b087-4a62-a86d-e83f228234db
+GERMAN- setting new structure to capture:c4be7531-2384-4a1b-957d-4095a1b23884
+GERMAN- setting new structure to capture:bd37dc92-b84e-4fe8-81fa-87359f724b47
+AMERICAN- setting new structure to capture:7966cab2-a277-4b10-86ad-520b2a4d40cf
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+completed stucture capture:c4be7531-2384-4a1b-957d-4095a1b23884
+GERMAN- setting new structure to capture:81920389-31d1-416c-867e-749979a17165
+completed stucture capture:81920389-31d1-416c-867e-749979a17165
+completed stucture capture:81920389-31d1-416c-867e-749979a17165
+GERMAN- setting new structure to capture:bd37dc92-b84e-4fe8-81fa-87359f724b47
+GERMAN- setting new structure to capture:50609e00-2ca0-4998-917e-a8a4be896df7
+completed stucture capture:bd37dc92-b84e-4fe8-81fa-87359f724b47
+completed stucture capture:bd37dc92-b84e-4fe8-81fa-87359f724b47
+GERMAN- setting new structure to capture:50609e00-2ca0-4998-917e-a8a4be896df7
+GERMAN- setting new structure to capture:cd966939-0e6e-4ace-a8b9-c85a28269df5
+completed stucture capture:cd966939-0e6e-4ace-a8b9-c85a28269df5
+GERMAN- setting new structure to capture:50609e00-2ca0-4998-917e-a8a4be896df7
+received death notification:8a89d7f7-ed99-4a7b-94b4-bd3dd5f34a62
+completed stucture capture:22578b69-6b70-4dc9-8ff3-e88f7757f542
+completed stucture capture:22578b69-6b70-4dc9-8ff3-e88f7757f542
+completed stucture capture:22578b69-6b70-4dc9-8ff3-e88f7757f542
+AMERICAN- setting new structure to capture:5de71aba-0995-4cca-bc8a-e412bdf08eb2
+AMERICAN- setting new structure to capture:5de71aba-0995-4cca-bc8a-e412bdf08eb2
+received death notification:e2bfcd4f-6284-48a1-9e8a-c67993ca7ab4
+received death notification:01ea7523-bb35-4a5f-8696-1937900bb431
+received death notification:1908734e-1b36-4994-ae7f-4ae339043004
+received death notification:53603b36-fdba-4586-9ad2-d5ce8043f561
+completed stucture capture:50609e00-2ca0-4998-917e-a8a4be896df7
+completed stucture capture:50609e00-2ca0-4998-917e-a8a4be896df7
+completed stucture capture:50609e00-2ca0-4998-917e-a8a4be896df7
+GERMAN- setting new structure to capture:46ee77fe-c82b-4d33-a4e5-49a83f9e72ff
+GERMAN- setting new structure to capture:01415114-0182-4eab-a569-ba75701dc0c2
+GERMAN- setting new structure to capture:3beb51d9-726c-4cb1-8184-cfddc0471610
+AMERICAN- setting new structure to capture:5de71aba-0995-4cca-bc8a-e412bdf08eb2
+AMERICAN- setting new structure to capture:5de71aba-0995-4cca-bc8a-e412bdf08eb2
+AMERICAN- setting new structure to capture:5de71aba-0995-4cca-bc8a-e412bdf08eb2
+AMERICAN- setting new structure to capture:5de71aba-0995-4cca-bc8a-e412bdf08eb2
+AMERICAN- setting new structure to capture:5de71aba-0995-4cca-bc8a-e412bdf08eb2
+AMERICAN- setting new structure to capture:5de71aba-0995-4cca-bc8a-e412bdf08eb2
+AMERICAN- setting new structure to capture:5de71aba-0995-4cca-bc8a-e412bdf08eb2
+AMERICAN- setting new structure to capture:5de71aba-0995-4cca-bc8a-e412bdf08eb2
+AMERICAN- setting new structure to capture:5de71aba-0995-4cca-bc8a-e412bdf08eb2
+AMERICAN- setting new structure to capture:5de71aba-0995-4cca-bc8a-e412bdf08eb2
+AMERICAN- setting new structure to capture:5de71aba-0995-4cca-bc8a-e412bdf08eb2
+AMERICAN- setting new structure to capture:5de71aba-0995-4cca-bc8a-e412bdf08eb2
+AMERICAN- setting new structure to capture:5de71aba-0995-4cca-bc8a-e412bdf08eb2
+AMERICAN- setting new structure to capture:5de71aba-0995-4cca-bc8a-e412bdf08eb2
+AMERICAN- setting new structure to capture:5de71aba-0995-4cca-bc8a-e412bdf08eb2
+AMERICAN- setting new structure to capture:5de71aba-0995-4cca-bc8a-e412bdf08eb2
+AMERICAN- setting new structure to capture:5de71aba-0995-4cca-bc8a-e412bdf08eb2
+AMERICAN- setting new structure to capture:5de71aba-0995-4cca-bc8a-e412bdf08eb2
+AMERICAN- setting new structure to capture:5de71aba-0995-4cca-bc8a-e412bdf08eb2
+AMERICAN- setting new structure to capture:5de71aba-0995-4cca-bc8a-e412bdf08eb2
+AMERICAN- setting new structure to capture:5de71aba-0995-4cca-bc8a-e412bdf08eb2
+AMERICAN- setting new structure to capture:5de71aba-0995-4cca-bc8a-e412bdf08eb2
+AMERICAN- setting new structure to capture:5de71aba-0995-4cca-bc8a-e412bdf08eb2
+AMERICAN- setting new structure to capture:5de71aba-0995-4cca-bc8a-e412bdf08eb2
+completed stucture capture:5de71aba-0995-4cca-bc8a-e412bdf08eb2
+AMERICAN- setting new structure to capture:6bd11e0c-cda9-41fb-be0b-f1052e3d32a2
+AMERICAN- setting new structure to capture:6bd11e0c-cda9-41fb-be0b-f1052e3d32a2
+AMERICAN- setting new structure to capture:6bd11e0c-cda9-41fb-be0b-f1052e3d32a2
+AMERICAN- setting new structure to capture:6bd11e0c-cda9-41fb-be0b-f1052e3d32a2
+AMERICAN- setting new structure to capture:6bd11e0c-cda9-41fb-be0b-f1052e3d32a2
+AMERICAN- setting new structure to capture:6bd11e0c-cda9-41fb-be0b-f1052e3d32a2
+AMERICAN- setting new structure to capture:6bd11e0c-cda9-41fb-be0b-f1052e3d32a2
+AMERICAN- setting new structure to capture:6bd11e0c-cda9-41fb-be0b-f1052e3d32a2
+AMERICAN- setting new structure to capture:6bd11e0c-cda9-41fb-be0b-f1052e3d32a2
+AMERICAN- setting new structure to capture:6bd11e0c-cda9-41fb-be0b-f1052e3d32a2
+AMERICAN- setting new structure to capture:6bd11e0c-cda9-41fb-be0b-f1052e3d32a2
+AMERICAN- setting new structure to capture:6bd11e0c-cda9-41fb-be0b-f1052e3d32a2
+AMERICAN- setting new structure to capture:6bd11e0c-cda9-41fb-be0b-f1052e3d32a2
+AMERICAN- setting new structure to capture:6bd11e0c-cda9-41fb-be0b-f1052e3d32a2
+completed stucture capture:6bd11e0c-cda9-41fb-be0b-f1052e3d32a2
+AMERICAN- setting new structure to capture:1b59c914-c8bb-4c02-bcf0-c3f49548c9c4
+AMERICAN- setting new structure to capture:1b59c914-c8bb-4c02-bcf0-c3f49548c9c4
+received death notification:4e26c769-f576-4432-865c-e399dc9c6dd4
+AMERICAN- setting new structure to capture:1b59c914-c8bb-4c02-bcf0-c3f49548c9c4
+AMERICAN- setting new structure to capture:1b59c914-c8bb-4c02-bcf0-c3f49548c9c4
+received death notification:9054dec4-4e11-4461-99c3-b9f7c0761b7e
+received death notification:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+promoting:f93d7de3-2a90-499b-b815-1e2c9772fc5f to CADET_CORPORAL
+AMERICAN- setting new structure to capture:1b59c914-c8bb-4c02-bcf0-c3f49548c9c4
+AMERICAN- setting new structure to capture:1b59c914-c8bb-4c02-bcf0-c3f49548c9c4
+received death notification:26fb8d2e-cd28-4a4a-84d6-30a359a09f27
+AMERICAN- setting new structure to capture:1b59c914-c8bb-4c02-bcf0-c3f49548c9c4
+AMERICAN- setting new structure to capture:1b59c914-c8bb-4c02-bcf0-c3f49548c9c4
+received death notification:af84ab5e-1988-4d0c-ae26-2cb09339dc90
+AMERICAN- setting new structure to capture:1b59c914-c8bb-4c02-bcf0-c3f49548c9c4
+AMERICAN- setting new structure to capture:1b59c914-c8bb-4c02-bcf0-c3f49548c9c4
+received death notification:b367ab11-c37e-4319-86fb-8b881d144f5a
+received death notification:9a2d0cb7-c658-4d0e-8954-4c145984f0ba
+received death notification:6c125598-1e77-4979-8a0d-1b375f6e0562
+received death notification:52707200-f823-4aa4-9bb7-088abdd35b9b
+completed stucture capture:1b59c914-c8bb-4c02-bcf0-c3f49548c9c4
+completed stucture capture:1b59c914-c8bb-4c02-bcf0-c3f49548c9c4
+completed stucture capture:1b59c914-c8bb-4c02-bcf0-c3f49548c9c4
+AMERICAN- setting new structure to capture:5ac5ee84-85de-4e10-9f2b-635d008b64f5
+AMERICAN- setting new structure to capture:5ac5ee84-85de-4e10-9f2b-635d008b64f5
+AMERICAN- setting new structure to capture:5ac5ee84-85de-4e10-9f2b-635d008b64f5
+AMERICAN- setting new structure to capture:57c07874-d56c-44f4-a25e-a17bab0da63a
+AMERICAN- setting new structure to capture:5ac5ee84-85de-4e10-9f2b-635d008b64f5
+AMERICAN- setting new structure to capture:57c07874-d56c-44f4-a25e-a17bab0da63a
+received death notification:f85bf123-44ff-4181-b858-adb76950f6da
+e1c0a35a-f707-4c86-8484-f05d5dd0ab2b not found in repo
+received death notification:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+promoting:63a817d6-eff7-4523-909e-228ee0fc2f54 to CADET_CORPORAL
+received death notification:63508689-2adf-499e-a909-879678dc45e5
+promoting:f85bf123-44ff-4181-b858-adb76950f6da to CADET_CORPORAL
+received death notification:8a6ec36a-fc8b-400d-8701-f97077f5a1f9
+received death notification:a11d5b71-ad96-4546-95e1-fe69a7572af6
+received death notification:31135c38-f403-440c-ae08-b24dd27997c2
+completed stucture capture:01415114-0182-4eab-a569-ba75701dc0c2
+completed stucture capture:46ee77fe-c82b-4d33-a4e5-49a83f9e72ff
+GERMAN- setting new structure to capture:3beb51d9-726c-4cb1-8184-cfddc0471610
+GERMAN- setting new structure to capture:3beb51d9-726c-4cb1-8184-cfddc0471610
+GERMAN- setting new structure to capture:3beb51d9-726c-4cb1-8184-cfddc0471610
+GERMAN- setting new structure to capture:3beb51d9-726c-4cb1-8184-cfddc0471610
+GERMAN- setting new structure to capture:3beb51d9-726c-4cb1-8184-cfddc0471610
+GERMAN- setting new structure to capture:3beb51d9-726c-4cb1-8184-cfddc0471610
+GERMAN- setting new structure to capture:3beb51d9-726c-4cb1-8184-cfddc0471610
+GERMAN- setting new structure to capture:3beb51d9-726c-4cb1-8184-cfddc0471610
+GERMAN- setting new structure to capture:3beb51d9-726c-4cb1-8184-cfddc0471610
+[Mister Buda] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+index:test_lost_victories1_house_status already exisits no deleting
+Listening on 5055
+GERMAN- setting new structure to capture:bf23665b-96a0-49ec-82f8-aba4cc2503f9
+AMERICAN- setting new structure to capture:cfeb8640-8863-4cac-bc5d-35031ea83f30
+GERMAN- setting new structure to capture:089a240c-2ee1-4276-a017-0aba75798829
+AMERICAN- setting new structure to capture:6953bfcf-56fb-4528-8f98-5c2a9757661c
+GERMAN- setting new structure to capture:91ac83cb-05bd-43af-b04a-7f4efccbbbc0
+AMERICAN- setting new structure to capture:a8a3c906-1332-4e6c-97fc-f0daa5847435
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+completed stucture capture:089a240c-2ee1-4276-a017-0aba75798829
+GERMAN- setting new structure to capture:bf23665b-96a0-49ec-82f8-aba4cc2503f9
+[Lady Deathstrike] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+index:test_lost_victories1_house_status already exisits no deleting
+Listening on 5055
+GERMAN- setting new structure to capture:2ff2120c-03bf-4866-b8f9-901b3ea05aa9
+GERMAN- setting new structure to capture:955fa25f-bffb-46cf-8c7e-dec687c639ab
+GERMAN- setting new structure to capture:a48a10a6-9ee0-4408-ac29-6dbd0005de1e
+AMERICAN- setting new structure to capture:cc389ee4-95b5-4c4f-85e9-ffa98002c21c
+AMERICAN- setting new structure to capture:365f68f6-28b7-49a1-900b-148ae2385c38
+AMERICAN- setting new structure to capture:ea304aae-3d75-4a38-a9f7-8f012fd9a79f
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+completed stucture capture:955fa25f-bffb-46cf-8c7e-dec687c639ab
+GERMAN- setting new structure to capture:2ff2120c-03bf-4866-b8f9-901b3ea05aa9
+completed stucture capture:2ff2120c-03bf-4866-b8f9-901b3ea05aa9
+completed stucture capture:2ff2120c-03bf-4866-b8f9-901b3ea05aa9
+GERMAN- setting new structure to capture:a48a10a6-9ee0-4408-ac29-6dbd0005de1e
+GERMAN- setting new structure to capture:4b986920-a672-4a4d-b3ba-28db6c8f6bf5
+completed stucture capture:a48a10a6-9ee0-4408-ac29-6dbd0005de1e
+completed stucture capture:a48a10a6-9ee0-4408-ac29-6dbd0005de1e
+GERMAN- setting new structure to capture:4b986920-a672-4a4d-b3ba-28db6c8f6bf5
+completed stucture capture:365f68f6-28b7-49a1-900b-148ae2385c38
+GERMAN- setting new structure to capture:4b986920-a672-4a4d-b3ba-28db6c8f6bf5
+received death notification:9c14c01b-e665-49ac-a3e1-56409d316aa9
+received death notification:7c357098-e6c5-4e4e-97e8-062714e8fde0
+received death notification:6b2d041b-70b8-4a35-855d-fcca18d1051e
+received death notification:251a540b-9e6a-4b9b-ae9f-1da8909bb38f
+received death notification:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+promoting:93e4ddfd-2e05-4329-be6e-b97424c9d5f6 to CADET_CORPORAL
+received death notification:83aeb2ae-fedf-4b88-b34c-9e6ea9fb4eef
+received death notification:2b49fe2d-b012-414d-842c-8e4c369711f8
+d2770f8e-07ae-4f36-8306-4e1c0770cd28 not found in repo
+received death notification:625f9a37-672c-4580-8c4b-5d725ff2e19f
+received death notification:31fdf9ad-14e5-4f92-b7aa-1c50b6987cc2
+received death notification:8a39e2cc-9d02-4486-ad04-a17c1c1a5d32
+[Ravage 2099] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+AMERICAN- setting new structure to capture:c83d707f-302d-4127-b3a3-f07b60b0b073
+GERMAN- setting new structure to capture:868b23ca-fc89-4937-8971-2f77e3fe89a8
+GERMAN- setting new structure to capture:b099b54f-7f3e-4268-ab1e-9410e9208146
+AMERICAN- setting new structure to capture:700999f1-43e6-4d22-bda4-d799d9d391be
+GERMAN- setting new structure to capture:a69b058d-43ca-4fbf-af97-b04c072f22d5
+AMERICAN- setting new structure to capture:7f73118e-84a0-4b4e-a54e-ca6525a09958
+completed stucture capture:b099b54f-7f3e-4268-ab1e-9410e9208146
+completed stucture capture:700999f1-43e6-4d22-bda4-d799d9d391be
+GERMAN- setting new structure to capture:868b23ca-fc89-4937-8971-2f77e3fe89a8
+AMERICAN- setting new structure to capture:c83d707f-302d-4127-b3a3-f07b60b0b073
+completed stucture capture:c83d707f-302d-4127-b3a3-f07b60b0b073
+completed stucture capture:c83d707f-302d-4127-b3a3-f07b60b0b073
+AMERICAN- setting new structure to capture:7f73118e-84a0-4b4e-a54e-ca6525a09958
+AMERICAN- setting new structure to capture:20d3bddb-2c77-45c8-89da-cec05b1e625d
+completed stucture capture:7f73118e-84a0-4b4e-a54e-ca6525a09958
+completed stucture capture:7f73118e-84a0-4b4e-a54e-ca6525a09958
+AMERICAN- setting new structure to capture:20d3bddb-2c77-45c8-89da-cec05b1e625d
+AMERICAN- setting new structure to capture:2b44191a-c7b3-4564-abf0-d7b20f90353d
+[Delilah] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+index:test_lost_victories1_house_status already exisits no deleting
+Listening on 5055
+AMERICAN- setting new structure to capture:e2925893-f6c9-4151-8b30-e17c47e92e7b
+GERMAN- setting new structure to capture:fbc24589-17c7-4d51-a808-3d436a0c1247
+AMERICAN- setting new structure to capture:3d1609aa-a0ca-4933-adb4-819b16c1518a
+GERMAN- setting new structure to capture:58e0cd16-9a08-40dc-afe2-9c7bb191bc91
+GERMAN- setting new structure to capture:26cb8134-c00c-41a2-b403-3d29bab0fc0b
+AMERICAN- setting new structure to capture:c1d802be-0232-4a72-9524-f45bf4794569
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+completed stucture capture:58e0cd16-9a08-40dc-afe2-9c7bb191bc91
+GERMAN- setting new structure to capture:fbc24589-17c7-4d51-a808-3d436a0c1247
+completed stucture capture:fbc24589-17c7-4d51-a808-3d436a0c1247
+completed stucture capture:fbc24589-17c7-4d51-a808-3d436a0c1247
+GERMAN- setting new structure to capture:26cb8134-c00c-41a2-b403-3d29bab0fc0b
+GERMAN- setting new structure to capture:426e3b65-5352-44f0-a78c-8eab57ba27ea
+completed stucture capture:6f50d0b9-8f0d-4f60-b636-4f6401f86f61
+completed stucture capture:6f50d0b9-8f0d-4f60-b636-4f6401f86f61
+AMERICAN- setting new structure to capture:ae5ab261-ae6b-479b-9a2f-5b231c2fa166
+AMERICAN- setting new structure to capture:3fae9f25-f397-4c86-8d47-055f8cebb484
+AMERICAN- setting new structure to capture:ae5ab261-ae6b-479b-9a2f-5b231c2fa166
+AMERICAN- setting new structure to capture:3fae9f25-f397-4c86-8d47-055f8cebb484
+AMERICAN- setting new structure to capture:ae5ab261-ae6b-479b-9a2f-5b231c2fa166
+AMERICAN- setting new structure to capture:ae5ab261-ae6b-479b-9a2f-5b231c2fa166
+AMERICAN- setting new structure to capture:ae5ab261-ae6b-479b-9a2f-5b231c2fa166
+AMERICAN- setting new structure to capture:ae5ab261-ae6b-479b-9a2f-5b231c2fa166
+AMERICAN- setting new structure to capture:ae5ab261-ae6b-479b-9a2f-5b231c2fa166
+AMERICAN- setting new structure to capture:ae5ab261-ae6b-479b-9a2f-5b231c2fa166
+AMERICAN- setting new structure to capture:ae5ab261-ae6b-479b-9a2f-5b231c2fa166
+AMERICAN- setting new structure to capture:ae5ab261-ae6b-479b-9a2f-5b231c2fa166
+AMERICAN- setting new structure to capture:ae5ab261-ae6b-479b-9a2f-5b231c2fa166
+AMERICAN- setting new structure to capture:ae5ab261-ae6b-479b-9a2f-5b231c2fa166
+AMERICAN- setting new structure to capture:ae5ab261-ae6b-479b-9a2f-5b231c2fa166
+AMERICAN- setting new structure to capture:ae5ab261-ae6b-479b-9a2f-5b231c2fa166
+AMERICAN- setting new structure to capture:ae5ab261-ae6b-479b-9a2f-5b231c2fa166
+AMERICAN- setting new structure to capture:ae5ab261-ae6b-479b-9a2f-5b231c2fa166
+AMERICAN- setting new structure to capture:ae5ab261-ae6b-479b-9a2f-5b231c2fa166
+AMERICAN- setting new structure to capture:ae5ab261-ae6b-479b-9a2f-5b231c2fa166
+AMERICAN- setting new structure to capture:ae5ab261-ae6b-479b-9a2f-5b231c2fa166
+AMERICAN- setting new structure to capture:ae5ab261-ae6b-479b-9a2f-5b231c2fa166
+AMERICAN- setting new structure to capture:ae5ab261-ae6b-479b-9a2f-5b231c2fa166
+AMERICAN- setting new structure to capture:ae5ab261-ae6b-479b-9a2f-5b231c2fa166
+AMERICAN- setting new structure to capture:ae5ab261-ae6b-479b-9a2f-5b231c2fa166
+AMERICAN- setting new structure to capture:ae5ab261-ae6b-479b-9a2f-5b231c2fa166
+AMERICAN- setting new structure to capture:ae5ab261-ae6b-479b-9a2f-5b231c2fa166
+AMERICAN- setting new structure to capture:ae5ab261-ae6b-479b-9a2f-5b231c2fa166
+AMERICAN- setting new structure to capture:ae5ab261-ae6b-479b-9a2f-5b231c2fa166
+AMERICAN- setting new structure to capture:ae5ab261-ae6b-479b-9a2f-5b231c2fa166
+AMERICAN- setting new structure to capture:ae5ab261-ae6b-479b-9a2f-5b231c2fa166
+AMERICAN- setting new structure to capture:ae5ab261-ae6b-479b-9a2f-5b231c2fa166
+AMERICAN- setting new structure to capture:ae5ab261-ae6b-479b-9a2f-5b231c2fa166
+AMERICAN- setting new structure to capture:ae5ab261-ae6b-479b-9a2f-5b231c2fa166
+AMERICAN- setting new structure to capture:ae5ab261-ae6b-479b-9a2f-5b231c2fa166
+AMERICAN- setting new structure to capture:ae5ab261-ae6b-479b-9a2f-5b231c2fa166
+AMERICAN- setting new structure to capture:ae5ab261-ae6b-479b-9a2f-5b231c2fa166
+AMERICAN- setting new structure to capture:ae5ab261-ae6b-479b-9a2f-5b231c2fa166
+AMERICAN- setting new structure to capture:ae5ab261-ae6b-479b-9a2f-5b231c2fa166
+AMERICAN- setting new structure to capture:ae5ab261-ae6b-479b-9a2f-5b231c2fa166
+AMERICAN- setting new structure to capture:ae5ab261-ae6b-479b-9a2f-5b231c2fa166
+AMERICAN- setting new structure to capture:ae5ab261-ae6b-479b-9a2f-5b231c2fa166
+AMERICAN- setting new structure to capture:ae5ab261-ae6b-479b-9a2f-5b231c2fa166
+AMERICAN- setting new structure to capture:ae5ab261-ae6b-479b-9a2f-5b231c2fa166
+received death notification:7f45db72-ac21-4d15-afda-fa733e6d874b
+AMERICAN- setting new structure to capture:ae5ab261-ae6b-479b-9a2f-5b231c2fa166
+AMERICAN- setting new structure to capture:ae5ab261-ae6b-479b-9a2f-5b231c2fa166
+AMERICAN- setting new structure to capture:ae5ab261-ae6b-479b-9a2f-5b231c2fa166
+AMERICAN- setting new structure to capture:ae5ab261-ae6b-479b-9a2f-5b231c2fa166
+AMERICAN- setting new structure to capture:ae5ab261-ae6b-479b-9a2f-5b231c2fa166
+AMERICAN- setting new structure to capture:ae5ab261-ae6b-479b-9a2f-5b231c2fa166
+AMERICAN- setting new structure to capture:ae5ab261-ae6b-479b-9a2f-5b231c2fa166
+AMERICAN- setting new structure to capture:ae5ab261-ae6b-479b-9a2f-5b231c2fa166
+received death notification:e510daec-05fe-4fbb-8ba4-3f90d544dbac
+received death notification:3b07003d-8682-4980-b0a2-830ecc01b5b5
+received death notification:97899ff1-72d8-4d05-be92-9967534f1085
+completed stucture capture:426e3b65-5352-44f0-a78c-8eab57ba27ea
+GERMAN- setting new structure to capture:26cb8134-c00c-41a2-b403-3d29bab0fc0b
+received death notification:44c580b5-e44c-4e80-b857-28ff8ca19edd
+received death notification:9a848e65-380d-47f4-9ac3-ce2c637bbec7
+received death notification:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+promoting:bf117448-39fe-4f78-8a48-9845080eaf8c to CADET_CORPORAL
+completed stucture capture:26cb8134-c00c-41a2-b403-3d29bab0fc0b
+completed stucture capture:26cb8134-c00c-41a2-b403-3d29bab0fc0b
+completed stucture capture:26cb8134-c00c-41a2-b403-3d29bab0fc0b
+completed stucture capture:26cb8134-c00c-41a2-b403-3d29bab0fc0b
+completed stucture capture:26cb8134-c00c-41a2-b403-3d29bab0fc0b
+completed stucture capture:26cb8134-c00c-41a2-b403-3d29bab0fc0b
+completed stucture capture:26cb8134-c00c-41a2-b403-3d29bab0fc0b
+completed stucture capture:26cb8134-c00c-41a2-b403-3d29bab0fc0b
+completed stucture capture:26cb8134-c00c-41a2-b403-3d29bab0fc0b
+completed stucture capture:26cb8134-c00c-41a2-b403-3d29bab0fc0b
+completed stucture capture:26cb8134-c00c-41a2-b403-3d29bab0fc0b
+completed stucture capture:26cb8134-c00c-41a2-b403-3d29bab0fc0b
+completed stucture capture:26cb8134-c00c-41a2-b403-3d29bab0fc0b
+completed stucture capture:26cb8134-c00c-41a2-b403-3d29bab0fc0b
+completed stucture capture:26cb8134-c00c-41a2-b403-3d29bab0fc0b
+completed stucture capture:26cb8134-c00c-41a2-b403-3d29bab0fc0b
+completed stucture capture:26cb8134-c00c-41a2-b403-3d29bab0fc0b
+completed stucture capture:26cb8134-c00c-41a2-b403-3d29bab0fc0b
+completed stucture capture:26cb8134-c00c-41a2-b403-3d29bab0fc0b
+completed stucture capture:26cb8134-c00c-41a2-b403-3d29bab0fc0b
+received death notification:a4907e16-8290-43e2-930b-96a5f79c1d52
+completed stucture capture:26cb8134-c00c-41a2-b403-3d29bab0fc0b
+completed stucture capture:26cb8134-c00c-41a2-b403-3d29bab0fc0b
+completed stucture capture:26cb8134-c00c-41a2-b403-3d29bab0fc0b
+completed stucture capture:26cb8134-c00c-41a2-b403-3d29bab0fc0b
+completed stucture capture:26cb8134-c00c-41a2-b403-3d29bab0fc0b
+GERMAN- setting new structure to capture:9395208d-8823-4a7c-aa51-a540e0918158
+GERMAN- setting new structure to capture:560603ba-a49a-421e-88e2-ffe757904a6a
+GERMAN- setting new structure to capture:20ebb1c3-97ab-478f-8518-ab946990c9d3
+GERMAN- setting new structure to capture:9395208d-8823-4a7c-aa51-a540e0918158
+GERMAN- setting new structure to capture:560603ba-a49a-421e-88e2-ffe757904a6a
+GERMAN- setting new structure to capture:20ebb1c3-97ab-478f-8518-ab946990c9d3
+received death notification:ba78fca1-b85a-41cc-9246-c6a2b4a22ee1
+received death notification:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+promoting:0a734c83-ca9c-429d-8292-c22ea9efb5e6 to CADET_CORPORAL
+completed stucture capture:3fae9f25-f397-4c86-8d47-055f8cebb484
+AMERICAN- setting new structure to capture:ae5ab261-ae6b-479b-9a2f-5b231c2fa166
+AMERICAN- setting new structure to capture:ae5ab261-ae6b-479b-9a2f-5b231c2fa166
+completed stucture capture:20ebb1c3-97ab-478f-8518-ab946990c9d3
+GERMAN- setting new structure to capture:9395208d-8823-4a7c-aa51-a540e0918158
+GERMAN- setting new structure to capture:9395208d-8823-4a7c-aa51-a540e0918158
+completed stucture capture:ae5ab261-ae6b-479b-9a2f-5b231c2fa166
+AMERICAN- setting new structure to capture:c6412c32-87fa-4b3e-a55b-e005dfe9eca7
+AMERICAN- setting new structure to capture:c6412c32-87fa-4b3e-a55b-e005dfe9eca7
+[Dreadnought] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+index:test_lost_victories1_house_status already exisits no deleting
+Listening on 5055
+AMERICAN- setting new structure to capture:09a7222a-0d46-4a3e-a5e5-a82d285b02d4
+GERMAN- setting new structure to capture:26be0d8f-619d-498f-ba6a-67270e14c669
+AMERICAN- setting new structure to capture:1d589cd2-fb38-4dc1-ba71-d47647ad9f98
+GERMAN- setting new structure to capture:1d6a20a0-0e75-4860-9a24-e4b74ab1ad46
+AMERICAN- setting new structure to capture:21d78170-dafd-47c3-b62e-458f6fd6f35b
+GERMAN- setting new structure to capture:3d3a9812-9846-4ea8-a9e2-8ee4b0f2496c
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+completed stucture capture:1d6a20a0-0e75-4860-9a24-e4b74ab1ad46
+GERMAN- setting new structure to capture:26be0d8f-619d-498f-ba6a-67270e14c669
+completed stucture capture:1d589cd2-fb38-4dc1-ba71-d47647ad9f98
+completed stucture capture:21d78170-dafd-47c3-b62e-458f6fd6f35b
+completed stucture capture:26be0d8f-619d-498f-ba6a-67270e14c669
+completed stucture capture:26be0d8f-619d-498f-ba6a-67270e14c669
+GERMAN- setting new structure to capture:3d3a9812-9846-4ea8-a9e2-8ee4b0f2496c
+GERMAN- setting new structure to capture:2f1c78b4-f8db-487d-af1c-b6058a551be3
+received death notification:c50943d3-8d60-42ef-8c9b-80f9923fc215
+received death notification:0fad6036-3498-43f0-8c85-4dd6828573a8
+received death notification:812568f8-01fd-4e77-a3b4-fd710e521623
+received death notification:957cccb9-4641-4d90-be91-ecfefee9a1e8
+received death notification:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+promoting:06ebcc7f-ccbf-4544-9bb8-0352b8a76fc2 to CADET_CORPORAL
+received death notification:aab84a21-c84f-4448-9575-9c4f896480b2
+received death notification:eb34140f-5b18-41e6-ab4d-40223185bd71
+completed stucture capture:09a7222a-0d46-4a3e-a5e5-a82d285b02d4
+AMERICAN- setting new structure to capture:5020c165-e10a-43e2-a81b-c011922f0f40
+AMERICAN- setting new structure to capture:5020c165-e10a-43e2-a81b-c011922f0f40
+completed stucture capture:0e685b14-3fc1-4215-b64c-a1fcb90bb054
+completed stucture capture:b22f8753-fdef-47b9-a744-a00cabc034b3
+completed stucture capture:b22f8753-fdef-47b9-a744-a00cabc034b3
+GERMAN- setting new structure to capture:3d3a9812-9846-4ea8-a9e2-8ee4b0f2496c
+GERMAN- setting new structure to capture:3d3a9812-9846-4ea8-a9e2-8ee4b0f2496c
+GERMAN- setting new structure to capture:3d3a9812-9846-4ea8-a9e2-8ee4b0f2496c
+GERMAN- setting new structure to capture:2f1c78b4-f8db-487d-af1c-b6058a551be3
+completed stucture capture:2f1c78b4-f8db-487d-af1c-b6058a551be3
+completed stucture capture:2f1c78b4-f8db-487d-af1c-b6058a551be3
+GERMAN- setting new structure to capture:3d3a9812-9846-4ea8-a9e2-8ee4b0f2496c
+GERMAN- setting new structure to capture:3d3a9812-9846-4ea8-a9e2-8ee4b0f2496c
+GERMAN- setting new structure to capture:3d3a9812-9846-4ea8-a9e2-8ee4b0f2496c
+completed stucture capture:3d3a9812-9846-4ea8-a9e2-8ee4b0f2496c
+completed stucture capture:3d3a9812-9846-4ea8-a9e2-8ee4b0f2496c
+completed stucture capture:3d3a9812-9846-4ea8-a9e2-8ee4b0f2496c
+completed stucture capture:3d3a9812-9846-4ea8-a9e2-8ee4b0f2496c
+completed stucture capture:3d3a9812-9846-4ea8-a9e2-8ee4b0f2496c
+GERMAN- setting new structure to capture:34f24eb7-5cb2-4e00-87d7-df13dadbca5b
+GERMAN- setting new structure to capture:34f24eb7-5cb2-4e00-87d7-df13dadbca5b
+GERMAN- setting new structure to capture:e8ac3f98-2855-4143-a204-7a3d663483bd
+GERMAN- setting new structure to capture:e8ac3f98-2855-4143-a204-7a3d663483bd
+GERMAN- setting new structure to capture:34f24eb7-5cb2-4e00-87d7-df13dadbca5b
+GERMAN- setting new structure to capture:e8ac3f98-2855-4143-a204-7a3d663483bd
+AMERICAN- setting new structure to capture:0bb11c66-875c-4f90-af00-cec5b5044672
+AMERICAN- setting new structure to capture:0bb11c66-875c-4f90-af00-cec5b5044672
+AMERICAN- setting new structure to capture:0bb11c66-875c-4f90-af00-cec5b5044672
+[Simon Williams] loaded [], sites []
+index:test_lost_victories1_unit_status already exisits
+Listening on 5055
+completed stucture capture:df0c55c6-3586-4ffc-9007-b524f96b1d71
+completed stucture capture:0bb11c66-875c-4f90-af00-cec5b5044672
+AMERICAN- setting new structure to capture:112b8bb4-e79a-4ff1-992e-e6f8458395c2
+AMERICAN- setting new structure to capture:c699cf9d-4757-40bd-acf4-449336ea6a85
+AMERICAN- setting new structure to capture:112b8bb4-e79a-4ff1-992e-e6f8458395c2
+AMERICAN- setting new structure to capture:c699cf9d-4757-40bd-acf4-449336ea6a85
+AMERICAN- setting new structure to capture:112b8bb4-e79a-4ff1-992e-e6f8458395c2
+AMERICAN- setting new structure to capture:c699cf9d-4757-40bd-acf4-449336ea6a85
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+completed stucture capture:09a7222a-0d46-4a3e-a5e5-a82d285b02d4
+completed stucture capture:c44168e4-653c-4de7-8351-1c5e4e849727
+completed stucture capture:c44168e4-653c-4de7-8351-1c5e4e849727
+completed stucture capture:c44168e4-653c-4de7-8351-1c5e4e849727
+completed stucture capture:c44168e4-653c-4de7-8351-1c5e4e849727
+completed stucture capture:e8ac3f98-2855-4143-a204-7a3d663483bd
+completed stucture capture:e8ac3f98-2855-4143-a204-7a3d663483bd
+GERMAN- setting new structure to capture:34f24eb7-5cb2-4e00-87d7-df13dadbca5b
+GERMAN- setting new structure to capture:34f24eb7-5cb2-4e00-87d7-df13dadbca5b
+GERMAN- setting new structure to capture:34f24eb7-5cb2-4e00-87d7-df13dadbca5b
+completed stucture capture:cb6886b7-2cb8-4cf3-b055-7f90660d4ec9
+completed stucture capture:cb6886b7-2cb8-4cf3-b055-7f90660d4ec9
+completed stucture capture:cb6886b7-2cb8-4cf3-b055-7f90660d4ec9
+completed stucture capture:cb6886b7-2cb8-4cf3-b055-7f90660d4ec9
+completed stucture capture:cb6886b7-2cb8-4cf3-b055-7f90660d4ec9
+completed stucture capture:cb6886b7-2cb8-4cf3-b055-7f90660d4ec9
+completed stucture capture:cb6886b7-2cb8-4cf3-b055-7f90660d4ec9
+completed stucture capture:cb6886b7-2cb8-4cf3-b055-7f90660d4ec9
+AMERICAN- setting new structure to capture:c699cf9d-4757-40bd-acf4-449336ea6a85
+AMERICAN- setting new structure to capture:c699cf9d-4757-40bd-acf4-449336ea6a85
+AMERICAN- setting new structure to capture:c699cf9d-4757-40bd-acf4-449336ea6a85
+AMERICAN- setting new structure to capture:c699cf9d-4757-40bd-acf4-449336ea6a85
+AMERICAN- setting new structure to capture:c699cf9d-4757-40bd-acf4-449336ea6a85
+AMERICAN- setting new structure to capture:c699cf9d-4757-40bd-acf4-449336ea6a85
+AMERICAN- setting new structure to capture:c699cf9d-4757-40bd-acf4-449336ea6a85
+AMERICAN- setting new structure to capture:c699cf9d-4757-40bd-acf4-449336ea6a85
+[Nomad] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+GERMAN- setting new structure to capture:652f1846-0194-42f2-95e2-8e70f2df3680
+AMERICAN- setting new structure to capture:7b452f01-abb8-4480-b450-0aecc6c47295
+GERMAN- setting new structure to capture:0d5bde7a-81a0-4ba5-b7e0-15f46a5c43c6
+AMERICAN- setting new structure to capture:32c21d61-1ab7-45ad-b740-2d6105fc2616
+GERMAN- setting new structure to capture:2a78a74f-edd1-4d92-ac19-9987aa6a3ebe
+AMERICAN- setting new structure to capture:fa782e68-ba0b-4e9d-92d2-98d37211bcdf
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+completed stucture capture:0d5bde7a-81a0-4ba5-b7e0-15f46a5c43c6
+GERMAN- setting new structure to capture:652f1846-0194-42f2-95e2-8e70f2df3680
+completed stucture capture:652f1846-0194-42f2-95e2-8e70f2df3680
+completed stucture capture:652f1846-0194-42f2-95e2-8e70f2df3680
+GERMAN- setting new structure to capture:2a78a74f-edd1-4d92-ac19-9987aa6a3ebe
+GERMAN- setting new structure to capture:dc510b87-0c6a-4ae0-91b2-6849930a4172
+completed stucture capture:ba1034fc-04e3-4371-85c1-2a7b79431052
+completed stucture capture:ba1034fc-04e3-4371-85c1-2a7b79431052
+completed stucture capture:ba1034fc-04e3-4371-85c1-2a7b79431052
+completed stucture capture:ba1034fc-04e3-4371-85c1-2a7b79431052
+completed stucture capture:ba1034fc-04e3-4371-85c1-2a7b79431052
+completed stucture capture:2a78a74f-edd1-4d92-ac19-9987aa6a3ebe
+completed stucture capture:2a78a74f-edd1-4d92-ac19-9987aa6a3ebe
+GERMAN- setting new structure to capture:dc510b87-0c6a-4ae0-91b2-6849930a4172
+GERMAN- setting new structure to capture:1fb3890a-b555-4f8b-9166-b90dc604ebe8
+AMERICAN- setting new structure to capture:1f853006-1e5a-4d33-99ce-1535cd1b2ffd
+AMERICAN- setting new structure to capture:1f853006-1e5a-4d33-99ce-1535cd1b2ffd
+AMERICAN- setting new structure to capture:1f853006-1e5a-4d33-99ce-1535cd1b2ffd
+AMERICAN- setting new structure to capture:1f853006-1e5a-4d33-99ce-1535cd1b2ffd
+completed stucture capture:43039dd4-7f7c-4c79-a344-75b248d5f7e9
+AMERICAN- setting new structure to capture:1f853006-1e5a-4d33-99ce-1535cd1b2ffd
+completed stucture capture:43039dd4-7f7c-4c79-a344-75b248d5f7e9
+completed stucture capture:43039dd4-7f7c-4c79-a344-75b248d5f7e9
+completed stucture capture:43039dd4-7f7c-4c79-a344-75b248d5f7e9
+completed stucture capture:43039dd4-7f7c-4c79-a344-75b248d5f7e9
+completed stucture capture:43039dd4-7f7c-4c79-a344-75b248d5f7e9
+completed stucture capture:43039dd4-7f7c-4c79-a344-75b248d5f7e9
+AMERICAN- setting new structure to capture:1f853006-1e5a-4d33-99ce-1535cd1b2ffd
+AMERICAN- setting new structure to capture:1f853006-1e5a-4d33-99ce-1535cd1b2ffd
+AMERICAN- setting new structure to capture:1f853006-1e5a-4d33-99ce-1535cd1b2ffd
+AMERICAN- setting new structure to capture:6b9421ca-ae1b-472a-8729-b197334fbac7
+AMERICAN- setting new structure to capture:1f853006-1e5a-4d33-99ce-1535cd1b2ffd
+AMERICAN- setting new structure to capture:ebf09332-5725-41a5-80db-4b81cd386764
+AMERICAN- setting new structure to capture:6b9421ca-ae1b-472a-8729-b197334fbac7
+AMERICAN- setting new structure to capture:ebf09332-5725-41a5-80db-4b81cd386764
+AMERICAN- setting new structure to capture:0531a7ef-8d0a-4c9a-823b-26a2dac2ac0e
+AMERICAN- setting new structure to capture:1f853006-1e5a-4d33-99ce-1535cd1b2ffd
+AMERICAN- setting new structure to capture:6b9421ca-ae1b-472a-8729-b197334fbac7
+AMERICAN- setting new structure to capture:ebf09332-5725-41a5-80db-4b81cd386764
+AMERICAN- setting new structure to capture:0531a7ef-8d0a-4c9a-823b-26a2dac2ac0e
+AMERICAN- setting new structure to capture:1f853006-1e5a-4d33-99ce-1535cd1b2ffd
+AMERICAN- setting new structure to capture:6b9421ca-ae1b-472a-8729-b197334fbac7
+AMERICAN- setting new structure to capture:ebf09332-5725-41a5-80db-4b81cd386764
+AMERICAN- setting new structure to capture:0531a7ef-8d0a-4c9a-823b-26a2dac2ac0e
+AMERICAN- setting new structure to capture:1f853006-1e5a-4d33-99ce-1535cd1b2ffd
+AMERICAN- setting new structure to capture:6b9421ca-ae1b-472a-8729-b197334fbac7
+completed stucture capture:1f853006-1e5a-4d33-99ce-1535cd1b2ffd
+completed stucture capture:1f853006-1e5a-4d33-99ce-1535cd1b2ffd
+completed stucture capture:1f853006-1e5a-4d33-99ce-1535cd1b2ffd
+AMERICAN- setting new structure to capture:6b9421ca-ae1b-472a-8729-b197334fbac7
+AMERICAN- setting new structure to capture:ebf09332-5725-41a5-80db-4b81cd386764
+AMERICAN- setting new structure to capture:6b9421ca-ae1b-472a-8729-b197334fbac7
+AMERICAN- setting new structure to capture:6b9421ca-ae1b-472a-8729-b197334fbac7
+AMERICAN- setting new structure to capture:6b9421ca-ae1b-472a-8729-b197334fbac7
+completed stucture capture:6b9421ca-ae1b-472a-8729-b197334fbac7
+completed stucture capture:6b9421ca-ae1b-472a-8729-b197334fbac7
+completed stucture capture:6b9421ca-ae1b-472a-8729-b197334fbac7
+completed stucture capture:6b9421ca-ae1b-472a-8729-b197334fbac7
+completed stucture capture:6b9421ca-ae1b-472a-8729-b197334fbac7
+AMERICAN- setting new structure to capture:ebf09332-5725-41a5-80db-4b81cd386764
+AMERICAN- setting new structure to capture:732f6079-abb6-45cf-a13d-89f0583ffed3
+AMERICAN- setting new structure to capture:0531a7ef-8d0a-4c9a-823b-26a2dac2ac0e
+AMERICAN- setting new structure to capture:ebf09332-5725-41a5-80db-4b81cd386764
+AMERICAN- setting new structure to capture:0531a7ef-8d0a-4c9a-823b-26a2dac2ac0e
+AMERICAN- setting new structure to capture:ebf09332-5725-41a5-80db-4b81cd386764
+AMERICAN- setting new structure to capture:0531a7ef-8d0a-4c9a-823b-26a2dac2ac0e
+AMERICAN- setting new structure to capture:ebf09332-5725-41a5-80db-4b81cd386764
+AMERICAN- setting new structure to capture:0531a7ef-8d0a-4c9a-823b-26a2dac2ac0e
+completed stucture capture:0531a7ef-8d0a-4c9a-823b-26a2dac2ac0e
+AMERICAN- setting new structure to capture:ebf09332-5725-41a5-80db-4b81cd386764
+AMERICAN- setting new structure to capture:ebf09332-5725-41a5-80db-4b81cd386764
+AMERICAN- setting new structure to capture:ebf09332-5725-41a5-80db-4b81cd386764
+completed stucture capture:0531a7ef-8d0a-4c9a-823b-26a2dac2ac0e
+completed stucture capture:0531a7ef-8d0a-4c9a-823b-26a2dac2ac0e
+completed stucture capture:732f6079-abb6-45cf-a13d-89f0583ffed3
+AMERICAN- setting new structure to capture:ebf09332-5725-41a5-80db-4b81cd386764
+AMERICAN- setting new structure to capture:ebf09332-5725-41a5-80db-4b81cd386764
+AMERICAN- setting new structure to capture:ebf09332-5725-41a5-80db-4b81cd386764
+AMERICAN- setting new structure to capture:ebf09332-5725-41a5-80db-4b81cd386764
+AMERICAN- setting new structure to capture:ebf09332-5725-41a5-80db-4b81cd386764
+completed stucture capture:ebf09332-5725-41a5-80db-4b81cd386764
+completed stucture capture:ebf09332-5725-41a5-80db-4b81cd386764
+completed stucture capture:ebf09332-5725-41a5-80db-4b81cd386764
+completed stucture capture:ebf09332-5725-41a5-80db-4b81cd386764
+completed stucture capture:ebf09332-5725-41a5-80db-4b81cd386764
+completed stucture capture:ebf09332-5725-41a5-80db-4b81cd386764
+completed stucture capture:ebf09332-5725-41a5-80db-4b81cd386764
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:68dd6da1-b586-4a30-bb49-6adacc3de477
+AMERICAN- setting new structure to capture:984b0299-0746-4108-8ea7-b9d6479adb21
+AMERICAN- setting new structure to capture:eace3d23-b22d-4cfa-90de-9c0dcd1d2a77
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:984b0299-0746-4108-8ea7-b9d6479adb21
+AMERICAN- setting new structure to capture:68dd6da1-b586-4a30-bb49-6adacc3de477
+AMERICAN- setting new structure to capture:29b67420-a4fe-422b-b65c-78c5fb4d9189
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:984b0299-0746-4108-8ea7-b9d6479adb21
+AMERICAN- setting new structure to capture:68dd6da1-b586-4a30-bb49-6adacc3de477
+AMERICAN- setting new structure to capture:29b67420-a4fe-422b-b65c-78c5fb4d9189
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:984b0299-0746-4108-8ea7-b9d6479adb21
+AMERICAN- setting new structure to capture:68dd6da1-b586-4a30-bb49-6adacc3de477
+AMERICAN- setting new structure to capture:29b67420-a4fe-422b-b65c-78c5fb4d9189
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:984b0299-0746-4108-8ea7-b9d6479adb21
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:984b0299-0746-4108-8ea7-b9d6479adb21
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:984b0299-0746-4108-8ea7-b9d6479adb21
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:984b0299-0746-4108-8ea7-b9d6479adb21
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:984b0299-0746-4108-8ea7-b9d6479adb21
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:984b0299-0746-4108-8ea7-b9d6479adb21
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:984b0299-0746-4108-8ea7-b9d6479adb21
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:984b0299-0746-4108-8ea7-b9d6479adb21
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:984b0299-0746-4108-8ea7-b9d6479adb21
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:984b0299-0746-4108-8ea7-b9d6479adb21
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:984b0299-0746-4108-8ea7-b9d6479adb21
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:984b0299-0746-4108-8ea7-b9d6479adb21
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:984b0299-0746-4108-8ea7-b9d6479adb21
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:984b0299-0746-4108-8ea7-b9d6479adb21
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:984b0299-0746-4108-8ea7-b9d6479adb21
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:984b0299-0746-4108-8ea7-b9d6479adb21
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:984b0299-0746-4108-8ea7-b9d6479adb21
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:984b0299-0746-4108-8ea7-b9d6479adb21
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:984b0299-0746-4108-8ea7-b9d6479adb21
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:984b0299-0746-4108-8ea7-b9d6479adb21
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:984b0299-0746-4108-8ea7-b9d6479adb21
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:984b0299-0746-4108-8ea7-b9d6479adb21
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:984b0299-0746-4108-8ea7-b9d6479adb21
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:984b0299-0746-4108-8ea7-b9d6479adb21
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:984b0299-0746-4108-8ea7-b9d6479adb21
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:984b0299-0746-4108-8ea7-b9d6479adb21
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:984b0299-0746-4108-8ea7-b9d6479adb21
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:984b0299-0746-4108-8ea7-b9d6479adb21
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:984b0299-0746-4108-8ea7-b9d6479adb21
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:984b0299-0746-4108-8ea7-b9d6479adb21
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+completed stucture capture:eace3d23-b22d-4cfa-90de-9c0dcd1d2a77
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+completed stucture capture:984b0299-0746-4108-8ea7-b9d6479adb21
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+completed stucture capture:984b0299-0746-4108-8ea7-b9d6479adb21
+completed stucture capture:984b0299-0746-4108-8ea7-b9d6479adb21
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:68dd6da1-b586-4a30-bb49-6adacc3de477
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:68dd6da1-b586-4a30-bb49-6adacc3de477
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:68dd6da1-b586-4a30-bb49-6adacc3de477
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:6005086d-b551-4e04-9959-2013474fd809
+completed stucture capture:6005086d-b551-4e04-9959-2013474fd809
+completed stucture capture:6005086d-b551-4e04-9959-2013474fd809
+completed stucture capture:6005086d-b551-4e04-9959-2013474fd809
+completed stucture capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:68dd6da1-b586-4a30-bb49-6adacc3de477
+AMERICAN- setting new structure to capture:68dd6da1-b586-4a30-bb49-6adacc3de477
+AMERICAN- setting new structure to capture:68dd6da1-b586-4a30-bb49-6adacc3de477
+completed stucture capture:6005086d-b551-4e04-9959-2013474fd809
+AMERICAN- setting new structure to capture:68dd6da1-b586-4a30-bb49-6adacc3de477
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:68dd6da1-b586-4a30-bb49-6adacc3de477
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:68dd6da1-b586-4a30-bb49-6adacc3de477
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:68dd6da1-b586-4a30-bb49-6adacc3de477
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+completed stucture capture:68dd6da1-b586-4a30-bb49-6adacc3de477
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+completed stucture capture:68dd6da1-b586-4a30-bb49-6adacc3de477
+completed stucture capture:68dd6da1-b586-4a30-bb49-6adacc3de477
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+received death notification:768098e3-3800-435d-856c-d6c2ac286f07
+received death notification:04e9c2ae-22eb-4e7a-8265-4d73f3d611e7
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+received death notification:6bd745e9-b3d0-4cf5-964a-190cce3ca4a6
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+received death notification:8b31e007-e57a-4357-801f-65d26a7e8896
+received death notification:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+promoting:8e7b9078-7cab-40dd-aebd-e94f5c7d47fc to CADET_CORPORAL
+received death notification:96964262-b906-49f8-baa6-614f78779563
+de64d991-8a46-4cd4-b194-fc4f5ad8988b not found in repo
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+completed stucture capture:dc510b87-0c6a-4ae0-91b2-6849930a4172
+completed stucture capture:dc510b87-0c6a-4ae0-91b2-6849930a4172
+completed stucture capture:dc510b87-0c6a-4ae0-91b2-6849930a4172
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+completed stucture capture:dc510b87-0c6a-4ae0-91b2-6849930a4172
+completed stucture capture:dc510b87-0c6a-4ae0-91b2-6849930a4172
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+completed stucture capture:dc510b87-0c6a-4ae0-91b2-6849930a4172
+GERMAN- setting new structure to capture:1fb3890a-b555-4f8b-9166-b90dc604ebe8
+GERMAN- setting new structure to capture:9bf75924-a96c-4954-9350-d79ce3cdeaf3
+GERMAN- setting new structure to capture:986efbc2-908e-4ed4-8d7b-057c8838cd0d
+GERMAN- setting new structure to capture:79c3d4cb-8b2e-440a-a134-1d9543ac0a0a
+GERMAN- setting new structure to capture:1fb3890a-b555-4f8b-9166-b90dc604ebe8
+GERMAN- setting new structure to capture:9bf75924-a96c-4954-9350-d79ce3cdeaf3
+GERMAN- setting new structure to capture:1fb3890a-b555-4f8b-9166-b90dc604ebe8
+GERMAN- setting new structure to capture:9bf75924-a96c-4954-9350-d79ce3cdeaf3
+completed stucture capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+completed stucture capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+completed stucture capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+completed stucture capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+completed stucture capture:e35e7d24-5617-4feb-8b1d-d14947e188b1
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:986efbc2-908e-4ed4-8d7b-057c8838cd0d
+AMERICAN- setting new structure to capture:9a88a92c-08e0-4182-9ac0-b05c2ad7034d
+AMERICAN- setting new structure to capture:79c3d4cb-8b2e-440a-a134-1d9543ac0a0a
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:986efbc2-908e-4ed4-8d7b-057c8838cd0d
+AMERICAN- setting new structure to capture:986efbc2-908e-4ed4-8d7b-057c8838cd0d
+AMERICAN- setting new structure to capture:9a88a92c-08e0-4182-9ac0-b05c2ad7034d
+AMERICAN- setting new structure to capture:79c3d4cb-8b2e-440a-a134-1d9543ac0a0a
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:986efbc2-908e-4ed4-8d7b-057c8838cd0d
+AMERICAN- setting new structure to capture:9a88a92c-08e0-4182-9ac0-b05c2ad7034d
+AMERICAN- setting new structure to capture:79c3d4cb-8b2e-440a-a134-1d9543ac0a0a
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+completed stucture capture:9bf75924-a96c-4954-9350-d79ce3cdeaf3
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+completed stucture capture:9bf75924-a96c-4954-9350-d79ce3cdeaf3
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+GERMAN- setting new structure to capture:1fb3890a-b555-4f8b-9166-b90dc604ebe8
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+GERMAN- setting new structure to capture:1fb3890a-b555-4f8b-9166-b90dc604ebe8
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+GERMAN- setting new structure to capture:1fb3890a-b555-4f8b-9166-b90dc604ebe8
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+completed stucture capture:986efbc2-908e-4ed4-8d7b-057c8838cd0d
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+GERMAN- setting new structure to capture:1fb3890a-b555-4f8b-9166-b90dc604ebe8
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+received death notification:ba3be5a6-b904-48ef-96c4-e50bf7fb0066
+received death notification:ef1f7355-ebc3-458f-9517-806a82c9febb
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+completed stucture capture:79c3d4cb-8b2e-440a-a134-1d9543ac0a0a
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:986efbc2-908e-4ed4-8d7b-057c8838cd0d
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:986efbc2-908e-4ed4-8d7b-057c8838cd0d
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:986efbc2-908e-4ed4-8d7b-057c8838cd0d
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+completed stucture capture:9a88a92c-08e0-4182-9ac0-b05c2ad7034d
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+completed stucture capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+completed stucture capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+AMERICAN- setting new structure to capture:986efbc2-908e-4ed4-8d7b-057c8838cd0d
+completed stucture capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+completed stucture capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+completed stucture capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+completed stucture capture:75971042-0c62-40af-bb2f-d9925b5aa24e
+[Kirtsyn Perrin Short Stop] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+index:test_lost_victories1_house_status already exisits no deleting
+Listening on 5055
+GERMAN- setting new structure to capture:b8a6d1aa-265d-48db-b705-0c08134abf33
+AMERICAN- setting new structure to capture:72acd790-9248-41d3-bdb1-415dfc9469c4
+GERMAN- setting new structure to capture:9e84b7b2-fcbe-4270-8c22-5736a3c8675e
+AMERICAN- setting new structure to capture:5e81c9c1-3264-4a96-a680-a36d9210d44b
+AMERICAN- setting new structure to capture:272def9f-52d3-440d-ac62-709bcd2e9e38
+GERMAN- setting new structure to capture:a07fed1d-ba74-471b-80e4-0b951996ac4b
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+completed stucture capture:9e84b7b2-fcbe-4270-8c22-5736a3c8675e
+GERMAN- setting new structure to capture:b8a6d1aa-265d-48db-b705-0c08134abf33
+AMERICAN- setting new structure to capture:e4ad4d5c-4980-4b15-8a00-26a72cc83555
+AMERICAN- setting new structure to capture:e4ad4d5c-4980-4b15-8a00-26a72cc83555
+completed stucture capture:b8a6d1aa-265d-48db-b705-0c08134abf33
+completed stucture capture:b8a6d1aa-265d-48db-b705-0c08134abf33
+GERMAN- setting new structure to capture:a07fed1d-ba74-471b-80e4-0b951996ac4b
+GERMAN- setting new structure to capture:a07fed1d-ba74-471b-80e4-0b951996ac4b
+[Stentor] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+index:test_lost_victories1_house_status already exisits no deleting
+Listening on 5055
+GERMAN- setting new structure to capture:72c56b6f-1595-4adb-abae-b69d676b98e4
+GERMAN- setting new structure to capture:8c8bc503-18ea-47c6-8f4a-6eb5706afe1b
+GERMAN- setting new structure to capture:372f3b0b-ee37-4162-974a-dde8de93f5fd
+AMERICAN- setting new structure to capture:e88514ca-58d6-4e9c-89e5-596e84f8ef52
+AMERICAN- setting new structure to capture:2608a98a-51d7-4f1d-8995-902ec5fe6201
+AMERICAN- setting new structure to capture:41bf831b-b676-4dd0-b630-9f04e4359b29
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+completed stucture capture:8c8bc503-18ea-47c6-8f4a-6eb5706afe1b
+GERMAN- setting new structure to capture:72c56b6f-1595-4adb-abae-b69d676b98e4
+completed stucture capture:72c56b6f-1595-4adb-abae-b69d676b98e4
+completed stucture capture:72c56b6f-1595-4adb-abae-b69d676b98e4
+GERMAN- setting new structure to capture:372f3b0b-ee37-4162-974a-dde8de93f5fd
+GERMAN- setting new structure to capture:372f3b0b-ee37-4162-974a-dde8de93f5fd
+completed stucture capture:2608a98a-51d7-4f1d-8995-902ec5fe6201
+AMERICAN- setting new structure to capture:e88514ca-58d6-4e9c-89e5-596e84f8ef52
+AMERICAN- setting new structure to capture:e88514ca-58d6-4e9c-89e5-596e84f8ef52
+completed stucture capture:e88514ca-58d6-4e9c-89e5-596e84f8ef52
+AMERICAN- setting new structure to capture:f2efe3ea-bfb2-4f80-9a07-f7f35d2a46e2
+AMERICAN- setting new structure to capture:f2efe3ea-bfb2-4f80-9a07-f7f35d2a46e2
+completed stucture capture:e88514ca-58d6-4e9c-89e5-596e84f8ef52
+AMERICAN- setting new structure to capture:f2efe3ea-bfb2-4f80-9a07-f7f35d2a46e2
+AMERICAN- setting new structure to capture:f2efe3ea-bfb2-4f80-9a07-f7f35d2a46e2
+[Mister X] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+index:test_lost_victories1_house_status already exisits no deleting
+Listening on 5055
+GERMAN- setting new structure to capture:81a39126-91e0-4199-9259-c4ab5d6df42c
+AMERICAN- setting new structure to capture:9481fc57-590a-4a77-b36d-d071f35cff01
+GERMAN- setting new structure to capture:153ae5f1-84bc-4e05-886c-7062215d95f7
+AMERICAN- setting new structure to capture:559194a9-baf7-436e-8168-edff1cf51e36
+GERMAN- setting new structure to capture:fe9d8282-3975-4adb-99b2-04ca7450fb8f
+AMERICAN- setting new structure to capture:947e8c26-d66b-4e29-bdb4-bc664a276d25
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+completed stucture capture:153ae5f1-84bc-4e05-886c-7062215d95f7
+GERMAN- setting new structure to capture:81a39126-91e0-4199-9259-c4ab5d6df42c
+completed stucture capture:947e8c26-d66b-4e29-bdb4-bc664a276d25
+AMERICAN- setting new structure to capture:9481fc57-590a-4a77-b36d-d071f35cff01
+AMERICAN- setting new structure to capture:9481fc57-590a-4a77-b36d-d071f35cff01
+completed stucture capture:81a39126-91e0-4199-9259-c4ab5d6df42c
+completed stucture capture:81a39126-91e0-4199-9259-c4ab5d6df42c
+GERMAN- setting new structure to capture:fe9d8282-3975-4adb-99b2-04ca7450fb8f
+GERMAN- setting new structure to capture:82122c57-eb1a-47d1-9e1e-88674ffbf06c
+completed stucture capture:559194a9-baf7-436e-8168-edff1cf51e36
+completed stucture capture:9481fc57-590a-4a77-b36d-d071f35cff01
+completed stucture capture:9481fc57-590a-4a77-b36d-d071f35cff01
+AMERICAN- setting new structure to capture:a03f0ce4-be85-4438-8532-1adfe091603b
+AMERICAN- setting new structure to capture:a03f0ce4-be85-4438-8532-1adfe091603b
+AMERICAN- setting new structure to capture:a03f0ce4-be85-4438-8532-1adfe091603b
+AMERICAN- setting new structure to capture:a03f0ce4-be85-4438-8532-1adfe091603b
+completed stucture capture:a03f0ce4-be85-4438-8532-1adfe091603b
+completed stucture capture:a03f0ce4-be85-4438-8532-1adfe091603b
+AMERICAN- setting new structure to capture:49e7d9ce-2d33-4e63-a30d-0ae1d4aca580
+AMERICAN- setting new structure to capture:49e7d9ce-2d33-4e63-a30d-0ae1d4aca580
+AMERICAN- setting new structure to capture:49e7d9ce-2d33-4e63-a30d-0ae1d4aca580
+AMERICAN- setting new structure to capture:49e7d9ce-2d33-4e63-a30d-0ae1d4aca580
+[Man Mountain Marko] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+GERMAN- setting new structure to capture:281d9e70-c696-4afa-bcb3-ca282e7e6c2c
+AMERICAN- setting new structure to capture:396b848e-cf11-4cfe-a46b-7ebde9e18605
+GERMAN- setting new structure to capture:b0baccf9-ace3-4aa2-8043-33846d012945
+AMERICAN- setting new structure to capture:8a941dee-0b2b-49a6-a0e2-88fa5017e098
+AMERICAN- setting new structure to capture:83c920dc-08ac-4397-8e30-f40c55bac8a1
+GERMAN- setting new structure to capture:7b2a81dd-d31f-43d2-8cba-05da1b2ebdd1
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+completed stucture capture:b0baccf9-ace3-4aa2-8043-33846d012945
+GERMAN- setting new structure to capture:281d9e70-c696-4afa-bcb3-ca282e7e6c2c
+completed stucture capture:83c920dc-08ac-4397-8e30-f40c55bac8a1
+completed stucture capture:281d9e70-c696-4afa-bcb3-ca282e7e6c2c
+completed stucture capture:281d9e70-c696-4afa-bcb3-ca282e7e6c2c
+GERMAN- setting new structure to capture:7b2a81dd-d31f-43d2-8cba-05da1b2ebdd1
+GERMAN- setting new structure to capture:d3f1ee7f-212d-4640-b5d2-999fc83c3a7c
+received death notification:f63d2315-a2a3-4226-bcf6-2eff27323f27
+received death notification:1d9e47e0-3807-4308-a6c3-7aeeca2e0e52
+received death notification:ca264f3c-07c0-41a0-8306-43e288f7acc1
+completed stucture capture:8a941dee-0b2b-49a6-a0e2-88fa5017e098
+AMERICAN- setting new structure to capture:396b848e-cf11-4cfe-a46b-7ebde9e18605
+AMERICAN- setting new structure to capture:396b848e-cf11-4cfe-a46b-7ebde9e18605
+completed stucture capture:396b848e-cf11-4cfe-a46b-7ebde9e18605
+completed stucture capture:396b848e-cf11-4cfe-a46b-7ebde9e18605
+AMERICAN- setting new structure to capture:d1f76f31-f9a4-4fe3-9345-3482af890e3d
+AMERICAN- setting new structure to capture:dd33374f-03f0-40fe-a831-972fcc5b3a84
+AMERICAN- setting new structure to capture:d1f76f31-f9a4-4fe3-9345-3482af890e3d
+AMERICAN- setting new structure to capture:dd33374f-03f0-40fe-a831-972fcc5b3a84
+received death notification:f7a7586e-966c-48dc-bf19-c82ed28a43fd
+completed stucture capture:d3f1ee7f-212d-4640-b5d2-999fc83c3a7c
+completed stucture capture:d3f1ee7f-212d-4640-b5d2-999fc83c3a7c
+GERMAN- setting new structure to capture:7b2a81dd-d31f-43d2-8cba-05da1b2ebdd1
+completed stucture capture:39d20840-199b-4528-9524-b638b494569b
+GERMAN- setting new structure to capture:7b2a81dd-d31f-43d2-8cba-05da1b2ebdd1
+[MODAM] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+GERMAN- setting new structure to capture:59dd2b9b-df15-4218-a1d7-29df1734db01
+AMERICAN- setting new structure to capture:800f98eb-76f3-4251-ac1c-906fbce69b93
+GERMAN- setting new structure to capture:78510507-9954-42c8-917e-07c402e0fb6e
+AMERICAN- setting new structure to capture:66ae021d-5abd-4120-b5ad-1534dc363bb7
+AMERICAN- setting new structure to capture:39013644-1972-4573-97cb-5c263fdad142
+GERMAN- setting new structure to capture:640c8214-b71d-4f3d-8d81-b299b2364eff
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+completed stucture capture:78510507-9954-42c8-917e-07c402e0fb6e
+GERMAN- setting new structure to capture:59dd2b9b-df15-4218-a1d7-29df1734db01
+completed stucture capture:800f98eb-76f3-4251-ac1c-906fbce69b93
+AMERICAN- setting new structure to capture:3b93fa54-811d-4722-81b5-9dfa8709a005
+AMERICAN- setting new structure to capture:3b93fa54-811d-4722-81b5-9dfa8709a005
+completed stucture capture:59dd2b9b-df15-4218-a1d7-29df1734db01
+completed stucture capture:59dd2b9b-df15-4218-a1d7-29df1734db01
+GERMAN- setting new structure to capture:640c8214-b71d-4f3d-8d81-b299b2364eff
+GERMAN- setting new structure to capture:84c9c9c2-26e4-4192-9620-b0249b42110d
+received death notification:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+promoting:9da57cd8-b447-4d07-8d36-fc12757a60d9 to CADET_CORPORAL
+received death notification:8e4adea6-9c63-49ff-8085-7e60ef2a9fab
+received death notification:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+promoting:a8e6bd99-b4f3-4f30-a460-b95f35407c8c to CADET_CORPORAL
+received death notification:4d8d38af-6719-4af1-9ddc-dd7fdba3e6d5
+received death notification:f89b3573-7f6d-413f-a42b-350b74089461
+[Murmur] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+index:test_lost_victories1_house_status already exisits no deleting
+Listening on 5055
+AMERICAN- setting new structure to capture:34e072be-98f6-40ff-ac00-899b83b1c468
+GERMAN- setting new structure to capture:21109de1-700d-4f0d-8f5f-d3db1d625794
+GERMAN- setting new structure to capture:6e538fef-14b0-4f01-8902-def02fd77240
+AMERICAN- setting new structure to capture:6ee8ec5b-78f9-479c-8248-62053aa3ae33
+GERMAN- setting new structure to capture:860f6cb0-52eb-42bd-be6a-41ca97c9de0f
+AMERICAN- setting new structure to capture:027abb07-3d2f-4a1d-9d1e-4a4e48ed12b9
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+completed stucture capture:6e538fef-14b0-4f01-8902-def02fd77240
+GERMAN- setting new structure to capture:21109de1-700d-4f0d-8f5f-d3db1d625794
+completed stucture capture:027abb07-3d2f-4a1d-9d1e-4a4e48ed12b9
+AMERICAN- setting new structure to capture:34e072be-98f6-40ff-ac00-899b83b1c468
+AMERICAN- setting new structure to capture:34e072be-98f6-40ff-ac00-899b83b1c468
+completed stucture capture:6ee8ec5b-78f9-479c-8248-62053aa3ae33
+completed stucture capture:34e072be-98f6-40ff-ac00-899b83b1c468
+completed stucture capture:34e072be-98f6-40ff-ac00-899b83b1c468
+AMERICAN- setting new structure to capture:2e216457-2181-4713-83e2-947752ecba0a
+AMERICAN- setting new structure to capture:2e216457-2181-4713-83e2-947752ecba0a
+completed stucture capture:21109de1-700d-4f0d-8f5f-d3db1d625794
+completed stucture capture:21109de1-700d-4f0d-8f5f-d3db1d625794
+GERMAN- setting new structure to capture:860f6cb0-52eb-42bd-be6a-41ca97c9de0f
+GERMAN- setting new structure to capture:88138c25-c801-48a2-9a62-54c0931e4ac4
+completed stucture capture:860f6cb0-52eb-42bd-be6a-41ca97c9de0f
+completed stucture capture:860f6cb0-52eb-42bd-be6a-41ca97c9de0f
+GERMAN- setting new structure to capture:88138c25-c801-48a2-9a62-54c0931e4ac4
+GERMAN- setting new structure to capture:1f699090-eddf-4e08-a76d-51d464ec6d18
+completed stucture capture:2e216457-2181-4713-83e2-947752ecba0a
+AMERICAN- setting new structure to capture:cf575e7f-592c-4190-b2c3-8248af2df7a6
+AMERICAN- setting new structure to capture:cf575e7f-592c-4190-b2c3-8248af2df7a6
+[Spyne] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+index:test_lost_victories1_house_status already exisits no deleting
+Listening on 5055
+GERMAN- setting new structure to capture:c44439ba-f17e-4f81-a69f-a6670c148ba7
+AMERICAN- setting new structure to capture:863bf80c-8591-40e0-8ddf-a318c7f1c10b
+GERMAN- setting new structure to capture:e771f3ba-7b1e-4ab2-b9eb-22278951503c
+AMERICAN- setting new structure to capture:aaaff007-e0cd-446a-aa51-7208c78713a9
+AMERICAN- setting new structure to capture:a36adcae-d860-4955-ad8d-857718a98fe0
+GERMAN- setting new structure to capture:31811e5e-e9bd-4f4d-9d21-4dbba1de6e18
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+completed stucture capture:aaaff007-e0cd-446a-aa51-7208c78713a9
+AMERICAN- setting new structure to capture:863bf80c-8591-40e0-8ddf-a318c7f1c10b
+completed stucture capture:e771f3ba-7b1e-4ab2-b9eb-22278951503c
+completed stucture capture:aaaff007-e0cd-446a-aa51-7208c78713a9
+GERMAN- setting new structure to capture:c44439ba-f17e-4f81-a69f-a6670c148ba7
+AMERICAN- setting new structure to capture:aeb6303f-1427-4fde-bf48-4377c1f70191
+AMERICAN- setting new structure to capture:aeb6303f-1427-4fde-bf48-4377c1f70191
+completed stucture capture:c44439ba-f17e-4f81-a69f-a6670c148ba7
+completed stucture capture:c44439ba-f17e-4f81-a69f-a6670c148ba7
+GERMAN- setting new structure to capture:31811e5e-e9bd-4f4d-9d21-4dbba1de6e18
+GERMAN- setting new structure to capture:96d84ffb-3a8c-40f6-aa16-94739ba934a2
+[Deathwatch] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+GERMAN- setting new structure to capture:b3c74ad7-cf23-44f9-a72f-14d37c4ef7ff
+AMERICAN- setting new structure to capture:f80e139e-57fc-4414-97dc-f8838ea5683b
+GERMAN- setting new structure to capture:6163b4a4-406f-48fd-b669-02e4d9fe289b
+AMERICAN- setting new structure to capture:45268d59-4cf5-408b-b96f-a11245867ac7
+GERMAN- setting new structure to capture:5981f73e-52aa-464e-896f-e20ea764bb55
+AMERICAN- setting new structure to capture:7b9f2dca-2c28-43b1-b878-a5e564154a7d
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+completed stucture capture:6163b4a4-406f-48fd-b669-02e4d9fe289b
+GERMAN- setting new structure to capture:b3c74ad7-cf23-44f9-a72f-14d37c4ef7ff
+AMERICAN- setting new structure to capture:f80e139e-57fc-4414-97dc-f8838ea5683b
+AMERICAN- setting new structure to capture:f80e139e-57fc-4414-97dc-f8838ea5683b
+completed stucture capture:45268d59-4cf5-408b-b96f-a11245867ac7
+AMERICAN- setting new structure to capture:f80e139e-57fc-4414-97dc-f8838ea5683b
+AMERICAN- setting new structure to capture:f80e139e-57fc-4414-97dc-f8838ea5683b
+completed stucture capture:b3c74ad7-cf23-44f9-a72f-14d37c4ef7ff
+completed stucture capture:b3c74ad7-cf23-44f9-a72f-14d37c4ef7ff
+GERMAN- setting new structure to capture:5981f73e-52aa-464e-896f-e20ea764bb55
+GERMAN- setting new structure to capture:93d16577-f896-4835-8d3e-f42c527b659b
+completed stucture capture:f80e139e-57fc-4414-97dc-f8838ea5683b
+completed stucture capture:f80e139e-57fc-4414-97dc-f8838ea5683b
+AMERICAN- setting new structure to capture:3da60d78-7890-40a7-b70b-93e49313d042
+AMERICAN- setting new structure to capture:51b6ec6c-7db2-4352-bd4f-1e62aad7aac3
+AMERICAN- setting new structure to capture:3da60d78-7890-40a7-b70b-93e49313d042
+AMERICAN- setting new structure to capture:51b6ec6c-7db2-4352-bd4f-1e62aad7aac3
+completed stucture capture:5981f73e-52aa-464e-896f-e20ea764bb55
+completed stucture capture:5981f73e-52aa-464e-896f-e20ea764bb55
+GERMAN- setting new structure to capture:93d16577-f896-4835-8d3e-f42c527b659b
+GERMAN- setting new structure to capture:8c3af13b-de5b-4513-bf6c-0c74a386a095
+completed stucture capture:8c3af13b-de5b-4513-bf6c-0c74a386a095
+GERMAN- setting new structure to capture:93d16577-f896-4835-8d3e-f42c527b659b
+completed stucture capture:93d16577-f896-4835-8d3e-f42c527b659b
+completed stucture capture:93d16577-f896-4835-8d3e-f42c527b659b
+completed stucture capture:93d16577-f896-4835-8d3e-f42c527b659b
+GERMAN- setting new structure to capture:d11fdb9c-17c1-437c-939d-c41d33b4d193
+GERMAN- setting new structure to capture:9ee468c5-bf13-4841-8d59-f30b6f42d22f
+GERMAN- setting new structure to capture:bc02583c-68e7-4ea0-b138-52709c86d073
+[Mac Gargan] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+index:test_lost_victories1_house_status already exisits no deleting
+Listening on 5055
+GERMAN- setting new structure to capture:27084c62-6abc-46dd-80c8-1f74a8cadbb0
+AMERICAN- setting new structure to capture:a9735054-ae0e-4ee2-88fa-fbf819f80dc3
+GERMAN- setting new structure to capture:aa4a8550-d445-486a-97a3-96cb8869b11c
+AMERICAN- setting new structure to capture:5b0b0aee-df27-48e9-87fa-29980a573a9d
+GERMAN- setting new structure to capture:88886cf6-4e3b-4926-8bee-66549e72e9ee
+AMERICAN- setting new structure to capture:d74b89ab-eb2a-4fc9-9ad9-f711e7b95685
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+completed stucture capture:aa4a8550-d445-486a-97a3-96cb8869b11c
+GERMAN- setting new structure to capture:27084c62-6abc-46dd-80c8-1f74a8cadbb0
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+completed stucture capture:27084c62-6abc-46dd-80c8-1f74a8cadbb0
+completed stucture capture:27084c62-6abc-46dd-80c8-1f74a8cadbb0
+GERMAN- setting new structure to capture:88886cf6-4e3b-4926-8bee-66549e72e9ee
+GERMAN- setting new structure to capture:67a87100-2386-4296-84a7-c82ff071d514
+[Geb] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+AMERICAN- setting new structure to capture:e734ec4a-259f-412f-bc45-4d9abf1761bc
+AMERICAN- setting new structure to capture:4d2db0f5-fa4f-407e-8ebd-1253411b003c
+AMERICAN- setting new structure to capture:c5e23aca-0a56-4aae-9f9c-048d554b790e
+GERMAN- setting new structure to capture:3b8c1025-27ca-48f2-ab3d-9dad5e150908
+GERMAN- setting new structure to capture:748d56d6-d6ec-481b-9221-09bc8ee41abc
+GERMAN- setting new structure to capture:3263d687-ad1d-430a-96e9-fe9921b8775b
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+completed stucture capture:748d56d6-d6ec-481b-9221-09bc8ee41abc
+GERMAN- setting new structure to capture:3b8c1025-27ca-48f2-ab3d-9dad5e150908
+completed stucture capture:c5e23aca-0a56-4aae-9f9c-048d554b790e
+completed stucture capture:3b8c1025-27ca-48f2-ab3d-9dad5e150908
+completed stucture capture:3b8c1025-27ca-48f2-ab3d-9dad5e150908
+GERMAN- setting new structure to capture:3263d687-ad1d-430a-96e9-fe9921b8775b
+GERMAN- setting new structure to capture:0391595a-a836-4491-a432-e3fdeb2bf308
+completed stucture capture:e734ec4a-259f-412f-bc45-4d9abf1761bc
+[Viper] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+AMERICAN- setting new structure to capture:64b39c44-7c2d-4682-9ba4-1ff9f47daf6d
+GERMAN- setting new structure to capture:9d33b3d6-7f23-4087-b9f9-d8a733dbfffc
+GERMAN- setting new structure to capture:6057ef57-f482-475b-a573-460748358b6f
+AMERICAN- setting new structure to capture:4ebcf45f-e4d4-45b4-874d-7169a2819505
+GERMAN- setting new structure to capture:a9701b77-cf1e-4f03-bf9d-12a989270b5c
+AMERICAN- setting new structure to capture:d216217f-9f72-4ead-b512-876955984cfb
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+completed stucture capture:6057ef57-f482-475b-a573-460748358b6f
+GERMAN- setting new structure to capture:9d33b3d6-7f23-4087-b9f9-d8a733dbfffc
+completed stucture capture:9d33b3d6-7f23-4087-b9f9-d8a733dbfffc
+completed stucture capture:9d33b3d6-7f23-4087-b9f9-d8a733dbfffc
+GERMAN- setting new structure to capture:a9701b77-cf1e-4f03-bf9d-12a989270b5c
+GERMAN- setting new structure to capture:54d7b280-4bc1-4162-9410-ff199dbbd458
+AMERICAN- setting new structure to capture:b417cb3e-79c9-4878-811b-daa614ca3b3e
+AMERICAN- setting new structure to capture:490133d5-3db7-404e-8a7c-d2aae140cecf
+AMERICAN- setting new structure to capture:b417cb3e-79c9-4878-811b-daa614ca3b3e
+AMERICAN- setting new structure to capture:490133d5-3db7-404e-8a7c-d2aae140cecf
+AMERICAN- setting new structure to capture:b417cb3e-79c9-4878-811b-daa614ca3b3e
+AMERICAN- setting new structure to capture:b417cb3e-79c9-4878-811b-daa614ca3b3e
+completed stucture capture:b417cb3e-79c9-4878-811b-daa614ca3b3e
+completed stucture capture:b417cb3e-79c9-4878-811b-daa614ca3b3e
+AMERICAN- setting new structure to capture:490133d5-3db7-404e-8a7c-d2aae140cecf
+AMERICAN- setting new structure to capture:b7ea848e-56e7-4e9a-81e9-f4cc2ca50d55
+AMERICAN- setting new structure to capture:490133d5-3db7-404e-8a7c-d2aae140cecf
+AMERICAN- setting new structure to capture:b7ea848e-56e7-4e9a-81e9-f4cc2ca50d55
+[Amphibion] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+index:test_lost_victories1_house_status already exisits no deleting
+Listening on 5055
+AMERICAN- setting new structure to capture:bd74d9dc-68df-43f7-b9b1-7c4d82f46cf0
+GERMAN- setting new structure to capture:84d5755f-12f3-4480-ad07-079774d424ca
+AMERICAN- setting new structure to capture:a3c26974-6f78-4d1d-8d40-fed6a6c69640
+GERMAN- setting new structure to capture:bb754314-8db8-4831-94aa-4c66b7933b1a
+GERMAN- setting new structure to capture:da42a349-789b-45d5-9f63-fb083d8255ab
+AMERICAN- setting new structure to capture:85001d33-ed9c-46a5-b17a-8bc1dc1ad18f
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+completed stucture capture:bb754314-8db8-4831-94aa-4c66b7933b1a
+GERMAN- setting new structure to capture:84d5755f-12f3-4480-ad07-079774d424ca
+completed stucture capture:a3c26974-6f78-4d1d-8d40-fed6a6c69640
+completed stucture capture:bd74d9dc-68df-43f7-b9b1-7c4d82f46cf0
+completed stucture capture:84d5755f-12f3-4480-ad07-079774d424ca
+GERMAN- setting new structure to capture:da42a349-789b-45d5-9f63-fb083d8255ab
+completed stucture capture:84d5755f-12f3-4480-ad07-079774d424ca
+GERMAN- setting new structure to capture:da42a349-789b-45d5-9f63-fb083d8255ab
+completed stucture capture:85001d33-ed9c-46a5-b17a-8bc1dc1ad18f
+AMERICAN- setting new structure to capture:e3d502b7-4240-49ed-b4b2-a892977e70b6
+AMERICAN- setting new structure to capture:e3d502b7-4240-49ed-b4b2-a892977e70b6
+GERMAN- setting new structure to capture:da42a349-789b-45d5-9f63-fb083d8255ab
+GERMAN- setting new structure to capture:2e25585b-b6ac-40f1-96f9-ff1ae1907071
+GERMAN- setting new structure to capture:fc63d419-fca6-47f2-a656-0c58b8dfec48
+GERMAN- setting new structure to capture:10126002-521a-4340-89b7-5c27428bf766
+received death notification:c0102419-5ae5-44b1-ba50-4fb3943bdd5f
+promoting:e2d5da37-f0db-4d4c-bc6d-bcfb01f1cfd1 to LIEUTENANT
+received death notification:a0aae894-0966-48a2-83ab-a1794245fc7e
+received death notification:9a9e8bd9-c663-40f5-ba4b-be6d59cbde10
+received death notification:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+promoting:c9b7062b-0990-483f-be77-8ff475db91aa to CADET_CORPORAL
+received death notification:bef6af92-2dbf-4d84-bbe0-1ffcf334a8f8
+promoting:026be24f-4839-40a0-aeb2-ceebb9acb5d1 to CADET_CORPORAL
+received death notification:db143525-e354-4828-9086-a5004cc9dda3
+AMERICAN- setting new structure to capture:e3d502b7-4240-49ed-b4b2-a892977e70b6
+AMERICAN- setting new structure to capture:e3d502b7-4240-49ed-b4b2-a892977e70b6
+completed stucture capture:2e25585b-b6ac-40f1-96f9-ff1ae1907071
+received death notification:f06da312-f4d6-4d0d-9ca2-7d1e60b4c62c
+GERMAN- setting new structure to capture:da42a349-789b-45d5-9f63-fb083d8255ab
+completed stucture capture:e3d502b7-4240-49ed-b4b2-a892977e70b6
+completed stucture capture:e3d502b7-4240-49ed-b4b2-a892977e70b6
+AMERICAN- setting new structure to capture:450a4afa-6398-421e-9575-c3b25f5796b8
+AMERICAN- setting new structure to capture:d1aacc40-0750-4556-b143-59f54952e236
+AMERICAN- setting new structure to capture:450a4afa-6398-421e-9575-c3b25f5796b8
+AMERICAN- setting new structure to capture:d1aacc40-0750-4556-b143-59f54952e236
+GERMAN- setting new structure to capture:da42a349-789b-45d5-9f63-fb083d8255ab
+GERMAN- setting new structure to capture:da42a349-789b-45d5-9f63-fb083d8255ab
+GERMAN- setting new structure to capture:da42a349-789b-45d5-9f63-fb083d8255ab
+completed stucture capture:da42a349-789b-45d5-9f63-fb083d8255ab
+completed stucture capture:da42a349-789b-45d5-9f63-fb083d8255ab
+completed stucture capture:da42a349-789b-45d5-9f63-fb083d8255ab
+GERMAN- setting new structure to capture:fc63d419-fca6-47f2-a656-0c58b8dfec48
+completed stucture capture:da42a349-789b-45d5-9f63-fb083d8255ab
+GERMAN- setting new structure to capture:fc63d419-fca6-47f2-a656-0c58b8dfec48
+GERMAN- setting new structure to capture:10126002-521a-4340-89b7-5c27428bf766
+GERMAN- setting new structure to capture:fc63d419-fca6-47f2-a656-0c58b8dfec48
+GERMAN- setting new structure to capture:10126002-521a-4340-89b7-5c27428bf766
+GERMAN- setting new structure to capture:c4159fb2-a6e2-47f2-a4a7-2d7e16c6c50a
+GERMAN- setting new structure to capture:fc63d419-fca6-47f2-a656-0c58b8dfec48
+GERMAN- setting new structure to capture:10126002-521a-4340-89b7-5c27428bf766
+GERMAN- setting new structure to capture:c4159fb2-a6e2-47f2-a4a7-2d7e16c6c50a
+GERMAN- setting new structure to capture:fc63d419-fca6-47f2-a656-0c58b8dfec48
+GERMAN- setting new structure to capture:fc63d419-fca6-47f2-a656-0c58b8dfec48
+GERMAN- setting new structure to capture:fc63d419-fca6-47f2-a656-0c58b8dfec48
+GERMAN- setting new structure to capture:fc63d419-fca6-47f2-a656-0c58b8dfec48
+GERMAN- setting new structure to capture:fc63d419-fca6-47f2-a656-0c58b8dfec48
+received death notification:1a24226c-c9f7-4a87-b96f-5805b8a01c90
+GERMAN- setting new structure to capture:fc63d419-fca6-47f2-a656-0c58b8dfec48
+received death notification:c29b052f-91ae-4d28-bdd6-f353ef4f3f4b
+promoting:4370f86d-cfbb-4b45-8f11-29de01675157 to CADET_CORPORAL
+GERMAN- setting new structure to capture:fc63d419-fca6-47f2-a656-0c58b8dfec48
+GERMAN- setting new structure to capture:fc63d419-fca6-47f2-a656-0c58b8dfec48
+GERMAN- setting new structure to capture:fc63d419-fca6-47f2-a656-0c58b8dfec48
+GERMAN- setting new structure to capture:fc63d419-fca6-47f2-a656-0c58b8dfec48
+GERMAN- setting new structure to capture:fc63d419-fca6-47f2-a656-0c58b8dfec48
+received death notification:f70e2a97-f8f5-4a1e-8c53-6e018f8e1935
+completed stucture capture:c4159fb2-a6e2-47f2-a4a7-2d7e16c6c50a
+completed stucture capture:450a4afa-6398-421e-9575-c3b25f5796b8
+AMERICAN- setting new structure to capture:d1aacc40-0750-4556-b143-59f54952e236
+GERMAN- setting new structure to capture:fc63d419-fca6-47f2-a656-0c58b8dfec48
+AMERICAN- setting new structure to capture:d1aacc40-0750-4556-b143-59f54952e236
+GERMAN- setting new structure to capture:fc63d419-fca6-47f2-a656-0c58b8dfec48
+received death notification:feb49897-6356-422c-b3f3-1aeb68d4a49a
+received death notification:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+promoting:a08369cd-f46a-4a50-b080-acd8491147e0 to CADET_CORPORAL
+received death notification:445531ff-da3d-4759-a25b-67a8b0b0817d
+received death notification:b5faf301-ddb9-4c5b-9057-c635f21dcca9
+completed stucture capture:d1aacc40-0750-4556-b143-59f54952e236
+AMERICAN- setting new structure to capture:58eac47e-1079-48e8-99a4-729833e24344
+AMERICAN- setting new structure to capture:58eac47e-1079-48e8-99a4-729833e24344
+AMERICAN- setting new structure to capture:58eac47e-1079-48e8-99a4-729833e24344
+[Cain Marko] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+index:test_lost_victories1_house_status already exisits no deleting
+Listening on 5055
+GERMAN- setting new structure to capture:9e25cbfd-37bc-4b80-82f6-443e2f733f4d
+GERMAN- setting new structure to capture:c0bae3b5-0e61-4701-b108-04cb1bd86583
+GERMAN- setting new structure to capture:18c785a8-0fa4-45c0-808d-93bb75889525
+AMERICAN- setting new structure to capture:e483f9a7-05a8-4c8e-b31a-3c7fffe5daa9
+AMERICAN- setting new structure to capture:6062b983-3d41-4f6b-809e-6cfee5d6b6d4
+AMERICAN- setting new structure to capture:1579767d-625f-4db2-b429-2890a32d8b51
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+completed stucture capture:c0bae3b5-0e61-4701-b108-04cb1bd86583
+GERMAN- setting new structure to capture:9e25cbfd-37bc-4b80-82f6-443e2f733f4d
+completed stucture capture:6062b983-3d41-4f6b-809e-6cfee5d6b6d4
+completed stucture capture:1579767d-625f-4db2-b429-2890a32d8b51
+AMERICAN- setting new structure to capture:e483f9a7-05a8-4c8e-b31a-3c7fffe5daa9
+AMERICAN- setting new structure to capture:e483f9a7-05a8-4c8e-b31a-3c7fffe5daa9
+completed stucture capture:9e25cbfd-37bc-4b80-82f6-443e2f733f4d
+completed stucture capture:9e25cbfd-37bc-4b80-82f6-443e2f733f4d
+GERMAN- setting new structure to capture:18c785a8-0fa4-45c0-808d-93bb75889525
+GERMAN- setting new structure to capture:84c84a01-558b-42ea-8a93-e760b21398ae
+completed stucture capture:e483f9a7-05a8-4c8e-b31a-3c7fffe5daa9
+AMERICAN- setting new structure to capture:997f677e-b486-41fa-b8a5-d1ce04c8fb07
+completed stucture capture:e483f9a7-05a8-4c8e-b31a-3c7fffe5daa9
+AMERICAN- setting new structure to capture:997f677e-b486-41fa-b8a5-d1ce04c8fb07
+AMERICAN- setting new structure to capture:997f677e-b486-41fa-b8a5-d1ce04c8fb07
+AMERICAN- setting new structure to capture:997f677e-b486-41fa-b8a5-d1ce04c8fb07
+completed stucture capture:18c785a8-0fa4-45c0-808d-93bb75889525
+GERMAN- setting new structure to capture:84c84a01-558b-42ea-8a93-e760b21398ae
+completed stucture capture:18c785a8-0fa4-45c0-808d-93bb75889525
+GERMAN- setting new structure to capture:84c84a01-558b-42ea-8a93-e760b21398ae
+[Spiral] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+index:test_lost_victories1_house_status already exisits no deleting
+Listening on 5055
+GERMAN- setting new structure to capture:a2fa8ed5-78e5-4068-8f3d-8484c6964846
+AMERICAN- setting new structure to capture:a7fec444-f92d-46c4-9144-a188e59ddbe9
+GERMAN- setting new structure to capture:7bf216f6-fc69-4744-a9c1-2f3165be500f
+AMERICAN- setting new structure to capture:55439ba5-0992-4ffb-b6a2-31bf22236fdf
+GERMAN- setting new structure to capture:54d894aa-6db8-4f41-84f0-ca8e11283a79
+AMERICAN- setting new structure to capture:a8e54b61-99f2-4368-a1b3-c6ddbfa2f0f3
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+completed stucture capture:7bf216f6-fc69-4744-a9c1-2f3165be500f
+GERMAN- setting new structure to capture:a2fa8ed5-78e5-4068-8f3d-8484c6964846
+completed stucture capture:55439ba5-0992-4ffb-b6a2-31bf22236fdf
+completed stucture capture:a8e54b61-99f2-4368-a1b3-c6ddbfa2f0f3
+AMERICAN- setting new structure to capture:a7fec444-f92d-46c4-9144-a188e59ddbe9
+AMERICAN- setting new structure to capture:a7fec444-f92d-46c4-9144-a188e59ddbe9
+completed stucture capture:a7fec444-f92d-46c4-9144-a188e59ddbe9
+completed stucture capture:a7fec444-f92d-46c4-9144-a188e59ddbe9
+completed stucture capture:a2fa8ed5-78e5-4068-8f3d-8484c6964846
+completed stucture capture:a2fa8ed5-78e5-4068-8f3d-8484c6964846
+AMERICAN- setting new structure to capture:e96f542d-92cd-4433-8ea2-fe59d7eeb653
+AMERICAN- setting new structure to capture:e96f542d-92cd-4433-8ea2-fe59d7eeb653
+GERMAN- setting new structure to capture:54d894aa-6db8-4f41-84f0-ca8e11283a79
+GERMAN- setting new structure to capture:0d185df4-4bb4-42f1-b7fe-82c86befb7b1
+completed stucture capture:54d894aa-6db8-4f41-84f0-ca8e11283a79
+completed stucture capture:54d894aa-6db8-4f41-84f0-ca8e11283a79
+GERMAN- setting new structure to capture:0d185df4-4bb4-42f1-b7fe-82c86befb7b1
+GERMAN- setting new structure to capture:4f1c4329-f624-426a-bf79-e0f481f86435
+received death notification:25eb7c44-a282-4cc6-bc25-7b2fad815953
+received death notification:e3267f9e-df17-46f4-8051-0cebb12971e1
+received death notification:a6eee82a-cd21-4787-b0da-51988a814b2c
+received death notification:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+promoting:098613ea-699b-4938-8d7d-d711f51463f6 to CADET_CORPORAL
+[Discus] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+index:test_lost_victories1_house_status already exisits no deleting
+Listening on 5055
+GERMAN- setting new structure to capture:880dfa7c-ea3e-4179-96ac-666b7668ccee
+AMERICAN- setting new structure to capture:ccd1da5b-d7fe-4a13-a4eb-1e493177c5e5
+GERMAN- setting new structure to capture:eeac31a3-5968-4e51-88e9-1a1b290b1ab1
+AMERICAN- setting new structure to capture:33bb45d3-745e-43e8-be28-7ed354cf0a2e
+GERMAN- setting new structure to capture:a51c47a7-224a-4677-ad6d-a2086b80337a
+AMERICAN- setting new structure to capture:8b9a144a-ccfc-4a80-acf5-6fcf278a8fbb
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+completed stucture capture:eeac31a3-5968-4e51-88e9-1a1b290b1ab1
+GERMAN- setting new structure to capture:880dfa7c-ea3e-4179-96ac-666b7668ccee
+AMERICAN- setting new structure to capture:ccd1da5b-d7fe-4a13-a4eb-1e493177c5e5
+AMERICAN- setting new structure to capture:ccd1da5b-d7fe-4a13-a4eb-1e493177c5e5
+completed stucture capture:8b9a144a-ccfc-4a80-acf5-6fcf278a8fbb
+AMERICAN- setting new structure to capture:ccd1da5b-d7fe-4a13-a4eb-1e493177c5e5
+AMERICAN- setting new structure to capture:ccd1da5b-d7fe-4a13-a4eb-1e493177c5e5
+completed stucture capture:880dfa7c-ea3e-4179-96ac-666b7668ccee
+completed stucture capture:880dfa7c-ea3e-4179-96ac-666b7668ccee
+GERMAN- setting new structure to capture:a51c47a7-224a-4677-ad6d-a2086b80337a
+GERMAN- setting new structure to capture:b39f6632-d4c2-4732-9a2c-36c6ea5adedc
+completed stucture capture:ccd1da5b-d7fe-4a13-a4eb-1e493177c5e5
+completed stucture capture:ccd1da5b-d7fe-4a13-a4eb-1e493177c5e5
+completed stucture capture:ccd1da5b-d7fe-4a13-a4eb-1e493177c5e5
+AMERICAN- setting new structure to capture:c8fe3fc3-6f2e-4293-a8b8-f64bd893555d
+AMERICAN- setting new structure to capture:8496e8de-3e40-4fc0-85a6-b0e5805af9e6
+AMERICAN- setting new structure to capture:646a2e68-2c52-4ac2-8c56-c8b2e72e46d7
+AMERICAN- setting new structure to capture:c8fe3fc3-6f2e-4293-a8b8-f64bd893555d
+AMERICAN- setting new structure to capture:8496e8de-3e40-4fc0-85a6-b0e5805af9e6
+AMERICAN- setting new structure to capture:646a2e68-2c52-4ac2-8c56-c8b2e72e46d7
+received death notification:3a8eaaaa-0a03-400a-8a4b-9d2094213e91
+received death notification:7d7c508a-7c2c-405a-90ba-96cd488182c7
+received death notification:f3b93af2-8e91-4c3f-97c7-4a8aadc28982
+received death notification:cfaae5e5-a743-40cd-b13d-5ed8db51f000
+completed stucture capture:b39f6632-d4c2-4732-9a2c-36c6ea5adedc
+completed stucture capture:646a2e68-2c52-4ac2-8c56-c8b2e72e46d7
+AMERICAN- setting new structure to capture:c8fe3fc3-6f2e-4293-a8b8-f64bd893555d
+AMERICAN- setting new structure to capture:c8fe3fc3-6f2e-4293-a8b8-f64bd893555d
+received death notification:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+promoting:0fb8b624-3dc9-4599-8a20-98fc9fbcd469 to CADET_CORPORAL
+AMERICAN- setting new structure to capture:c8fe3fc3-6f2e-4293-a8b8-f64bd893555d
+AMERICAN- setting new structure to capture:c8fe3fc3-6f2e-4293-a8b8-f64bd893555d
+GERMAN- setting new structure to capture:a51c47a7-224a-4677-ad6d-a2086b80337a
+AMERICAN- setting new structure to capture:c8fe3fc3-6f2e-4293-a8b8-f64bd893555d
+GERMAN- setting new structure to capture:a51c47a7-224a-4677-ad6d-a2086b80337a
+AMERICAN- setting new structure to capture:c8fe3fc3-6f2e-4293-a8b8-f64bd893555d
+received death notification:7d7dd347-cf7e-4229-9e0d-c34b40c26bdd
+received death notification:fc182c35-622c-48d9-a8a5-360aef73ec0e
+14d60ad6-bbdc-40af-88f2-25b93878cc8b not found in repo
+completed stucture capture:c8fe3fc3-6f2e-4293-a8b8-f64bd893555d
+completed stucture capture:a51c47a7-224a-4677-ad6d-a2086b80337a
+completed stucture capture:c8fe3fc3-6f2e-4293-a8b8-f64bd893555d
+completed stucture capture:c8fe3fc3-6f2e-4293-a8b8-f64bd893555d
+completed stucture capture:a51c47a7-224a-4677-ad6d-a2086b80337a
+completed stucture capture:a51c47a7-224a-4677-ad6d-a2086b80337a
+GERMAN- setting new structure to capture:54c8617e-9115-4a7e-bddf-6b8f0795bd01
+GERMAN- setting new structure to capture:54c8617e-9115-4a7e-bddf-6b8f0795bd01
+GERMAN- setting new structure to capture:7323ed3c-faf8-4757-a554-a685f132b8d3
+AMERICAN- setting new structure to capture:8496e8de-3e40-4fc0-85a6-b0e5805af9e6
+GERMAN- setting new structure to capture:54c8617e-9115-4a7e-bddf-6b8f0795bd01
+AMERICAN- setting new structure to capture:8499c831-bea6-4ab9-a0d5-7b2425f20d29
+GERMAN- setting new structure to capture:54c8617e-9115-4a7e-bddf-6b8f0795bd01
+AMERICAN- setting new structure to capture:8eef49c2-3579-423e-8d38-4a9c281d5ff1
+GERMAN- setting new structure to capture:7323ed3c-faf8-4757-a554-a685f132b8d3
+AMERICAN- setting new structure to capture:8496e8de-3e40-4fc0-85a6-b0e5805af9e6
+GERMAN- setting new structure to capture:54c8617e-9115-4a7e-bddf-6b8f0795bd01
+AMERICAN- setting new structure to capture:8499c831-bea6-4ab9-a0d5-7b2425f20d29
+GERMAN- setting new structure to capture:7323ed3c-faf8-4757-a554-a685f132b8d3
+AMERICAN- setting new structure to capture:8eef49c2-3579-423e-8d38-4a9c281d5ff1
+[Mister One] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+index:test_lost_victories1_house_status already exisits no deleting
+Listening on 5055
+GERMAN- setting new structure to capture:3bc9bb7f-e34f-42ff-8332-c82e84174569
+AMERICAN- setting new structure to capture:a0cf0167-fd44-4ff5-b70a-e5664b4b68b8
+AMERICAN- setting new structure to capture:f785dd5e-debd-43aa-b1fe-6099bd00eda2
+GERMAN- setting new structure to capture:91246f4f-07f6-4064-8b4e-c631adb016e4
+AMERICAN- setting new structure to capture:903a1b3d-7ace-470e-94a0-8f674182da52
+GERMAN- setting new structure to capture:01a14612-7eef-4e0b-9142-e3e0bf4d3d75
+GERMAN- setting new structure to capture:3bc9bb7f-e34f-42ff-8332-c82e84174569
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+completed stucture capture:91246f4f-07f6-4064-8b4e-c631adb016e4
+GERMAN- setting new structure to capture:3bc9bb7f-e34f-42ff-8332-c82e84174569
+AMERICAN- setting new structure to capture:9490de69-62a4-404f-8fcb-7e5a00db5962
+AMERICAN- setting new structure to capture:9490de69-62a4-404f-8fcb-7e5a00db5962
+completed stucture capture:3bc9bb7f-e34f-42ff-8332-c82e84174569
+completed stucture capture:3bc9bb7f-e34f-42ff-8332-c82e84174569
+GERMAN- setting new structure to capture:01a14612-7eef-4e0b-9142-e3e0bf4d3d75
+GERMAN- setting new structure to capture:83d0cb05-994b-4365-a86e-4c9bd2f3fe85
+received death notification:bbf3a7ea-0c93-43e5-8a9f-7c8dbbabe8df
+received death notification:e5705dd5-9de1-4b7a-b5b7-f70b3e61adde
+completed stucture capture:01a14612-7eef-4e0b-9142-e3e0bf4d3d75
+completed stucture capture:01a14612-7eef-4e0b-9142-e3e0bf4d3d75
+GERMAN- setting new structure to capture:83d0cb05-994b-4365-a86e-4c9bd2f3fe85
+GERMAN- setting new structure to capture:a3e2a370-9a2e-41ca-911a-10afb3fc9943
+completed stucture capture:9490de69-62a4-404f-8fcb-7e5a00db5962
+AMERICAN- setting new structure to capture:29c84c33-b625-4817-b62d-2ee5ac72540b
+AMERICAN- setting new structure to capture:29c84c33-b625-4817-b62d-2ee5ac72540b
+completed stucture capture:007861aa-2bcf-4a31-b0e0-033a3ccded92
+AMERICAN- setting new structure to capture:29c84c33-b625-4817-b62d-2ee5ac72540b
+AMERICAN- setting new structure to capture:29c84c33-b625-4817-b62d-2ee5ac72540b
+AMERICAN- setting new structure to capture:29c84c33-b625-4817-b62d-2ee5ac72540b
+AMERICAN- setting new structure to capture:29c84c33-b625-4817-b62d-2ee5ac72540b
+AMERICAN- setting new structure to capture:29c84c33-b625-4817-b62d-2ee5ac72540b
+AMERICAN- setting new structure to capture:29c84c33-b625-4817-b62d-2ee5ac72540b
+AMERICAN- setting new structure to capture:29c84c33-b625-4817-b62d-2ee5ac72540b
+AMERICAN- setting new structure to capture:29c84c33-b625-4817-b62d-2ee5ac72540b
+AMERICAN- setting new structure to capture:29c84c33-b625-4817-b62d-2ee5ac72540b
+AMERICAN- setting new structure to capture:29c84c33-b625-4817-b62d-2ee5ac72540b
+AMERICAN- setting new structure to capture:29c84c33-b625-4817-b62d-2ee5ac72540b
+AMERICAN- setting new structure to capture:29c84c33-b625-4817-b62d-2ee5ac72540b
+AMERICAN- setting new structure to capture:29c84c33-b625-4817-b62d-2ee5ac72540b
+AMERICAN- setting new structure to capture:29c84c33-b625-4817-b62d-2ee5ac72540b
+AMERICAN- setting new structure to capture:29c84c33-b625-4817-b62d-2ee5ac72540b
+AMERICAN- setting new structure to capture:29c84c33-b625-4817-b62d-2ee5ac72540b
+AMERICAN- setting new structure to capture:29c84c33-b625-4817-b62d-2ee5ac72540b
+AMERICAN- setting new structure to capture:29c84c33-b625-4817-b62d-2ee5ac72540b
+AMERICAN- setting new structure to capture:29c84c33-b625-4817-b62d-2ee5ac72540b
+AMERICAN- setting new structure to capture:29c84c33-b625-4817-b62d-2ee5ac72540b
+AMERICAN- setting new structure to capture:29c84c33-b625-4817-b62d-2ee5ac72540b
+AMERICAN- setting new structure to capture:29c84c33-b625-4817-b62d-2ee5ac72540b
+AMERICAN- setting new structure to capture:29c84c33-b625-4817-b62d-2ee5ac72540b
+AMERICAN- setting new structure to capture:29c84c33-b625-4817-b62d-2ee5ac72540b
+AMERICAN- setting new structure to capture:29c84c33-b625-4817-b62d-2ee5ac72540b
+AMERICAN- setting new structure to capture:29c84c33-b625-4817-b62d-2ee5ac72540b
+AMERICAN- setting new structure to capture:29c84c33-b625-4817-b62d-2ee5ac72540b
+AMERICAN- setting new structure to capture:29c84c33-b625-4817-b62d-2ee5ac72540b
+AMERICAN- setting new structure to capture:29c84c33-b625-4817-b62d-2ee5ac72540b
+AMERICAN- setting new structure to capture:29c84c33-b625-4817-b62d-2ee5ac72540b
+AMERICAN- setting new structure to capture:29c84c33-b625-4817-b62d-2ee5ac72540b
+AMERICAN- setting new structure to capture:29c84c33-b625-4817-b62d-2ee5ac72540b
+AMERICAN- setting new structure to capture:29c84c33-b625-4817-b62d-2ee5ac72540b
+AMERICAN- setting new structure to capture:29c84c33-b625-4817-b62d-2ee5ac72540b
+AMERICAN- setting new structure to capture:29c84c33-b625-4817-b62d-2ee5ac72540b
+AMERICAN- setting new structure to capture:29c84c33-b625-4817-b62d-2ee5ac72540b
+AMERICAN- setting new structure to capture:29c84c33-b625-4817-b62d-2ee5ac72540b
+AMERICAN- setting new structure to capture:29c84c33-b625-4817-b62d-2ee5ac72540b

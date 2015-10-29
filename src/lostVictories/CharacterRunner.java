@@ -44,13 +44,13 @@ public class CharacterRunner implements Runnable{
 	@Override
 	public void run() {
 		try{
-		Map<UUID, CharacterMessage> toSave = new HashMap<UUID, CharacterMessage>();
-		characterDAO.getAllCharacters().parallelStream().filter(c->c.isAvailableForCheckout()).forEach(c->runCharacterBehavior(c, toSave));
-		try {
-			characterDAO.updateCharacterState(toSave);
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
+			Map<UUID, CharacterMessage> toSave = new HashMap<UUID, CharacterMessage>();
+			characterDAO.getAllCharacters().parallelStream().filter(c->c.isAvailableForCheckout()).forEach(c->runCharacterBehavior(c, toSave));
+			try {
+				characterDAO.updateCharacterState(toSave);
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
 		}catch(Throwable e){
 			e.printStackTrace();
 		}
@@ -63,6 +63,10 @@ public class CharacterRunner implements Runnable{
 				Class objectiveClass = Class.forName(entry.getValue().get("classType").asText());
 				Objective objective = (Objective) MAPPER.treeToValue(entry.getValue(), objectiveClass);
 				objective.runObjective(c, entry.getKey(), characterDAO, houseDAO, toSave);
+				if(objective.isComplete){
+					c.getObjectives().remove(entry.getKey());
+					toSave.put(c.getId(), c);
+				}
 			}catch(ClassNotFoundException e){
 				log.debug(entry.getValue().get("classType")+ " not found on Character runner");
 			} catch (JsonParseException e) {

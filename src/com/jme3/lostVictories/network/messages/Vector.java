@@ -23,6 +23,13 @@ public class Vector implements Serializable{
 	}
 
 	
+	public Vector(Vector3f v) {
+		this.x = v.x;
+		this.y = v.y;
+		this.z = v.z;
+	}
+
+
 	@Override
 	public String toString() {
 		return x+","+y+","+z;
@@ -62,5 +69,10 @@ public class Vector implements Serializable{
 	
 	public static Vector latLongToVector(HashMap<String, Double> location, float altitude){
 		return new Vector(location.get("lon").floatValue()/180*LostVictoryScene.SCENE_WIDTH, altitude, location.get("lat").floatValue()/80*LostVictoryScene.SCENE_HEIGHT);
+	}
+
+
+	public Vector3f toVector() {
+		return new Vector3f(x, y, z);
 	}
 }

@@ -3,6 +3,7 @@ package lostVictories;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -20,6 +21,7 @@ import com.jme3.lostVictories.network.messages.Country;
 import com.jme3.lostVictories.network.messages.GameStatistics;
 import com.jme3.lostVictories.network.messages.HouseMessage;
 import com.jme3.lostVictories.network.messages.RankMessage;
+import com.jme3.lostVictories.objectives.IncreasePerimeter;
 
 public class WorldRunner implements Runnable{
 
@@ -100,14 +102,17 @@ public class WorldRunner implements Runnable{
 							characterDAO.save(toUpdate);
 							if(replaceWithAvatar){
 								characterDAO.delete(c);
-								characterDAO.save(toUpdate.iterator().next().reenforceCharacter(c.getLocation().add(0, 5, 15)));
+								characterDAO.save(toUpdate.iterator().next().reenforceCharacter(c.getLocation().add(15, 7, 15)));
 							}
 							characterDAO.refresh();
                         }else{
                         	log.debug("in here test reenforce:"+c.getId());
-                            Collection<CharacterMessage> reenforceCharacter = c.reenforceCharacter(c.getLocation().add(0, 5, 15));
-                            characterDAO.updateCharactersUnderCommand(c);
-							characterDAO.save(reenforceCharacter);
+                        	HouseMessage point = IncreasePerimeter.findClosestHouse(c, houseDAO, new HashSet<UUID>(), h -> h.getOwner()!=c.getCountry());
+                        	if(point!=null){
+	                            Collection<CharacterMessage> reenforceCharacter = c.reenforceCharacter(point.getLocation());
+	                            characterDAO.updateCharactersUnderCommand(c);
+								characterDAO.save(reenforceCharacter);
+                        	}
                         }
                         reduceManPower(c.getCountry());
                         

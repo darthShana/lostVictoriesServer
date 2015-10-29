@@ -142,6 +142,10 @@ public class CharacterMessage implements Serializable{
 	public UUID getCommandingOfficer() {
 		return commandingOfficer;
 	}
+	
+	public CharacterType getCharacterType(){
+		return type;
+	}
 
 	public void addCharactersUnderCommand(Set<CharacterMessage> cc) {
 		unitsUnderCommand.addAll(cc.stream().map(c -> c.id).collect(Collectors.toList()));

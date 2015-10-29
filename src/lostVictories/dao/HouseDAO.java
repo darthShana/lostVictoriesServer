@@ -12,8 +12,8 @@ import java.util.stream.StreamSupport;
 
 import org.apache.log4j.Logger;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
+import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequest;
-import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.search.SearchHit;
@@ -33,7 +33,7 @@ public class HouseDAO {
 	
 	public void putHouse(UUID uuid, HouseMessage house) {
 		try {
-			IndexResponse response = esClient.prepareIndex(indexName, "houseStatus", uuid.toString())
+			esClient.prepareIndex(indexName, "houseStatus", uuid.toString())
 			        .setSource(house.getJSONRepresentation())
 			        .execute()
 			        .actionGet();
@@ -68,6 +68,16 @@ public class HouseDAO {
 		values.stream().forEach(v->bulkRequest.add(new IndexRequest(indexName, "houseStatus", v.getId().toString()).source(v.getJSONRepresentationUnChecked())));
 		bulkRequest.execute().actionGet();
 		
+	}
+
+	public HouseMessage getHouse(UUID id) {
+		GetResponse response = esClient.prepareGet(indexName, "houseStatus", id.toString())
+		        .execute()
+		        .actionGet();
+		if(!response.isExists()){
+			return null;
+		}
+		return fromFields(UUID.fromString(response.getId()), response.getSource());
 	}
 
 }
