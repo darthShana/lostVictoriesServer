@@ -20,7 +20,7 @@ public class AddObjectiveMessageHandler {
 	public LostVictoryMessage handle(AddObjectiveRequest msg) {
 		CharacterMessage character = characterDAO.getCharacter(msg.getCharacter());
 		character.addObjective(msg.getIdentity(), msg.getObjective());
-		characterDAO.putCharacter(character.getId(), msg.getClientID(), character);
+		characterDAO.putCharacter(character.getId(), character);
 		return new LostVictoryMessage(UUID.randomUUID());
 	}
 

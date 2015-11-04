@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import lostVictories.dao.CharacterDAO;
@@ -124,13 +125,13 @@ public class WorldRunner implements Runnable{
             }
 			
 			for(CharacterMessage avatar: avatarStore.getLivingAvatars()){
-				if(avatar.hasAchivedRankObjectives()){
+				if(avatar.hasAchivedRankObjectives(characterDAO)){
 					log.info("promoting avatar:"+avatar.getId());
 					UUID coId = avatar.getCommandingOfficer();
 					if(coId!=null){
 						CharacterMessage co = characterDAO.getCharacter(coId);
 						Set<CharacterMessage> promotions = avatar.promoteCharacter(co, characterDAO);
-						characterDAO.save(promotions);
+						characterDAO.saveCommandStructure(promotions.stream().collect(Collectors.toMap(CharacterMessage::getId, Function.identity())));
 					}
 				}
 			}

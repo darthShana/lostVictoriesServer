@@ -113,7 +113,7 @@ public class LostVictoryScene {
         a.addCharactersUnderCommand(gl1, gl2);
         b.addCharactersUnderCommand(al1, al2);
         
-        characters.forEach(c -> characterDAO.putCharacter(c.getId(), null, c));
+        characters.forEach(c -> characterDAO.putCharacter(c.getId(), c));
         
 		Set<HouseMessage> houses = new HashSet<HouseMessage>();
 

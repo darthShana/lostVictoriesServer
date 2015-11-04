@@ -33,11 +33,11 @@ public class DeathNotificationMessageHandler {
 		
 		CharacterMessage killer = characterDAO.getCharacter(msg.getKiller());
 		victim.kill();
-		killer.incrementKillCount();
+		killer.incrementKills(victim.getId());
 		toSave.put(victim.getId(), victim);
 		toSave.put(killer.getId(), killer);
 		
-		victim.replaceMe(characterDAO, toSave, msg.getClientID());
+		victim.replaceMe(characterDAO, toSave);
 		
 		try {
 			characterDAO.saveCommandStructure(toSave);

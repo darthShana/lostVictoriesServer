@@ -50,7 +50,7 @@ public class CharacterDAO {
 		this.indexName = indexName;
 	}
 	
-	public void putCharacter(UUID uuid, UUID checkedOutBy, CharacterMessage character) {
+	public void putCharacter(UUID uuid, CharacterMessage character) {
 		try {
 			esClient.prepareIndex(indexName, "unitStatus", uuid.toString())
 			        .setSource(character.getJSONRepresentation())
@@ -123,7 +123,7 @@ public class CharacterDAO {
 	}
 	
 	public void save(Collection<CharacterMessage> values) {
-		values.stream().forEach(c->putCharacter(c.getId(), c.getCheckoutClient(), c));
+		values.stream().forEach(c->putCharacter(c.getId(), c));
 	}
 	
 	public void updateCharacterState(Map<UUID, CharacterMessage> map) throws IOException{

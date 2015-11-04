@@ -45,7 +45,10 @@ public class CharacterRunner implements Runnable{
 	public void run() {
 		try{
 			Map<UUID, CharacterMessage> toSave = new HashMap<UUID, CharacterMessage>();
-			characterDAO.getAllCharacters().parallelStream().filter(c->c.isAvailableForCheckout()).forEach(c->runCharacterBehavior(c, toSave));
+			characterDAO.getAllCharacters().parallelStream()
+				.filter(c->!c.isDead())
+				.filter(c->c.isAvailableForCheckout())
+				.forEach(c->runCharacterBehavior(c, toSave));
 			try {
 				characterDAO.updateCharacterState(toSave);
 			} catch (IOException e) {

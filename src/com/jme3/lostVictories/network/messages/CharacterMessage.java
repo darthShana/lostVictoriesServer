@@ -20,13 +20,9 @@ import lostVictories.LostVictoryScene;
 import lostVictories.dao.CharacterDAO;
 
 import org.apache.log4j.Logger;
-import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.common.collect.ImmutableSet;
 import org.elasticsearch.common.geo.GeoPoint;
-import org.elasticsearch.common.xcontent.ToXContent;
 import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.type.TypeReference;
 
 import com.jme3.lostVictories.network.messages.actions.Action;
@@ -55,7 +51,7 @@ public class CharacterMessage implements Serializable{
 	boolean isDead;
 	Long timeOfDeath;
 	long version;
-	int kills;
+	Set<UUID> kills = new HashSet<UUID>();
 	
 	public CharacterMessage(UUID identity, CharacterType type, Vector location, Country country, Weapon weapon, RankMessage rank, UUID commandingOfficer, boolean gunnerDead) {
 		this.id = identity;
@@ -116,7 +112,7 @@ public class CharacterMessage implements Serializable{
 			this.checkoutTime = (Long) source.get("checkoutTime");
 		}
 		this.version = version;
-		this.kills = (int) source.get("kills");
+		this.kills = ((Collection<String>)source.get("kills")).stream().map(s -> UUID.fromString(s)).collect(Collectors.toSet());
 	}
 
 	void addUnit(CharacterMessage u){
@@ -341,7 +337,7 @@ public class CharacterMessage implements Serializable{
 		return timeOfDeath;
 	}
 
-	public void replaceMe(CharacterDAO characterDAO, Map<UUID, CharacterMessage> toSave, UUID checkoutClient) {
+	public void replaceMe(CharacterDAO characterDAO, Map<UUID, CharacterMessage> toSave) {
 		Map<UUID, CharacterMessage> oldSquad = characterDAO.getAllCharacters(unitsUnderCommand);
 		log.debug("finding field replacement for"+country+":"+id+" ->["+unitsUnderCommand+"]");
 		
@@ -360,7 +356,7 @@ public class CharacterMessage implements Serializable{
 			final CharacterMessage toPromote = findReplacement.get();
 			CharacterMessage replacement = new CharacterMessage(UUID.randomUUID(), toPromote.type, toPromote.location, toPromote.country, toPromote.weapon, toPromote.rank, toPromote.commandingOfficer, toPromote.gunnerDead);
 			replacement.rank = rank;
-			replacement.kills = 0;
+			replacement.kills = new HashSet<UUID>();
 			replacement.objectives = new HashMap<String, String>();
 			if(commandingOfficer!=null){
 				replacement.commandingOfficer = commandingOfficer;
@@ -371,7 +367,7 @@ public class CharacterMessage implements Serializable{
 			replacement.addCharactersUnderCommand(newSquad.values().stream().collect(Collectors.toSet()));
 			toSave.putAll(newSquad);
 			characterDAO.delete(toPromote);
-			characterDAO.putCharacter(replacement.id, checkoutClient, replacement);
+			characterDAO.putCharacter(replacement.id, replacement);
 		}
 
 	}
@@ -380,27 +376,48 @@ public class CharacterMessage implements Serializable{
 		return allCharacters.values().stream().filter(c->c.type==CharacterType.SOLDIER || c.type==CharacterType.AVATAR).findAny();
 	}
 
-	public void incrementKillCount() {
-		kills++;		
+	public void incrementKills(UUID kill) {
+		kills.add(kill);		
 	}
 
-    public boolean hasAchivedRankObjectives() {
-        return kills>=rank.getKillCountForPromotion();
+    public boolean hasAchivedRankObjectives(CharacterDAO characterDAO) {
+        return totalKillCount(characterDAO)>=rank.getKillCountForPromotion();
     }
+
+	private int totalKillCount(CharacterDAO characterDAO) {
+		int k = kills.size();
+		for(CharacterMessage c:characterDAO.getAllCharacters(unitsUnderCommand).values()){
+			k+=c.totalKillCount(characterDAO);
+		}
+		return k;
+	}
 
 	public Set<CharacterMessage> promoteCharacter(CharacterMessage co, CharacterDAO characterDAO) {
 		Set<CharacterMessage> ret = new HashSet<CharacterMessage>();
-		RankMessage oldRank = rank;
+
+		CharacterMessage replacemet = new CharacterMessage(UUID.randomUUID(), co.type, co.location, co.country, co.weapon, co.rank, co.id, co.gunnerDead);		
+		replacemet.rank = rank;	
+		replacemet.unitsUnderCommand = new HashSet<UUID>(unitsUnderCommand);
+		replacemet.commandingOfficer = id;
+		
 		rank = co.getRank();
 		objectives = new HashMap<String, String>();
-		co.rank = oldRank;
+		unitsUnderCommand = co.unitsUnderCommand.stream().filter(c->!c.equals(id)).collect(Collectors.toSet());
+		commandingOfficer = co.commandingOfficer;
+		kills = new HashSet<UUID>();
 		
-		co.unitsUnderCommand = unitsUnderCommand;
-		unitsUnderCommand = characterDAO.getAllCharacters(co.unitsUnderCommand).entrySet().stream().filter(c->!c.getKey().equals(id)).map(c->c.getValue().getId()).collect(Collectors.toSet());
-		
+		Map<UUID, CharacterMessage> myNewUnits = characterDAO.getAllCharacters(unitsUnderCommand);
+		myNewUnits.entrySet().stream().forEach(u->u.getValue().commandingOfficer=id);
+		myNewUnits.entrySet().stream().forEach(u->u.getValue().kills = new HashSet<UUID>());
+		ret.addAll(myNewUnits.values());
+		Map<UUID, CharacterMessage> coNewUnits = characterDAO.getAllCharacters(replacemet.unitsUnderCommand);
+		coNewUnits.entrySet().stream().forEach(u->u.getValue().commandingOfficer=replacemet.id);
+		ret.addAll(coNewUnits.values());
 		ret.add(this);
-		ret.add(co);
-		kills = 0;
+		
+		characterDAO.putCharacter(replacemet.id, replacemet);
+		characterDAO.delete(co);
+		
 		return ret;
 	}
 
