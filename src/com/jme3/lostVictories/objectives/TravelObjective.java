@@ -58,5 +58,10 @@ public class TravelObjective extends Objective{
 
         return MAPPER.writeValueAsString(node);
     }
+	
+	@Override
+	public boolean clashesWith(Class<? extends Objective> newObjective) {
+		return newObjective.isAssignableFrom(FollowUnit.class);
+	}
 
 }

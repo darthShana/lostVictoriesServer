@@ -53,4 +53,6 @@ public abstract class Objective {
 		}
 	}
 
+	public abstract boolean clashesWith(Class<? extends Objective> newObjective);
+
 }

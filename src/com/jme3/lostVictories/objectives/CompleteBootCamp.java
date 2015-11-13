@@ -25,5 +25,10 @@ public class CompleteBootCamp extends Objective {
         node.put("classType", getClass().getName());
         return MAPPER.writeValueAsString(node);
 	}
+	
+	@Override
+	public boolean clashesWith(Class<? extends Objective> newObjective) {
+		return false;
+	}
 
 }

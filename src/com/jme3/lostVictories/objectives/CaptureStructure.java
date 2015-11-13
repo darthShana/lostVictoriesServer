@@ -34,7 +34,7 @@ public class CaptureStructure extends Objective{
 	public void runObjective(CharacterMessage c, String uuid, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave) {
 		HouseMessage house = houseDAO.getHouse(UUID.fromString(structure));
 		if(house.getOwner()==c.getCountry()){
-			log.info("completed stucture capture:"+structure);
+			log.debug("completed stucture capture:"+structure);
 			isComplete = true;
 			return;
 		}
@@ -80,5 +80,13 @@ public class CaptureStructure extends Objective{
         node.put("classType", getClass().getName());
 
         return MAPPER.writeValueAsString(node);
+	}
+
+	@Override
+	public boolean clashesWith(Class<? extends Objective> newObjective) {
+		if(newObjective.isAssignableFrom(TravelObjective.class)){
+			return true;
+		}
+		return false;
 	}
 }

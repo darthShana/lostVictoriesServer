@@ -394,7 +394,6 @@ public class CharacterMessage implements Serializable{
 
 	public Set<CharacterMessage> promoteCharacter(CharacterMessage co, CharacterDAO characterDAO) {
 		Set<CharacterMessage> ret = new HashSet<CharacterMessage>();
-
 		CharacterMessage replacemet = new CharacterMessage(UUID.randomUUID(), co.type, co.location, co.country, co.weapon, co.rank, co.id, co.gunnerDead);		
 		replacemet.rank = rank;	
 		replacemet.unitsUnderCommand = new HashSet<UUID>(unitsUnderCommand);

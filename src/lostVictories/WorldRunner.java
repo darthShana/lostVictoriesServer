@@ -18,6 +18,7 @@ import lostVictories.dao.HouseDAO;
 import org.apache.log4j.Logger;
 
 import com.jme3.lostVictories.network.messages.CharacterMessage;
+import com.jme3.lostVictories.network.messages.CharacterType;
 import com.jme3.lostVictories.network.messages.Country;
 import com.jme3.lostVictories.network.messages.GameStatistics;
 import com.jme3.lostVictories.network.messages.HouseMessage;
@@ -130,8 +131,10 @@ public class WorldRunner implements Runnable{
 					UUID coId = avatar.getCommandingOfficer();
 					if(coId!=null){
 						CharacterMessage co = characterDAO.getCharacter(coId);
-						Set<CharacterMessage> promotions = avatar.promoteCharacter(co, characterDAO);
-						characterDAO.saveCommandStructure(promotions.stream().collect(Collectors.toMap(CharacterMessage::getId, Function.identity())));
+						if(CharacterType.AVATAR != co.getCharacterType()){
+							Set<CharacterMessage> promotions = avatar.promoteCharacter(co, characterDAO);
+							characterDAO.saveCommandStructure(promotions.stream().collect(Collectors.toMap(CharacterMessage::getId, Function.identity())));
+						}
 					}
 				}
 			}

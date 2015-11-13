@@ -29,7 +29,7 @@ public class DeathNotificationMessageHandler {
 		if(victim==null || victim.isDead()){
 			return new LostVictoryMessage(UUID.randomUUID());
 		}
-		log.info("received death notification:"+victim.getId());
+		log.debug("received death notification:"+victim.getId());
 		
 		CharacterMessage killer = characterDAO.getCharacter(msg.getKiller());
 		victim.kill();

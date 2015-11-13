@@ -36,7 +36,7 @@ public class IncreasePerimeter extends Objective {
 						unit.addObjective(UUID.randomUUID(), new CaptureStructure(closest.getId().toString()).asJSON());
 						toSave.put(unit.getId(), unit);
 						assigned.add(closest.getId());
-						log.info(c.getCountry()+"- setting new structure to capture:"+closest.getId());
+						log.debug(c.getCountry()+"- setting new structure to capture:"+closest.getId());
 					} catch (Exception e) {
 						throw new RuntimeException(e);
 					} 
@@ -71,5 +71,9 @@ public class IncreasePerimeter extends Objective {
         return MAPPER.writeValueAsString(node);
 	}
 
+	@Override
+	public boolean clashesWith(Class<? extends Objective> newObjective) {
+		return false;
+	}
 	
 }
