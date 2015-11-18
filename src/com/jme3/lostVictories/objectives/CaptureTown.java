@@ -22,17 +22,17 @@ public class CaptureTown extends Objective {
 		if(!c.getUnitsUnderCommand().isEmpty()){
 			CharacterMessage unit = findUnitWithLeastEquipment(c, characterDAO);
 			if(unit !=null && !isBusy(unit) && RankMessage.LIEUTENANT == unit.getRank()){
-				IncreasePerimeter i = new IncreasePerimeter();
-				try {
-					unit.addObjective(UUID.randomUUID(), i.asJSON());
-					toSave.put(unit.getId(), unit);
-				} catch (JsonGenerationException e) {
-					throw new RuntimeException(e);
-				} catch (JsonMappingException e) {
-					throw new RuntimeException(e);
-				} catch (IOException e) {
-					throw new RuntimeException(e);
-				}
+//				IncreasePerimeter i = new IncreasePerimeter();
+//				try {
+//					unit.addObjective(UUID.randomUUID(), i.asJSON());
+//					toSave.put(unit.getId(), unit);
+//				} catch (JsonGenerationException e) {
+//					throw new RuntimeException(e);
+//				} catch (JsonMappingException e) {
+//					throw new RuntimeException(e);
+//				} catch (IOException e) {
+//					throw new RuntimeException(e);
+//				}
 			}
 		}
 	}

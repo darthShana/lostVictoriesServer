@@ -29,7 +29,6 @@ public class AddObjectiveMessageHandler {
 
 	public AddObjectiveMessageHandler(CharacterDAO characterDAO) {
 		this.characterDAO = characterDAO;
-		
 	}
 
 	public LostVictoryMessage handle(AddObjectiveRequest msg) {
