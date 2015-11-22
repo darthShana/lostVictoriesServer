@@ -23,7 +23,7 @@ import com.jme3.lostVictories.network.messages.Country;
 import com.jme3.lostVictories.network.messages.GameStatistics;
 import com.jme3.lostVictories.network.messages.HouseMessage;
 import com.jme3.lostVictories.network.messages.RankMessage;
-import com.jme3.lostVictories.objectives.IncreasePerimeter;
+import com.jme3.lostVictories.objectives.SecureSector;
 
 public class WorldRunner implements Runnable{
 
@@ -109,7 +109,7 @@ public class WorldRunner implements Runnable{
 							characterDAO.refresh();
                         }else{
                         	log.debug("in here test reenforce:"+c.getId());
-                        	HouseMessage point = IncreasePerimeter.findClosestHouse(c, houseDAO, new HashSet<UUID>(), h -> h.getOwner()!=c.getCountry());
+                        	HouseMessage point = SecureSector.findClosestHouse(c, houseDAO.getAllHouses(), new HashSet<UUID>(), h -> h.getOwner()!=c.getCountry());
                         	if(point!=null){
 	                            Collection<CharacterMessage> reenforceCharacter = c.reenforceCharacter(point.getLocation());
 	                            characterDAO.updateCharactersUnderCommand(c);

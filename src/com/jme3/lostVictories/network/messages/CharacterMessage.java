@@ -218,6 +218,9 @@ public class CharacterMessage implements Serializable{
 		if(other==null || other.isDead){
 			return false;
 		}
+		if(other.rank!=rank){
+			return false;
+		}
 		
 		return !location.equals(other.location) || !orientation.equals(other.orientation) || !actions.equals(other.actions);
 	}

@@ -1,5 +1,6 @@
 package lostVictories;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -8,7 +9,9 @@ import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.HouseDAO;
 
 import org.apache.log4j.Logger;
+import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.node.ObjectNode;
 
 import com.jme3.lostVictories.network.messages.CharacterMessage;
@@ -19,6 +22,7 @@ import com.jme3.lostVictories.network.messages.Quaternion;
 import com.jme3.lostVictories.network.messages.RankMessage;
 import com.jme3.lostVictories.network.messages.Vector;
 import com.jme3.lostVictories.network.messages.Weapon;
+import com.jme3.lostVictories.objectives.CaptureTown;
 
 public class LostVictoryScene {
 	
@@ -27,15 +31,15 @@ public class LostVictoryScene {
 	
 	private static Logger log = Logger.getLogger(LostVictoryScene.class); 
 	
-	public void loadScene(CharacterDAO characterDAO, HouseDAO housesDAO) {
+	public void loadScene(CharacterDAO characterDAO, HouseDAO housesDAO) throws JsonGenerationException, JsonMappingException, IOException {
 		log.debug("Loading Scene");
 		
 		Set<CharacterMessage> characters = new HashSet<CharacterMessage>();
 		
 		CharacterMessage a = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(-125, 7, 370), Country.GERMAN, Weapon.RIFLE, RankMessage.COLONEL, null, false);
-		a.addObjective(UUID.randomUUID(), createCaptureTownObjective());
+		a.addObjective(UUID.randomUUID(), new CaptureTown(System.currentTimeMillis()).asJSON());
 		CharacterMessage b = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(195, 7, -375), Country.AMERICAN, Weapon.RIFLE, RankMessage.COLONEL, null, false);
-		b.addObjective(UUID.randomUUID(), createCaptureTownObjective());
+		b.addObjective(UUID.randomUUID(), new CaptureTown(System.currentTimeMillis()).asJSON());
 		
 		CharacterMessage gl1 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(-120, 7, 375), Country.GERMAN, Weapon.RIFLE, RankMessage.LIEUTENANT, a.getId(), false);
 		CharacterMessage gl2 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(-115, 7, 375), Country.GERMAN, Weapon.RIFLE, RankMessage.LIEUTENANT, a.getId(), false);
@@ -169,16 +173,6 @@ public class LostVictoryScene {
 		}
 	}
 	
-	private String createCaptureTownObjective()  {
-		ObjectNode node = CharacterDAO.MAPPER.createObjectNode();
-		try {
-			node.put("classType", "com.jme3.lostVictories.objectives.CaptureTown");
-			return CharacterDAO.MAPPER.writeValueAsString(node);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-
 	private CharacterMessage loadAmoredCar(Vector vector, Country country, CharacterMessage c2) {
 		CharacterMessage armoredCar = new CharacterMessage(UUID.randomUUID(), CharacterType.ARMORED_CAR, vector, country, Weapon.MG42, RankMessage.PRIVATE, c2.getId(), false);
 		c2.addCharactersUnderCommand(armoredCar);

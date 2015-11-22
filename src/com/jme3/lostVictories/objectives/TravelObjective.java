@@ -14,6 +14,8 @@ import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.HouseDAO;
 
 import com.jme3.lostVictories.network.messages.CharacterMessage;
+import com.jme3.lostVictories.network.messages.Country;
+import com.jme3.lostVictories.network.messages.RankMessage;
 import com.jme3.lostVictories.network.messages.Vector;
 import com.jme3.math.Vector3f;
 
@@ -37,6 +39,10 @@ public class TravelObjective extends Objective{
 		Vector3f currentLocation = new Vector3f(c.x, c.y, c.z);
 		Vector3f dest = new Vector3f(destination.x, destination.y, destination.z);
 		Vector3f newLocation = currentLocation.add(dest.subtract(currentLocation).normalize().mult(5));
+		
+		if(character.getRank()==RankMessage.CADET_CORPORAL && character.getCountry()==Country.AMERICAN){
+			log.info(character.getId()+": current location:"+currentLocation);
+		}
 		
 		if(currentLocation.distance(newLocation)>currentLocation.distance(dest)){
 			newLocation = dest;
