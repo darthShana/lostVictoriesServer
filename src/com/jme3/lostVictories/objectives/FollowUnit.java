@@ -22,6 +22,14 @@ public class FollowUnit extends Objective{
     Vector direction;
     int maxDistance;
     
+    private FollowUnit() {}
+    
+    public FollowUnit(UUID unitToFollow, Vector direction, int maxDistance){
+		this.unitToFollow = unitToFollow;
+		this.direction = direction;
+		this.maxDistance = maxDistance;
+    }
+    
 	@Override
 	public void runObjective(CharacterMessage character, String uuid, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave) {
 		Vector c = character.getLocation();

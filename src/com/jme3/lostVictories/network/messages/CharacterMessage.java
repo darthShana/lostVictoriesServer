@@ -417,6 +417,11 @@ public class CharacterMessage implements Serializable{
 		ret.addAll(coNewUnits.values());
 		ret.add(this);
 		
+		CharacterMessage myNewCO = characterDAO.getCharacter(commandingOfficer);
+		myNewCO.unitsUnderCommand.remove(co.getId());
+		myNewCO.unitsUnderCommand.add(id);
+		ret.add(myNewCO);
+		
 		characterDAO.putCharacter(replacemet.id, replacemet);
 		characterDAO.delete(co);
 		

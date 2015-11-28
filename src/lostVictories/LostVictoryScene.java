@@ -23,6 +23,8 @@ import com.jme3.lostVictories.network.messages.RankMessage;
 import com.jme3.lostVictories.network.messages.Vector;
 import com.jme3.lostVictories.network.messages.Weapon;
 import com.jme3.lostVictories.objectives.CaptureTown;
+import com.jme3.lostVictories.objectives.FollowUnit;
+import com.jme3.math.Vector3f;
 
 public class LostVictoryScene {
 	
@@ -83,12 +85,13 @@ public class LostVictoryScene {
         loadSquad(characters, gv4, new Vector(-300, 7, 365), Country.GERMAN, Weapon.RIFLE, Weapon.RIFLE, Weapon.MG42);
         
         CharacterMessage b1 = new CharacterMessage(UUID.fromString("d993932f-a185-4a6f-8d86-4ef6e2c5ff95"), CharacterType.AVATAR, new Vector(180, 5, -385), Country.AMERICAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, al1.getId(), false);
-        loadSquad(characters, b1, new Vector(175, 5, -390), Country.AMERICAN, Weapon.RIFLE, Weapon.RIFLE, Weapon.RIFLE);
+        loadSquad(characters, b1, new Vector(175, 5, -390), Country.AMERICAN, true, Weapon.RIFLE, Weapon.RIFLE, Weapon.RIFLE);
         b1.addObjective(UUID.randomUUID(), createBootCampObjective(new Vector(125, 0, -330)));
         b1.incrementKills(UUID.randomUUID());
         b1.incrementKills(UUID.randomUUID());
         b1.incrementKills(UUID.randomUUID());
         b1.incrementKills(UUID.randomUUID());
+//        b1.incrementKills(UUID.randomUUID());
         
         CharacterMessage b2 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(200, 5, -385), Country.AMERICAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, al1.getId(), false);
         loadSquad(characters,  b2, new Vector(195, 5, -390), Country.AMERICAN, Weapon.RIFLE, Weapon.RIFLE, Weapon.MG42);
@@ -161,6 +164,8 @@ public class LostVictoryScene {
         houses.forEach(h->housesDAO.putHouse(h.getId(), h));
 	}
 	
+
+
 	private String createBootCampObjective(final Vector vector)  {
 		ObjectNode node = CharacterDAO.MAPPER.createObjectNode();
 		try {
@@ -190,13 +195,23 @@ public class LostVictoryScene {
 		gv1.addCharactersUnderCommand(atg);
 		return atg;
 	}
+	
+	public void loadSquad(Set<CharacterMessage> characters, CharacterMessage a1, Vector vector3f, Country country, Weapon...weapons) throws JsonGenerationException, JsonMappingException, IOException {
+		loadSquad(characters, a1, vector3f, country, false, weapons);
+	}
 
-	public void loadSquad(Set<CharacterMessage> characters, CharacterMessage a1, Vector vector3f, Country country, Weapon...weapons) {
+	public void loadSquad(Set<CharacterMessage> characters, CharacterMessage a1, Vector vector3f, Country country, boolean folllowCommander, Weapon...weapons) throws JsonGenerationException, JsonMappingException, IOException {
         characters.add(a1);
 		Set<CharacterMessage> cc = new HashSet<CharacterMessage>();
         int i = 0;
+        Vector3f offSet = new Vector3f(2, 0, 2);
         for(Weapon w:weapons){
-            cc.add(new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, vector3f.add(i*3, 5, 0), country, w, RankMessage.PRIVATE, a1.getId(), false));
+            CharacterMessage e = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, vector3f.add(i*3, 5, 0), country, w, RankMessage.PRIVATE, a1.getId(), false);
+            if(folllowCommander){
+            	e.addObjective(UUID.randomUUID(), new FollowUnit(a1.getId(), new Vector(offSet), 10).asJSON());
+            	offSet = offSet.add(2, 0, 2);
+            }
+			cc.add(e);
             i++;
         }
         a1.addCharactersUnderCommand(cc);

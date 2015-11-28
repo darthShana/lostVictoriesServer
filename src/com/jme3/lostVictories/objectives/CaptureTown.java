@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonGenerationException;
@@ -51,8 +52,8 @@ public class CaptureTown extends Objective {
             return;
         }
 		
-		if(!c.getUnitsUnderCommand().isEmpty()){
-			CharacterMessage unit = findUnitWithLeastEquipment(c, characterDAO);
+		for(UUID cid:c.getUnitsUnderCommand()){
+			CharacterMessage unit = characterDAO.getCharacter(cid);
 			if(unit !=null && !isBusy(unit) && RankMessage.LIEUTENANT == unit.getRank()){
 				log.info(c.getCountry()+": assigning new sector:"+toSecure.rect+" houses:"+toSecure.houses.size());
 				SecureSector i = new SecureSector(toSecure.getHouses());
@@ -100,6 +101,8 @@ public class CaptureTown extends Objective {
             }
         }
         
+        ret = ret.stream().filter(s->!s.houses.isEmpty()).collect(Collectors.toSet());
+        
         return ret;
     }
 	
@@ -137,29 +140,9 @@ public class CaptureTown extends Objective {
         }
     }
 
-	private CharacterMessage findUnitWithLeastEquipment(CharacterMessage c, CharacterDAO characterDAO) {
-		CharacterMessage ret = null;
-		int vehicleCount = 0;
-		for(CharacterMessage unit:characterDAO.getAllCharacters(c.getUnitsUnderCommand()).values()){
-			int v = getVehicleCount(unit, characterDAO);
-			if(ret==null || v<vehicleCount){
-				ret = unit;
-				vehicleCount = v;
-			}
-		}
-		return ret;
-	}
 	
-	private int getVehicleCount(CharacterMessage unit, CharacterDAO characterDAO) {
-		int i = 0;
-		if(unit.getCharacterType()!=CharacterType.SOLDIER){
-			i++;
-		}
-		for(CharacterMessage c: characterDAO.getAllCharacters(unit.getUnitsUnderCommand()).values()){
-			i = i+getVehicleCount(c, characterDAO);
-		}
-		return i;
-	}
+	
+	
 
 	public String asJSON() throws JsonGenerationException, JsonMappingException, IOException{
 		ObjectNode node = MAPPER.createObjectNode();
