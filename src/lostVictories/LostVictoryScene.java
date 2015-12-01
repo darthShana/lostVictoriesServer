@@ -90,7 +90,7 @@ public class LostVictoryScene {
         b1.incrementKills(UUID.randomUUID());
         b1.incrementKills(UUID.randomUUID());
         b1.incrementKills(UUID.randomUUID());
-        b1.incrementKills(UUID.randomUUID());
+//        b1.incrementKills(UUID.randomUUID());
 //        b1.incrementKills(UUID.randomUUID());
         
         CharacterMessage b2 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(200, 5, -385), Country.AMERICAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, al1.getId(), false);

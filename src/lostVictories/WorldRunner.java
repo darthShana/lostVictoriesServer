@@ -3,6 +3,7 @@ package lostVictories;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,7 @@ import lostVictories.dao.HouseDAO;
 
 import org.apache.log4j.Logger;
 
+import com.jme3.lostVictories.network.messages.AchivementStatus;
 import com.jme3.lostVictories.network.messages.CharacterMessage;
 import com.jme3.lostVictories.network.messages.CharacterType;
 import com.jme3.lostVictories.network.messages.Country;
@@ -37,6 +39,8 @@ public class WorldRunner implements Runnable{
 
 	private Map<Country, Long> structureOwnership = new EnumMap<Country, Long>(Country.class);
 	private Map<Country, Long> nextRespawnTime = new EnumMap<Country, Long>(Country.class);
+
+	private Map<UUID, AchivementStatus> achivementCache = new HashMap<UUID, AchivementStatus>();
 
 	public static WorldRunner instance(CharacterDAO characterDAO, HouseDAO houseDAO) {
 		if(instance==null){
@@ -174,6 +178,16 @@ public class WorldRunner implements Runnable{
 		statistics.setAvatarRespawnEstimate(nextRespawnTime.get(country));
 		
 		return statistics;
+	}
+
+	public AchivementStatus getAchivementStatus(CharacterMessage avatar) {
+		AchivementStatus achivementStatus = achivementCache .get(avatar.getId());
+		if(achivementStatus==null || System.currentTimeMillis()-achivementStatus.getSentTime()>2000){
+			RankMessage rank = avatar.getRank();
+			achivementStatus = new AchivementStatus(rank.getAchivementMessage(), avatar.totalKillCount(characterDAO), rank.getTotalAchivementCount(), System.currentTimeMillis());
+			achivementCache.put(avatar.getId(), achivementStatus);
+		}
+		return achivementStatus;
 	}
 
 

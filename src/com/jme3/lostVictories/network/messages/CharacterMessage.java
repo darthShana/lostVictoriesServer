@@ -52,6 +52,7 @@ public class CharacterMessage implements Serializable{
 	Long timeOfDeath;
 	long version;
 	Set<UUID> kills = new HashSet<UUID>();
+	SquadType squadType;
 	
 	public CharacterMessage(UUID identity, CharacterType type, Vector location, Country country, Weapon weapon, RankMessage rank, UUID commandingOfficer, boolean gunnerDead) {
 		this.id = identity;
@@ -387,7 +388,7 @@ public class CharacterMessage implements Serializable{
         return totalKillCount(characterDAO)>=rank.getKillCountForPromotion();
     }
 
-	private int totalKillCount(CharacterDAO characterDAO) {
+	public int totalKillCount(CharacterDAO characterDAO) {
 		int k = kills.size();
 		for(CharacterMessage c:characterDAO.getAllCharacters(unitsUnderCommand).values()){
 			k+=c.totalKillCount(characterDAO);
