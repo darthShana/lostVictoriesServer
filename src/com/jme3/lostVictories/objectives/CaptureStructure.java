@@ -9,7 +9,6 @@ import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.node.ObjectNode;
 
-import lostVictories.CharacterRunner;
 import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.HouseDAO;
 

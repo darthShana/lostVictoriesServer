@@ -29,14 +29,13 @@ public class AddObjectiveMessageHandler {
 
 	public AddObjectiveMessageHandler(CharacterDAO characterDAO) {
 		this.characterDAO = characterDAO;
-		
 	}
 
 	public LostVictoryMessage handle(AddObjectiveRequest msg) {
 		CharacterMessage character = characterDAO.getCharacter(msg.getCharacter());
 		
 		try{
-			Class newObjective = Class.forName(toJsonNodeSafe(msg.getObjective()).get("classType").asText());
+     		Class newObjective = Class.forName(toJsonNodeSafe(msg.getObjective()).get("classType").asText());
 			
 			Map<String, JsonNode> objectives = character.getObjectives().entrySet().stream().collect(Collectors.toMap(e->e.getKey(), e->toJsonNodeSafe(e.getValue())));
 			for(Entry<String, JsonNode> entry:objectives.entrySet()){

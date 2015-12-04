@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -52,6 +53,7 @@ public class CharacterMessage implements Serializable{
 	Long timeOfDeath;
 	long version;
 	Set<UUID> kills = new HashSet<UUID>();
+	SquadType squadType = SquadType.RIFLE_TEAM;
 	
 	public CharacterMessage(UUID identity, CharacterType type, Vector location, Country country, Weapon weapon, RankMessage rank, UUID commandingOfficer, boolean gunnerDead) {
 		this.id = identity;
@@ -71,6 +73,9 @@ public class CharacterMessage implements Serializable{
 		HashMap<String, Double> ori =  (HashMap<String, Double>) source.get("orientation");
 		float altitude = ((Double)source.get("altitude")).floatValue();
 		this.type = CharacterType.valueOf((String) source.get("type"));
+		if(source.get("squadType")!=null){
+			this.squadType = SquadType.valueOf((String) source.get("squadType"));
+		}
 		this.location = latLongToVector(location, altitude);
 		this.country = Country.valueOf((String)source.get("country"));
 		this.weapon = Weapon.valueOf((String) source.get("weapon"));
@@ -144,11 +149,14 @@ public class CharacterMessage implements Serializable{
 	}
 
 	public void addCharactersUnderCommand(Set<CharacterMessage> cc) {
+		squadType = calculateSquadType(cc, squadType);
 		unitsUnderCommand.addAll(cc.stream().map(c -> c.id).collect(Collectors.toList()));
 	}
 
 	public void addCharactersUnderCommand(CharacterMessage... atg) {
-		unitsUnderCommand.addAll(Arrays.asList(atg).stream().map(c -> c.id).collect(Collectors.toList()));
+		List<CharacterMessage> asList = Arrays.asList(atg);
+		squadType = calculateSquadType(asList, squadType);
+		unitsUnderCommand.addAll(asList.stream().map(c -> c.id).collect(Collectors.toList()));
 	}
 
 	public UUID getId() {
@@ -171,6 +179,7 @@ public class CharacterMessage implements Serializable{
 		                .field("commandingOfficer", commandingOfficer)
 		                .field("unitsUnderCommand", unitsUnderCommand)
 		                .field("type", type)
+		                .field("squadType", squadType)
 		                .field("checkoutClient", checkoutClient)
 		                .field("checkoutTime", checkoutTime)
 		                .field("gunnerDead", gunnerDead)
@@ -216,6 +225,9 @@ public class CharacterMessage implements Serializable{
 
 	public boolean hasChanged(CharacterMessage other) {
 		if(other==null || other.isDead){
+			return false;
+		}
+		if(other.rank!=rank){
 			return false;
 		}
 		
@@ -345,6 +357,7 @@ public class CharacterMessage implements Serializable{
 			CharacterMessage co = characterDAO.getCharacter(commandingOfficer);
 			try{
 				co.unitsUnderCommand.remove(id);
+				co.calculateSquadType(characterDAO.getAllCharacters(co.unitsUnderCommand).values(), co.squadType);
 				toSave.put(co.getId(), co);
 			}catch(NullPointerException e){
 				log.error(commandingOfficer+" not found in repo");
@@ -384,7 +397,7 @@ public class CharacterMessage implements Serializable{
         return totalKillCount(characterDAO)>=rank.getKillCountForPromotion();
     }
 
-	private int totalKillCount(CharacterDAO characterDAO) {
+	public int totalKillCount(CharacterDAO characterDAO) {
 		int k = kills.size();
 		for(CharacterMessage c:characterDAO.getAllCharacters(unitsUnderCommand).values()){
 			k+=c.totalKillCount(characterDAO);
@@ -414,6 +427,11 @@ public class CharacterMessage implements Serializable{
 		ret.addAll(coNewUnits.values());
 		ret.add(this);
 		
+		CharacterMessage myNewCO = characterDAO.getCharacter(commandingOfficer);
+		myNewCO.unitsUnderCommand.remove(co.getId());
+		myNewCO.unitsUnderCommand.add(id);
+		ret.add(myNewCO);
+		
 		characterDAO.putCharacter(replacemet.id, replacemet);
 		characterDAO.delete(co);
 		
@@ -431,8 +449,31 @@ public class CharacterMessage implements Serializable{
 	public void setLocation(Vector vector) {
 		this.location = vector;
 	}
+	
 
 
+	private SquadType calculateSquadType(Collection<CharacterMessage> characters, SquadType squadType) {
+		squadType = getSquadType(squadType);
+		
+		for(CharacterMessage c:characters){
+			squadType = c.getSquadType(squadType);
+		}
+		
+		return squadType;
+	}
+
+	private SquadType getSquadType(SquadType squadType) {
+		if(type==CharacterType.ANTI_TANK_GUN){
+			squadType = SquadType.ANTI_TANK_GUN;
+		}else if(type==CharacterType.ARMORED_CAR && squadType!=SquadType.ANTI_TANK_GUN){
+			squadType = SquadType.ARMORED_VEHICLE;
+		}else if(weapon==Weapon.MORTAR && squadType!=SquadType.ARMORED_VEHICLE && squadType!=SquadType.ANTI_TANK_GUN){
+			squadType = SquadType.MORTAR_TEAM;
+		}else if(weapon==Weapon.MG42 && squadType!=SquadType.ARMORED_VEHICLE && squadType!=SquadType.ANTI_TANK_GUN){
+			squadType = SquadType.MG42_TEAM;
+		}
+		return squadType;
+	}
 	
 
 

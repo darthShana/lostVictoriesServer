@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 
+import com.jme3.lostVictories.network.messages.AchivementStatus;
 import com.jme3.lostVictories.network.messages.CharacterMessage;
 import com.jme3.lostVictories.network.messages.GameStatistics;
 import com.jme3.lostVictories.network.messages.LostVictoryMessage;
@@ -67,13 +68,15 @@ public class UpdateCharactersMessageHandler {
 				.map(c->c.getUnitsUnderCommand()).filter(u->!toReturn.containsKey(u))
 				.map(u->characterDAO.getAllCharacters(u).values()).flatMap(l->l.stream()).collect(Collectors.toSet());
 			
+			
 			GameStatistics statistics = WorldRunner.instance(characterDAO, houseDAO).getStatistics(AvatarStore.getAvatarCountry(msg.getAvatar().getId()));
-			return new UpdateCharactersResponse(msg.getClientID(), new HashSet<CharacterMessage>(toReturn.values()), relatedCharacters, houseDAO.getAllHouses(), statistics);
+			AchivementStatus achivementStatus = WorldRunner.instance(characterDAO, houseDAO).getAchivementStatus(storedAvatar);
+			return new UpdateCharactersResponse(msg.getClientID(), new HashSet<CharacterMessage>(toReturn.values()), relatedCharacters, houseDAO.getAllHouses(), statistics, achivementStatus);
 		}else{
 			toReturn = existingInServer;
 			log.debug("client did not send avatar for perspective");
 		}
 		log.debug("sending back characters:"+toReturn.size());
-		return new UpdateCharactersResponse(msg.getClientID(), new HashSet<CharacterMessage>(toReturn.values()), new HashSet<CharacterMessage>(), houseDAO.getAllHouses(), null);
+		return new UpdateCharactersResponse(msg.getClientID(), new HashSet<CharacterMessage>(toReturn.values()), new HashSet<CharacterMessage>(), houseDAO.getAllHouses(), null, null);
 	}
 }

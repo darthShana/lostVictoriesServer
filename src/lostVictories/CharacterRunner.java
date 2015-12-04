@@ -73,11 +73,11 @@ public class CharacterRunner implements Runnable{
 			}catch(ClassNotFoundException e){
 				log.debug(entry.getValue().get("classType")+ " not found on Character runner");
 			} catch (JsonParseException e) {
-				log.debug("Error de-serialising "+entry.getValue().get("classType"));
+				throw new RuntimeException(e);
 			} catch (JsonMappingException e) {
-				log.debug("Error de-serialising "+entry.getValue().get("classType"));
+				throw new RuntimeException(e);
 			} catch (IOException e) {
-				log.debug("Error de-serialising "+entry.getValue().get("classType"));
+				throw new RuntimeException(e);
 			}
 		}
 	}

@@ -3,6 +3,7 @@ package lostVictories;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -17,13 +18,14 @@ import lostVictories.dao.HouseDAO;
 
 import org.apache.log4j.Logger;
 
+import com.jme3.lostVictories.network.messages.AchivementStatus;
 import com.jme3.lostVictories.network.messages.CharacterMessage;
 import com.jme3.lostVictories.network.messages.CharacterType;
 import com.jme3.lostVictories.network.messages.Country;
 import com.jme3.lostVictories.network.messages.GameStatistics;
 import com.jme3.lostVictories.network.messages.HouseMessage;
 import com.jme3.lostVictories.network.messages.RankMessage;
-import com.jme3.lostVictories.objectives.IncreasePerimeter;
+import com.jme3.lostVictories.objectives.SecureSector;
 
 public class WorldRunner implements Runnable{
 
@@ -37,6 +39,8 @@ public class WorldRunner implements Runnable{
 
 	private Map<Country, Long> structureOwnership = new EnumMap<Country, Long>(Country.class);
 	private Map<Country, Long> nextRespawnTime = new EnumMap<Country, Long>(Country.class);
+
+	private Map<UUID, AchivementStatus> achivementCache = new HashMap<UUID, AchivementStatus>();
 
 	public static WorldRunner instance(CharacterDAO characterDAO, HouseDAO houseDAO) {
 		if(instance==null){
@@ -109,7 +113,7 @@ public class WorldRunner implements Runnable{
 							characterDAO.refresh();
                         }else{
                         	log.debug("in here test reenforce:"+c.getId());
-                        	HouseMessage point = IncreasePerimeter.findClosestHouse(c, houseDAO, new HashSet<UUID>(), h -> h.getOwner()!=c.getCountry());
+                        	HouseMessage point = SecureSector.findClosestHouse(c, houseDAO.getAllHouses(), new HashSet<UUID>(), h -> h.getOwner()!=c.getCountry());
                         	if(point!=null){
 	                            Collection<CharacterMessage> reenforceCharacter = c.reenforceCharacter(point.getLocation());
 	                            characterDAO.updateCharactersUnderCommand(c);
@@ -174,6 +178,16 @@ public class WorldRunner implements Runnable{
 		statistics.setAvatarRespawnEstimate(nextRespawnTime.get(country));
 		
 		return statistics;
+	}
+
+	public AchivementStatus getAchivementStatus(CharacterMessage avatar) {
+		AchivementStatus achivementStatus = achivementCache .get(avatar.getId());
+		if(achivementStatus==null || System.currentTimeMillis()-achivementStatus.getSentTime()>2000){
+			RankMessage rank = avatar.getRank();
+			achivementStatus = new AchivementStatus(rank.getAchivementMessage(), avatar.totalKillCount(characterDAO), rank.getTotalAchivementCount(), System.currentTimeMillis());
+			achivementCache.put(avatar.getId(), achivementStatus);
+		}
+		return achivementStatus;
 	}
 
 

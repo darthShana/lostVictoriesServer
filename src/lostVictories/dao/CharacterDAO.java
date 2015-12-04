@@ -135,7 +135,7 @@ public class CharacterDAO {
 		BulkRequestBuilder bulkRequest = esClient.prepareBulk();
 		for(CharacterMessage v: map.values()){
 			bulkRequest.add(
-				new UpdateRequest(indexName, "unitStatus", v.getId().toString()).doc(v.getStateUpdate())
+				new UpdateRequest(indexName, "unitStatus", v.getId().toString()).doc(v.getStateUpdate()).version(v.getVersion())
 			);
 		}
 				
