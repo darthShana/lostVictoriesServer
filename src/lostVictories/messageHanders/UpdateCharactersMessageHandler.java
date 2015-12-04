@@ -68,6 +68,7 @@ public class UpdateCharactersMessageHandler {
 				.map(c->c.getUnitsUnderCommand()).filter(u->!toReturn.containsKey(u))
 				.map(u->characterDAO.getAllCharacters(u).values()).flatMap(l->l.stream()).collect(Collectors.toSet());
 			
+			
 			GameStatistics statistics = WorldRunner.instance(characterDAO, houseDAO).getStatistics(AvatarStore.getAvatarCountry(msg.getAvatar().getId()));
 			AchivementStatus achivementStatus = WorldRunner.instance(characterDAO, houseDAO).getAchivementStatus(storedAvatar);
 			return new UpdateCharactersResponse(msg.getClientID(), new HashSet<CharacterMessage>(toReturn.values()), relatedCharacters, houseDAO.getAllHouses(), statistics, achivementStatus);

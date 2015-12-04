@@ -57,7 +57,7 @@ public class LostVictoryScene {
 		characters.add(al2);
 		
 		CharacterMessage a1 = new CharacterMessage(UUID.fromString("2fbe421f-f701-49c9-a0d4-abb0fa904204"), CharacterType.AVATAR, new Vector(-210, 7, 380), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, gl1.getId(), false);
-		loadSquad(characters, a1, new Vector(-215, 7, 385), Country.GERMAN, Weapon.RIFLE, Weapon.RIFLE, Weapon.RIFLE);
+		loadSquad(characters, a1, new Vector(-215, 7, 385), Country.GERMAN, true, Weapon.RIFLE, Weapon.RIFLE, Weapon.RIFLE);
 		a1.addObjective(UUID.randomUUID(), createBootCampObjective(new Vector(-225, 7, 305)));
 		
 		//UUID.fromString("d993932f-a185-4a6f-8d86-4ef6e2c5ff95")
@@ -87,9 +87,9 @@ public class LostVictoryScene {
         CharacterMessage b1 = new CharacterMessage(UUID.fromString("d993932f-a185-4a6f-8d86-4ef6e2c5ff95"), CharacterType.AVATAR, new Vector(180, 5, -385), Country.AMERICAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, al1.getId(), false);
         loadSquad(characters, b1, new Vector(175, 5, -390), Country.AMERICAN, true, Weapon.RIFLE, Weapon.RIFLE, Weapon.RIFLE);
         b1.addObjective(UUID.randomUUID(), createBootCampObjective(new Vector(125, 0, -330)));
-        b1.incrementKills(UUID.randomUUID());
-        b1.incrementKills(UUID.randomUUID());
-        b1.incrementKills(UUID.randomUUID());
+//        b1.incrementKills(UUID.randomUUID());
+//        b1.incrementKills(UUID.randomUUID());
+//        b1.incrementKills(UUID.randomUUID());
 //        b1.incrementKills(UUID.randomUUID());
 //        b1.incrementKills(UUID.randomUUID());
         
@@ -124,7 +124,9 @@ public class LostVictoryScene {
         a.addCharactersUnderCommand(gl1, gl2);
         b.addCharactersUnderCommand(al1, al2);
         
-        characters.forEach(c -> characterDAO.putCharacter(c.getId(), c));
+        characters.stream().forEach(c -> characterDAO.putCharacter(c.getId(), c));
+
+        
         
 		Set<HouseMessage> houses = new HashSet<HouseMessage>();
 
