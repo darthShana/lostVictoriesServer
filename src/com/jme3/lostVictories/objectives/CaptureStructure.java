@@ -1,5 +1,7 @@
 package com.jme3.lostVictories.objectives;
 
+import static lostVictories.LostVictoryScene.SCENE_SCALE;
+
 import java.io.IOException;
 import java.util.Map;
 import java.util.UUID;
@@ -39,10 +41,10 @@ public class CaptureStructure extends Objective{
 		}
 		
 		Vector3f[] v = new Vector3f[]{
-				house.getLocation().toVector().add(new Vector3f(15, 0, 15)), 
-				house.getLocation().toVector().add(new Vector3f(-15, 0, 15)), 
-				house.getLocation().toVector().add(new Vector3f(15, 0, -15)), 
-				house.getLocation().toVector().add(new Vector3f(-15, 0, -15))};
+				house.getLocation().toVector().add(new Vector3f(7.5f, 0, 7.5f)), 
+				house.getLocation().toVector().add(new Vector3f(-7.5f, 0, 7.5f)), 
+				house.getLocation().toVector().add(new Vector3f(7.5f, 0, -7.5f)), 
+				house.getLocation().toVector().add(new Vector3f(-7.5f, 0, -7.5f))};
         Vector3f shortest = null;
         for(Vector3f t:v){
             if(shortest == null || c.getLocation().toVector().distance(shortest)>c.getLocation().toVector().distance(t)){
@@ -58,7 +60,7 @@ public class CaptureStructure extends Objective{
 			}
 			for(UUID u:c.getUnitsUnderCommand()){
 				CharacterMessage unit = characterDAO.getCharacter(u);
-				if(!isBusy(unit) && CharacterType.SOLDIER==unit.getCharacterType()){
+				if(unit !=null && !isBusy(unit) && CharacterType.SOLDIER==unit.getCharacterType()){
 					TravelObjective t = new TravelObjective(new Vector(shortest), null);
 					unit.addObjective(UUID.randomUUID(), t.asJSON());
 					toSave.put(unit.getId(), unit);

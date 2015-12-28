@@ -30,6 +30,7 @@ public class LostVictoryScene {
 	
 	public static int SCENE_WIDTH = 512;
 	public static int SCENE_HEIGHT = 512;
+	public static float SCENE_SCALE = .5f;
 	
 	private static Logger log = Logger.getLogger(LostVictoryScene.class); 
 	
@@ -59,8 +60,12 @@ public class LostVictoryScene {
 		CharacterMessage a1 = new CharacterMessage(UUID.fromString("2fbe421f-f701-49c9-a0d4-abb0fa904204"), CharacterType.AVATAR, new Vector(-210, 7, 380), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, gl1.getId(), false);
 		loadSquad(characters, a1, new Vector(-215, 7, 385), Country.GERMAN, true, Weapon.RIFLE, Weapon.RIFLE, Weapon.RIFLE);
 		a1.addObjective(UUID.randomUUID(), createBootCampObjective(new Vector(-225, 7, 305)));
+//		a1.incrementKills(UUID.randomUUID());
+//		a1.incrementKills(UUID.randomUUID());
+//		a1.incrementKills(UUID.randomUUID());	
+//		a1.incrementKills(UUID.randomUUID());
+//		a1.incrementKills(UUID.randomUUID());
 		
-		//UUID.fromString("d993932f-a185-4a6f-8d86-4ef6e2c5ff95")
 		CharacterMessage a2 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(-230, 7, 380), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, gl1.getId(), false);
         loadSquad(characters, a2, new Vector(-235, 7, 385), Country.GERMAN, Weapon.RIFLE, Weapon.RIFLE, Weapon.MG42);
         

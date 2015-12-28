@@ -5,6 +5,7 @@ import static com.jme3.lostVictories.network.messages.CharacterMessage.toLatitut
 import static com.jme3.lostVictories.network.messages.CharacterMessage.toLongitude;
 import static com.jme3.lostVictories.network.messages.Vector.latLongToVector;
 import static com.jme3.lostVictories.network.messages.Quaternion.toQuaternion;
+import static lostVictories.LostVictoryScene.SCENE_SCALE;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -126,7 +127,7 @@ public class HouseMessage implements Serializable{
 	}
 
 	public boolean chechOwnership(CharacterDAO characterDAO) {
-		Set<CharacterMessage> allCharacters = characterDAO.getAllCharacters(location.x, location.y, location.z, CAPTURE_RANGE);
+		Set<CharacterMessage> allCharacters = characterDAO.getAllCharacters(location.x, location.y, location.z, CAPTURE_RANGE*SCENE_SCALE);
 		
 		if(!allCharacters.isEmpty()){
 			log.trace("looking ofr characters near:"+location+" found chata:"+allCharacters.size());

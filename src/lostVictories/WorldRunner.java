@@ -52,8 +52,8 @@ public class WorldRunner implements Runnable{
 	private WorldRunner(CharacterDAO characterDAO, HouseDAO houseDAO) {
 		this.characterDAO = characterDAO;
 		this.houseDAO = houseDAO;
-		victoryPoints.put(Country.AMERICAN, 1000);
-        victoryPoints.put(Country.GERMAN, 1000);
+		victoryPoints.put(Country.AMERICAN, 10000);
+        victoryPoints.put(Country.GERMAN, 10000);
 	}
 
 	@Override
