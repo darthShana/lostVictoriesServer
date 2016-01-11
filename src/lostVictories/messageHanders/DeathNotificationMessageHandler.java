@@ -10,16 +10,20 @@ import org.apache.log4j.Logger;
 import com.jme3.lostVictories.network.messages.CharacterMessage;
 import com.jme3.lostVictories.network.messages.DeathNotificationRequest;
 import com.jme3.lostVictories.network.messages.LostVictoryMessage;
+import com.jme3.lostVictories.network.messages.UnClaimedEquipmentMessage;
 
 import lostVictories.dao.CharacterDAO;
+import lostVictories.dao.EquipmentDAO;
 
 public class DeathNotificationMessageHandler {
 
 	private static Logger log = Logger.getLogger(DeathNotificationMessageHandler.class);
 	private CharacterDAO characterDAO;
+	private EquipmentDAO equipmentDAO;
 
-	public DeathNotificationMessageHandler(CharacterDAO characterDAO) {
+	public DeathNotificationMessageHandler(CharacterDAO characterDAO, EquipmentDAO equipmentDAO) {
 		this.characterDAO = characterDAO;
+		this.equipmentDAO = equipmentDAO;
 	}
 
 	public LostVictoryMessage handle(DeathNotificationRequest msg) {
@@ -38,6 +42,10 @@ public class DeathNotificationMessageHandler {
 		toSave.put(killer.getId(), killer);
 		
 		victim.replaceMe(characterDAO, toSave);
+		
+		if(victim.getWeapon().isReusable()){
+			equipmentDAO.addUnclaiimedEquipment(new UnClaimedEquipmentMessage(UUID.randomUUID(), victim.getWeapon(), victim.getLocation(), victim.getOrientation()));
+		}
 		
 		try {
 			characterDAO.saveCommandStructure(toSave);

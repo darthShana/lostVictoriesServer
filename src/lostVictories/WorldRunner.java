@@ -34,6 +34,7 @@ public class WorldRunner implements Runnable{
 	private CharacterDAO characterDAO;
 	private HouseDAO houseDAO;
 	private static WorldRunner instance;
+	private WeaponsFactory weaponsFactory;
 	Map<Country, Integer> victoryPoints = new EnumMap<Country, Integer>(Country.class);
 	Map<Country, Long> manPower = new EnumMap<Country, Long>(Country.class);
 
@@ -54,6 +55,7 @@ public class WorldRunner implements Runnable{
 		this.houseDAO = houseDAO;
 		victoryPoints.put(Country.AMERICAN, 10000);
         victoryPoints.put(Country.GERMAN, 10000);
+        weaponsFactory = new WeaponsFactory();
 	}
 
 	@Override
@@ -72,26 +74,25 @@ public class WorldRunner implements Runnable{
 					victoryPoints.put(c, (int) (victoryPoints.get(c)-((capturedStructureCount/2f)-numberOfProperties)));
 				}
 			}
-			
+
 			for(Country c:structureOwnership.keySet()){
-	//          if(structureOwnership.get(c) == structureCount){
-	//              winner = c;
-	//          }
-	          if(!manPower.containsKey(c)){
-	              manPower.put(c, 0l);
-	          }
-	          manPower.put(c, manPower.get(c)+structureOwnership.get(c));
-	          if(manPower.get(c)>(structureOwnership.get(c)*100)){
-	              manPower.put(c, structureOwnership.get(c)*100);
-	          }
-	          
-	          if(structureOwnership.get(c)>0){
-	              nextRespawnTime.put(c, (100-manPower.get(c))/structureOwnership.get(c)*2);
-	          }
+
+				if(!manPower.containsKey(c)){
+					manPower.put(c, 0l);
+				}
+				manPower.put(c, manPower.get(c)+structureOwnership.get(c));
+				if(manPower.get(c)>(structureOwnership.get(c)*100)){
+					manPower.put(c, structureOwnership.get(c)*100);
+				}
+
+				if(structureOwnership.get(c)>0){
+					nextRespawnTime.put(c, (100-manPower.get(c))/structureOwnership.get(c)*2);
+				}
 			}
 			
 			Set<CharacterMessage> allCharacters = characterDAO.getAllCharacters();
 			AvatarStore avatarStore = new AvatarStore(allCharacters);
+			weaponsFactory.updateSenses(allCharacters);
 			
 			List<CharacterMessage> list = new ArrayList<CharacterMessage>(allCharacters);
 			list.sort((c1, c2)->c1.getRank()!=RankMessage.CADET_CORPORAL&&c2.getRank()==RankMessage.CADET_CORPORAL?1:-1);
@@ -108,14 +109,14 @@ public class WorldRunner implements Runnable{
 							characterDAO.save(toUpdate);
 							if(replaceWithAvatar){
 								characterDAO.delete(c);
-								characterDAO.save(toUpdate.iterator().next().reenforceCharacter(c.getLocation().add(15, 7, 15)));
+								characterDAO.save(toUpdate.iterator().next().reenforceCharacter(c.getLocation().add(15, 7, 15), weaponsFactory));
 							}
 							characterDAO.refresh();
                         }else{
                         	log.debug("in here test reenforce:"+c.getId());
                         	HouseMessage point = SecureSector.findClosestHouse(c, houseDAO.getAllHouses(), new HashSet<UUID>(), h -> h.getOwner()!=c.getCountry());
                         	if(point!=null){
-	                            Collection<CharacterMessage> reenforceCharacter = c.reenforceCharacter(point.getLocation());
+	                            Collection<CharacterMessage> reenforceCharacter = c.reenforceCharacter(point.getLocation(), weaponsFactory);
 	                            characterDAO.updateCharactersUnderCommand(c);
 								characterDAO.save(reenforceCharacter);
                         	}

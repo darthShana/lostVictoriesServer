@@ -1,19 +1,22 @@
 package lostVictories;
 
+import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.util.Date;
+import java.util.UUID;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import lostVictories.dao.CharacterDAO;
+import lostVictories.dao.EquipmentDAO;
 import lostVictories.dao.HouseDAO;
 import lostVictories.messageHanders.MessageHandler;
 
 import org.apache.log4j.Logger;
-import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequestBuilder;
-import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsResponse;
 import org.elasticsearch.client.Client;
@@ -24,7 +27,6 @@ import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
-import org.elasticsearch.indices.IndexAlreadyExistsException;
 import org.jboss.netty.bootstrap.ServerBootstrap;
 import org.jboss.netty.channel.ChannelPipeline;
 import org.jboss.netty.channel.ChannelPipelineFactory;
@@ -42,10 +44,15 @@ public class LostVictoriesSever {
 	private int port;
 	private String characterIndexName;
 	private String houseIndexName;
+	private String equipmentIndexName;
+
+	private String instance;
 
 	public LostVictoriesSever(String instance, int port) {
+		this.instance = instance;
 		characterIndexName = instance+"_unit_status";
 		houseIndexName = instance+"_house_status";
+		equipmentIndexName = instance+"_equipment_status";
 		this.port = port;
 		
 	}
@@ -55,8 +62,23 @@ public class LostVictoriesSever {
 		IndicesAdminClient adminClient = esClient.admin().indices();
 		CharacterDAO characterDAO = new CharacterDAO(esClient, characterIndexName);
 		HouseDAO houseDAO = new HouseDAO(esClient, houseIndexName);
+		EquipmentDAO equipmentDAO = new EquipmentDAO(esClient, equipmentIndexName);
 		
-		createIndex(adminClient, characterDAO, houseDAO);
+		boolean existing = createIndices(adminClient, characterDAO, houseDAO);
+		if(!existing){
+			XContentBuilder gameDetails = jsonBuilder()
+	            .startObject()
+	            	.field("name", this.instance)
+	            	.field("host", "127.0.0.1")
+	                .field("port", port)
+	                .field("gameID", UUID.randomUUID())
+	                .field("startDate", new Date().getTime())
+	            .endObject();
+			esClient.prepareIndex(characterIndexName, "gameStatus", "gameStatus")
+		        .setSource(gameDetails)
+		        .execute()
+		        .actionGet();
+		}
 		
 		ScheduledExecutorService worldRunnerService = Executors.newScheduledThreadPool(2);
 		WorldRunner worldRunner = WorldRunner.instance(characterDAO, houseDAO);
@@ -72,7 +94,7 @@ public class LostVictoriesSever {
 				return Channels.pipeline(
 					new ObjectDecoder(ClassResolvers.cacheDisabled(getClass().getClassLoader())),
 					new ObjectEncoder(),
-					new MessageHandler(characterDAO, houseDAO)
+					new MessageHandler(characterDAO, houseDAO, equipmentDAO)
 				);
 			 };
 		 });
@@ -84,33 +106,48 @@ public class LostVictoriesSever {
 		
 	}
 
-	private void createIndex(IndicesAdminClient adminClient, CharacterDAO characterDAO, HouseDAO housesDAO) throws IOException {
+	private boolean createIndices(IndicesAdminClient adminClient, CharacterDAO characterDAO, HouseDAO housesDAO) throws IOException {
 		final IndicesExistsResponse res = adminClient.prepareExists(characterIndexName).execute().actionGet();
         if (res.isExists()) {
         	log.info("index:"+characterIndexName+" already exisits");
-            return;
+            return true;
         }
         log.info("creating new index:"+characterIndexName);
 	    
-	    final IndicesExistsResponse house = adminClient.prepareExists(houseIndexName).execute().actionGet();
-        if (house.isExists()) {
-        	log.info("index:"+houseIndexName+" already exisits no deleting");
-            adminClient.delete(new DeleteIndexRequest(houseIndexName)).actionGet();
-        }
+	    deleteIndex(adminClient, houseIndexName);
+	    deleteIndex(adminClient, equipmentIndexName);
         
         final CreateIndexRequestBuilder createIndexRequestBuilder = adminClient.prepareCreate(characterIndexName);
-		
+        
 	    XContentBuilder builder = XContentFactory.jsonBuilder().startObject().startObject("unitStatus").startObject("properties");
 	    builder.startObject("location")
         	.field("type", "geo_point")
-        	.field("store", "yes")
         	.endObject();
+	    builder.startObject("type")
+    		.field("type", "string")
+    		.field("index", "not_analyzed")
+    		.field("store", "yes")
+    		.endObject();
+	    builder.startObject("rank")
+			.field("type", "string")
+			.field("index", "not_analyzed")
+			.field("store", "yes")
+			.endObject();
+	    builder.startObject("country")
+			.field("type", "string")
+			.field("index", "not_analyzed")
+			.field("store", "yes")
+			.endObject();
+	    builder.startObject("userID")
+		    .field("type", "string")
+		    .field("index", "not_analyzed")
+		    .field("store", "yes")
+		    .endObject();
 	    
 	    createIndexRequestBuilder.addMapping("unitStatus", builder);
 	    createIndexRequestBuilder.execute().actionGet();
 	    
 	    final CreateIndexRequestBuilder houseIndexRequestBuilder = adminClient.prepareCreate(houseIndexName);
-		
 	    builder = XContentFactory.jsonBuilder().startObject().startObject("houseStatus").startObject("properties");
 	    builder.startObject("location")
         	.field("type", "geo_point")
@@ -120,7 +157,26 @@ public class LostVictoriesSever {
 	    houseIndexRequestBuilder.addMapping("houseStatus", builder);
 	    houseIndexRequestBuilder.execute().actionGet();
 	    
+	    final CreateIndexRequestBuilder equipmentIndexRequestBuilder = adminClient.prepareCreate(equipmentIndexName);
+	    builder = XContentFactory.jsonBuilder().startObject().startObject("equipmentStatus").startObject("properties");
+	    builder.startObject("location")
+        	.field("type", "geo_point")
+        	.field("store", "yes")
+        	.endObject();
+	    
+	    equipmentIndexRequestBuilder.addMapping("equipmentStatus", builder);
+	    equipmentIndexRequestBuilder.execute().actionGet();
+	    
 	    new LostVictoryScene().loadScene(characterDAO, housesDAO);
+	    return false;
+	}
+
+	private void deleteIndex(IndicesAdminClient adminClient, String indexName) {
+		final IndicesExistsResponse house = adminClient.prepareExists(indexName).execute().actionGet();
+        if (house.isExists()) {
+        	log.info("index:"+indexName+" already exisits so deleting");
+            adminClient.delete(new DeleteIndexRequest(indexName)).actionGet();
+        }
 	}
 
 	private Client getESClient() {

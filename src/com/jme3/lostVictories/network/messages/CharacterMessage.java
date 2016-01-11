@@ -18,6 +18,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import lostVictories.LostVictoryScene;
+import lostVictories.WeaponsFactory;
 import lostVictories.dao.CharacterDAO;
 
 import org.apache.log4j.Logger;
@@ -246,6 +247,7 @@ public class CharacterMessage implements Serializable{
 		location = other.location;
 		orientation = other.orientation;
 		actions = other.actions;
+		
 		other.objectives.entrySet().stream().forEach(e->objectives.putIfAbsent(e.getKey(), e.getValue()));
 		objectives = objectives.entrySet().stream().filter(e->!other.completedObjectives.contains(e.getKey())).collect(Collectors.toMap(e->e.getKey(), e->e.getValue()));
 		
@@ -306,10 +308,10 @@ public class CharacterMessage implements Serializable{
 		return unitsUnderCommand.size()>=rank.getFullStrengthPopulation();
 	}
 
-	public Collection<CharacterMessage> reenforceCharacter(Vector spawnPoint) {
+	public Collection<CharacterMessage> reenforceCharacter(Vector spawnPoint, WeaponsFactory weaponsFactory) {
 		RankMessage rankToReenforce;
         rankToReenforce = reenformentCharacterRank(rank);
-		final CharacterMessage loadCharacter = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, spawnPoint, country, Weapon.RIFLE, rankToReenforce, id, false);
+		final CharacterMessage loadCharacter = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, spawnPoint, country, weaponsFactory.getWeapon(), rankToReenforce, id, false);
 		loadCharacter.commandingOfficer = id;
 		unitsUnderCommand.add(loadCharacter.getId());
         return ImmutableSet.of(loadCharacter);
@@ -473,6 +475,15 @@ public class CharacterMessage implements Serializable{
 			squadType = SquadType.MG42_TEAM;
 		}
 		return squadType;
+	}
+
+	public Weapon switchWeapon(UnClaimedEquipmentMessage equipment) {
+		Weapon dropped = null;
+		if(weapon.isReusable()){
+			dropped = weapon;
+		}
+		weapon = equipment.getWeapon();
+		return dropped;
 	}
 	
 

@@ -9,9 +9,11 @@ import com.jme3.lostVictories.network.messages.CheckoutScreenRequest;
 import com.jme3.lostVictories.network.messages.CheckoutScreenResponse;
 import com.jme3.lostVictories.network.messages.HouseMessage;
 import com.jme3.lostVictories.network.messages.LostVictoryMessage;
+import com.jme3.lostVictories.network.messages.UnClaimedEquipmentMessage;
 import com.jme3.lostVictories.network.messages.Vector;
 
 import lostVictories.dao.CharacterDAO;
+import lostVictories.dao.EquipmentDAO;
 import lostVictories.dao.HouseDAO;
 
 public class CheckoutScreenMessageHandler{
@@ -20,10 +22,12 @@ public class CheckoutScreenMessageHandler{
 	public static Long CLIENT_RANGE = 250l;
 	private CharacterDAO characterDAO;
 	private HouseDAO houseDAO;
+	private EquipmentDAO equipmentDAO;
 
-	public CheckoutScreenMessageHandler(CharacterDAO characterDAO, HouseDAO houseDAO) {
+	public CheckoutScreenMessageHandler(CharacterDAO characterDAO, HouseDAO houseDAO, EquipmentDAO equipmentDAO) {
 		this.characterDAO = characterDAO;
 		this.houseDAO = houseDAO;
+		this.equipmentDAO = equipmentDAO;
 	}
 
 	public LostVictoryMessage handle(CheckoutScreenRequest m) {
@@ -32,8 +36,9 @@ public class CheckoutScreenMessageHandler{
 		if(avatar!=null){
 			Vector l = avatar.getLocation();
 	       	Set<CharacterMessage> allCharacters = characterDAO.getAllCharacters(l.x, l.y, l.z, CLIENT_RANGE);
+	       	Set<UnClaimedEquipmentMessage> allEquipment = equipmentDAO.getUnClaimedEquipment(l.x, l.y, l.z, CLIENT_RANGE);
 			Set<HouseMessage> allHouses = houseDAO.getAllHouses();
-			return new CheckoutScreenResponse(allCharacters, allHouses);
+			return new CheckoutScreenResponse(allCharacters, allHouses, allEquipment);
 		}
 		return new LostVictoryMessage(m.getClientID());
 	}

@@ -113,6 +113,7 @@ public class CharacterDAO {
 	
 	public Set<CharacterMessage> getAllCharacters() {
 		SearchResponse searchResponse = esClient.prepareSearch(indexName)
+				.setTypes("unitStatus")
 				.setQuery(matchAllQuery()).setSize(10000)
 				.setVersion(true)
 				.execute().actionGet();

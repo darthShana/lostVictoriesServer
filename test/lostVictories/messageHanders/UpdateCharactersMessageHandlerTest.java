@@ -12,6 +12,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import lostVictories.dao.CharacterDAO;
+import lostVictories.dao.EquipmentDAO;
 import lostVictories.dao.HouseDAO;
 
 import org.elasticsearch.common.collect.ImmutableSet;
@@ -33,7 +34,7 @@ public class UpdateCharactersMessageHandlerTest {
 	@Before
 	public void setUp(){
 		characterDAO = mock(CharacterDAO.class);
-		handler = new UpdateCharactersMessageHandler(characterDAO, mock(HouseDAO.class));
+		handler = new UpdateCharactersMessageHandler(characterDAO, mock(HouseDAO.class), mock(EquipmentDAO.class));
 	}
 	
 	@Test

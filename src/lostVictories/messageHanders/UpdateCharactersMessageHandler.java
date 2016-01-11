@@ -13,7 +13,9 @@ import org.apache.log4j.Logger;
 import com.jme3.lostVictories.network.messages.AchivementStatus;
 import com.jme3.lostVictories.network.messages.CharacterMessage;
 import com.jme3.lostVictories.network.messages.GameStatistics;
+import com.jme3.lostVictories.network.messages.HouseMessage;
 import com.jme3.lostVictories.network.messages.LostVictoryMessage;
+import com.jme3.lostVictories.network.messages.UnClaimedEquipmentMessage;
 import com.jme3.lostVictories.network.messages.UpdateCharactersRequest;
 import com.jme3.lostVictories.network.messages.UpdateCharactersResponse;
 import com.jme3.lostVictories.network.messages.Vector;
@@ -21,6 +23,7 @@ import com.jme3.lostVictories.network.messages.Vector;
 import lostVictories.AvatarStore;
 import lostVictories.WorldRunner;
 import lostVictories.dao.CharacterDAO;
+import lostVictories.dao.EquipmentDAO;
 import lostVictories.dao.HouseDAO;
 
 public class UpdateCharactersMessageHandler {
@@ -28,10 +31,12 @@ public class UpdateCharactersMessageHandler {
 	private CharacterDAO characterDAO;
 	private static Logger log = Logger.getLogger(UpdateCharactersMessageHandler.class);
 	private HouseDAO houseDAO;
+	private EquipmentDAO equipmentDAO;
 
-	public UpdateCharactersMessageHandler(CharacterDAO characterDAO, HouseDAO houseDAO) {
+	public UpdateCharactersMessageHandler(CharacterDAO characterDAO, HouseDAO houseDAO, EquipmentDAO equipmentDAO) {
 		this.characterDAO = characterDAO;
 		this.houseDAO = houseDAO;
+		this.equipmentDAO = equipmentDAO;
 	}
 
 	public LostVictoryMessage handle(UpdateCharactersRequest msg) throws IOException {
@@ -53,6 +58,7 @@ public class UpdateCharactersMessageHandler {
 		characterDAO.updateCharacterState(toSave);
 		
 		Map<UUID, CharacterMessage> toReturn;
+		Set<HouseMessage> allHouses = houseDAO.getAllHouses();
 		if(msg.getAvatar()!=null){
 			CharacterMessage storedAvatar = characterDAO.getCharacter(msg.getAvatar().getId());
 			Vector v = (storedAvatar!=null)?storedAvatar.getLocation():msg.getAvatar().getLocation();
@@ -71,12 +77,14 @@ public class UpdateCharactersMessageHandler {
 			
 			GameStatistics statistics = WorldRunner.instance(characterDAO, houseDAO).getStatistics(AvatarStore.getAvatarCountry(msg.getAvatar().getId()));
 			AchivementStatus achivementStatus = WorldRunner.instance(characterDAO, houseDAO).getAchivementStatus(storedAvatar);
-			return new UpdateCharactersResponse(msg.getClientID(), new HashSet<CharacterMessage>(toReturn.values()), relatedCharacters, houseDAO.getAllHouses(), statistics, achivementStatus);
+			
+			Set<UnClaimedEquipmentMessage> unClaimedEquipment = equipmentDAO.getUnClaimedEquipment(v.x, v.y, v.z, CheckoutScreenMessageHandler.CLIENT_RANGE);
+			return new UpdateCharactersResponse(msg.getClientID(), new HashSet<CharacterMessage>(toReturn.values()), relatedCharacters, unClaimedEquipment, allHouses, statistics, achivementStatus);
 		}else{
 			toReturn = existingInServer;
 			log.debug("client did not send avatar for perspective");
 		}
 		log.debug("sending back characters:"+toReturn.size());
-		return new UpdateCharactersResponse(msg.getClientID(), new HashSet<CharacterMessage>(toReturn.values()), new HashSet<CharacterMessage>(), houseDAO.getAllHouses(), null, null);
+		return new UpdateCharactersResponse(msg.getClientID(), new HashSet<CharacterMessage>(toReturn.values()), new HashSet<CharacterMessage>(), new HashSet<UnClaimedEquipmentMessage>(), allHouses, null, null);
 	}
 }
