@@ -39,7 +39,7 @@ public class LostVictoryScene {
 		
 		Set<CharacterMessage> characters = new HashSet<CharacterMessage>();
 		
-		Vector german_root = new Vector(-125, 500, 900);
+		Vector german_root = new Vector(-125, 7, 370);
 		CharacterMessage a = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, german_root, Country.GERMAN, Weapon.RIFLE, RankMessage.COLONEL, null, false);
 		a.addObjective(UUID.randomUUID(), new CaptureTown(System.currentTimeMillis()).asJSON());
 		CharacterMessage b = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(195, 7, -375), Country.AMERICAN, Weapon.RIFLE, RankMessage.COLONEL, null, false);

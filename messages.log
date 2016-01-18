@@ -23185,3 +23185,73 @@ GERMAN- sector secured:
 GERMAN- sector secured:
 GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=288,width=400,height=400] houses:1
 GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=288,width=400,height=400] houses:1
+[Blacklash] loaded [], sites []
+index:test_lost_victories1_unit_status already exisits
+Listening on 5055
+checking out scene for avatar:2fbe421f-f701-49c9-a0d4-abb0fa904204
+returning scene
+[Death's Head II] loaded [], sites []
+index:test_lost_victories1_unit_status already exisits
+Listening on 5055
+checking out scene for avatar:2fbe421f-f701-49c9-a0d4-abb0fa904204
+returning scene
+[Man-Thing] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+index:test_lost_victories1_house_status already exisits so deleting
+index:test_lost_victories1_equipment_status already exisits so deleting
+Listening on 5055
+checking out scene for avatar:2fbe421f-f701-49c9-a0d4-abb0fa904204
+returning scene
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:9
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:9
+received death notification:f0d5bef9-d970-427f-b8ca-5d04efdac52e
+promoting:41b71ba0-18b2-4d20-86b9-69bb562fdcd1 to CADET_CORPORAL
+received death notification:c648a11b-d278-40a8-a116-e1ae18bbed8b
+received death notification:216a4d96-6987-4db0-9520-e960bf7c769a
+checking out scene for avatar:2fbe421f-f701-49c9-a0d4-abb0fa904204
+returning scene
+GERMAN- sector secured:
+GERMAN- sector secured:
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=288,width=400,height=400] houses:1
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=288,width=400,height=400] houses:1
+checking out scene for avatar:2fbe421f-f701-49c9-a0d4-abb0fa904204
+returning scene
+received death notification:f0d5bef9-d970-427f-b8ca-5d04efdac52e
+promoting:c648a11b-d278-40a8-a116-e1ae18bbed8b to CADET_CORPORAL
+received death notification:4cfdad76-1be4-4c6f-bac8-3354e6d8185a
+received death notification:5dac5f45-7503-4007-bc92-4da3a9893261
+received death notification:6490c887-c27f-4439-90c5-2854ac0461e3
+received death notification:a12d35ec-dc49-4bd3-aead-d9034537c502
+received death notification:15ec4ac7-e2ec-4c5f-8cae-538b11296d0a
+received death notification:03f7fa49-e486-42a0-b5d5-6bba4d3df196
+received death notification:184533f8-e311-4c14-89dd-e70f53ed2452
+received death notification:5a5ad036-8a51-48f1-ba90-38d21d0095e4
+received death notification:4db7ac30-0ed9-4b97-87f5-187a29ff3703
+received death notification:d6d3436f-5d3e-4852-904e-cb23cb4bd348
+checking out scene for avatar:2fbe421f-f701-49c9-a0d4-abb0fa904204
+returning scene
+received death notification:6490c887-c27f-4439-90c5-2854ac0461e3
+received death notification:15ec4ac7-e2ec-4c5f-8cae-538b11296d0a
+received death notification:f0d5bef9-d970-427f-b8ca-5d04efdac52e
+promoting:216a4d96-6987-4db0-9520-e960bf7c769a to CADET_CORPORAL
+received death notification:4cfdad76-1be4-4c6f-bac8-3354e6d8185a
+promoting:cf12ac18-5496-407e-9e4d-e46cbcd8d421 to CADET_CORPORAL
+received death notification:d6d3436f-5d3e-4852-904e-cb23cb4bd348
+checking out scene for avatar:2fbe421f-f701-49c9-a0d4-abb0fa904204
+returning scene
+[Perseus] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+index:test_lost_victories1_house_status already exisits so deleting
+index:test_lost_victories1_equipment_status already exisits so deleting
+Listening on 5055
+checking out scene for avatar:2fbe421f-f701-49c9-a0d4-abb0fa904204
+returning scene
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:9
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:9
+received death notification:4adca2c9-c23c-4517-aa50-846cfaed8961
+promoting:5cae4715-7861-415a-b716-f7bbe1f6bd1a to CADET_CORPORAL
+received death notification:d02eabaa-147e-448a-84aa-5d1bd5b61da4
+received death notification:6891ef4c-ad58-458f-aaaa-4cd2339a6b8d
+checking out scene for avatar:2fbe421f-f701-49c9-a0d4-abb0fa904204
+returning scene
+received death notification:26d49fc1-e96f-40f9-b906-d7a8db914cd5
