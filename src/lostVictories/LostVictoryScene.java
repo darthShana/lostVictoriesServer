@@ -39,7 +39,8 @@ public class LostVictoryScene {
 		
 		Set<CharacterMessage> characters = new HashSet<CharacterMessage>();
 		
-		CharacterMessage a = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(-125, 7, 370), Country.GERMAN, Weapon.RIFLE, RankMessage.COLONEL, null, false);
+		Vector german_root = new Vector(-125, 500, 900);
+		CharacterMessage a = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, german_root, Country.GERMAN, Weapon.RIFLE, RankMessage.COLONEL, null, false);
 		a.addObjective(UUID.randomUUID(), new CaptureTown(System.currentTimeMillis()).asJSON());
 		CharacterMessage b = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(195, 7, -375), Country.AMERICAN, Weapon.RIFLE, RankMessage.COLONEL, null, false);
 		b.addObjective(UUID.randomUUID(), new CaptureTown(System.currentTimeMillis()).asJSON());
@@ -57,7 +58,7 @@ public class LostVictoryScene {
 		characters.add(al1);
 		characters.add(al2);
 		
-		CharacterMessage a1 = new CharacterMessage(UUID.fromString("2fbe421f-f701-49c9-a0d4-abb0fa904204"), CharacterType.AVATAR, new Vector(-210, 7, 380), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, gl1.getId(), false);
+		CharacterMessage a1 = new CharacterMessage(UUID.fromString("2fbe421f-f701-49c9-a0d4-abb0fa904204"), CharacterType.AVATAR, german_root.add(-85,  0, 10) , Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, gl1.getId(), false);
 		loadSquad(characters, a1, new Vector(-215, 7, 385), Country.GERMAN, true, Weapon.RIFLE, Weapon.RIFLE, Weapon.RIFLE);
 		a1.addObjective(UUID.randomUUID(), createBootCampObjective(new Vector(-225, 7, 305)));
 //		a1.incrementKills(UUID.randomUUID());
