@@ -1,7 +1,6 @@
 package lostVictories;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -14,16 +13,12 @@ import com.jme3.lostVictories.network.messages.Country;
 
 public class AvatarStore {
 
-	private static Map<UUID, Country> avatars = new HashMap<UUID, Country>();
-	private Map<UUID, CharacterMessage> allCharacters;
+	private final Map<UUID, CharacterMessage> allCharacters;
+	private final Map<UUID, Country> avatars;
 	
-	static{
-		avatars.put(UUID.fromString("2fbe421f-f701-49c9-a0d4-abb0fa904204"), Country.GERMAN);
-		avatars.put(UUID.fromString("d993932f-a185-4a6f-8d86-4ef6e2c5ff95"), Country.AMERICAN);
-	}
-
-	public AvatarStore(Set<CharacterMessage> allCharacters) {
+	public AvatarStore(Set<CharacterMessage> allCharacters, Set<CharacterMessage> avatarSet) {
 		this.allCharacters = allCharacters.stream().collect(Collectors.toMap(c->c.getId(), Function.identity()));
+		this.avatars = avatarSet.stream().collect(Collectors.toMap(a->a.getId(), a->a.getCountry()));
 	}
 	
 	public Optional<UUID> getDeadAvatars(Country country) {
@@ -40,7 +35,7 @@ public class AvatarStore {
 		return allCharacters.entrySet().stream().filter(e->avatars.containsKey(e.getKey()) && !e.getValue().isDead()).map(e->e.getValue()).collect(Collectors.toSet());
 	}
 	
-	public static Country getAvatarCountry(UUID id){
+	public Country getAvatarCountry(UUID id){
 		return avatars.get(id);
 	}
 

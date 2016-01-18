@@ -91,7 +91,7 @@ public class WorldRunner implements Runnable{
 			}
 			
 			Set<CharacterMessage> allCharacters = characterDAO.getAllCharacters();
-			AvatarStore avatarStore = new AvatarStore(allCharacters);
+			AvatarStore avatarStore = new AvatarStore(allCharacters, characterDAO.getAvatars());
 			weaponsFactory.updateSenses(allCharacters);
 			
 			List<CharacterMessage> list = new ArrayList<CharacterMessage>(allCharacters);

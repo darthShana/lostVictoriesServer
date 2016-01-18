@@ -3,6 +3,7 @@ package lostVictories.dao;
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 import static org.elasticsearch.index.query.FilterBuilders.geoBoundingBoxFilter;
 import static org.elasticsearch.index.query.QueryBuilders.*;
+import static org.elasticsearch.index.query.FilterBuilders.termFilter;
 import static com.jme3.lostVictories.network.messages.CharacterMessage.toLatitute;
 import static com.jme3.lostVictories.network.messages.CharacterMessage.toLongitude;
 
@@ -28,7 +29,9 @@ import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.index.engine.VersionConflictEngineException;
+import org.elasticsearch.index.query.FilteredQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 
 import com.jme3.lostVictories.network.messages.CharacterMessage;
@@ -117,6 +120,20 @@ public class CharacterDAO {
 				.setQuery(matchAllQuery()).setSize(10000)
 				.setVersion(true)
 				.execute().actionGet();
+		
+		Iterator<SearchHit> iterator = searchResponse.getHits().iterator();
+		Iterable<SearchHit> iterable = () -> iterator;
+		return StreamSupport.stream(iterable.spliterator(), true).map(hit -> fromFields(UUID.fromString(hit.getId()), hit.version(), hit.getSource())).collect(Collectors.toSet());
+	}
+	
+	public Set<CharacterMessage> getAvatars(){
+		FilteredQueryBuilder builder = QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery(), termFilter("type","AVATAR"));
+	
+		SearchResponse searchResponse =
+			esClient.prepareSearch(indexName).setTypes("unitStatus")
+		       .setQuery(builder)
+		       .execute()
+		       .actionGet();
 		
 		Iterator<SearchHit> iterator = searchResponse.getHits().iterator();
 		Iterable<SearchHit> iterable = () -> iterator;
