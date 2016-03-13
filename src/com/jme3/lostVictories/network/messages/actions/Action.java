@@ -16,6 +16,7 @@ import com.jme3.lostVictories.network.messages.Vector;
     @Type(value = Idle.class, name = "idle"),  
     @Type(value = Move.class, name = "move"),
     @Type(value = Shoot.class, name = "shoot"),
+    @Type(value = Crouch.class, name = "crouch"),
     @Type(value = SetupWeapon.class, name = "setupWeapon")})  
 public abstract class Action implements Serializable{
     
@@ -24,6 +25,9 @@ public abstract class Action implements Serializable{
     }
     public static Action move(){
         return new Move();
+    }
+    public static Action crouch(){
+        return new Crouch();
     }
     public static Action shoot(long shootTime, Vector[] targets){
         return new Shoot(shootTime, targets);

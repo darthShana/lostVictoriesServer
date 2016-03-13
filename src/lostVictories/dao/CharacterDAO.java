@@ -52,7 +52,7 @@ public class CharacterDAO {
 		this.esClient = esClient;
 		this.indexName = indexName;
 	}
-	
+	  
 	public void putCharacter(UUID uuid, CharacterMessage character) {
 		try {
 			esClient.prepareIndex(indexName, "unitStatus", uuid.toString())
@@ -158,7 +158,7 @@ public class CharacterDAO {
 		}
 				
 		bulkRequest.execute().actionGet();
-		
+		refresh();
 	}
 	
 	public void saveCommandStructure(Map<UUID, CharacterMessage> map) throws IOException {

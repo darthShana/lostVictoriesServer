@@ -207,6 +207,7 @@ public class CharacterMessage implements Serializable{
 		return jsonBuilder()
 				.startObject()
 				.field("location", new GeoPoint(toLatitute(getLocation()), toLongitude(getLocation())))
+				.field("altitude", getLocation().y)
 				.field("orientation", orientation.toMap())
 				.field("actions", CharacterDAO.MAPPER.writeValueAsString(actions))
 				.field("objectives", CharacterDAO.MAPPER.writeValueAsString(objectives))				

@@ -29,7 +29,7 @@ public class CollectEquipmentMessageHandler {
 		CharacterMessage character = characterDAO.getCharacter(msg.getCharacterID());
 		log.info("received equipment pickup:"+msg.getEquipmentId()+" for character "+msg.getCharacterID());
 		
-		if(equipment.getLocation().toVector().distance(character.getLocation().toVector())>1){
+		if(equipment.getLocation().distance(character.getLocation())>1){
 			return new LostVictoryMessage(UUID.randomUUID());
 		}
 		

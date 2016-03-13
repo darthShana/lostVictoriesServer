@@ -69,9 +69,10 @@ public class LostVictoriesSever {
 			XContentBuilder gameDetails = jsonBuilder()
 	            .startObject()
 	            	.field("name", this.instance)
-	            	.field("host", "127.0.0.1")
+	            	.field("host", "192.168.0.3")
 	                .field("port", port)
 	                .field("gameID", UUID.randomUUID())
+	                .field("gameVersion", "pre_alpha")
 	                .field("startDate", new Date().getTime())
 	            .endObject();
 			esClient.prepareIndex(characterIndexName, "gameStatus", "gameStatus")

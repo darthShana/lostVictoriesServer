@@ -29,6 +29,8 @@ import com.jme3.lostVictories.objectives.SecureSector;
 
 public class WorldRunner implements Runnable{
 
+	private static final int COST_OF_UNIT = 500;
+
 	private static Logger log = Logger.getLogger(WorldRunner.class); 
 	
 	private CharacterDAO characterDAO;
@@ -53,8 +55,8 @@ public class WorldRunner implements Runnable{
 	private WorldRunner(CharacterDAO characterDAO, HouseDAO houseDAO) {
 		this.characterDAO = characterDAO;
 		this.houseDAO = houseDAO;
-		victoryPoints.put(Country.AMERICAN, 10000);
-        victoryPoints.put(Country.GERMAN, 10000);
+		victoryPoints.put(Country.AMERICAN, 5000);
+        victoryPoints.put(Country.GERMAN, 5000);
         weaponsFactory = new WeaponsFactory();
 	}
 
@@ -81,12 +83,12 @@ public class WorldRunner implements Runnable{
 					manPower.put(c, 0l);
 				}
 				manPower.put(c, manPower.get(c)+structureOwnership.get(c));
-				if(manPower.get(c)>(structureOwnership.get(c)*100)){
-					manPower.put(c, structureOwnership.get(c)*100);
+				if(manPower.get(c)>(structureOwnership.get(c)*COST_OF_UNIT)){
+					manPower.put(c, structureOwnership.get(c)*COST_OF_UNIT);
 				}
 
 				if(structureOwnership.get(c)>0){
-					nextRespawnTime.put(c, (100-manPower.get(c))/structureOwnership.get(c)*2);
+					nextRespawnTime.put(c, (COST_OF_UNIT-manPower.get(c))/structureOwnership.get(c)*2);
 				}
 			}
 			
@@ -114,7 +116,7 @@ public class WorldRunner implements Runnable{
 							characterDAO.refresh();
                         }else{
                         	log.debug("in here test reenforce:"+c.getId());
-                        	HouseMessage point = SecureSector.findClosestHouse(c, houseDAO.getAllHouses(), new HashSet<UUID>(), h -> h.getOwner()!=c.getCountry());
+                        	HouseMessage point = SecureSector.findClosestHouse(c, houseDAO.getAllHouses(), new HashSet<UUID>(), h -> h.getOwner()==c.getCountry());
                         	if(point!=null){
 	                            Collection<CharacterMessage> reenforceCharacter = c.reenforceCharacter(point.getLocation(), weaponsFactory);
 	                            characterDAO.updateCharactersUnderCommand(c);
@@ -124,7 +126,7 @@ public class WorldRunner implements Runnable{
                         reduceManPower(c.getCountry());
                         
                     }
-                }else if(c.getTimeOfDeath()<(System.currentTimeMillis()-60000)){
+                }else if(c.getTimeOfDeath()<(System.currentTimeMillis()-60000) && c.getCharacterType()!=CharacterType.AVATAR){
                 	log.debug("removing dead character:"+c.getId());
                 	characterDAO.delete(c);
                 }
@@ -156,11 +158,11 @@ public class WorldRunner implements Runnable{
         if(manPower.get(country)==null){
             manPower.put(country, 0l);
         }
-        manPower.put(country, manPower.get(country)-100);
+        manPower.put(country, manPower.get(country)-COST_OF_UNIT);
     }
 	
     boolean hasManPowerToReenforce(Country country) {
-        return manPower.get(country)!=null && manPower.get(country)>=100;
+        return manPower.get(country)!=null && manPower.get(country)>=COST_OF_UNIT;
      
     }
 

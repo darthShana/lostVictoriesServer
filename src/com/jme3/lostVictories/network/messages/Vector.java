@@ -8,6 +8,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 import lostVictories.LostVictoryScene;
 
+import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 
 public class Vector implements Serializable{
@@ -37,7 +38,7 @@ public class Vector implements Serializable{
 
 	public Vector add(long i, long j, long k) {
 		Vector3f v = new Vector3f(x, y, z);
-		v.add(i, j, k);
+		v.addLocal(i, j, k);
 		return new Vector(v.x, v.y, v.z);
 	}
 	
@@ -74,5 +75,11 @@ public class Vector implements Serializable{
 
 	public Vector3f toVector() {
 		return new Vector3f(x, y, z);
+	}
+
+
+	public float distance(Vector other) {
+		Vector2f me = new Vector2f(x, z);
+		return me.distance(new Vector2f(other.x, other.z));
 	}
 }

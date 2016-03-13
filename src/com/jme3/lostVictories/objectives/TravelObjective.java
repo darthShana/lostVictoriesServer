@@ -53,9 +53,11 @@ public class TravelObjective extends Objective{
 	public String asJSON() throws JsonGenerationException, JsonMappingException, IOException {
         ObjectNode node = MAPPER.createObjectNode();
         JsonNode d = MAPPER.valueToTree(destination);
-        JsonNode f = MAPPER.valueToTree(facePoint);
         node.put("destination", d);
-        node.put("facePoint", f);
+        if(facePoint!=null){
+        	JsonNode f = MAPPER.valueToTree(facePoint);
+        	node.put("facePoint", f);
+        }
         node.put("classType", getClass().getName());
 
         return MAPPER.writeValueAsString(node);

@@ -24,7 +24,7 @@ import org.elasticsearch.common.xcontent.XContentBuilder;
 
 public class HouseMessage implements Serializable{
 	private static Logger log = Logger.getLogger(HouseMessage.class); 
-	public static final float CAPTURE_RANGE = 30;
+	public static final float CAPTURE_RANGE = 45;
 	
 	private final UUID id;
 	private String type;

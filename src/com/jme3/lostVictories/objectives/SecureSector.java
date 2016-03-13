@@ -90,7 +90,7 @@ public class SecureSector extends Objective {
 
 	@Override
 	public boolean clashesWith(Class<? extends Objective> newObjective) {
-		return false;
+		return true;
 	}
 	
 }
