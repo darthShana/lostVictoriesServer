@@ -30819,3 +30819,12 @@ AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height
 received death notification:04d2959d-2364-4617-abae-014a5cabe73f
 promoting:9347ce13-169f-403d-b63b-edcca94a6b4c to LIEUTENANT
 received death notification:85a04b91-007a-4095-9a29-4e1c0c8c6b37
+[Benny Beckley] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene

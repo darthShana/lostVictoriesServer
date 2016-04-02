@@ -1,11 +1,7 @@
 package lostVictories.messageHanders;
 
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.EquipmentDAO;
@@ -21,11 +17,8 @@ import org.jboss.netty.channel.DownstreamMessageEvent;
 import org.jboss.netty.channel.MessageEvent;
 import org.jboss.netty.channel.SimpleChannelHandler;
 
-import com.google.gson.Gson;
 import com.jme3.lostVictories.network.messages.AddObjectiveRequest;
-import com.jme3.lostVictories.network.messages.CharacterMessage;
 import com.jme3.lostVictories.network.messages.CheckoutScreenRequest;
-import com.jme3.lostVictories.network.messages.CheckoutScreenResponse;
 import com.jme3.lostVictories.network.messages.DeathNotificationRequest;
 import com.jme3.lostVictories.network.messages.EquipmentCollectionRequest;
 import com.jme3.lostVictories.network.messages.LostVictoryMessage;
