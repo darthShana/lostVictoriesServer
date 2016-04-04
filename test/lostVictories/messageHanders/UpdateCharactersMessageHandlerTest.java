@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -18,8 +19,10 @@ import lostVictories.dao.HouseDAO;
 import org.elasticsearch.common.collect.ImmutableSet;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentMatcher;
 
 import com.jme3.lostVictories.network.messages.CharacterMessage;
+import com.jme3.lostVictories.network.messages.RankMessage;
 import com.jme3.lostVictories.network.messages.UpdateCharactersRequest;
 import com.jme3.lostVictories.network.messages.UpdateCharactersResponse;
 import com.jme3.lostVictories.network.messages.Vector;
@@ -37,6 +40,16 @@ public class UpdateCharactersMessageHandlerTest {
 		handler = new UpdateCharactersMessageHandler(characterDAO, mock(HouseDAO.class), mock(EquipmentDAO.class));
 	}
 	
+	class IsSetOfElements extends ArgumentMatcher<Set> {
+		int size;
+		public IsSetOfElements(int s) {
+			size = s;
+		}
+	     public boolean matches(Object set) {
+	         return ((Set) set).size() == size;
+	     }
+	 }
+	
 	@Test
 	public void testUpdateAllVacantCharacter() throws IOException {
 		UUID clientID = UUID.randomUUID();
@@ -45,7 +58,8 @@ public class UpdateCharactersMessageHandlerTest {
 		HashSet<CharacterMessage> inRange = new HashSet<>();
 		CharacterMessage c1 = putCharacter(storedValues, inRange, new Vector(2, 2, 2), new Vector(1, 0, 0), Action.idle());
 		CharacterMessage c2 = putCharacter(storedValues, inRange, new Vector(3, 3, 3), new Vector(1, 0, 0), Action.idle());
-		when(characterDAO.getAllCharacters(anySet())).thenReturn(storedValues);
+		when(characterDAO.getCharacter(c1.getId())).thenReturn(c1);
+		when(characterDAO.getAllCharacters(argThat(new IsSetOfElements(2)))).thenReturn(storedValues);
 		when(characterDAO.getAllCharacters(2.1f, 2, 2, CheckoutScreenMessageHandler.CLIENT_RANGE)).thenReturn(inRange);
 		
 		HashSet<CharacterMessage> characters = new HashSet<CharacterMessage>();
@@ -79,7 +93,7 @@ public class UpdateCharactersMessageHandlerTest {
 	}
 
 	private CharacterMessage getCharacterSource(UUID id, Vector location, Vector orientation, Action action) {
-		CharacterMessage c = new CharacterMessage(id, null, location, null, null, null, null, false);
+		CharacterMessage c = new CharacterMessage(id, null, location, null, null, RankMessage.CADET_CORPORAL, null, false);
 		c.setOrientation(orientation);
 		c.setActions(ImmutableSet.of(action));
 		return c;
@@ -97,7 +111,8 @@ public class UpdateCharactersMessageHandlerTest {
 		CharacterMessage d2 = putCharacter(storedValues, inRange, new Vector(3, 3, 3), new Vector(1, 0, 0), Action.idle());
 		d2.setCheckoutClient(clientID2);
 		d2.setCheckoutTime(System.currentTimeMillis());
-		when(characterDAO.getAllCharacters(anySet())).thenReturn(storedValues);
+		when(characterDAO.getCharacter(d1.getId())).thenReturn(d1);
+		when(characterDAO.getAllCharacters(argThat(new IsSetOfElements(2)))).thenReturn(storedValues);
 		when(characterDAO.getAllCharacters(2.2f, 2, 2, CheckoutScreenMessageHandler.CLIENT_RANGE)).thenReturn(inRange);
 		
 		HashSet<CharacterMessage> characters = new HashSet<CharacterMessage>();
@@ -131,7 +146,9 @@ public class UpdateCharactersMessageHandlerTest {
 		CharacterMessage cc2 = putCharacter(storedValues, inRange, new Vector(4, 4, 4), new Vector(1, 0, 0), Action.idle());
 		cc2.setCheckoutClient(clientID2);
 		cc2.setCheckoutTime(System.currentTimeMillis()-(CharacterMessage.CHECKOUT_TIMEOUT*2));
-		when(characterDAO.getAllCharacters(anySet())).thenReturn(storedValues);
+		
+		when(characterDAO.getCharacter(cc1.getId())).thenReturn(cc1);
+		when(characterDAO.getAllCharacters(argThat(new IsSetOfElements(2)))).thenReturn(storedValues);
 		when(characterDAO.getAllCharacters(2.2f, 2, 2, CheckoutScreenMessageHandler.CLIENT_RANGE)).thenReturn(inRange);
 		
 		HashSet<CharacterMessage> characters = new HashSet<CharacterMessage>();
@@ -171,7 +188,9 @@ public class UpdateCharactersMessageHandlerTest {
 		cc3.setCheckoutClient(clientID2);
 		storedValues.put(c1, cc1);
 		storedValues.put(c2, cc2);
-		when(characterDAO.getAllCharacters(anySet())).thenReturn(storedValues);
+		
+		when(characterDAO.getCharacter(cc1.getId())).thenReturn(cc1);
+		when(characterDAO.getAllCharacters(argThat(new IsSetOfElements(2)))).thenReturn(storedValues);
 		HashSet<CharacterMessage> inRange = new HashSet<>();
 		inRange.add(cc1);
 		inRange.add(cc2);
@@ -220,7 +239,8 @@ public class UpdateCharactersMessageHandlerTest {
 		storedValues.put(c1, cc1);
 		storedValues.put(c2, cc2);
 		storedValues.put(c3, cc3);
-		when(characterDAO.getAllCharacters(anySet())).thenReturn(storedValues);
+		when(characterDAO.getCharacter(cc1.getId())).thenReturn(cc1);
+		when(characterDAO.getAllCharacters(argThat(new IsSetOfElements(3)))).thenReturn(storedValues);
 		HashSet<CharacterMessage> inRange = new HashSet<>();
 		inRange.add(cc1);
 		inRange.add(cc2);
@@ -261,7 +281,8 @@ public class UpdateCharactersMessageHandlerTest {
 		cc2.setCheckoutClient(clientID1);
 		cc1.setCheckoutTime(System.currentTimeMillis());
 		cc2.setCheckoutTime(System.currentTimeMillis());
-		when(characterDAO.getAllCharacters(anySet())).thenReturn(storedValues);
+		when(characterDAO.getCharacter(cc1.getId())).thenReturn(cc1);
+		when(characterDAO.getAllCharacters(argThat(new IsSetOfElements(2)))).thenReturn(storedValues);
 		when(characterDAO.getAllCharacters(2.2f, 2, 2, CheckoutScreenMessageHandler.CLIENT_RANGE)).thenReturn(inRange);
 		
 		HashSet<CharacterMessage> characters1 = new HashSet<CharacterMessage>();

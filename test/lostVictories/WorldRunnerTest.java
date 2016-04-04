@@ -76,24 +76,6 @@ public class WorldRunnerTest {
     @After
     public void tearDown() {
     }
-
-    /**
-     * Test of run method, of class WorldRunner.
-     */
-    @Test
-    public void testRun() {
-        instance.run();
-        
-        assertEquals(instance.manPower.get(Country.GERMAN), (Long)2l);
-        assertEquals(instance.manPower.get(Country.AMERICAN), (Long)3l);
-        
-        instance.manPower.put(Country.GERMAN, 199l);
-        instance.manPower.put(Country.AMERICAN, 199l);
-        
-        instance.run();
-        assertEquals(instance.manPower.get(Country.GERMAN), (Long)200l);
-        assertEquals(instance.manPower.get(Country.AMERICAN), (Long)202l);
-    }
     
     @Test
     public void testCharacterSorting(){

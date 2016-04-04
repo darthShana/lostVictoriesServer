@@ -69,7 +69,7 @@ public class LostVictoriesSever {
 			XContentBuilder gameDetails = jsonBuilder()
 	            .startObject()
 	            	.field("name", this.instance)
-	            	.field("host", "192.168.0.3")
+	            	.field("host", "connect.lostvictories.com/"+this.instance)
 	                .field("port", port)
 	                .field("gameID", UUID.randomUUID())
 	                .field("gameVersion", "pre_alpha")
@@ -181,7 +181,7 @@ public class LostVictoriesSever {
 	}
 
 	private Client getESClient() {
-		Settings settings = ImmutableSettings.settingsBuilder().put("cluster.name", "elasticsearch").build();
+		Settings settings = ImmutableSettings.settingsBuilder().put("cluster.name", "lostVictories").build();
 		TransportClient transportClient = new TransportClient(settings);
 		transportClient = transportClient.addTransportAddress(new InetSocketTransportAddress("localhost", 9300));
 		return (Client) transportClient;
