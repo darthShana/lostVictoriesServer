@@ -69,7 +69,7 @@ public class LostVictoriesSever {
 			XContentBuilder gameDetails = jsonBuilder()
 	            .startObject()
 	            	.field("name", this.instance)
-	            	.field("host", "connect.lostvictories.com/"+this.instance)
+	            	.field("host", "connect.lostvictories.com")
 	                .field("port", port)
 	                .field("gameID", UUID.randomUUID())
 	                .field("gameVersion", "pre_alpha")
