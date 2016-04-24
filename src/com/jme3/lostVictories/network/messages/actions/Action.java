@@ -19,6 +19,8 @@ import com.jme3.lostVictories.network.messages.Vector;
     @Type(value = Crouch.class, name = "crouch"),
     @Type(value = SetupWeapon.class, name = "setupWeapon")})  
 public abstract class Action implements Serializable{
+	
+	protected String type;
     
     public static Action idle(){
         return new Idle();
@@ -30,6 +32,12 @@ public abstract class Action implements Serializable{
         return new Crouch();
     }
     public static Action shoot(long shootTime, Vector[] targets){
-        return new Shoot(shootTime, targets);
+        return new Shoot(shootTime, targets, "shoot");
     }
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
 }

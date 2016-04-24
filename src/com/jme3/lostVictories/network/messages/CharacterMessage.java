@@ -28,6 +28,7 @@ import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.codehaus.jackson.type.TypeReference;
 
 import com.jme3.lostVictories.network.messages.actions.Action;
+import com.jme3.lostVictories.network.messages.actions.Shoot;
 
 public class CharacterMessage implements Serializable{
 	
@@ -92,7 +93,7 @@ public class CharacterMessage implements Serializable{
 		}
 		try {
 			String a = (String)source.get("actions");
-			if(!"{}".equals(a)){
+			if(!"[]".equals(a)){
 				this.actions = CharacterDAO.MAPPER.readValue(a, new TypeReference<Set<Action>>() {});
 			}
 		} catch (Exception e) {
@@ -204,6 +205,7 @@ public class CharacterMessage implements Serializable{
 	}
 	
 	public XContentBuilder getStateUpdate() throws IOException{
+			
 		return jsonBuilder()
 				.startObject()
 				.field("location", new GeoPoint(toLatitute(getLocation()), toLongitude(getLocation())))

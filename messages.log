@@ -30828,3 +30828,439 @@ GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=4
 GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
 checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
 returning scene
+[Senor Muerte] loaded [], sites []
+[Senor Muerte] node [#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]] not part of the cluster Cluster [lostVictories], ignoring...
+[Eleggua] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+[Ikonn] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+[Motormouth] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+[Looter] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+[Cassiopea] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+[Death Adder] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+[Margaret Power] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+[S'byll] loaded [], sites []
+index:test_lost_victories1_unit_status already exisits
+Listening on 5055
+[Grand Director] loaded [], sites []
+index:test_lost_victories1_unit_status already exisits
+Listening on 5055
+[Monstro the Mighty] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+[Firebrand] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+[Oneg the Prober] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+[Heimdall] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+[Order] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+[Power Broker] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+[George Stacy] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+received death notification:e5aeccea-9b76-4808-94a8-f069c63f4933
+promoting:1df17152-7dd5-4931-ac69-f8b9b649ef44 to CADET_CORPORAL
+received death notification:bdb507bc-f56b-4b79-8691-d84f84bccd12
+received death notification:5cbacee2-bd08-4e5b-93dc-7cd5c49af3d7
+received death notification:2fbe421f-f701-49c9-a0d4-abb0fa904204
+promoting:50257e9b-a8a9-415b-a3c1-efffc67bb61d to CADET_CORPORAL
+received death notification:c191f7ac-7e87-4600-9d92-2c0c3ae4fd4c
+received death notification:9ae76c04-52ce-44d6-96ee-9553d1a9bb84
+received death notification:b52a24c9-36f4-46d5-bb9f-7fbba5e8bae7
+received death notification:95893a17-53a0-4e1f-b260-8805290cb3b2
+received death notification:e2606e8e-4edc-4bc3-acef-6c9d659cc968
+received death notification:579bcacb-ace7-4465-a724-7233a9d8f3c2
+[Tattletale] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+AMERICAN- sector secured:
+AMERICAN- sector secured:
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+[Spoor] loaded [], sites []
+index:test_lost_victories1_unit_status already exisits
+Listening on 5055
+[Rogue] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+AMERICAN- sector secured:
+AMERICAN- sector secured:
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+[Phastos] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+AMERICAN- sector secured:
+AMERICAN- sector secured:
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+[Dormammu] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+[Thundra] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+[Virgo] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+AMERICAN- sector secured:
+AMERICAN- sector secured:
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+[Iron Monger] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+[Agony] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+[Blitzkrieger] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+received death notification:8eb71ed3-7ab4-4a1e-9103-98385107e1f4
+promoting:2238f2e7-3ca3-4975-bc7e-c60f0083398b to CADET_CORPORAL
+received death notification:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+promoting:41bb788c-6869-4e4a-94f8-5d54f40628bf to CADET_CORPORAL
+[Joshua Guthrie] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+[Shadow King] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+[Silver Sable] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+received death notification:44b476f7-ff95-4850-8a9a-7d5a91ed4a4c
+promoting:b42e62de-57ff-4cce-9a64-80e204624984 to LIEUTENANT
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+received death notification:f2a098dd-d4e7-484e-ae6c-db35a96fa8f5
+promoting:6a636c98-f548-4a9c-bf24-a6b27fa5e87f to CADET_CORPORAL
+received death notification:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+promoting:9b1d873e-d918-40a8-a6f1-cc8792940402 to CADET_CORPORAL
+received death notification:f590d905-fd6a-48fe-8e15-e2345c160d00
+[Fer-de-Lance] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+[Postman] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+[Vulture] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+AMERICAN- sector secured:
+AMERICAN- sector secured:
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+[Scorcher] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+[Honcho] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+AMERICAN- sector secured:
+AMERICAN- sector secured:
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+[Aelfyre Whitemane] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+[Elaine Grey] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+[Herr Kleiser] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+received death notification:a46f452d-db7d-407a-b45c-cc0b2440d875
+received death notification:32eb7c0c-bcac-4b83-98bb-ca841ae07492
+promoting:2443d11f-4010-474d-89c3-b77d41defd03 to CADET_CORPORAL
+received death notification:9ec8302b-8e05-4033-a6e6-47d1b0027e97
+received death notification:5641c29c-1e18-4196-9f3b-a48d4e796cbe
+promoting:2a231245-4630-42de-a6ae-7d301007e1b4 to CADET_CORPORAL
+received death notification:7e334989-3c70-4957-a0be-b893ae2ca6fc
+promoting avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+received death notification:ff7f15c3-c591-45ab-8aca-fe6eadb9986c
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+received death notification:2a233a43-c794-49ca-9288-4e6a010fcaca
+received death notification:aa3c1ba3-291b-4629-a59b-9c6495631f30
+received death notification:e3a92a73-60e2-4cab-89d0-be839ff228bd
+received death notification:9076fe44-bb4e-410d-a469-70a173626af8
+received death notification:98660f34-1ce0-41ea-af89-37e4f5b601da
+received death notification:b10e4e38-2cf4-4ab6-a782-5e66e6d45379
+received death notification:613ebde5-d224-49a7-a0ed-a6de70518e84
+producing mortar
+AMERICAN- sector secured:
+AMERICAN- sector secured:
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+[Hydron] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+[Sage] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+[Mindworm] loaded [], sites []
+creating new index:test_lost_victories1_unit_status
+Listening on 5055
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-112,y=-512,width=400,height=400] houses:20
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=-112,width=400,height=400] houses:36
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
