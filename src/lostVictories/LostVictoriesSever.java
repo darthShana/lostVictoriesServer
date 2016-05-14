@@ -1,10 +1,8 @@
 package lostVictories;
 
-import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.util.Date;
 import java.util.UUID;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -12,6 +10,8 @@ import java.util.concurrent.TimeUnit;
 
 import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.EquipmentDAO;
+import lostVictories.dao.GameRequestDAO;
+import lostVictories.dao.GameStatusDAO;
 import lostVictories.dao.HouseDAO;
 import lostVictories.messageHanders.MessageHandler;
 
@@ -48,11 +48,14 @@ public class LostVictoriesSever {
 
 	private String instance;
 
+	private String gameName;
+
 	public LostVictoriesSever(String instance, int port) {
-		this.instance = instance;
-		characterIndexName = instance+"_unit_status";
-		houseIndexName = instance+"_house_status";
-		equipmentIndexName = instance+"_equipment_status";
+		this.gameName = instance;
+		this.instance = instance.toLowerCase().replace(' ', '_');
+		characterIndexName = this.instance+"_unit_status";
+		houseIndexName = this.instance+"_house_status";
+		equipmentIndexName = this.instance+"_equipment_status";
 		this.port = port;
 		
 	}
@@ -63,26 +66,16 @@ public class LostVictoriesSever {
 		CharacterDAO characterDAO = new CharacterDAO(esClient, characterIndexName);
 		HouseDAO houseDAO = new HouseDAO(esClient, houseIndexName);
 		EquipmentDAO equipmentDAO = new EquipmentDAO(esClient, equipmentIndexName);
+		GameStatusDAO gameStatusDAO = new GameStatusDAO(esClient, characterIndexName);
+		GameRequestDAO gameRequestDAO = new GameRequestDAO(esClient);
 		
 		boolean existing = createIndices(adminClient, characterDAO, houseDAO);
 		if(!existing){
-			XContentBuilder gameDetails = jsonBuilder()
-	            .startObject()
-	            	.field("name", this.instance)
-	            	.field("host", "connect.lostvictories.com")
-	                .field("port", port)
-	                .field("gameID", UUID.randomUUID())
-	                .field("gameVersion", "pre_alpha")
-	                .field("startDate", new Date().getTime())
-	            .endObject();
-			esClient.prepareIndex(characterIndexName, "gameStatus", "gameStatus")
-		        .setSource(gameDetails)
-		        .execute()
-		        .actionGet();
+			gameStatusDAO.createGameStatus(UUID.randomUUID(), gameName, port, characterIndexName, houseIndexName, equipmentIndexName);
 		}
 		
 		ScheduledExecutorService worldRunnerService = Executors.newScheduledThreadPool(2);
-		WorldRunner worldRunner = WorldRunner.instance(characterDAO, houseDAO);
+		WorldRunner worldRunner = WorldRunner.instance(characterDAO, houseDAO, gameStatusDAO);
 		worldRunnerService.scheduleAtFixedRate(worldRunner, 0, 2, TimeUnit.SECONDS);
 		CharacterRunner characterRunner = CharacterRunner.instance(characterDAO, houseDAO);
 		worldRunnerService.scheduleAtFixedRate(characterRunner, 0, 2, TimeUnit.SECONDS);
@@ -95,17 +88,23 @@ public class LostVictoriesSever {
 				return Channels.pipeline(
 					new ObjectDecoder(ClassResolvers.cacheDisabled(getClass().getClassLoader())),
 					new ObjectEncoder(),
-					new MessageHandler(characterDAO, houseDAO, equipmentDAO)
+					new MessageHandler(characterDAO, houseDAO, equipmentDAO, gameStatusDAO)
 				);
 			 };
 		 });
 		 
 		 // Bind and start to accept incoming connections.
 		 bootstrap.bind(new InetSocketAddress("0.0.0.0", port));
+		 UUID gameRequest = gameRequestDAO.getGameRequest(gameName);
+		 log.info("starting game request:"+gameRequest+"for game:"+gameName);
+		 if(gameRequest!=null){
+			 gameRequestDAO.updateGameeRequest(gameRequest);
+		 }
 		 log.info("Listening on "+port);
 		
-		
 	}
+
+
 
 	private boolean createIndices(IndicesAdminClient adminClient, CharacterDAO characterDAO, HouseDAO housesDAO) throws IOException {
 		final IndicesExistsResponse res = adminClient.prepareExists(characterIndexName).execute().actionGet();
@@ -191,8 +190,12 @@ public class LostVictoriesSever {
 	
 
 	public static void main(String[] args) throws Exception {
-		
-		new LostVictoriesSever("test_lost_victories1", 5055).run();
+		if(args.length==0){
+//			new LostVictoriesSever("test_lost_victories1", 5055).run();
+			new LostVictoriesSever("Saar Offensive", 5055).run();
+		}else{
+			new LostVictoriesSever(args[0], Integer.parseInt(args[1])).run();
+		}
 	}
 
 

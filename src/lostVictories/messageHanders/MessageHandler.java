@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.EquipmentDAO;
+import lostVictories.dao.GameStatusDAO;
 import lostVictories.dao.HouseDAO;
 
 import org.apache.log4j.Logger;
@@ -35,8 +36,8 @@ public class MessageHandler extends SimpleChannelHandler {
 	private AddObjectiveMessageHandler addObjectiveMessageHandler;
 	private CollectEquipmentMessageHandler collectEquipmentMessageHandler;
 
-	public MessageHandler(CharacterDAO characterDAO, HouseDAO houseDAO, EquipmentDAO equipmentDAO) {
-		updateCharactersMessageHandler = new UpdateCharactersMessageHandler(characterDAO, houseDAO, equipmentDAO);
+	public MessageHandler(CharacterDAO characterDAO, HouseDAO houseDAO, EquipmentDAO equipmentDAO, GameStatusDAO gameStatusDAO) {
+		updateCharactersMessageHandler = new UpdateCharactersMessageHandler(characterDAO, houseDAO, equipmentDAO, gameStatusDAO);
 		checkoutScreenMessageHandler = new CheckoutScreenMessageHandler(characterDAO, houseDAO, equipmentDAO);
 		deathNotificationMessageHandler = new DeathNotificationMessageHandler(characterDAO, equipmentDAO);
 		addObjectiveMessageHandler = new AddObjectiveMessageHandler(characterDAO);

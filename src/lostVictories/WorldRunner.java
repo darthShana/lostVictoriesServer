@@ -14,6 +14,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import lostVictories.dao.CharacterDAO;
+import lostVictories.dao.GameStatusDAO;
 import lostVictories.dao.HouseDAO;
 
 import org.apache.log4j.Logger;
@@ -35,26 +36,29 @@ public class WorldRunner implements Runnable{
 	
 	private CharacterDAO characterDAO;
 	private HouseDAO houseDAO;
+	private GameStatusDAO gameStatusDAO;
+	
 	private static WorldRunner instance;
 	private WeaponsFactory weaponsFactory;
-	Map<Country, Integer> victoryPoints = new EnumMap<Country, Integer>(Country.class);
-	Map<Country, Long> manPower = new EnumMap<Country, Long>(Country.class);
+	private Map<Country, Integer> victoryPoints = new EnumMap<Country, Integer>(Country.class);
+	private Map<Country, Long> manPower = new EnumMap<Country, Long>(Country.class);
 
 	private Map<Country, Long> structureOwnership = new EnumMap<Country, Long>(Country.class);
 	private Map<Country, Long> nextRespawnTime = new EnumMap<Country, Long>(Country.class);
 
 	private Map<UUID, AchivementStatus> achivementCache = new HashMap<UUID, AchivementStatus>();
 
-	public static WorldRunner instance(CharacterDAO characterDAO, HouseDAO houseDAO) {
+	public static WorldRunner instance(CharacterDAO characterDAO, HouseDAO houseDAO, GameStatusDAO gameStatusDAO) {
 		if(instance==null){
-			instance = new WorldRunner(characterDAO, houseDAO);
+			instance = new WorldRunner(characterDAO, houseDAO, gameStatusDAO);
 		}
 		return instance;
 	}
 
-	private WorldRunner(CharacterDAO characterDAO, HouseDAO houseDAO) {
+	private WorldRunner(CharacterDAO characterDAO, HouseDAO houseDAO, GameStatusDAO gameStatusDAO) {
 		this.characterDAO = characterDAO;
 		this.houseDAO = houseDAO;
+		this.gameStatusDAO = gameStatusDAO;
 		victoryPoints.put(Country.AMERICAN, 5000);
         victoryPoints.put(Country.GERMAN, 5000);
         weaponsFactory = new WeaponsFactory();
@@ -148,6 +152,12 @@ public class WorldRunner implements Runnable{
 			
 			log.trace("german vp:"+victoryPoints.get(Country.GERMAN));
 			log.trace("american vp:"+victoryPoints.get(Country.AMERICAN));
+			if(victoryPoints.get(Country.GERMAN)<=0){
+				gameStatusDAO.recordAmericanVictory();
+			}
+			if(victoryPoints.get(Country.AMERICAN)<=0){
+				gameStatusDAO.recordGermanVictory();
+			}
 		}catch(Throwable e){
 			e.printStackTrace();
 		}	

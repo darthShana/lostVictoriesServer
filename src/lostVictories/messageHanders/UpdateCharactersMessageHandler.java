@@ -24,6 +24,7 @@ import lostVictories.AvatarStore;
 import lostVictories.WorldRunner;
 import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.EquipmentDAO;
+import lostVictories.dao.GameStatusDAO;
 import lostVictories.dao.HouseDAO;
 
 public class UpdateCharactersMessageHandler {
@@ -32,11 +33,13 @@ public class UpdateCharactersMessageHandler {
 	private static Logger log = Logger.getLogger(UpdateCharactersMessageHandler.class);
 	private HouseDAO houseDAO;
 	private EquipmentDAO equipmentDAO;
+	private GameStatusDAO gameStatusDAO;
 
-	public UpdateCharactersMessageHandler(CharacterDAO characterDAO, HouseDAO houseDAO, EquipmentDAO equipmentDAO) {
+	public UpdateCharactersMessageHandler(CharacterDAO characterDAO, HouseDAO houseDAO, EquipmentDAO equipmentDAO, GameStatusDAO gameStatusDAO) {
 		this.characterDAO = characterDAO;
 		this.houseDAO = houseDAO;
 		this.equipmentDAO = equipmentDAO;
+		this.gameStatusDAO = gameStatusDAO;
 	}
 
 	public LostVictoryMessage handle(UpdateCharactersRequest msg) throws IOException {
@@ -75,8 +78,8 @@ public class UpdateCharactersMessageHandler {
 				.map(u->characterDAO.getAllCharacters(u).values()).flatMap(l->l.stream()).collect(Collectors.toSet());
 			
 			
-			GameStatistics statistics = WorldRunner.instance(characterDAO, houseDAO).getStatistics(storedAvatar.getCountry());
-			AchivementStatus achivementStatus = WorldRunner.instance(characterDAO, houseDAO).getAchivementStatus(storedAvatar);
+			GameStatistics statistics = WorldRunner.instance(characterDAO, houseDAO, gameStatusDAO).getStatistics(storedAvatar.getCountry());
+			AchivementStatus achivementStatus = WorldRunner.instance(characterDAO, houseDAO, gameStatusDAO).getAchivementStatus(storedAvatar);
 			
 			Set<UnClaimedEquipmentMessage> unClaimedEquipment = equipmentDAO.getUnClaimedEquipment(v.x, v.y, v.z, CheckoutScreenMessageHandler.CLIENT_RANGE);
 			return new UpdateCharactersResponse(msg.getClientID(), new HashSet<CharacterMessage>(toReturn.values()), relatedCharacters, unClaimedEquipment, allHouses, statistics, achivementStatus);
