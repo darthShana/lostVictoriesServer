@@ -15,12 +15,14 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import lostVictories.LostVictoryScene;
 import lostVictories.WeaponsFactory;
 import lostVictories.dao.CharacterDAO;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.elasticsearch.common.collect.ImmutableSet;
 import org.elasticsearch.common.geo.GeoPoint;
@@ -37,12 +39,15 @@ public class CharacterMessage implements Serializable{
 	public static final long CHECKOUT_TIMEOUT = 2*1000;
 	
 	UUID id;
+	UUID userID;
 	Vector location;
 	Country country;
 	Weapon weapon;
 	RankMessage rank;
 	UUID commandingOfficer;
+	UUID boardedVehicle;
 	Set<UUID> unitsUnderCommand = new HashSet<UUID>();
+	Set<UUID> passengers = new HashSet<UUID>();
 	UUID checkoutClient;
 	Long checkoutTime;
 	boolean gunnerDead;
@@ -57,8 +62,14 @@ public class CharacterMessage implements Serializable{
 	Set<UUID> kills = new HashSet<UUID>();
 	SquadType squadType = SquadType.RIFLE_TEAM;
 	
+	
 	public CharacterMessage(UUID identity, CharacterType type, Vector location, Country country, Weapon weapon, RankMessage rank, UUID commandingOfficer, boolean gunnerDead) {
+		this(identity, null, type, location, country, weapon, rank, commandingOfficer, gunnerDead);
+	}
+	
+	public CharacterMessage(UUID identity, UUID userID, CharacterType type, Vector location, Country country, Weapon weapon, RankMessage rank, UUID commandingOfficer, boolean gunnerDead) {
 		this.id = identity;
+		this.userID = userID;
 		this.type = type;
 		this.location = location;
 		this.country = country;
@@ -101,10 +112,22 @@ public class CharacterMessage implements Serializable{
 		}
 		
 		this.orientation = new Vector(ori.get("x").floatValue(), ori.get("y").floatValue(), ori.get("z").floatValue());
-		String co = (String) source.get("commandingOfficer");
-		if(co!=null && !co.isEmpty()){
-			this.commandingOfficer = UUID.fromString(co);
-		}
+		
+		Function<Object, UUID> toUUIDifPresent = new Function<Object, UUID>() {
+			@Override
+			public UUID apply(Object t) {
+				String s = (String)t;
+				if(StringUtils.isNotBlank(s)){
+					return UUID.fromString(s);
+				}
+				return null;
+			}
+		};
+		
+		this.commandingOfficer = toUUIDifPresent.apply(source.get("commandingOfficer"));
+		this.userID = toUUIDifPresent.apply(source.get("userID"));
+		this.boardedVehicle = toUUIDifPresent.apply(source.get("boardedVehicle"));
+		
 		String cc = (String) source.get("checkoutClient");
 		if(cc!=null && !cc.isEmpty()){
 			this.checkoutClient = UUID.fromString(cc);
@@ -113,6 +136,7 @@ public class CharacterMessage implements Serializable{
 		this.timeOfDeath = (Long) source.get("timeOfDeath");
 		
 		unitsUnderCommand = ((Collection<String>)source.get("unitsUnderCommand")).stream().map(s -> UUID.fromString(s)).collect(Collectors.toSet());
+		passengers = ((Collection<String>)source.get("passengers")).stream().map(s -> UUID.fromString(s)).collect(Collectors.toSet());
 		gunnerDead = (boolean) source.get("gunnerDead");
 		isDead = (boolean) source.get("isDead");
 		if(isDead){
@@ -164,10 +188,16 @@ public class CharacterMessage implements Serializable{
 	public UUID getId() {
 		return id;
 	}
+	
+	public UUID getUserID(){
+		return userID;
+	}
 
 	public XContentBuilder getJSONRepresentation() throws IOException {
 		return jsonBuilder()
 		            .startObject()
+		            	.field("userID", userID)
+		            	.field("boardedVehicle", boardedVehicle)
 		                .field("date", new Date())
 		                .field("location", new GeoPoint(toLatitute(getLocation()), toLongitude(getLocation())))
 		                .field("altitude", getLocation().y)
@@ -180,6 +210,7 @@ public class CharacterMessage implements Serializable{
 		                .field("objectives", CharacterDAO.MAPPER.writeValueAsString(objectives))
 		                .field("commandingOfficer", commandingOfficer)
 		                .field("unitsUnderCommand", unitsUnderCommand)
+		                .field("passengers", passengers)
 		                .field("type", type)
 		                .field("squadType", squadType)
 		                .field("checkoutClient", checkoutClient)
@@ -332,15 +363,15 @@ public class CharacterMessage implements Serializable{
 		return rankToReenforce;
 	}
 
-	public boolean replaceWithAvatar(UUID uuid, Collection<CharacterMessage> toUpdate) {
+	public boolean replaceWithAvatar(CharacterMessage deadAvatar, Collection<CharacterMessage> toUpdate) {
 		if(RankMessage.CADET_CORPORAL==rank){
-			CharacterMessage characterMessage = new CharacterMessage(uuid, CharacterType.AVATAR, location, country, Weapon.RIFLE, RankMessage.CADET_CORPORAL, commandingOfficer, false);
+			CharacterMessage characterMessage = new CharacterMessage(deadAvatar.getId(), deadAvatar.getUserID(), CharacterType.AVATAR, location, country, Weapon.RIFLE, RankMessage.CADET_CORPORAL, commandingOfficer, false);
 			characterMessage.unitsUnderCommand = unitsUnderCommand;
 			toUpdate.add(characterMessage);
 			return true;
 		}
 		else{
-			CharacterMessage characterMessage = new CharacterMessage(uuid, CharacterType.AVATAR, location, country, Weapon.RIFLE, reenformentCharacterRank(rank), id, false);
+			CharacterMessage characterMessage = new CharacterMessage(deadAvatar.getId(), deadAvatar.getUserID(), CharacterType.AVATAR, location, country, Weapon.RIFLE, reenformentCharacterRank(rank), id, false);
 			toUpdate.add(characterMessage);
 			return false;
 		}
@@ -487,6 +518,20 @@ public class CharacterMessage implements Serializable{
 		}
 		weapon = equipment.getWeapon();
 		return dropped;
+	}
+
+	public void boardVehicle(CharacterMessage vehicle) {
+		this.boardedVehicle = vehicle.id;
+		vehicle.passengers.add(id);
+		
+	}
+
+	public Set<CharacterMessage> disembarkPassengers(CharacterDAO characterRepository) {
+		Set<CharacterMessage> toChange = passengers.stream().map(id->characterRepository.getCharacter(id)).collect(Collectors.toSet());
+		toChange.forEach(c->c.boardedVehicle=null);
+		passengers.clear();
+		toChange.add(this);
+		return toChange;
 	}
 	
 

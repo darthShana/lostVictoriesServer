@@ -20,11 +20,9 @@ import com.jme3.lostVictories.network.messages.UpdateCharactersRequest;
 import com.jme3.lostVictories.network.messages.UpdateCharactersResponse;
 import com.jme3.lostVictories.network.messages.Vector;
 
-import lostVictories.AvatarStore;
 import lostVictories.WorldRunner;
 import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.EquipmentDAO;
-import lostVictories.dao.GameStatusDAO;
 import lostVictories.dao.HouseDAO;
 
 public class UpdateCharactersMessageHandler {
@@ -33,13 +31,13 @@ public class UpdateCharactersMessageHandler {
 	private static Logger log = Logger.getLogger(UpdateCharactersMessageHandler.class);
 	private HouseDAO houseDAO;
 	private EquipmentDAO equipmentDAO;
-	private GameStatusDAO gameStatusDAO;
+	private WorldRunner worldRunner;
 
-	public UpdateCharactersMessageHandler(CharacterDAO characterDAO, HouseDAO houseDAO, EquipmentDAO equipmentDAO, GameStatusDAO gameStatusDAO) {
+	public UpdateCharactersMessageHandler(CharacterDAO characterDAO, HouseDAO houseDAO, EquipmentDAO equipmentDAO, WorldRunner worldRunner) {
 		this.characterDAO = characterDAO;
 		this.houseDAO = houseDAO;
 		this.equipmentDAO = equipmentDAO;
-		this.gameStatusDAO = gameStatusDAO;
+		this.worldRunner = worldRunner;
 	}
 
 	public LostVictoryMessage handle(UpdateCharactersRequest msg) throws IOException {
@@ -78,8 +76,8 @@ public class UpdateCharactersMessageHandler {
 				.map(u->characterDAO.getAllCharacters(u).values()).flatMap(l->l.stream()).collect(Collectors.toSet());
 			
 			
-			GameStatistics statistics = WorldRunner.instance(characterDAO, houseDAO, gameStatusDAO).getStatistics(storedAvatar.getCountry());
-			AchivementStatus achivementStatus = WorldRunner.instance(characterDAO, houseDAO, gameStatusDAO).getAchivementStatus(storedAvatar);
+			GameStatistics statistics = worldRunner.getStatistics(msg.getAvatar().getCountry());
+			AchivementStatus achivementStatus = worldRunner.getAchivementStatus(storedAvatar);
 			
 			Set<UnClaimedEquipmentMessage> unClaimedEquipment = equipmentDAO.getUnClaimedEquipment(v.x, v.y, v.z, CheckoutScreenMessageHandler.CLIENT_RANGE);
 			return new UpdateCharactersResponse(msg.getClientID(), new HashSet<CharacterMessage>(toReturn.values()), relatedCharacters, unClaimedEquipment, allHouses, statistics, achivementStatus);

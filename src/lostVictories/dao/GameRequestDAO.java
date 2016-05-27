@@ -38,12 +38,12 @@ public class GameRequestDAO {
 		return null;
 	}
 	
-	public void updateGameeRequest(UUID requestID) throws ElasticsearchException, IOException{
+	public void updateGameeRequest(UUID requestID, String status) throws ElasticsearchException, IOException{
 		log.debug("updateing game request:"+requestID);
 		esClient.prepareUpdate(indexName, "game_request", requestID.toString())
         .setDoc(jsonBuilder()               
             .startObject()
-                .field("status", "STARTED")
+                .field("status", status)
             .endObject())
         .get();
 	}

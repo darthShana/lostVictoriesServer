@@ -71,11 +71,11 @@ public class LostVictoriesSever {
 		
 		boolean existing = createIndices(adminClient, characterDAO, houseDAO);
 		if(!existing){
-			gameStatusDAO.createGameStatus(UUID.randomUUID(), gameName, port, characterIndexName, houseIndexName, equipmentIndexName);
+			gameStatusDAO.createGameStatus(this.instance, gameName, port, characterIndexName, houseIndexName, equipmentIndexName);
 		}
 		
 		ScheduledExecutorService worldRunnerService = Executors.newScheduledThreadPool(2);
-		WorldRunner worldRunner = WorldRunner.instance(characterDAO, houseDAO, gameStatusDAO);
+		WorldRunner worldRunner = WorldRunner.instance(gameName, characterDAO, houseDAO, gameStatusDAO, gameRequestDAO);
 		worldRunnerService.scheduleAtFixedRate(worldRunner, 0, 2, TimeUnit.SECONDS);
 		CharacterRunner characterRunner = CharacterRunner.instance(characterDAO, houseDAO);
 		worldRunnerService.scheduleAtFixedRate(characterRunner, 0, 2, TimeUnit.SECONDS);
@@ -88,17 +88,23 @@ public class LostVictoriesSever {
 				return Channels.pipeline(
 					new ObjectDecoder(ClassResolvers.cacheDisabled(getClass().getClassLoader())),
 					new ObjectEncoder(),
-					new MessageHandler(characterDAO, houseDAO, equipmentDAO, gameStatusDAO)
+					new MessageHandler(characterDAO, houseDAO, equipmentDAO, worldRunner)
 				);
 			 };
 		 });
 		 
 		 // Bind and start to accept incoming connections.
 		 bootstrap.bind(new InetSocketAddress("0.0.0.0", port));
-		 UUID gameRequest = gameRequestDAO.getGameRequest(gameName);
-		 log.info("starting game request:"+gameRequest+"for game:"+gameName);
+		 UUID gameRequest = null;
+		 try{
+			 gameRequest = gameRequestDAO.getGameRequest(gameName);
+			 log.info("starting game request:"+gameRequest+"for game:"+gameName);
+		 }catch(Exception e){
+			 log.info("cant find game request for :"+gameName);
+		 }
+		 
 		 if(gameRequest!=null){
-			 gameRequestDAO.updateGameeRequest(gameRequest);
+			 gameRequestDAO.updateGameeRequest(gameRequest, "STARTED");
 		 }
 		 log.info("Listening on "+port);
 		
@@ -191,8 +197,8 @@ public class LostVictoriesSever {
 
 	public static void main(String[] args) throws Exception {
 		if(args.length==0){
-//			new LostVictoriesSever("test_lost_victories1", 5055).run();
-			new LostVictoriesSever("Saar Offensive", 5055).run();
+			new LostVictoriesSever("test_lost_victories1", 5055).run();
+			//new LostVictoriesSever("Saar Offensive", 5055).run();
 		}else{
 			new LostVictoriesSever(args[0], Integer.parseInt(args[1])).run();
 		}

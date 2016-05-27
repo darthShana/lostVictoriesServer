@@ -53,11 +53,10 @@ public class CaptureStructure extends Objective{
         }
 		
 		try {
-			if(!isBusy(c)){
-				TravelObjective t = new TravelObjective(new Vector(shortest), null);
-				c.addObjective(UUID.randomUUID(), t.asJSON());
-				toSave.put(c.getId(), c);
-			}
+			
+			TravelObjective tt = new TravelObjective(new Vector(shortest), null);
+			tt.runObjective(c, uuid, characterDAO, houseDAO, toSave);
+			
 			for(UUID u:c.getUnitsUnderCommand()){
 				CharacterMessage unit = characterDAO.getCharacter(u);
 				if(unit !=null && !isBusy(unit) && CharacterType.SOLDIER==unit.getCharacterType()){

@@ -40,7 +40,7 @@ public abstract class Objective {
 	
 	private boolean isPassiveObjective(JsonNode n) {
 		String s = n.get("classType").asText();
-		return "com.jme3.lostVictories.objectives.SurvivalObjective".equals(s) || "com.jme3.lostVictories.objectives.RemanVehicle".equals(s);
+		return "com.jme3.lostVictories.objectives.SurvivalObjective".equals(s) || "com.jme3.lostVictories.objectives.RemanVehicle".equals(s) || "com.jme3.lostVictories.objectives.FollowUnit".equals(s);
 	}
 
 	private JsonNode toJsonNodeSafe(String s) {

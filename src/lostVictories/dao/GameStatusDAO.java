@@ -22,7 +22,7 @@ public class GameStatusDAO {
 		this.indexName = indexName;
 	}
 
-	public void createGameStatus(UUID gameID, String gameName, int gamePort, String... indexes) throws IOException {
+	public void createGameStatus(String gameID, String gameName, int gamePort, String... indexes) throws IOException {
 		XContentBuilder gameDetails = jsonBuilder()
 		    .startObject()
 		    	.field("name", gameName)

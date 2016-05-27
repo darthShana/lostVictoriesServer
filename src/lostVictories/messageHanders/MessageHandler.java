@@ -3,6 +3,7 @@ package lostVictories.messageHanders;
 
 import java.util.UUID;
 
+import lostVictories.WorldRunner;
 import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.EquipmentDAO;
 import lostVictories.dao.GameStatusDAO;
@@ -19,8 +20,10 @@ import org.jboss.netty.channel.MessageEvent;
 import org.jboss.netty.channel.SimpleChannelHandler;
 
 import com.jme3.lostVictories.network.messages.AddObjectiveRequest;
+import com.jme3.lostVictories.network.messages.BoardVehicleRequest;
 import com.jme3.lostVictories.network.messages.CheckoutScreenRequest;
 import com.jme3.lostVictories.network.messages.DeathNotificationRequest;
+import com.jme3.lostVictories.network.messages.DisembarkPassengersRequest;
 import com.jme3.lostVictories.network.messages.EquipmentCollectionRequest;
 import com.jme3.lostVictories.network.messages.LostVictoryMessage;
 import com.jme3.lostVictories.network.messages.UpdateCharactersRequest;
@@ -35,13 +38,17 @@ public class MessageHandler extends SimpleChannelHandler {
 	private DeathNotificationMessageHandler deathNotificationMessageHandler;
 	private AddObjectiveMessageHandler addObjectiveMessageHandler;
 	private CollectEquipmentMessageHandler collectEquipmentMessageHandler;
+	private BoardingVehicleMessageHandler boardingVehicleMessageHandler;
+	private DisembarkPassengersMessageHandler disembarkPassengersMessageHandler;
 
-	public MessageHandler(CharacterDAO characterDAO, HouseDAO houseDAO, EquipmentDAO equipmentDAO, GameStatusDAO gameStatusDAO) {
-		updateCharactersMessageHandler = new UpdateCharactersMessageHandler(characterDAO, houseDAO, equipmentDAO, gameStatusDAO);
+	public MessageHandler(CharacterDAO characterDAO, HouseDAO houseDAO, EquipmentDAO equipmentDAO, WorldRunner worldRunner) {
+		updateCharactersMessageHandler = new UpdateCharactersMessageHandler(characterDAO, houseDAO, equipmentDAO, worldRunner);
 		checkoutScreenMessageHandler = new CheckoutScreenMessageHandler(characterDAO, houseDAO, equipmentDAO);
 		deathNotificationMessageHandler = new DeathNotificationMessageHandler(characterDAO, equipmentDAO);
 		addObjectiveMessageHandler = new AddObjectiveMessageHandler(characterDAO);
 		collectEquipmentMessageHandler = new CollectEquipmentMessageHandler(characterDAO, equipmentDAO);
+		boardingVehicleMessageHandler = new BoardingVehicleMessageHandler(characterDAO);
+		disembarkPassengersMessageHandler = new DisembarkPassengersMessageHandler(characterDAO);
 	}
 
 	@Override
@@ -59,6 +66,10 @@ public class MessageHandler extends SimpleChannelHandler {
 			lostVictoryMessage = deathNotificationMessageHandler.handle((DeathNotificationRequest)msg);
 		} else if(msg instanceof EquipmentCollectionRequest) {
 			lostVictoryMessage = collectEquipmentMessageHandler.handle((EquipmentCollectionRequest)msg);
+		} else if(msg instanceof BoardVehicleRequest){
+			lostVictoryMessage = boardingVehicleMessageHandler.handle((BoardVehicleRequest)msg);
+		} else if(msg instanceof DisembarkPassengersRequest){
+			lostVictoryMessage = disembarkPassengersMessageHandler.handle((DisembarkPassengersRequest)msg);
 		} else if(msg instanceof AddObjectiveRequest){
 			lostVictoryMessage = addObjectiveMessageHandler.handle((AddObjectiveRequest)msg);
 		} 

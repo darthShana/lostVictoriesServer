@@ -14,6 +14,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import lostVictories.dao.CharacterDAO;
+import lostVictories.dao.GameRequestDAO;
 import lostVictories.dao.GameStatusDAO;
 import lostVictories.dao.HouseDAO;
 
@@ -48,17 +49,23 @@ public class WorldRunner implements Runnable{
 
 	private Map<UUID, AchivementStatus> achivementCache = new HashMap<UUID, AchivementStatus>();
 
-	public static WorldRunner instance(CharacterDAO characterDAO, HouseDAO houseDAO, GameStatusDAO gameStatusDAO) {
+	private GameRequestDAO gameRequestDAO;
+
+	private String gameName;
+
+	public static WorldRunner instance(String gameName, CharacterDAO characterDAO, HouseDAO houseDAO, GameStatusDAO gameStatusDAO, GameRequestDAO gameRequestDAO) {
 		if(instance==null){
-			instance = new WorldRunner(characterDAO, houseDAO, gameStatusDAO);
+			instance = new WorldRunner(gameName, characterDAO, houseDAO, gameStatusDAO, gameRequestDAO);
 		}
 		return instance;
 	}
 
-	private WorldRunner(CharacterDAO characterDAO, HouseDAO houseDAO, GameStatusDAO gameStatusDAO) {
+	private WorldRunner(String gameName, CharacterDAO characterDAO, HouseDAO houseDAO, GameStatusDAO gameStatusDAO, GameRequestDAO gameRequestDAO) {
+		this.gameName = gameName;
 		this.characterDAO = characterDAO;
 		this.houseDAO = houseDAO;
 		this.gameStatusDAO = gameStatusDAO;
+		this.gameRequestDAO = gameRequestDAO;
 		victoryPoints.put(Country.AMERICAN, 5000);
         victoryPoints.put(Country.GERMAN, 5000);
         weaponsFactory = new WeaponsFactory();
@@ -107,7 +114,7 @@ public class WorldRunner implements Runnable{
                 if(!c.isDead()){
                     if(!c.isFullStrength() && hasManPowerToReenforce(c.getCountry())){
                     	log.debug("found understrenth unit to reenfoce:"+c.getId()+" rank"+c.getRank());
-                        Optional<UUID> deadAvatars = avatarStore.getDeadAvatars(c.getCountry());
+                        Optional<CharacterMessage> deadAvatars = avatarStore.getDeadAvatars(c.getCountry());
 						if(deadAvatars.isPresent()){
 							log.debug("in here test reincarnate avatar");
 							Collection<CharacterMessage> toUpdate = new ArrayList<CharacterMessage>();
@@ -154,9 +161,14 @@ public class WorldRunner implements Runnable{
 			log.trace("american vp:"+victoryPoints.get(Country.AMERICAN));
 			if(victoryPoints.get(Country.GERMAN)<=0){
 				gameStatusDAO.recordAmericanVictory();
+				UUID gameRequest = gameRequestDAO.getGameRequest(gameName);
+				gameRequestDAO.updateGameeRequest(gameRequest, "COMPLETED");
+				
 			}
 			if(victoryPoints.get(Country.AMERICAN)<=0){
 				gameStatusDAO.recordGermanVictory();
+				UUID gameRequest = gameRequestDAO.getGameRequest(gameName);
+				gameRequestDAO.updateGameeRequest(gameRequest, "COMPLETED");
 			}
 		}catch(Throwable e){
 			e.printStackTrace();
