@@ -111,7 +111,11 @@ public class CharacterMessage implements Serializable{
 			throw new RuntimeException(e);
 		}
 		
-		this.orientation = new Vector(ori.get("x").floatValue(), ori.get("y").floatValue(), ori.get("z").floatValue());
+		try{
+			this.orientation = new Vector(ori.get("x").floatValue(), ori.get("y").floatValue(), ori.get("z").floatValue());
+		}catch(Exception e){
+			this.orientation = new Vector(0, 0, 1);
+		}
 		
 		Function<Object, UUID> toUUIDifPresent = new Function<Object, UUID>() {
 			@Override

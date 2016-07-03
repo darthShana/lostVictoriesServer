@@ -83,6 +83,7 @@ public class WorldRunner implements Runnable{
 			
 			for(Country c: victoryPoints.keySet()){
 				long numberOfProperties = structureOwnership.get(c)!=null?structureOwnership.get(c):0;
+				log.trace(c+":"+numberOfProperties);
 				if(numberOfProperties<capturedStructureCount/2f){
 					victoryPoints.put(c, (int) (victoryPoints.get(c)-((capturedStructureCount/2f)-numberOfProperties)));
 				}
@@ -115,7 +116,7 @@ public class WorldRunner implements Runnable{
                     if(!c.isFullStrength() && hasManPowerToReenforce(c.getCountry())){
                     	log.debug("found understrenth unit to reenfoce:"+c.getId()+" rank"+c.getRank());
                         Optional<CharacterMessage> deadAvatars = avatarStore.getDeadAvatars(c.getCountry());
-						if(deadAvatars.isPresent()){
+						if(deadAvatars.isPresent() && c.getCharacterType()!=CharacterType.AVATAR){
 							log.debug("in here test reincarnate avatar");
 							Collection<CharacterMessage> toUpdate = new ArrayList<CharacterMessage>();
 							boolean replaceWithAvatar = avatarStore.reincarnateAvatar(deadAvatars.get(), c, toUpdate);

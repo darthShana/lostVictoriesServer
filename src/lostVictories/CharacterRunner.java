@@ -71,7 +71,7 @@ public class CharacterRunner implements Runnable{
 					toSave.put(c.getId(), c);
 				}
 			}catch(ClassNotFoundException e){
-				log.debug(entry.getValue().get("classType")+ " not found on Character runner");
+				log.trace(entry.getValue().get("classType")+ " not found on Character runner");
 			} catch (JsonParseException e) {
 				throw new RuntimeException(e);
 			} catch (JsonMappingException e) {

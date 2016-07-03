@@ -76,7 +76,7 @@ public class UpdateCharactersMessageHandler {
 				.map(u->characterDAO.getAllCharacters(u).values()).flatMap(l->l.stream()).collect(Collectors.toSet());
 			
 			
-			GameStatistics statistics = worldRunner.getStatistics(msg.getAvatar().getCountry());
+			GameStatistics statistics = worldRunner.getStatistics(storedAvatar.getCountry());
 			AchivementStatus achivementStatus = worldRunner.getAchivementStatus(storedAvatar);
 			
 			Set<UnClaimedEquipmentMessage> unClaimedEquipment = equipmentDAO.getUnClaimedEquipment(v.x, v.y, v.z, CheckoutScreenMessageHandler.CLIENT_RANGE);

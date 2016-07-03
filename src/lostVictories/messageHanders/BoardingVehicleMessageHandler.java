@@ -20,6 +20,10 @@ public class BoardingVehicleMessageHandler {
 		CharacterMessage vehicle = characterDAO.getCharacter(msg.getVehicleID());
 		CharacterMessage passenger = characterDAO.getCharacter(msg.getCharacterID());
 		
+		if(vehicle.getLocation().distance(passenger.getLocation())>5){
+			return new LostVictoryMessage(UUID.randomUUID());
+		}
+		
 		passenger.boardVehicle(vehicle);
 		
 		characterDAO.putCharacter(vehicle.getId(), vehicle);
