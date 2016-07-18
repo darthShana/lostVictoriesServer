@@ -126,20 +126,6 @@ public class CharacterDAO {
 		return StreamSupport.stream(iterable.spliterator(), true).map(hit -> fromFields(UUID.fromString(hit.getId()), hit.version(), hit.getSource())).collect(Collectors.toSet());
 	}
 	
-	public Set<CharacterMessage> getAvatars(){
-		FilteredQueryBuilder builder = QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery(), termFilter("type","AVATAR"));
-	
-		SearchResponse searchResponse =
-			esClient.prepareSearch(indexName).setTypes("unitStatus")
-		       .setQuery(builder)
-		       .execute()
-		       .actionGet();
-		
-		Iterator<SearchHit> iterator = searchResponse.getHits().iterator();
-		Iterable<SearchHit> iterable = () -> iterator;
-		return StreamSupport.stream(iterable.spliterator(), true).map(hit -> fromFields(UUID.fromString(hit.getId()), hit.version(), hit.getSource())).collect(Collectors.toSet());
-	}
-	
 	public void save(Collection<CharacterMessage> values) {
 		values.stream().forEach(c->putCharacter(c.getId(), c));
 	}

@@ -19,6 +19,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import lostVictories.LostVictoryScene;
+import lostVictories.VehicleFactory;
 import lostVictories.WeaponsFactory;
 import lostVictories.dao.CharacterDAO;
 
@@ -57,6 +58,7 @@ public class CharacterMessage implements Serializable{
 	Map<String, String> objectives = new HashMap<String, String>();
     Set<String> completedObjectives;
 	boolean isDead;
+	boolean engineDamaged;
 	Long timeOfDeath;
 	long version;
 	Set<UUID> kills = new HashSet<UUID>();
@@ -143,6 +145,7 @@ public class CharacterMessage implements Serializable{
 		passengers = ((Collection<String>)source.get("passengers")).stream().map(s -> UUID.fromString(s)).collect(Collectors.toSet());
 		gunnerDead = (boolean) source.get("gunnerDead");
 		isDead = (boolean) source.get("isDead");
+		engineDamaged = (boolean) source.get("engineDamaged");
 		if(isDead){
 			this.checkoutTime = (Long) source.get("checkoutTime");
 		}
@@ -221,6 +224,7 @@ public class CharacterMessage implements Serializable{
 		                .field("checkoutTime", checkoutTime)
 		                .field("gunnerDead", gunnerDead)
 		                .field("isDead", isDead)
+		                .field("engineDamaged", engineDamaged)
 		                .field("timeOfDeath", timeOfDeath)
 		            .endObject();
 	}
@@ -247,7 +251,8 @@ public class CharacterMessage implements Serializable{
 				.field("altitude", getLocation().y)
 				.field("orientation", orientation.toMap())
 				.field("actions", CharacterDAO.MAPPER.writeValueAsString(actions))
-				.field("objectives", CharacterDAO.MAPPER.writeValueAsString(objectives))				
+				.field("objectives", CharacterDAO.MAPPER.writeValueAsString(objectives))	
+				.field("engineDamaged", engineDamaged)
 				.field("checkoutClient", checkoutClient)
 				.field("checkoutTime", checkoutTime)
 				.field("gunnerDead", gunnerDead)
@@ -346,10 +351,18 @@ public class CharacterMessage implements Serializable{
 		return unitsUnderCommand.size()>=rank.getFullStrengthPopulation();
 	}
 
-	public Collection<CharacterMessage> reenforceCharacter(Vector spawnPoint, WeaponsFactory weaponsFactory) {
+	public Collection<CharacterMessage> reenforceCharacter(Vector spawnPoint, WeaponsFactory weaponsFactory, VehicleFactory vehicleFactory) {
 		RankMessage rankToReenforce;
         rankToReenforce = reenformentCharacterRank(rank);
-		final CharacterMessage loadCharacter = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, spawnPoint, country, weaponsFactory.getWeapon(), rankToReenforce, id, false);
+        Weapon weapon = weaponsFactory.getWeapon();
+        CharacterType type = vehicleFactory.getVehicle();
+        if(type!=null){
+        	weapon = type.getDefaultWeapon();
+        }else{        	
+        	type = type==null?CharacterType.SOLDIER:type;
+        }
+		final CharacterMessage loadCharacter = new CharacterMessage(UUID.randomUUID(), type, spawnPoint, country, weapon, rankToReenforce, id, false);
+		log.debug("creating reenforcement:"+loadCharacter.getId());
 		loadCharacter.commandingOfficer = id;
 		unitsUnderCommand.add(loadCharacter.getId());
         return ImmutableSet.of(loadCharacter);
@@ -367,17 +380,20 @@ public class CharacterMessage implements Serializable{
 		return rankToReenforce;
 	}
 
-	public boolean replaceWithAvatar(CharacterMessage deadAvatar, Collection<CharacterMessage> toUpdate) {
+	public CharacterMessage replaceWithAvatar(CharacterMessage deadAvatar, Collection<CharacterMessage> toUpdate, Map<UUID, CharacterMessage> allCharacters) {
 		if(RankMessage.CADET_CORPORAL==rank){
 			CharacterMessage characterMessage = new CharacterMessage(deadAvatar.getId(), deadAvatar.getUserID(), CharacterType.AVATAR, location, country, Weapon.RIFLE, RankMessage.CADET_CORPORAL, commandingOfficer, false);
 			characterMessage.unitsUnderCommand = unitsUnderCommand;
 			toUpdate.add(characterMessage);
-			return true;
+			Set<CharacterMessage> collect = unitsUnderCommand.stream().map(uuid->allCharacters.get(uuid)).filter(c->c!=null).collect(Collectors.toSet());
+			collect.forEach(c->c.commandingOfficer=characterMessage.id);
+			toUpdate.addAll(collect);
+			return characterMessage;
 		}
 		else{
 			CharacterMessage characterMessage = new CharacterMessage(deadAvatar.getId(), deadAvatar.getUserID(), CharacterType.AVATAR, location, country, Weapon.RIFLE, reenformentCharacterRank(rank), id, false);
 			toUpdate.add(characterMessage);
-			return false;
+			return null;
 		}
 	}
 
@@ -447,7 +463,7 @@ public class CharacterMessage implements Serializable{
 
 	public Set<CharacterMessage> promoteCharacter(CharacterMessage co, CharacterDAO characterDAO) {
 		Set<CharacterMessage> ret = new HashSet<CharacterMessage>();
-		CharacterMessage replacemet = new CharacterMessage(UUID.randomUUID(), co.type, co.location, co.country, co.weapon, co.rank, co.id, co.gunnerDead);		
+		CharacterMessage replacemet = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, co.location, co.country, co.weapon, co.rank, co.id, co.gunnerDead);		
 		replacemet.rank = rank;	
 		replacemet.unitsUnderCommand = new HashSet<UUID>(unitsUnderCommand);
 		replacemet.commandingOfficer = id;
@@ -536,6 +552,11 @@ public class CharacterMessage implements Serializable{
 		passengers.clear();
 		toChange.add(this);
 		return toChange;
+	}
+
+	public Set<UUID> getPassengers() {
+		return passengers;
+		
 	}
 	
 

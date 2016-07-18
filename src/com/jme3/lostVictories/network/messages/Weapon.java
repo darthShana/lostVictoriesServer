@@ -19,7 +19,7 @@ public enum Weapon {
 	}, CANNON {
 		@Override
 		public boolean isReusable() {
-			return true;
+			return false;
 		}
 	};
 

@@ -9,30 +9,33 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import com.jme3.lostVictories.network.messages.CharacterMessage;
+import com.jme3.lostVictories.network.messages.CharacterType;
 import com.jme3.lostVictories.network.messages.Country;
 
 public class AvatarStore {
 
 	private final Map<UUID, CharacterMessage> allCharacters;
-	private final Map<UUID, CharacterMessage> avatars;
 	
-	public AvatarStore(Set<CharacterMessage> allCharacters, Set<CharacterMessage> avatarSet) {
+	
+	public AvatarStore(Set<CharacterMessage> allCharacters) {
 		this.allCharacters = allCharacters.stream().collect(Collectors.toMap(c->c.getId(), Function.identity()));
-		this.avatars = avatarSet.stream().collect(Collectors.toMap(a->a.getId(), Function.identity()));
 	}
 	
 	public Optional<CharacterMessage> getDeadAvatars(Country country) {
-		return avatars.values().stream().filter(a->a.getCountry()==country && (!allCharacters.containsKey(a) || allCharacters.get(a.getId()).isDead())).findAny();
+		return allCharacters.values().stream().filter(a->CharacterType.AVATAR==a.getCharacterType() && a.getCountry()==country && a.isDead()).findAny();
 	}
 
-	public boolean reincarnateAvatar(CharacterMessage deadAvatar, CharacterMessage c, Collection<CharacterMessage> updated) {
-		boolean replaceWithAvatar = c.replaceWithAvatar(deadAvatar, updated);
+	public CharacterMessage reincarnateAvatar(CharacterMessage deadAvatar, CharacterMessage c, Collection<CharacterMessage> updated) {
+		CharacterMessage replaceWithAvatar = c.replaceWithAvatar(deadAvatar, updated, allCharacters);
 		allCharacters.putAll(updated.stream().collect(Collectors.toMap(u->u.getId(), Function.identity())));
+		if(replaceWithAvatar!=null){
+			allCharacters.remove(c.getId());
+		}
 		return replaceWithAvatar;
 	}
 
 	public Set<CharacterMessage> getLivingAvatars() {
-		return allCharacters.entrySet().stream().filter(e->avatars.containsKey(e.getKey()) && !e.getValue().isDead()).map(e->e.getValue()).collect(Collectors.toSet());
+		return allCharacters.values().stream().filter(e->CharacterType.AVATAR==e.getCharacterType() && !e.isDead()).collect(Collectors.toSet());
 	}
 	
 

@@ -61,8 +61,8 @@ public class LostVictoryScene {
 		characters.add(al2);
 		CharacterMessage a1 = new CharacterMessage(UUID.fromString("2fbe421f-f701-49c9-a0d4-abb0fa904204"), CharacterType.AVATAR, germanBase.add(22, 0, 13), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, gl1.getId(), false);
 		loadSquad(characters, a1, germanBase.add(-10, 0, 15), Country.GERMAN, true, Weapon.RIFLE, Weapon.RIFLE, Weapon.RIFLE);
-//		characters.add(loadAntiTankGun1(UUID.fromString("2d420131-2f1f-4901-b61a-248c2243848c"), germanBase.add(25, 0, 15), Country.GERMAN, a1));
-//		characters.add(loadHalfTrack(germanBase.add(25, 0, 15), Country.GERMAN, a1));
+		characters.add(loadAntiTankGun1(UUID.fromString("2d420131-2f1f-4901-b61a-248c2243848c"), germanBase.add(25, 0, 15), Country.GERMAN, a1));
+		characters.add(loadHalfTrack(germanBase.add(25, 0, 15), Country.GERMAN, a1));
 //		a1.addObjective(UUID.randomUUID(), createBootCampObjective(new Vector(246.29144f, 96.77546f, 55.412266f)));
 //		a1.incrementKills(UUID.randomUUID());
 //		a1.incrementKills(UUID.randomUUID());
@@ -96,7 +96,7 @@ public class LostVictoryScene {
         CharacterMessage b1 = new CharacterMessage(UUID.fromString("d993932f-a185-4a6f-8d86-4ef6e2c5ff95"), CharacterType.AVATAR, americanBase.add(-10, 0, 10), Country.AMERICAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, al1.getId(), false);
         loadSquad(characters, b1, americanBase.add(-10, 0, 15), Country.AMERICAN, true);
         //characters.add(loadAntiTankGun(americanBase.add(15, 0, 15), Country.AMERICAN, b1));
-        characters.add(loadAmoredCar(americanBase.add(15, 0, 25), Country.AMERICAN, b1));
+        characters.add(loadAmoredCar(americanBase.add(10, 0, 15), Country.AMERICAN, b1));
         //characters.add(loadAntiTankGun1(UUID.randomUUID(), americanBase.add(20, 0, 20), Country.AMERICAN, b1));
 //        b1.addObjective(UUID.randomUUID(), createBootCampObjective(new Vector(-57.21826f, 96.380104f, -203.38945f)));
 //        b1.incrementKills(UUID.randomUUID());
@@ -243,7 +243,7 @@ public class LostVictoryScene {
 	}
 	
 	private CharacterMessage loadAmoredCar(Vector vector, Country country, CharacterMessage c2) {
-		CharacterMessage armoredCar = new CharacterMessage(UUID.randomUUID(), CharacterType.ARMORED_CAR, vector, country, Weapon.MG42, RankMessage.PRIVATE, c2.getId(), false);
+		CharacterMessage armoredCar = new CharacterMessage(UUID.randomUUID(), CharacterType.ARMORED_CAR, vector, country, CharacterType.ARMORED_CAR.getDefaultWeapon(), RankMessage.PRIVATE, c2.getId(), false);
 		c2.addCharactersUnderCommand(armoredCar);
 		return armoredCar;
 	}
@@ -255,7 +255,7 @@ public class LostVictoryScene {
 
 
 	private CharacterMessage loadHalfTrack1(UUID randomUUID, Vector vector, Country country, CharacterMessage gv2) {
-		CharacterMessage halfTrack = new CharacterMessage(randomUUID, CharacterType.HALF_TRACK, vector, country, Weapon.MG42, RankMessage.PRIVATE, gv2.getId(), false);
+		CharacterMessage halfTrack = new CharacterMessage(randomUUID, CharacterType.HALF_TRACK, vector, country, CharacterType.HALF_TRACK.getDefaultWeapon(), RankMessage.PRIVATE, gv2.getId(), false);
 		gv2.addCharactersUnderCommand(halfTrack);
 		return halfTrack;
 	}
@@ -267,7 +267,7 @@ public class LostVictoryScene {
 
 
 	private CharacterMessage loadAntiTankGun1(UUID randomUUID, Vector vector, Country country, CharacterMessage gv1) {
-		CharacterMessage atg = new CharacterMessage(randomUUID, CharacterType.ANTI_TANK_GUN, vector, country, Weapon.CANNON, RankMessage.PRIVATE, gv1.getId(), false);
+		CharacterMessage atg = new CharacterMessage(randomUUID, CharacterType.ANTI_TANK_GUN, vector, country, CharacterType.ANTI_TANK_GUN.getDefaultWeapon(), RankMessage.PRIVATE, gv1.getId(), false);
 		gv1.addCharactersUnderCommand(atg);
 		return atg;
 	}
