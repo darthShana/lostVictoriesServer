@@ -8,6 +8,7 @@ import java.util.UUID;
 import org.apache.log4j.Logger;
 
 import com.jme3.lostVictories.network.messages.CharacterMessage;
+import com.jme3.lostVictories.network.messages.CharacterType;
 import com.jme3.lostVictories.network.messages.DeathNotificationRequest;
 import com.jme3.lostVictories.network.messages.LostVictoryMessage;
 import com.jme3.lostVictories.network.messages.UnClaimedEquipmentMessage;
@@ -43,7 +44,7 @@ public class DeathNotificationMessageHandler {
 		
 		victim.replaceMe(characterDAO, toSave);
 		
-		if(victim.getWeapon().isReusable()){
+		if(victim.getWeapon().isReusable() && (victim.getCharacterType()==CharacterType.SOLDIER || victim.getCharacterType()==CharacterType.AVATAR)){
 			equipmentDAO.addUnclaiimedEquipment(new UnClaimedEquipmentMessage(UUID.randomUUID(), victim.getWeapon(), victim.getLocation(), victim.getOrientation()));
 		}
 		
