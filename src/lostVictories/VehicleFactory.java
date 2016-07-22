@@ -6,6 +6,7 @@ import java.util.Set;
 import com.jme3.lostVictories.network.messages.CharacterMessage;
 import com.jme3.lostVictories.network.messages.CharacterType;
 import com.jme3.lostVictories.network.messages.Country;
+import com.jme3.lostVictories.network.messages.RankMessage;
 import com.jme3.lostVictories.network.messages.Weapon;
 
 public class VehicleFactory {
@@ -31,7 +32,10 @@ public class VehicleFactory {
 		lastProduced.put(CharacterType.ARMORED_CAR, 0l);
 	}
 	
-	public CharacterType getVehicle() {
+	public CharacterType getVehicle(RankMessage rank) {
+		if(RankMessage.PRIVATE!=rank){
+			return null;
+		}
 		for(CharacterType c:maxAllowed.keySet()){
 			if(senses.get(c)<maxAllowed.get(c) && System.currentTimeMillis()-lastProduced.get(c)>(60000*2)){
 				lastProduced.put(c, System.currentTimeMillis());

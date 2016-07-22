@@ -51,10 +51,16 @@ public class VehicleFactoryTest {
 	
 	@Test
 	public void testGetVehicle(){
-		CharacterType vehicle = factory.getVehicle();
+		CharacterType vehicle = factory.getVehicle(RankMessage.PRIVATE);
 		assertEquals(CharacterType.ANTI_TANK_GUN, vehicle);
 		
-		vehicle = factory.getVehicle();
+		vehicle = factory.getVehicle(RankMessage.PRIVATE);
+		assertNull(vehicle);
+	}
+	
+	@Test
+	public void testGetVehicleForCommandingOfficer(){
+		CharacterType vehicle = factory.getVehicle(RankMessage.CADET_CORPORAL);
 		assertNull(vehicle);
 	}
 

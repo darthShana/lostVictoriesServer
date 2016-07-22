@@ -355,7 +355,7 @@ public class CharacterMessage implements Serializable{
 		RankMessage rankToReenforce;
         rankToReenforce = reenformentCharacterRank(rank);
         Weapon weapon = weaponsFactory.getWeapon();
-        CharacterType type = vehicleFactory.getVehicle();
+        CharacterType type = vehicleFactory.getVehicle(rank);
         if(type!=null){
         	weapon = type.getDefaultWeapon();
         }else{        	

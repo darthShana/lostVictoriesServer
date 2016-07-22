@@ -67,8 +67,8 @@ public class WorldRunner implements Runnable{
 		this.houseDAO = houseDAO;
 		this.gameStatusDAO = gameStatusDAO;
 		this.gameRequestDAO = gameRequestDAO;
-		victoryPoints.put(Country.AMERICAN, 5000);
-        victoryPoints.put(Country.GERMAN, 5000);
+		victoryPoints.put(Country.AMERICAN, 1000);
+        victoryPoints.put(Country.GERMAN, 1000);
         vehicleFactory.put(Country.AMERICAN, new VehicleFactory(Country.AMERICAN));
         vehicleFactory.put(Country.GERMAN, new VehicleFactory(Country.GERMAN));
         weaponsFactory.put(Country.AMERICAN, new WeaponsFactory(Country.AMERICAN));
