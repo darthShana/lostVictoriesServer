@@ -91,10 +91,10 @@ public class LostVictoryScene {
         loadSquad(characters, gv3, germanBase.add(25, 0, 15), Country.GERMAN, true, Weapon.RIFLE, Weapon.RIFLE, Weapon.RIFLE);
         
         CharacterMessage gv4 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, germanBase.add(35, 0, 10), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, gl2.getId(), false);
-        loadSquad(characters, gv4, germanBase.add(25, 0, 15), Country.GERMAN, true, Weapon.RIFLE, Weapon.RIFLE, Weapon.MG42);
+        loadSquad(characters, gv4, germanBase.add(25, 0, 15), Country.GERMAN, true, Weapon.RIFLE, Weapon.RIFLE);
         
         CharacterMessage b1 = new CharacterMessage(UUID.fromString("d993932f-a185-4a6f-8d86-4ef6e2c5ff95"), CharacterType.SOLDIER, americanBase.add(-10, 0, 10), Country.AMERICAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, al1.getId(), false);
-        loadSquad(characters, b1, americanBase.add(-10, 0, 15), Country.AMERICAN, true);
+        loadSquad(characters, b1, americanBase.add(-10, 0, 15), Country.AMERICAN, true, Weapon.RIFLE, Weapon.RIFLE);
         //characters.add(loadAntiTankGun(americanBase.add(15, 0, 15), Country.AMERICAN, b1));
         //characters.add(loadAmoredCar(americanBase.add(10, 0, 15), Country.AMERICAN, b1));
         //characters.add(loadAntiTankGun1(UUID.randomUUID(), americanBase.add(20, 0, 20), Country.AMERICAN, b1));
@@ -126,7 +126,7 @@ public class LostVictoryScene {
         loadSquad(characters, c3, americanBase.add(25, 5, -30), Country.AMERICAN, true, Weapon.RIFLE, Weapon.RIFLE, Weapon.RIFLE);
         
         CharacterMessage c4 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, americanBase.add(20, 5, -35), Country.AMERICAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, al2.getId(), false);
-        loadSquad(characters,  c4, americanBase.add(20, 5, -30), Country.AMERICAN, true, Weapon.RIFLE, Weapon.RIFLE, Weapon.MG42);
+        loadSquad(characters,  c4, americanBase.add(20, 5, -30), Country.AMERICAN, true, Weapon.RIFLE, Weapon.RIFLE, Weapon.RIFLE);
         
         gl1.addCharactersUnderCommand(a1, a2, a3, a4);
         gl2.addCharactersUnderCommand(gv1, gv2, gv3, gv4);
