@@ -40,27 +40,18 @@ public class CaptureStructure extends Objective{
 			return;
 		}
 		
-		Vector3f[] v = new Vector3f[]{
-				house.getLocation().toVector().add(new Vector3f(7.5f, 0, 7.5f)), 
-				house.getLocation().toVector().add(new Vector3f(-7.5f, 0, 7.5f)), 
-				house.getLocation().toVector().add(new Vector3f(7.5f, 0, -7.5f)), 
-				house.getLocation().toVector().add(new Vector3f(-7.5f, 0, -7.5f))};
-        Vector3f shortest = null;
-        for(Vector3f t:v){
-            if(shortest == null || c.getLocation().toVector().distance(shortest)>c.getLocation().toVector().distance(t)){
-                shortest = t;
-            }
-        }
-		
 		try {
 			
-			TravelObjective tt = new TravelObjective(new Vector(shortest), null);
+			TravelObjective tt = new TravelObjective(new Vector(house.getLocation().toVector()), null);
 			tt.runObjective(c, uuid, characterDAO, houseDAO, toSave);
+			if(tt.isComplete){
+				isComplete = true;
+			}
 			
 			for(UUID u:c.getUnitsUnderCommand()){
 				CharacterMessage unit = characterDAO.getCharacter(u);
 				if(unit !=null && !isBusy(unit) && CharacterType.SOLDIER==unit.getCharacterType()){
-					TravelObjective t = new TravelObjective(new Vector(shortest), null);
+					TravelObjective t = new TravelObjective(new Vector(house.getLocation().toVector()), null);
 					unit.addObjective(UUID.randomUUID(), t.asJSON());
 					toSave.put(unit.getId(), unit);
 				}

@@ -18,13 +18,13 @@ public class VehicleFactory {
 	
 	public VehicleFactory(Country country) {
 		this.country = country;
-		maxAllowed.put(CharacterType.ANTI_TANK_GUN, 2l);
+		maxAllowed.put(CharacterType.ANTI_TANK_GUN, 4l);
 		if(country==Country.GERMAN){
-			maxAllowed.put(CharacterType.HALF_TRACK, 2l);
+			maxAllowed.put(CharacterType.HALF_TRACK, 4l);
 			maxAllowed.put(CharacterType.ARMORED_CAR, 0l);
 		}else{
 			maxAllowed.put(CharacterType.HALF_TRACK, 0l);
-			maxAllowed.put(CharacterType.ARMORED_CAR, 2l);			
+			maxAllowed.put(CharacterType.ARMORED_CAR, 4l);			
 		}
 		
 		lastProduced.put(CharacterType.ANTI_TANK_GUN, 0l);

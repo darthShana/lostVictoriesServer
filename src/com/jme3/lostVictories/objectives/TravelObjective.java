@@ -40,10 +40,6 @@ public class TravelObjective extends Objective{
 		Vector3f dest = new Vector3f(destination.x, destination.y, destination.z);
 		Vector3f newLocation = currentLocation.add(dest.subtract(currentLocation).normalize().mult(5*SCENE_SCALE));
 		
-		if("91951ab5-c844-453c-8c29-9861769e05fd".equals(character.getId().toString())){
-			System.out.println("character location:"+character.getLocation());
-		}
-		
 		if(currentLocation.distance(newLocation)>currentLocation.distance(dest)){
 			newLocation = dest;
 			isComplete = true;
@@ -52,6 +48,7 @@ public class TravelObjective extends Objective{
 		Vector vector = new Vector(newLocation.x, newLocation.y, newLocation.z);
 		character.setLocation(vector);
 		toSave.put(character.getId(), character);
+		
 	}
 	
 	public String asJSON() throws JsonGenerationException, JsonMappingException, IOException {
