@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumMap;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -136,7 +135,7 @@ public class WorldRunner implements Runnable{
 							characterDAO.refresh();
                         }else{
                         	log.debug("in here test reenforce:"+c.getId());
-                        	HouseMessage point = SecureSector.findClosestHouse(c, houseDAO.getAllHouses(), new HashSet<UUID>(), h -> h.getOwner()==c.getCountry());
+                        	HouseMessage point = SecureSector.findClosestHouse(c, houseDAO.getAllHouses(), h -> h.getOwner()==c.getCountry());
                         	if(point!=null){
 	                            Collection<CharacterMessage> reenforceCharacter = c.reenforceCharacter(point.getLocation(), weaponsFactory.get(c.getCountry()), vehicleFactory.get(c.getCountry()));
 	                            characterDAO.updateCharactersUnderCommand(c);

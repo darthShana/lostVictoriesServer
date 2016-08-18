@@ -355,7 +355,7 @@ public class CharacterMessage implements Serializable{
 		RankMessage rankToReenforce;
         rankToReenforce = reenformentCharacterRank(rank);
         Weapon weapon = weaponsFactory.getWeapon();
-        CharacterType type = vehicleFactory.getVehicle(rank);
+        CharacterType type = vehicleFactory.getVehicle(rankToReenforce);
         if(type!=null){
         	weapon = type.getDefaultWeapon();
         }else{        	
@@ -423,20 +423,18 @@ public class CharacterMessage implements Serializable{
 		Optional<CharacterMessage> findReplacement = findReplacement(oldSquad);
 		if(findReplacement.isPresent()){
 			final CharacterMessage toPromote = findReplacement.get();
-			CharacterMessage replacement = new CharacterMessage(UUID.randomUUID(), toPromote.type, toPromote.location, toPromote.country, toPromote.weapon, toPromote.rank, toPromote.commandingOfficer, toPromote.gunnerDead);
-			replacement.rank = rank;
-			replacement.kills = new HashSet<UUID>();
-			replacement.objectives = new HashMap<String, String>();
+			toPromote.rank = rank;
+			toPromote.kills = new HashSet<UUID>();
+			toPromote.objectives = new HashMap<String, String>();
 			if(commandingOfficer!=null){
-				replacement.commandingOfficer = commandingOfficer;
+				toPromote.commandingOfficer = commandingOfficer;
 			}
 			log.info("promoting:"+toPromote.getId()+" to "+rank);
 			Map<UUID, CharacterMessage> newSquad = oldSquad.entrySet().stream().filter(c->!c.getValue().equals(toPromote)).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-			newSquad.values().forEach(c->c.commandingOfficer = replacement.getId());
-			replacement.addCharactersUnderCommand(newSquad.values().stream().collect(Collectors.toSet()));
+			newSquad.values().forEach(c->c.commandingOfficer = toPromote.getId());
+			toPromote.addCharactersUnderCommand(newSquad.values().stream().collect(Collectors.toSet()));
 			toSave.putAll(newSquad);
-			characterDAO.delete(toPromote);
-			characterDAO.putCharacter(replacement.id, replacement);
+			characterDAO.putCharacter(toPromote.id, toPromote);
 		}
 
 	}

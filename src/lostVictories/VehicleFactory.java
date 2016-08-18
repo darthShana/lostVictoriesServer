@@ -3,6 +3,8 @@ package lostVictories;
 import java.util.EnumMap;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
+
 import com.jme3.lostVictories.network.messages.CharacterMessage;
 import com.jme3.lostVictories.network.messages.CharacterType;
 import com.jme3.lostVictories.network.messages.Country;
@@ -11,6 +13,9 @@ import com.jme3.lostVictories.network.messages.Weapon;
 
 public class VehicleFactory {
 
+	private static Logger log = Logger.getLogger(VehicleFactory.class); 
+
+	
 	EnumMap<CharacterType, Long> senses = new EnumMap<CharacterType, Long>(CharacterType.class);
 	EnumMap<CharacterType, Long> maxAllowed = new EnumMap<CharacterType, Long>(CharacterType.class);
 	EnumMap<CharacterType, Long> lastProduced = new EnumMap<CharacterType, Long>(CharacterType.class);
@@ -39,6 +44,7 @@ public class VehicleFactory {
 		for(CharacterType c:maxAllowed.keySet()){
 			if(senses.get(c)<maxAllowed.get(c) && System.currentTimeMillis()-lastProduced.get(c)>(60000*2)){
 				lastProduced.put(c, System.currentTimeMillis());
+				log.info("getVehicle :"+c);
 				return c;
 			}
 		}

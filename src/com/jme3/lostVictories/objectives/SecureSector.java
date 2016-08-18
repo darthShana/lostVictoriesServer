@@ -41,7 +41,7 @@ public class SecureSector extends Objective {
 		for(CharacterMessage unit:characterDAO.getAllCharacters(c.getUnitsUnderCommand()).values()){
 			if(!isBusy(unit) && RankMessage.CADET_CORPORAL==unit.getRank())	{
 				Set<HouseMessage> hh = houses2.stream().filter(h->!assigned.contains(h.getId())).collect(Collectors.toSet());
-				HouseMessage closest = findClosestHouse(c, hh, assigned, h -> h.getOwner()!=c.getCountry());
+				HouseMessage closest = findClosestHouse(c, hh, h -> h.getOwner()!=c.getCountry());
 				if(closest!=null){
 					try {
 						unit.addObjective(UUID.randomUUID(), new CaptureStructure(closest.getId().toString()).asJSON());
@@ -60,7 +60,7 @@ public class SecureSector extends Objective {
 		}
 	}
 
-	public static HouseMessage findClosestHouse(CharacterMessage c, Set<HouseMessage> allHouses, Set<UUID> assigned, Predicate<HouseMessage> pred) {
+	public static HouseMessage findClosestHouse(CharacterMessage c, Set<HouseMessage> allHouses, Predicate<HouseMessage> pred) {
 		HouseMessage closest = null;
 		Vector3f characterLocation = new Vector3f(c.getLocation().x, c.getLocation().y, c.getLocation().z);
 		
