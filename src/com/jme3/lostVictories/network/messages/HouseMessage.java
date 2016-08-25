@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.HouseDAO;
@@ -128,6 +129,7 @@ public class HouseMessage implements Serializable{
 
 	public boolean chechOwnership(CharacterDAO characterDAO) {
 		Set<CharacterMessage> allCharacters = characterDAO.getAllCharacters(location.x, location.y, location.z, CAPTURE_RANGE*SCENE_SCALE);
+		allCharacters = allCharacters.stream().filter(c->c.type==CharacterType.SOLDIER || c.type==CharacterType.AVATAR).collect(Collectors.toSet());
 		
 		if(!allCharacters.isEmpty()){
 			log.trace("looking ofr characters near:"+location+" found chata:"+allCharacters.size());

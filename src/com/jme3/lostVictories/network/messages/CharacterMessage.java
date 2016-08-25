@@ -434,7 +434,7 @@ public class CharacterMessage implements Serializable{
 			newSquad.values().forEach(c->c.commandingOfficer = toPromote.getId());
 			toPromote.addCharactersUnderCommand(newSquad.values().stream().collect(Collectors.toSet()));
 			toSave.putAll(newSquad);
-			characterDAO.putCharacter(toPromote.id, toPromote);
+			toSave.put(toPromote.id, toPromote);
 		}
 
 	}

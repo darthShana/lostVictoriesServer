@@ -4,7 +4,9 @@ import static lostVictories.LostVictoryScene.SCENE_SCALE;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.HouseDAO;
@@ -44,8 +46,11 @@ public class NavigateObjective extends Objective{
 		
 		Vector vector = new Vector(newLocation.x, newLocation.y, newLocation.z);
 		character.setLocation(vector);
-		toSave.put(character.getId(), character);
 		
+		Set<CharacterMessage> collect = character.getPassengers().stream().map(id->characterDAO.getCharacter(id)).collect(Collectors.toSet());
+		collect.forEach(passenger->passenger.setLocation(vector));
+		collect.add(character);
+		collect.forEach(moved->toSave.put(moved.getId(), moved));
 	}
 
 	@Override
