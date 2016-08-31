@@ -39,7 +39,7 @@ public class UpdateCharactersMessageHandlerTest {
 	@Before
 	public void setUp(){
 		characterDAO = mock(CharacterDAO.class);
-		handler = new UpdateCharactersMessageHandler(characterDAO, mock(HouseDAO.class), mock(EquipmentDAO.class), mock(WorldRunner.class));
+		handler = new UpdateCharactersMessageHandler(characterDAO, mock(HouseDAO.class), mock(EquipmentDAO.class), mock(WorldRunner.class), new MessageRepository());
 	}
 	
 	class IsSetOfElements extends ArgumentMatcher<Set> {

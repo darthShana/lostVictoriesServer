@@ -12,6 +12,7 @@ import com.jme3.lostVictories.network.messages.CharacterType;
 import com.jme3.lostVictories.network.messages.DeathNotificationRequest;
 import com.jme3.lostVictories.network.messages.LostVictoryMessage;
 import com.jme3.lostVictories.network.messages.UnClaimedEquipmentMessage;
+import com.jme3.lostVictories.network.messages.Vector;
 
 import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.EquipmentDAO;
@@ -45,7 +46,7 @@ public class DeathNotificationMessageHandler {
 		victim.replaceMe(characterDAO, toSave);
 		
 		if(victim.getWeapon().isReusable() && (victim.getCharacterType()==CharacterType.SOLDIER || victim.getCharacterType()==CharacterType.AVATAR)){
-			equipmentDAO.addUnclaiimedEquipment(new UnClaimedEquipmentMessage(UUID.randomUUID(), victim.getWeapon(), victim.getLocation(), victim.getOrientation()));
+			equipmentDAO.addUnclaiimedEquipment(new UnClaimedEquipmentMessage(UUID.randomUUID(), victim.getWeapon(), victim.getLocation(), new Vector(0, 0, 0)));
 		}
 		
 		try {

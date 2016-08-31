@@ -14,6 +14,7 @@ import lostVictories.dao.GameRequestDAO;
 import lostVictories.dao.GameStatusDAO;
 import lostVictories.dao.HouseDAO;
 import lostVictories.messageHanders.MessageHandler;
+import lostVictories.messageHanders.MessageRepository;
 
 import org.apache.log4j.Logger;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequestBuilder;
@@ -74,6 +75,7 @@ public class LostVictoriesSever {
 			gameStatusDAO.createGameStatus(this.instance, gameName, port, characterIndexName, houseIndexName, equipmentIndexName);
 		}
 		
+		MessageRepository messageRepository = new MessageRepository();
 		ScheduledExecutorService worldRunnerService = Executors.newScheduledThreadPool(2);
 		WorldRunner worldRunner = WorldRunner.instance(gameName, characterDAO, houseDAO, gameStatusDAO, gameRequestDAO);
 		worldRunnerService.scheduleAtFixedRate(worldRunner, 0, 2, TimeUnit.SECONDS);
@@ -88,7 +90,7 @@ public class LostVictoriesSever {
 				return Channels.pipeline(
 					new ObjectDecoder(ClassResolvers.cacheDisabled(getClass().getClassLoader())),
 					new ObjectEncoder(),
-					new MessageHandler(characterDAO, houseDAO, equipmentDAO, worldRunner)
+					new MessageHandler(characterDAO, houseDAO, equipmentDAO, worldRunner, messageRepository)
 				);
 			 };
 		 });

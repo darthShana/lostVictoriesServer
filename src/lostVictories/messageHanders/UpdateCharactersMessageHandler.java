@@ -1,6 +1,7 @@
 package lostVictories.messageHanders;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -32,12 +33,14 @@ public class UpdateCharactersMessageHandler {
 	private HouseDAO houseDAO;
 	private EquipmentDAO equipmentDAO;
 	private WorldRunner worldRunner;
+	private MessageRepository messageRepository;
 
-	public UpdateCharactersMessageHandler(CharacterDAO characterDAO, HouseDAO houseDAO, EquipmentDAO equipmentDAO, WorldRunner worldRunner) {
+	public UpdateCharactersMessageHandler(CharacterDAO characterDAO, HouseDAO houseDAO, EquipmentDAO equipmentDAO, WorldRunner worldRunner, MessageRepository messageRepository) {
 		this.characterDAO = characterDAO;
 		this.houseDAO = houseDAO;
 		this.equipmentDAO = equipmentDAO;
 		this.worldRunner = worldRunner;
+		this.messageRepository = messageRepository;
 	}
 
 	public LostVictoryMessage handle(UpdateCharactersRequest msg) throws IOException {
@@ -80,12 +83,13 @@ public class UpdateCharactersMessageHandler {
 			AchivementStatus achivementStatus = worldRunner.getAchivementStatus(storedAvatar);
 			
 			Set<UnClaimedEquipmentMessage> unClaimedEquipment = equipmentDAO.getUnClaimedEquipment(v.x, v.y, v.z, CheckoutScreenMessageHandler.CLIENT_RANGE);
-			return new UpdateCharactersResponse(msg.getClientID(), new HashSet<CharacterMessage>(toReturn.values()), relatedCharacters, unClaimedEquipment, allHouses, statistics, achivementStatus);
+			return new UpdateCharactersResponse(msg.getClientID(), new HashSet<CharacterMessage>(toReturn.values()), relatedCharacters, unClaimedEquipment, allHouses, statistics, achivementStatus, messageRepository.popMessages(msg.getClientID()));
 		}else{
 			toReturn = existingInServer;
 			log.debug("client did not send avatar for perspective");
 		}
+		
 		log.debug("sending back characters:"+toReturn.size());
-		return new UpdateCharactersResponse(msg.getClientID(), new HashSet<CharacterMessage>(toReturn.values()), new HashSet<CharacterMessage>(), new HashSet<UnClaimedEquipmentMessage>(), allHouses, null, null);
+		return new UpdateCharactersResponse(msg.getClientID(), new HashSet<CharacterMessage>(toReturn.values()), new HashSet<CharacterMessage>(), new HashSet<UnClaimedEquipmentMessage>(), allHouses, null, null, new ArrayList<String>());
 	}
 }

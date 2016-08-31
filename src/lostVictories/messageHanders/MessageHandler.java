@@ -6,7 +6,6 @@ import java.util.UUID;
 import lostVictories.WorldRunner;
 import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.EquipmentDAO;
-import lostVictories.dao.GameStatusDAO;
 import lostVictories.dao.HouseDAO;
 
 import org.apache.log4j.Logger;
@@ -41,12 +40,12 @@ public class MessageHandler extends SimpleChannelHandler {
 	private BoardingVehicleMessageHandler boardingVehicleMessageHandler;
 	private DisembarkPassengersMessageHandler disembarkPassengersMessageHandler;
 
-	public MessageHandler(CharacterDAO characterDAO, HouseDAO houseDAO, EquipmentDAO equipmentDAO, WorldRunner worldRunner) {
-		updateCharactersMessageHandler = new UpdateCharactersMessageHandler(characterDAO, houseDAO, equipmentDAO, worldRunner);
+	public MessageHandler(CharacterDAO characterDAO, HouseDAO houseDAO, EquipmentDAO equipmentDAO, WorldRunner worldRunner, MessageRepository messageRepository) {
+		updateCharactersMessageHandler = new UpdateCharactersMessageHandler(characterDAO, houseDAO, equipmentDAO, worldRunner, messageRepository);
 		checkoutScreenMessageHandler = new CheckoutScreenMessageHandler(characterDAO, houseDAO, equipmentDAO);
 		deathNotificationMessageHandler = new DeathNotificationMessageHandler(characterDAO, equipmentDAO);
 		addObjectiveMessageHandler = new AddObjectiveMessageHandler(characterDAO);
-		collectEquipmentMessageHandler = new CollectEquipmentMessageHandler(characterDAO, equipmentDAO);
+		collectEquipmentMessageHandler = new CollectEquipmentMessageHandler(characterDAO, equipmentDAO, messageRepository);
 		boardingVehicleMessageHandler = new BoardingVehicleMessageHandler(characterDAO);
 		disembarkPassengersMessageHandler = new DisembarkPassengersMessageHandler(characterDAO);
 	}

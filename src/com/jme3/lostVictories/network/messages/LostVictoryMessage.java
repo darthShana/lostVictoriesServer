@@ -7,6 +7,7 @@ public class LostVictoryMessage implements Serializable{
 	protected static final long serialVersionUID = -2422514305655908187L;
 
 	private UUID clientID;
+
 	
 	public LostVictoryMessage(UUID clientID) {
 		this.clientID = clientID;
