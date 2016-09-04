@@ -46,7 +46,7 @@ public class MessageHandler extends SimpleChannelHandler {
 		deathNotificationMessageHandler = new DeathNotificationMessageHandler(characterDAO, equipmentDAO);
 		addObjectiveMessageHandler = new AddObjectiveMessageHandler(characterDAO);
 		collectEquipmentMessageHandler = new CollectEquipmentMessageHandler(characterDAO, equipmentDAO, messageRepository);
-		boardingVehicleMessageHandler = new BoardingVehicleMessageHandler(characterDAO);
+		boardingVehicleMessageHandler = new BoardingVehicleMessageHandler(characterDAO, messageRepository);
 		disembarkPassengersMessageHandler = new DisembarkPassengersMessageHandler(characterDAO);
 	}
 

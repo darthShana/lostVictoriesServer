@@ -538,10 +538,21 @@ public class CharacterMessage implements Serializable{
 		return dropped;
 	}
 
-	public void boardVehicle(CharacterMessage vehicle) {
+	public void boardVehicle(CharacterMessage vehicle, CharacterDAO characterDAO, Map<UUID, CharacterMessage> toSave) {
+		if(vehicle.passengers.isEmpty() && CharacterType.AVATAR==getCharacterType()){
+			CharacterMessage oldCo = characterDAO.getCharacter(vehicle.getCommandingOfficer());
+			vehicle.commandingOfficer = id;
+			vehicle.country = country;
+			oldCo.unitsUnderCommand.remove(vehicle.id);
+			unitsUnderCommand.add(vehicle.id);
+			toSave.put(oldCo.id, oldCo);
+		}
+		
 		this.boardedVehicle = vehicle.id;
 		vehicle.passengers.add(id);
-		
+
+		toSave.put(vehicle.getId(), vehicle);
+		toSave.put(getId(), this);
 	}
 
 	public Set<CharacterMessage> disembarkPassengers(CharacterDAO characterRepository) {
