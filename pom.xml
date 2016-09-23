@@ -8,9 +8,8 @@
   
   <repositories>
     <repository>
-      <id>jme</id>
-      <name>jme</name>
-      <url>http://updates.jmonkeyengine.org/maven/</url>
+      <id>com_jme3-repo</id>
+      <url>http://dl.bintray.com/jmonkeyengine/com.jme3</url>
     </repository>
   </repositories>
   

@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import org.apache.log4j.Logger;
+
 import com.jme3.lostVictories.network.messages.BoardVehicleRequest;
 import com.jme3.lostVictories.network.messages.CharacterMessage;
 import com.jme3.lostVictories.network.messages.CharacterType;
@@ -13,6 +15,7 @@ import lostVictories.dao.CharacterDAO;
 
 public class BoardingVehicleMessageHandler {
 
+	private static Logger log = Logger.getLogger(BoardingVehicleMessageHandler.class); 
 	private CharacterDAO characterDAO;
 	private MessageRepository messageRepository;
 
@@ -24,7 +27,7 @@ public class BoardingVehicleMessageHandler {
 	public LostVictoryMessage handle(BoardVehicleRequest msg) {
 		CharacterMessage vehicle = characterDAO.getCharacter(msg.getVehicleID());
 		CharacterMessage passenger = characterDAO.getCharacter(msg.getCharacterID());
-		
+		log.debug("recived boarding request for:"+passenger.getId());
 		if(vehicle.getLocation().distance(passenger.getLocation())>5){
 			if(CharacterType.AVATAR == passenger.getCharacterType()){
 				messageRepository.addMessage(msg.getClientID(), "Vehicle is too far to get in.");

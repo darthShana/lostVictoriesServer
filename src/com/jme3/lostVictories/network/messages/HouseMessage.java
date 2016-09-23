@@ -136,7 +136,7 @@ public class HouseMessage implements Serializable{
 		}
 		CaptureStatus c = captureStatus.transition(allCharacters, this);
 		if(c!=captureStatus){
-			log.trace("changing capture status to:"+c);
+			log.debug("changing capture status to:"+c+":"+getLocation());
 			captureStatus = c;
 			return true;
 		}else{

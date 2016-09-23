@@ -77,6 +77,7 @@ public class CharacterMessage implements Serializable{
 		this.country = country;
 		this.weapon = weapon;
 		this.rank = rank;
+		this.gunnerDead = gunnerDead;
 		if(commandingOfficer!=null){
 			this.commandingOfficer = commandingOfficer;
 		}
@@ -290,6 +291,7 @@ public class CharacterMessage implements Serializable{
 		location = other.location;
 		orientation = other.orientation;
 		actions = other.actions;
+		gunnerDead = other.gunnerDead;
 		
 		other.objectives.entrySet().stream().forEach(e->objectives.putIfAbsent(e.getKey(), e.getValue()));
 		objectives = objectives.entrySet().stream().filter(e->!other.completedObjectives.contains(e.getKey())).collect(Collectors.toMap(e->e.getKey(), e->e.getValue()));
@@ -539,7 +541,12 @@ public class CharacterMessage implements Serializable{
 	}
 
 	public void boardVehicle(CharacterMessage vehicle, CharacterDAO characterDAO, Map<UUID, CharacterMessage> toSave) {
-		if(vehicle.passengers.isEmpty() && CharacterType.AVATAR==getCharacterType()){
+		log.debug("now boarding pasenger:"+id+", "+gunnerDead);
+		if(!vehicle.gunnerDead){
+			return;
+		}
+		if(CharacterType.AVATAR==getCharacterType()){
+			vehicle.disembarkPassengers(characterDAO).forEach(c->toSave.put(c.id, c));
 			CharacterMessage oldCo = characterDAO.getCharacter(vehicle.getCommandingOfficer());
 			vehicle.commandingOfficer = id;
 			vehicle.country = country;
