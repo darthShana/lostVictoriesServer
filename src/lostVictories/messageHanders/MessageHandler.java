@@ -24,6 +24,7 @@ import com.jme3.lostVictories.network.messages.CheckoutScreenRequest;
 import com.jme3.lostVictories.network.messages.DeathNotificationRequest;
 import com.jme3.lostVictories.network.messages.DisembarkPassengersRequest;
 import com.jme3.lostVictories.network.messages.EquipmentCollectionRequest;
+import com.jme3.lostVictories.network.messages.GunnerDeathNotificationRequest;
 import com.jme3.lostVictories.network.messages.LostVictoryMessage;
 import com.jme3.lostVictories.network.messages.UpdateCharactersRequest;
 
@@ -35,6 +36,7 @@ public class MessageHandler extends SimpleChannelHandler {
 	private UpdateCharactersMessageHandler updateCharactersMessageHandler;
 	private CheckoutScreenMessageHandler checkoutScreenMessageHandler;
 	private DeathNotificationMessageHandler deathNotificationMessageHandler;
+	private GunnerDeathNotificationMessageHandler gunnerDeathNotificationMessageHandler;
 	private AddObjectiveMessageHandler addObjectiveMessageHandler;
 	private CollectEquipmentMessageHandler collectEquipmentMessageHandler;
 	private BoardingVehicleMessageHandler boardingVehicleMessageHandler;
@@ -44,6 +46,7 @@ public class MessageHandler extends SimpleChannelHandler {
 		updateCharactersMessageHandler = new UpdateCharactersMessageHandler(characterDAO, houseDAO, equipmentDAO, worldRunner, messageRepository);
 		checkoutScreenMessageHandler = new CheckoutScreenMessageHandler(characterDAO, houseDAO, equipmentDAO);
 		deathNotificationMessageHandler = new DeathNotificationMessageHandler(characterDAO, equipmentDAO);
+		gunnerDeathNotificationMessageHandler = new GunnerDeathNotificationMessageHandler(characterDAO);
 		addObjectiveMessageHandler = new AddObjectiveMessageHandler(characterDAO);
 		collectEquipmentMessageHandler = new CollectEquipmentMessageHandler(characterDAO, equipmentDAO, messageRepository);
 		boardingVehicleMessageHandler = new BoardingVehicleMessageHandler(characterDAO, messageRepository);
@@ -63,7 +66,9 @@ public class MessageHandler extends SimpleChannelHandler {
 			lostVictoryMessage = updateCharactersMessageHandler.handle((UpdateCharactersRequest)msg);
 		} else if(msg instanceof DeathNotificationRequest) {
 			lostVictoryMessage = deathNotificationMessageHandler.handle((DeathNotificationRequest)msg);
-		} else if(msg instanceof EquipmentCollectionRequest) {
+		} else if(msg instanceof GunnerDeathNotificationRequest) {
+			lostVictoryMessage = gunnerDeathNotificationMessageHandler.handle((GunnerDeathNotificationRequest)msg);
+		}else if(msg instanceof EquipmentCollectionRequest) {
 			lostVictoryMessage = collectEquipmentMessageHandler.handle((EquipmentCollectionRequest)msg);
 		} else if(msg instanceof BoardVehicleRequest){
 			lostVictoryMessage = boardingVehicleMessageHandler.handle((BoardVehicleRequest)msg);

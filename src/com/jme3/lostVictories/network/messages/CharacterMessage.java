@@ -31,7 +31,6 @@ import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.codehaus.jackson.type.TypeReference;
 
 import com.jme3.lostVictories.network.messages.actions.Action;
-import com.jme3.lostVictories.network.messages.actions.Shoot;
 
 public class CharacterMessage implements Serializable{
 	
@@ -237,6 +236,7 @@ public class CharacterMessage implements Serializable{
 				.field("unitsUnderCommand", unitsUnderCommand)
 				.field("commandingOfficer", commandingOfficer)
 				.field("isDead", isDead)
+				.field("gunnerDead", gunnerDead)
 				.field("rank", rank)
 				.field("objectives", CharacterDAO.MAPPER.writeValueAsString(objectives))
 				.field("timeOfDeath", timeOfDeath)
@@ -256,7 +256,6 @@ public class CharacterMessage implements Serializable{
 				.field("engineDamaged", engineDamaged)
 				.field("checkoutClient", checkoutClient)
 				.field("checkoutTime", checkoutTime)
-				.field("gunnerDead", gunnerDead)
 				.endObject();
 	}
 
@@ -291,7 +290,6 @@ public class CharacterMessage implements Serializable{
 		location = other.location;
 		orientation = other.orientation;
 		actions = other.actions;
-		gunnerDead = other.gunnerDead;
 		
 		other.objectives.entrySet().stream().forEach(e->objectives.putIfAbsent(e.getKey(), e.getValue()));
 		objectives = objectives.entrySet().stream().filter(e->!other.completedObjectives.contains(e.getKey())).collect(Collectors.toMap(e->e.getKey(), e->e.getValue()));
@@ -542,30 +540,47 @@ public class CharacterMessage implements Serializable{
 
 	public void boardVehicle(CharacterMessage vehicle, CharacterDAO characterDAO, Map<UUID, CharacterMessage> toSave) {
 		log.debug("now boarding pasenger:"+id+", "+gunnerDead);
-		if(!vehicle.gunnerDead){
-			return;
+		
+		CharacterMessage co;
+		if(rank==RankMessage.PRIVATE){
+			co = characterDAO.getCharacter(commandingOfficer);
+		}else{
+			co = this;
 		}
-		if(CharacterType.AVATAR==getCharacterType()){
-			vehicle.disembarkPassengers(characterDAO).forEach(c->toSave.put(c.id, c));
+		if(vehicle.commandingOfficer!=co.id){
+			if(!vehicle.gunnerDead){
+				return;
+			}
+			vehicle.disembarkPassengers(characterDAO, false).forEach(c->toSave.put(c.id, c));
 			CharacterMessage oldCo = characterDAO.getCharacter(vehicle.getCommandingOfficer());
-			vehicle.commandingOfficer = id;
+			vehicle.commandingOfficer = co.id;
 			vehicle.country = country;
 			oldCo.unitsUnderCommand.remove(vehicle.id);
-			unitsUnderCommand.add(vehicle.id);
+			co.unitsUnderCommand.add(vehicle.id);
 			toSave.put(oldCo.id, oldCo);
+			toSave.put(co.id, co);
 		}
 		
 		this.boardedVehicle = vehicle.id;
 		vehicle.passengers.add(id);
+		vehicle.gunnerDead = false;
 
 		toSave.put(vehicle.getId(), vehicle);
 		toSave.put(getId(), this);
 	}
 
-	public Set<CharacterMessage> disembarkPassengers(CharacterDAO characterRepository) {
+	public Set<CharacterMessage> disembarkPassengers(CharacterDAO characterRepository, boolean leaveGunner) {
 		Set<CharacterMessage> toChange = passengers.stream().map(id->characterRepository.getCharacter(id)).collect(Collectors.toSet());
+		Optional<CharacterMessage> findAny = toChange.stream().filter(c->c.getCharacterType()==CharacterType.SOLDIER).findAny();
+		
 		toChange.forEach(c->c.boardedVehicle=null);
 		passengers.clear();
+		gunnerDead = true;
+		if(findAny.isPresent() && leaveGunner){
+			gunnerDead = false;
+			passengers.add(findAny.get().id);
+			findAny.get().boardedVehicle = id;
+		}
 		toChange.add(this);
 		return toChange;
 	}
@@ -573,6 +588,28 @@ public class CharacterMessage implements Serializable{
 	public Set<UUID> getPassengers() {
 		return passengers;
 		
+	}
+
+	public CharacterMessage killGunner(CharacterDAO characterDAO) {
+		gunnerDead = true;
+		Set<CharacterMessage> toChange = passengers.stream().map(id->characterDAO.getCharacter(id)).collect(Collectors.toSet());
+		Optional<CharacterMessage> findAny = toChange.stream().filter(c->c.getCharacterType()==CharacterType.SOLDIER).findAny();
+		if(findAny.isPresent()){
+			return findAny.get();
+		}
+		if(!passengers.isEmpty()){
+			return characterDAO.getCharacter(passengers.iterator().next());
+		}
+		return null;
+	}
+
+	public boolean isGunnerDead() {
+		return gunnerDead;
+	}
+
+	public void remanVehicle(CharacterMessage operator) {
+		gunnerDead = false;
+		kills.addAll(operator.kills);
 	}
 	
 
