@@ -55,6 +55,9 @@ public class VehicleFactoryTest {
 		assertEquals(CharacterType.ANTI_TANK_GUN, vehicle);
 		
 		vehicle = factory.getVehicle(RankMessage.PRIVATE);
+		assertEquals(CharacterType.HALF_TRACK, vehicle);
+		
+		vehicle = factory.getVehicle(RankMessage.PRIVATE);
 		assertNull(vehicle);
 	}
 	
