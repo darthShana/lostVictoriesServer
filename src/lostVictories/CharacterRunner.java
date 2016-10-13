@@ -61,6 +61,11 @@ public class CharacterRunner implements Runnable{
 
 	private void runCharacterBehavior(CharacterMessage c, Map<UUID, CharacterMessage> toSave) {
 		Map<String, JsonNode> objectives = c.getObjectives().entrySet().stream().collect(Collectors.toMap(e->e.getKey(), e->toJsonNodeSafe(e.getValue())));
+		if(c.getCheckoutClient()!=null){
+			c.setCheckoutClient(null);
+			toSave.put(c.getId(), c);
+		}
+		
 		for(Entry<String, JsonNode> entry:objectives.entrySet()){
 			try{
 				Class objectiveClass = Class.forName(entry.getValue().get("classType").asText());

@@ -142,7 +142,7 @@ public class CharacterDAO {
 				new UpdateRequest(indexName, "unitStatus", v.getId().toString()).doc(v.getStateUpdate()).version(v.getVersion())
 			);
 		}
-				
+		
 		bulkRequest.execute().actionGet();
 		refresh();
 	}

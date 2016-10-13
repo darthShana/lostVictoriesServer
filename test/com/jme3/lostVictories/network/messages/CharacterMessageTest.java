@@ -118,6 +118,16 @@ public class CharacterMessageTest {
 	}
 	
 	@Test
+	public void testPromoteToSupreamCommander(){
+		avatar.rank = RankMessage.LIEUTENANT;
+		avatar.commandingOfficer = oldCo.id;
+		oldCo.rank = RankMessage.COLONEL;
+		
+		avatar.promoteCharacter(oldCo, characterDAO);
+		assertEquals(RankMessage.COLONEL, avatar.getRank());
+	}
+	
+	@Test
 	public void testLatitudeLongitueCOnversion(){
 		Vector location = new Vector(177.0471f, 97.52623f, -14.900481f);
 		double latitute = CharacterMessage.toLatitute(location);

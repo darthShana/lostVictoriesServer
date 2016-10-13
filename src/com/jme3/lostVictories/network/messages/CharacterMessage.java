@@ -481,10 +481,12 @@ public class CharacterMessage implements Serializable{
 		ret.addAll(coNewUnits.values());
 		ret.add(this);
 		
-		CharacterMessage myNewCO = characterDAO.getCharacter(commandingOfficer);
-		myNewCO.unitsUnderCommand.remove(co.getId());
-		myNewCO.unitsUnderCommand.add(id);
-		ret.add(myNewCO);
+		if(commandingOfficer!=null){
+			CharacterMessage myNewCO = characterDAO.getCharacter(commandingOfficer);
+			myNewCO.unitsUnderCommand.remove(co.getId());
+			myNewCO.unitsUnderCommand.add(id);
+			ret.add(myNewCO);
+		}
 		
 		characterDAO.putCharacter(replacemet.id, replacemet);
 		characterDAO.delete(co);
@@ -503,8 +505,6 @@ public class CharacterMessage implements Serializable{
 	public void setLocation(Vector vector) {
 		this.location = vector;
 	}
-	
-
 
 	private SquadType calculateSquadType(Collection<CharacterMessage> characters, SquadType squadType) {
 		squadType = getSquadType(squadType);
