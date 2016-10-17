@@ -38,7 +38,7 @@ public class TravelObjective extends Objective{
 		Vector c = character.getLocation();
 		Vector3f currentLocation = new Vector3f(c.x, c.y, c.z);
 		Vector3f dest = new Vector3f(destination.x, destination.y, destination.z);
-		Vector3f newLocation = currentLocation.add(dest.subtract(currentLocation).normalize().mult(5*SCENE_SCALE));
+		Vector3f newLocation = currentLocation.add(dest.subtract(currentLocation).normalize().mult(10*SCENE_SCALE));
 		
 		if(currentLocation.distance(newLocation)>currentLocation.distance(dest)){
 			newLocation = dest;

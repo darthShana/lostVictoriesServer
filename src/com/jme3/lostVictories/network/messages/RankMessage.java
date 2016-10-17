@@ -8,7 +8,7 @@ public enum RankMessage {
         }
         @Override
         int getKillCountForPromotion() {
-            return 45;
+            return 30;
         }
 		@Override
 		public String getAchivementMessage() {
