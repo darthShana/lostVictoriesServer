@@ -16,6 +16,7 @@ import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.GameRequestDAO;
 import lostVictories.dao.GameStatusDAO;
 import lostVictories.dao.HouseDAO;
+import lostVictories.messageHanders.MessageRepository;
 
 import org.apache.log4j.Logger;
 
@@ -53,19 +54,22 @@ public class WorldRunner implements Runnable{
 
 	private String gameName;
 
-	public static WorldRunner instance(String gameName, CharacterDAO characterDAO, HouseDAO houseDAO, GameStatusDAO gameStatusDAO, GameRequestDAO gameRequestDAO) {
+	private MessageRepository messageRepository;
+
+	public static WorldRunner instance(String gameName, CharacterDAO characterDAO, HouseDAO houseDAO, GameStatusDAO gameStatusDAO, GameRequestDAO gameRequestDAO, MessageRepository messageRepository) {
 		if(instance==null){
-			instance = new WorldRunner(gameName, characterDAO, houseDAO, gameStatusDAO, gameRequestDAO);
+			instance = new WorldRunner(gameName, characterDAO, houseDAO, gameStatusDAO, gameRequestDAO, messageRepository);
 		}
 		return instance;
 	}
 
-	private WorldRunner(String gameName, CharacterDAO characterDAO, HouseDAO houseDAO, GameStatusDAO gameStatusDAO, GameRequestDAO gameRequestDAO) {
+	private WorldRunner(String gameName, CharacterDAO characterDAO, HouseDAO houseDAO, GameStatusDAO gameStatusDAO, GameRequestDAO gameRequestDAO, MessageRepository messageRepository) {
 		this.gameName = gameName;
 		this.characterDAO = characterDAO;
 		this.houseDAO = houseDAO;
 		this.gameStatusDAO = gameStatusDAO;
 		this.gameRequestDAO = gameRequestDAO;
+		this.messageRepository = messageRepository;
 		victoryPoints.put(Country.AMERICAN, 5000);
         victoryPoints.put(Country.GERMAN, 5000);
         vehicleFactory.put(Country.AMERICAN, new VehicleFactory(Country.AMERICAN));
@@ -162,6 +166,7 @@ public class WorldRunner implements Runnable{
 							characterDAO.saveCommandStructure(promotions.stream().collect(Collectors.toMap(CharacterMessage::getId, Function.identity())));
 						}
 					}
+					messageRepository.addMessage(avatar.getCheckoutClient(), "An avatar has been promoted to:"+avatar.getRank());
 				}
 			}
 			

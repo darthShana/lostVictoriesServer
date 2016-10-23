@@ -77,7 +77,7 @@ public class LostVictoriesSever {
 		
 		MessageRepository messageRepository = new MessageRepository();
 		ScheduledExecutorService worldRunnerService = Executors.newScheduledThreadPool(2);
-		WorldRunner worldRunner = WorldRunner.instance(gameName, characterDAO, houseDAO, gameStatusDAO, gameRequestDAO);
+		WorldRunner worldRunner = WorldRunner.instance(gameName, characterDAO, houseDAO, gameStatusDAO, gameRequestDAO, messageRepository);
 		worldRunnerService.scheduleAtFixedRate(worldRunner, 0, 2, TimeUnit.SECONDS);
 		CharacterRunner characterRunner = CharacterRunner.instance(characterDAO, houseDAO);
 		worldRunnerService.scheduleAtFixedRate(characterRunner, 0, 2, TimeUnit.SECONDS);

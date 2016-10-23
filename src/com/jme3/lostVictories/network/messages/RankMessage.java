@@ -8,7 +8,7 @@ public enum RankMessage {
         }
         @Override
         int getKillCountForPromotion() {
-            return 30;
+            return 100;
         }
 		@Override
 		public String getAchivementMessage() {
@@ -23,12 +23,12 @@ public enum RankMessage {
 		
         @Override
         int getKillCountForPromotion() {
-            return 10;
+            return 30;
         }
 
 		@Override
 		public String getAchivementMessage() {
-			return "Congradulations on your promotion Lieutenant!: You have several squads in your command. When your squads have 10 kills you will be promoted.";
+			return "Congradulations on your promotion Lieutenant!: You have several squads in your command.";
 		}
 	}, 
 	CADET_CORPORAL{
@@ -44,7 +44,7 @@ public enum RankMessage {
 
 		@Override
 		public String getAchivementMessage() {
-			return "Greetings Cadet Corporal: Our country needs squad leaders like you. Prove your self by completing your objectives and when your squad has 5 kills you will be promoted. But when a unit is killed its kills are lost.";
+			return "Greetings Cadet Corporal: Our country needs squad leaders like you. Prove your self and you will be promoted. But try and keep you and and your squad alive.";
 		}
 	}, 
 	PRIVATE{
