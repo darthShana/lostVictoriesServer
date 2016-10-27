@@ -29,7 +29,7 @@ public class BoardingVehicleMessageHandler {
 		CharacterMessage passenger = characterDAO.getCharacter(msg.getCharacterID());
 		log.debug("recived boarding request for:"+passenger.getId());
 		if(vehicle.getLocation().distance(passenger.getLocation())>5){
-			if(CharacterType.AVATAR == passenger.getCharacterType()){
+			if(CharacterType.AVATAR == passenger.getCharacterType() && passenger.getCheckoutClient().equals(passenger.getId())){
 				messageRepository.addMessage(msg.getClientID(), "Vehicle is too far to get in.");
 			}
 			return new LostVictoryMessage(UUID.randomUUID());

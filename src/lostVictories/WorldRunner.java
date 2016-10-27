@@ -166,7 +166,9 @@ public class WorldRunner implements Runnable{
 							characterDAO.saveCommandStructure(promotions.stream().collect(Collectors.toMap(CharacterMessage::getId, Function.identity())));
 						}
 					}
-					messageRepository.addMessage(avatar.getCheckoutClient(), "An avatar has been promoted to:"+avatar.getRank());
+					if(avatar.getCheckoutClient().equals(avatar.getId())){
+						messageRepository.addMessage(avatar.getCheckoutClient(), "Congradulations! You have been promoted to:"+avatar.getRank());
+					}
 				}
 			}
 			

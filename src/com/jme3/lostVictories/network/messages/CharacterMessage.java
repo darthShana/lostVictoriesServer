@@ -547,7 +547,7 @@ public class CharacterMessage implements Serializable{
 		}else{
 			co = this;
 		}
-		if(vehicle.commandingOfficer!=co.id){
+		if(!vehicle.commandingOfficer.equals(co.id)){
 			if(!vehicle.gunnerDead){
 				return;
 			}

@@ -118,6 +118,13 @@ public class CharacterMessageTest {
 	}
 	
 	@Test
+	public void testCanBoarbMyOwnVehicle(){
+		vehicle.commandingOfficer = UUID.fromString(avatar.getId().toString());
+		avatar.boardVehicle(vehicle, characterDAO, new HashMap<UUID, CharacterMessage>());
+		assertTrue(vehicle.passengers.contains(avatar.id));
+	}
+	
+	@Test
 	public void testPromoteToSupreamCommander(){
 		avatar.rank = RankMessage.LIEUTENANT;
 		avatar.commandingOfficer = oldCo.id;
