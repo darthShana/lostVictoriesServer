@@ -125,6 +125,47 @@ public class CharacterMessageTest {
 	}
 	
 	@Test
+	public void testKillGunner(){
+		vehicle.passengers.add(oldPassenger.id);
+		vehicle.gunnerDead = false;
+		
+		vehicle.killGunner(characterDAO);
+		assertTrue(vehicle.passengers.isEmpty());
+		assertTrue(vehicle.gunnerDead);
+	}
+	
+	@Test
+	public void testReplaceMeWhileBeingPassengerOnVehicle(){
+		UUID vehicleID = UUID.randomUUID();
+		CharacterMessage oldCo1 = new CharacterMessage(UUID.randomUUID(), CharacterType.AVATAR, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, null, false);
+		CharacterMessage vehicle1 = new CharacterMessage(vehicleID, CharacterType.HALF_TRACK, new Vector(0, 0, 0), Country.AMERICAN, Weapon.RIFLE, RankMessage.PRIVATE, oldCo1.getId(), false);
+		CharacterMessage vehicle2 = new CharacterMessage(vehicleID, CharacterType.HALF_TRACK, new Vector(0, 0, 0), Country.AMERICAN, Weapon.RIFLE, RankMessage.PRIVATE, oldCo1.getId(), false);
+		CharacterMessage oldPassenger1 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, oldCo1.getId(), false);
+		oldCo1.unitsUnderCommand.add(vehicleID);
+		oldCo1.unitsUnderCommand.add(oldPassenger1.getId());
+		
+		when(characterDAO.getCharacter(eq(oldCo1.id))).thenReturn(oldCo1);
+		when(characterDAO.getCharacter(eq(vehicle2.id))).thenReturn(vehicle2);
+		when(characterDAO.getCharacter(eq(oldPassenger1.id))).thenReturn(oldPassenger1);
+		HashMap<UUID, CharacterMessage> value = new HashMap<UUID, CharacterMessage>();
+		value.put(vehicleID, vehicle2);
+		value.put(oldPassenger1.id, oldPassenger1);
+		when(characterDAO.getAllCharacters(eq(oldCo1.unitsUnderCommand))).thenReturn(value);
+		
+		vehicle1.passengers.add(oldPassenger1.getId());
+		vehicle1.gunnerDead = true;
+		
+		HashMap<UUID, CharacterMessage> toSave = new HashMap<UUID, CharacterMessage>();
+		toSave.put(vehicle1.getId(), vehicle1);
+		oldCo1.replaceMe(characterDAO, toSave);
+		
+		assertTrue(toSave.containsKey(vehicle1.getId()));
+		assertTrue(toSave.get(vehicle1.getId()).gunnerDead);
+		assertEquals(toSave.get(vehicle1.getId()).passengers.size(), 1);
+		
+	}
+	
+	@Test
 	public void testPromoteToSupreamCommander(){
 		avatar.rank = RankMessage.LIEUTENANT;
 		avatar.commandingOfficer = oldCo.id;

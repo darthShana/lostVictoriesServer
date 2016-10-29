@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -229,7 +230,6 @@ public class CharacterMessage implements Serializable{
 		            .endObject();
 	}
 	
-	
 	public XContentBuilder getCommandStructureUpdate() throws IOException {	
 		return jsonBuilder()
 				.startObject()
@@ -237,6 +237,7 @@ public class CharacterMessage implements Serializable{
 				.field("commandingOfficer", commandingOfficer)
 				.field("isDead", isDead)
 				.field("gunnerDead", gunnerDead)
+				.field("passengers", passengers)
 				.field("rank", rank)
 				.field("objectives", CharacterDAO.MAPPER.writeValueAsString(objectives))
 				.field("timeOfDeath", timeOfDeath)
@@ -406,7 +407,7 @@ public class CharacterMessage implements Serializable{
 	}
 
 	public void replaceMe(CharacterDAO characterDAO, Map<UUID, CharacterMessage> toSave) {
-		Map<UUID, CharacterMessage> oldSquad = characterDAO.getAllCharacters(unitsUnderCommand);
+		Map<UUID, CharacterMessage> oldSquad = unitsUnderCommand.stream().map(i->toSave.containsKey(i)?toSave.get(i):characterDAO.getCharacter(i)).collect(Collectors.toMap(CharacterMessage::getId, Function.identity()));
 		log.debug("finding field replacement for"+country+":"+id+" ->["+unitsUnderCommand+"]");
 		
 		if(commandingOfficer!=null){
@@ -595,10 +596,15 @@ public class CharacterMessage implements Serializable{
 		Set<CharacterMessage> toChange = passengers.stream().map(id->characterDAO.getCharacter(id)).collect(Collectors.toSet());
 		Optional<CharacterMessage> findAny = toChange.stream().filter(c->c.getCharacterType()==CharacterType.SOLDIER).findAny();
 		if(findAny.isPresent()){
-			return findAny.get();
+			CharacterMessage characterMessage = findAny.get();
+			passengers.remove(characterMessage.id);
+			return characterMessage;
 		}
 		if(!passengers.isEmpty()){
-			return characterDAO.getCharacter(passengers.iterator().next());
+			Iterator<UUID> iterator = passengers.iterator();
+			UUID next = iterator.next();
+			iterator.remove();
+			return characterDAO.getCharacter(next);
 		}
 		return null;
 	}
