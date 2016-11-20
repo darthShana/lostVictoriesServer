@@ -65,7 +65,7 @@ public class UpdateCharactersMessageHandler {
 		Set<HouseMessage> allHouses = houseDAO.getAllHouses();
 		if(msg.getAvatar()!=null){
 			CharacterMessage storedAvatar = characterDAO.getCharacter(msg.getAvatar().getId());
-			Vector v = (storedAvatar!=null)?storedAvatar.getLocation():msg.getAvatar().getLocation();
+			Vector v = storedAvatar.getLocation();
 			Map<UUID, CharacterMessage> inRangeOfAvatar = characterDAO.getAllCharacters(v.x, v.y, v.z, CheckoutScreenMessageHandler.CLIENT_RANGE).stream().collect(Collectors.toMap(CharacterMessage::getId, Function.identity()));
 			log.trace("found in range on avatar:"+v+" units: "+inRangeOfAvatar.size());
 			

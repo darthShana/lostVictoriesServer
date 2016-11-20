@@ -1,5 +1,6 @@
 package lostVictories;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
@@ -25,7 +26,7 @@ public class AvatarStore {
 		return allCharacters.values().stream().filter(a->CharacterType.AVATAR==a.getCharacterType() && a.getCountry()==country && a.isDead()).findAny();
 	}
 
-	public CharacterMessage reincarnateAvatar(CharacterMessage deadAvatar, CharacterMessage c, Collection<CharacterMessage> updated) {
+	public CharacterMessage reincarnateAvatar(CharacterMessage deadAvatar, CharacterMessage c, Collection<CharacterMessage> updated) throws IOException {
 		CharacterMessage replaceWithAvatar = c.replaceWithAvatar(deadAvatar, updated, allCharacters);
 		allCharacters.putAll(updated.stream().collect(Collectors.toMap(u->u.getId(), Function.identity())));
 		if(replaceWithAvatar!=null){

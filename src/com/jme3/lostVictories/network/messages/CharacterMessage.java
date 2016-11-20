@@ -29,9 +29,12 @@ import org.apache.log4j.Logger;
 import org.elasticsearch.common.collect.ImmutableSet;
 import org.elasticsearch.common.geo.GeoPoint;
 import org.elasticsearch.common.xcontent.XContentBuilder;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.type.TypeReference;
 
 import com.jme3.lostVictories.network.messages.actions.Action;
+import com.jme3.lostVictories.objectives.FollowUnit;
 
 public class CharacterMessage implements Serializable{
 	
@@ -352,7 +355,7 @@ public class CharacterMessage implements Serializable{
 		return unitsUnderCommand.size()>=rank.getFullStrengthPopulation();
 	}
 
-	public Collection<CharacterMessage> reenforceCharacter(Vector spawnPoint, WeaponsFactory weaponsFactory, VehicleFactory vehicleFactory) {
+	public Collection<CharacterMessage> reenforceCharacter(Vector spawnPoint, WeaponsFactory weaponsFactory, VehicleFactory vehicleFactory) throws IOException {
 		RankMessage rankToReenforce;
         rankToReenforce = reenformentCharacterRank(rank);
         Weapon weapon = weaponsFactory.getWeapon();
@@ -363,6 +366,8 @@ public class CharacterMessage implements Serializable{
         	type = type==null?CharacterType.SOLDIER:type;
         }
 		final CharacterMessage loadCharacter = new CharacterMessage(UUID.randomUUID(), type, spawnPoint, country, weapon, rankToReenforce, id, false);
+		loadCharacter.addObjective(UUID.randomUUID(), new FollowUnit(getId(), new Vector(2, 0, 2), 10).asJSON());
+
 		log.debug("creating reenforcement:"+loadCharacter.getId());
 		loadCharacter.commandingOfficer = id;
 		unitsUnderCommand.add(loadCharacter.getId());
@@ -381,13 +386,17 @@ public class CharacterMessage implements Serializable{
 		return rankToReenforce;
 	}
 
-	public CharacterMessage replaceWithAvatar(CharacterMessage deadAvatar, Collection<CharacterMessage> toUpdate, Map<UUID, CharacterMessage> allCharacters) {
+	public CharacterMessage replaceWithAvatar(CharacterMessage deadAvatar, Collection<CharacterMessage> toUpdate, Map<UUID, CharacterMessage> allCharacters) throws IOException {
 		if(RankMessage.CADET_CORPORAL==rank){
 			CharacterMessage characterMessage = new CharacterMessage(deadAvatar.getId(), deadAvatar.getUserID(), CharacterType.AVATAR, location, country, Weapon.RIFLE, RankMessage.CADET_CORPORAL, commandingOfficer, false);
 			characterMessage.unitsUnderCommand = unitsUnderCommand;
 			toUpdate.add(characterMessage);
 			Set<CharacterMessage> collect = unitsUnderCommand.stream().map(uuid->allCharacters.get(uuid)).filter(c->c!=null).collect(Collectors.toSet());
-			collect.forEach(c->c.commandingOfficer=characterMessage.id);
+			for(CharacterMessage c:collect){
+				c.commandingOfficer=characterMessage.id;
+				c.addObjective(UUID.randomUUID(), new FollowUnit(characterMessage.getId(), new Vector(2, 0, 2), 10).asJSON());
+
+			}
 			toUpdate.addAll(collect);
 			return characterMessage;
 		}
@@ -555,6 +564,7 @@ public class CharacterMessage implements Serializable{
 			vehicle.disembarkPassengers(characterDAO, false).forEach(c->toSave.put(c.id, c));
 			CharacterMessage oldCo = characterDAO.getCharacter(vehicle.getCommandingOfficer());
 			vehicle.commandingOfficer = co.id;
+			vehicle.objectives.clear();
 			vehicle.country = country;
 			oldCo.unitsUnderCommand.remove(vehicle.id);
 			co.unitsUnderCommand.add(vehicle.id);

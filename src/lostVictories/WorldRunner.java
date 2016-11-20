@@ -27,6 +27,8 @@ import com.jme3.lostVictories.network.messages.Country;
 import com.jme3.lostVictories.network.messages.GameStatistics;
 import com.jme3.lostVictories.network.messages.HouseMessage;
 import com.jme3.lostVictories.network.messages.RankMessage;
+import com.jme3.lostVictories.network.messages.Vector;
+import com.jme3.lostVictories.objectives.FollowUnit;
 import com.jme3.lostVictories.objectives.SecureSector;
 
 public class WorldRunner implements Runnable{

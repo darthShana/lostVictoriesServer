@@ -39,30 +39,13 @@ public class CaptureStructure extends Objective{
 			isComplete = true;
 			return;
 		}
-		
-		try {
 			
-			TravelObjective tt = new TravelObjective(new Vector(house.getLocation().toVector()), null);
-			tt.runObjective(c, uuid, characterDAO, houseDAO, toSave);
-			if(tt.isComplete){
-				isComplete = true;
-			}
-			
-			for(UUID u:c.getUnitsUnderCommand()){
-				CharacterMessage unit = characterDAO.getCharacter(u);
-				if(unit !=null && !isBusy(unit) && CharacterType.SOLDIER==unit.getCharacterType()){
-					TravelObjective t = new TravelObjective(new Vector(house.getLocation().toVector()), null);
-					unit.addObjective(UUID.randomUUID(), t.asJSON());
-					toSave.put(unit.getId(), unit);
-				}
-			}
-		} catch (JsonGenerationException e) {
-			throw new RuntimeException(e);
-		} catch (JsonMappingException e) {
-			throw new RuntimeException(e);
-		} catch (IOException e) {
-			throw new RuntimeException(e);
+		TravelObjective tt = new TravelObjective(new Vector(house.getLocation().toVector()), null);
+		tt.runObjective(c, uuid, characterDAO, houseDAO, toSave);
+		if(tt.isComplete){
+			isComplete = true;
 		}
+		
 	}
 	
 	public String asJSON() throws JsonGenerationException, JsonMappingException, IOException{
