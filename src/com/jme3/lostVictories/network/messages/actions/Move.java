@@ -3,7 +3,7 @@ package com.jme3.lostVictories.network.messages.actions;
 public class Move extends Action {
 
 	public Move() {
-		setType("move");
+		super("move");
 	}
 	
 	@Override

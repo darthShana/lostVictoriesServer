@@ -95,7 +95,7 @@ public class LostVictoryScene {
         
         CharacterMessage b1 = new CharacterMessage(UUID.fromString("d993932f-a185-4a6f-8d86-4ef6e2c5ff95"), CharacterType.AVATAR, americanBase.add(-10, 0, 10), Country.AMERICAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, al1.getId(), false);
         loadSquad(characters, b1, americanBase.add(-10, 0, 15), Country.AMERICAN, true, Weapon.RIFLE, Weapon.RIFLE);
-        //characters.add(loadAntiTankGun(americanBase.add(15, 0, 15), Country.AMERICAN, b1));
+        characters.add(loadAntiTankGun(americanBase.add(15, 0, 15), Country.AMERICAN, b1));
         //characters.add(loadAmoredCar(americanBase.add(10, 0, 15), Country.AMERICAN, b1));
         //characters.add(loadAntiTankGun1(UUID.randomUUID(), americanBase.add(20, 0, 20), Country.AMERICAN, b1));
 //        b1.addObjective(UUID.randomUUID(), createBootCampObjective(new Vector(-57.21826f, 96.380104f, -203.38945f)));

@@ -12,7 +12,7 @@ public class Shoot extends Action {
 
 	@JsonCreator
 	public Shoot(@JsonProperty("shootTime")long shootTime, @JsonProperty("targets")Vector[] targets, @JsonProperty("type")String type) {
-		this.setType("shoot");
+		super("shoot");
 		this.shootTime = shootTime;
 		this.targets = targets;
 	}
