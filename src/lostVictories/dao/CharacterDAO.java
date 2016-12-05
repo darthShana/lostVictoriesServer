@@ -146,6 +146,22 @@ public class CharacterDAO {
 		bulkRequest.execute().actionGet();
 		refresh();
 	}
+
+	public void updateCharacterStateNoCheckout(Map<UUID, CharacterMessage> map) throws IOException{
+		if(map.isEmpty()){
+			log.trace("nothing to save");
+			return;
+		}
+		
+		BulkRequestBuilder bulkRequest = esClient.prepareBulk();
+		for(CharacterMessage v: map.values()){
+			bulkRequest.add(
+					new UpdateRequest(indexName, "unitStatus", v.getId().toString()).doc(v.getStateUpdateNoCheckout()).version(v.getVersion())
+					);
+		}
+		
+		bulkRequest.execute().actionGet();
+	}
 	
 	public void saveCommandStructure(Map<UUID, CharacterMessage> map) throws IOException {
 		if(map.isEmpty()){

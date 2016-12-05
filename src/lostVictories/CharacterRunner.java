@@ -50,7 +50,7 @@ public class CharacterRunner implements Runnable{
 				.filter(c->c.isAvailableForCheckout())
 				.forEach(c->runCharacterBehavior(c, toSave));
 			try {
-				characterDAO.updateCharacterState(toSave);
+				characterDAO.updateCharacterStateNoCheckout(toSave);
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}

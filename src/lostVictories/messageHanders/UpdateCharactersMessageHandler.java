@@ -49,13 +49,13 @@ public class UpdateCharactersMessageHandler {
 		Map<UUID, CharacterMessage> sentFromClient = allCharacter.stream().collect(Collectors.toMap(CharacterMessage::getId, Function.identity()));
 		Map<UUID, CharacterMessage> existingInServer = characterDAO.getAllCharacters(allCharacter.stream().map(c->c.getId()).collect(Collectors.toSet()));
 		
-		Set<UUID> hasChanged = sentFromClient.values().stream()
-				.filter(c->c.hasChanged(existingInServer.get(c.getId())))
-			.map(CharacterMessage::getId).collect(Collectors.toSet());
+//		Set<UUID> hasChanged = sentFromClient.values().stream()
+//				.filter(c->c.hasChanged(existingInServer.get(c.getId())))
+//			.map(CharacterMessage::getId).collect(Collectors.toSet());
 		
 		Map<UUID, CharacterMessage> toSave = existingInServer.values().stream()
 				.filter(c->c.isAvailableForUpdate(msg.getClientID()))
-				.filter(c->hasChanged.contains(c.getId()))
+//				.filter(c->hasChanged.contains(c.getId()))
 			.collect(Collectors.toMap(c->c.getId(), Function.identity()));
 		
 		toSave.values().stream().forEach(c->c.updateState(sentFromClient.get(c.getId()), msg.getClientID(), System.currentTimeMillis()));

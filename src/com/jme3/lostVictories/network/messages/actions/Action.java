@@ -15,13 +15,14 @@ import com.jme3.lostVictories.network.messages.Vector;
 @JsonSubTypes({  
     @Type(value = Idle.class, name = "idle"),  
     @Type(value = Move.class, name = "move"),
-    @Type(value = Drive.class, name = "drive"),
+    @Type(value = ManualControl.class, name = "manualControl"),
     @Type(value = Shoot.class, name = "shoot"),
     @Type(value = Crouch.class, name = "crouch"),
     @Type(value = SetupWeapon.class, name = "setupWeapon")})  
 public abstract class Action implements Serializable{
 	
 	protected final String type;
+	
 	public Action(String type) {
 		this.type = type;
 	}
@@ -40,6 +41,16 @@ public abstract class Action implements Serializable{
     }
 	public String getType() {
 		return type;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		return ((Action)obj).type.equals(type);
+	}
+	
+	@Override
+	public int hashCode() {
+		return type.hashCode();
 	}
 
 }

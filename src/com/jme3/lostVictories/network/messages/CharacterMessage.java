@@ -262,6 +262,18 @@ public class CharacterMessage implements Serializable{
 				.field("checkoutTime", checkoutTime)
 				.endObject();
 	}
+	
+	public XContentBuilder getStateUpdateNoCheckout() throws IOException{
+		
+		return jsonBuilder()
+				.startObject()
+				.field("location", new GeoPoint(toLatitute(getLocation()), toLongitude(getLocation())))
+				.field("altitude", getLocation().y)
+				.field("orientation", orientation.toMap())
+				.field("objectives", CharacterDAO.MAPPER.writeValueAsString(objectives))	
+				.field("engineDamaged", engineDamaged)
+				.endObject();
+	}
 
 	public static double toLongitude(Vector location) {
 		return location.x/LostVictoryScene.SCENE_WIDTH*180;
@@ -271,23 +283,23 @@ public class CharacterMessage implements Serializable{
 		return location.z/LostVictoryScene.SCENE_HEIGHT*80;
 	}
 
-	public boolean hasChanged(CharacterMessage other) {
-		if(other==null || other.isDead){
-			return false;
-		}
-		if(other.rank!=rank){
-			return false;
-		}
-		
-		return !location.equals(other.location) || !orientation.equals(other.orientation) || !actions.equals(other.actions);
-	}
+//	public boolean hasChanged(CharacterMessage other) {
+//		if(other==null || other.isDead){
+//			return false;
+//		}
+//		if(other.rank!=rank){
+//			return false;
+//		}
+//		
+//		return !location.equals(other.location) || !orientation.equals(other.orientation) || !actions.equals(other.actions);
+//	}
 
 	public boolean isAvailableForUpdate(UUID clientID) {
 		return this.id.equals(clientID) || this.checkoutClient==null || clientID.equals(this.checkoutClient) || checkoutTime==null ||System.currentTimeMillis()-checkoutTime>CHECKOUT_TIMEOUT;
 	}
 
 	public boolean isAvailableForCheckout() {
-		return this.checkoutClient==null || checkoutTime==null ||System.currentTimeMillis()-checkoutTime>CHECKOUT_TIMEOUT;
+		return this.checkoutClient==null || checkoutTime==null || System.currentTimeMillis()-checkoutTime>CHECKOUT_TIMEOUT;
 	}
 	
 	public void updateState(CharacterMessage other, UUID clientID, long checkoutTime) {
