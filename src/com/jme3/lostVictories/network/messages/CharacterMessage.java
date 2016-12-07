@@ -570,7 +570,7 @@ public class CharacterMessage implements Serializable{
 			co = this;
 		}
 		if(!vehicle.commandingOfficer.equals(co.id)){
-			if(!vehicle.gunnerDead){
+			if(!vehicle.gunnerDead && vehicle.getCountry()!=country){
 				return;
 			}
 			vehicle.disembarkPassengers(characterDAO, false).forEach(c->toSave.put(c.id, c));
@@ -594,7 +594,7 @@ public class CharacterMessage implements Serializable{
 
 	public Set<CharacterMessage> disembarkPassengers(CharacterDAO characterRepository, boolean leaveGunner) {
 		Set<CharacterMessage> toChange = passengers.stream().map(id->characterRepository.getCharacter(id)).collect(Collectors.toSet());
-		Optional<CharacterMessage> findAny = toChange.stream().filter(c->c.getCharacterType()==CharacterType.SOLDIER).findAny();
+		Optional<CharacterMessage> findAny = toChange.stream().filter(c->c!=null).filter(c->c.getCharacterType()==CharacterType.SOLDIER).findAny();
 		
 		toChange.forEach(c->c.boardedVehicle=null);
 		passengers.clear();
