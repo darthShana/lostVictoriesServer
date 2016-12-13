@@ -283,18 +283,10 @@ public class CharacterMessage implements Serializable{
 		return location.z/LostVictoryScene.SCENE_HEIGHT*80;
 	}
 
-//	public boolean hasChanged(CharacterMessage other) {
-//		if(other==null || other.isDead){
-//			return false;
-//		}
-//		if(other.rank!=rank){
-//			return false;
-//		}
-//		
-//		return !location.equals(other.location) || !orientation.equals(other.orientation) || !actions.equals(other.actions);
-//	}
-
-	public boolean isAvailableForUpdate(UUID clientID) {
+	public boolean isAvailableForUpdate(UUID clientID, CharacterMessage msg) {
+		if(msg.version<version){
+			return false;
+		}
 		return this.id.equals(clientID) || this.checkoutClient==null || clientID.equals(this.checkoutClient) || checkoutTime==null ||System.currentTimeMillis()-checkoutTime>CHECKOUT_TIMEOUT;
 	}
 
@@ -312,6 +304,9 @@ public class CharacterMessage implements Serializable{
 		
 		this.checkoutClient = clientID;
 		this.checkoutTime = checkoutTime;
+		
+		
+		this.version = other.version;
 	}
 
 	public void setActions(Set<Action> actions) {
@@ -374,8 +369,9 @@ public class CharacterMessage implements Serializable{
         CharacterType type = vehicleFactory.getVehicle(rankToReenforce);
         if(type!=null){
         	weapon = type.getDefaultWeapon();
+        	spawnPoint = (Country.AMERICAN==country)?LostVictoryScene.americanBase:LostVictoryScene.germanBase;
         }else{        	
-        	type = type==null?CharacterType.SOLDIER:type;
+        	type = CharacterType.SOLDIER;
         }
 		final CharacterMessage loadCharacter = new CharacterMessage(UUID.randomUUID(), type, spawnPoint, country, weapon, rankToReenforce, id, false);
 		loadCharacter.addObjective(UUID.randomUUID(), new FollowUnit(getId(), new Vector(2, 0, 2), 10).asJSON());
@@ -638,6 +634,11 @@ public class CharacterMessage implements Serializable{
 	public void remanVehicle(CharacterMessage operator) {
 		gunnerDead = false;
 		kills.addAll(operator.kills);
+	}
+
+	public void setVersion(long i) {
+		this.version = i;
+		
 	}
 	
 

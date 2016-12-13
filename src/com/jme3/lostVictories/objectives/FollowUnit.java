@@ -1,5 +1,7 @@
 package com.jme3.lostVictories.objectives;
 
+import static lostVictories.LostVictoryScene.SCENE_SCALE;
+
 import java.io.IOException;
 import java.util.Map;
 import java.util.UUID;
@@ -42,7 +44,7 @@ public class FollowUnit extends Objective{
 		}
 		
 		Vector3f dest = toFollow.getLocation().toVector();
-		Vector3f newLocation = currentLocation.add(dest.subtract(currentLocation).normalize().mult(5));
+		Vector3f newLocation = currentLocation.add(dest.subtract(currentLocation).normalize().mult(10*SCENE_SCALE));
 		
 		Vector vector = new Vector(newLocation.x, newLocation.y, newLocation.z);
 		character.setLocation(vector);

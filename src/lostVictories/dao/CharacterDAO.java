@@ -136,14 +136,16 @@ public class CharacterDAO {
 			return;
 		}
 		
-		BulkRequestBuilder bulkRequest = esClient.prepareBulk();
 		for(CharacterMessage v: map.values()){
-			bulkRequest.add(
-				new UpdateRequest(indexName, "unitStatus", v.getId().toString()).doc(v.getStateUpdate()).version(v.getVersion())
-			);
+			try{
+				UpdateRequest updateRequest = new UpdateRequest(indexName, "unitStatus", v.getId().toString());
+				updateRequest.doc(v.getStateUpdate()).version(v.getVersion());
+				esClient.update(updateRequest);
+			} catch (VersionConflictEngineException ee){
+				log.info("Discarding update to character:"+v.getId()+", character has been updated since been loaded");
+			}
 		}
-		
-		bulkRequest.execute().actionGet();
+
 		refresh();
 	}
 

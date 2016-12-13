@@ -40,8 +40,8 @@ public class DeathNotificationMessageHandler {
 		CharacterMessage killer = characterDAO.getCharacter(msg.getKiller());
 		victim.kill();
 		killer.incrementKills(victim.getId());
-		toSave.put(victim.getId(), victim);
 		toSave.put(killer.getId(), killer);
+		toSave.put(victim.getId(), victim);
 		
 		victim.replaceMe(characterDAO, toSave);
 		

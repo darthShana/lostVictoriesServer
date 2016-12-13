@@ -54,7 +54,7 @@ public class UpdateCharactersMessageHandler {
 //			.map(CharacterMessage::getId).collect(Collectors.toSet());
 		
 		Map<UUID, CharacterMessage> toSave = existingInServer.values().stream()
-				.filter(c->c.isAvailableForUpdate(msg.getClientID()))
+				.filter(c->c.isAvailableForUpdate(msg.getClientID(), sentFromClient.get(c.getId())))
 //				.filter(c->hasChanged.contains(c.getId()))
 			.collect(Collectors.toMap(c->c.getId(), Function.identity()));
 		

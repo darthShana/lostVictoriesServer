@@ -35,6 +35,13 @@ public class CharacterMessageTest {
 		when(characterDAO.getCharacter(eq(myUnit.id))).thenReturn(myUnit);
 
 	}
+	
+	@Test
+	public void testIsAvailableForUpdate(){
+		myUnit.setVersion(3);
+		CharacterMessage myUnitUpdated = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.PRIVATE, avatar.getId(), false);
+		assertFalse(myUnit.isAvailableForUpdate(avatar.getCheckoutClient(), myUnitUpdated));
+	}
 
 	@Test
 	public void testAvatarBoardVehicle() {
