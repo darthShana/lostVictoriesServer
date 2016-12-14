@@ -95,7 +95,7 @@ public class UpdateCharactersMessageHandlerTest {
 	}
 
 	private CharacterMessage getCharacterSource(UUID id, Vector location, Vector orientation, Action action) {
-		CharacterMessage c = new CharacterMessage(id, null, location, null, null, RankMessage.CADET_CORPORAL, null, false);
+		CharacterMessage c = new CharacterMessage(id, null, location, null, null, RankMessage.CADET_CORPORAL, null);
 		c.setOrientation(orientation);
 		c.setActions(ImmutableSet.of(action));
 		return c;

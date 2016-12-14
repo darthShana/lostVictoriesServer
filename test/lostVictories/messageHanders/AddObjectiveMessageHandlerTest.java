@@ -27,7 +27,7 @@ public class AddObjectiveMessageHandlerTest {
 	public void testHandle() throws JsonGenerationException, JsonMappingException, IOException {
 		UUID characterID = UUID.randomUUID();
 		UUID captureStructureID = UUID.randomUUID();
-		CharacterMessage characterMessage = new CharacterMessage(characterID, CharacterType.SOLDIER, new Vector(0, 0, 0), Country.AMERICAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, UUID.randomUUID(), false);
+		CharacterMessage characterMessage = new CharacterMessage(characterID, CharacterType.SOLDIER, new Vector(0, 0, 0), Country.AMERICAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, UUID.randomUUID());
 		characterMessage.addObjective(UUID.randomUUID(), "{\"classType\":\"com.jme3.lostVictories.objectives.RemanVehicle\"}");
 		characterMessage.addObjective(captureStructureID, "{\"structure\":\"fa076669-02b4-4cc5-b7fa-d79524471d17\",\"classType\":\"com.jme3.lostVictories.objectives.CaptureStructure\"}");
 

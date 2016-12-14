@@ -15,7 +15,6 @@ import com.jme3.lostVictories.network.messages.Country;
 import com.jme3.lostVictories.network.messages.RankMessage;
 import com.jme3.lostVictories.network.messages.Vector;
 import com.jme3.lostVictories.network.messages.Weapon;
-import com.jme3.math.Vector3f;
 
 public class VehicleFactoryTest {
 
@@ -25,14 +24,14 @@ public class VehicleFactoryTest {
 	public void setupTests(){
 		factory = new VehicleFactory(Country.GERMAN);
 		
-		CharacterMessage c1 = new CharacterMessage(UUID.randomUUID(), CharacterType.HALF_TRACK, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.PRIVATE, UUID.randomUUID(), false);
-		CharacterMessage c2 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.PRIVATE, UUID.randomUUID(), false);
-		CharacterMessage c3 = new CharacterMessage(UUID.randomUUID(), CharacterType.HALF_TRACK, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.PRIVATE, UUID.randomUUID(), false);
-		CharacterMessage c4 = new CharacterMessage(UUID.randomUUID(), CharacterType.ANTI_TANK_GUN, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.PRIVATE, UUID.randomUUID(), false);
-		CharacterMessage c5 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.PRIVATE, UUID.randomUUID(), false);
-		CharacterMessage c6 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.AMERICAN, Weapon.RIFLE, RankMessage.PRIVATE, UUID.randomUUID(), false);
-		CharacterMessage c7 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.AMERICAN, Weapon.RIFLE, RankMessage.PRIVATE, UUID.randomUUID(), false);
-		CharacterMessage c8 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.PRIVATE, UUID.randomUUID(), false);
+		CharacterMessage c1 = new CharacterMessage(UUID.randomUUID(), CharacterType.HALF_TRACK, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.PRIVATE, UUID.randomUUID());
+		CharacterMessage c2 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.PRIVATE, UUID.randomUUID());
+		CharacterMessage c3 = new CharacterMessage(UUID.randomUUID(), CharacterType.HALF_TRACK, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.PRIVATE, UUID.randomUUID());
+		CharacterMessage c4 = new CharacterMessage(UUID.randomUUID(), CharacterType.ANTI_TANK_GUN, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.PRIVATE, UUID.randomUUID());
+		CharacterMessage c5 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.PRIVATE, UUID.randomUUID());
+		CharacterMessage c6 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.AMERICAN, Weapon.RIFLE, RankMessage.PRIVATE, UUID.randomUUID());
+		CharacterMessage c7 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.AMERICAN, Weapon.RIFLE, RankMessage.PRIVATE, UUID.randomUUID());
+		CharacterMessage c8 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.PRIVATE, UUID.randomUUID());
 	
 		Set<CharacterMessage> all = new HashSet<CharacterMessage>();
 		all.add(c1);all.add(c2);all.add(c3);all.add(c4);all.add(c5);all.add(c6);all.add(c7);all.add(c8);

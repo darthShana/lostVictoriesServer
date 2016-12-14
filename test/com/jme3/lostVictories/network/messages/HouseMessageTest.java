@@ -158,8 +158,8 @@ public class HouseMessageTest {
 		assertEquals(CaptureStatus.NONE, house.getStatus());
 		
 		CharacterDAO characterDAO = mock(CharacterDAO.class);
-		CharacterMessage v = new CharacterMessage(UUID.randomUUID(), CharacterType.ARMORED_CAR, new Vector(0, 0, 0), Country.GERMAN, Weapon.MG42, RankMessage.PRIVATE, null, false);
-		v.gunnerDead = true;
+		CharacterMessage v = new CharacterMessage(UUID.randomUUID(), CharacterType.ARMORED_CAR, new Vector(0, 0, 0), Country.GERMAN, Weapon.MG42, RankMessage.PRIVATE, null);
+		v.passengers.clear();
 		
 		when(characterDAO.getAllCharacters(100f, 1f, 100f, HouseMessage.CAPTURE_RANGE*LostVictoryScene.SCENE_SCALE)).thenReturn(ImmutableSet.of(getCharacter(Country.AMERICAN), v));
 		house.chechOwnership(characterDAO);
@@ -169,6 +169,6 @@ public class HouseMessageTest {
 	}
 
 	private CharacterMessage getCharacter(Country country) {
-		return new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), country, Weapon.RIFLE, RankMessage.PRIVATE, null, false);
+		return new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), country, Weapon.RIFLE, RankMessage.PRIVATE, null);
 	}
 }

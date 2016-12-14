@@ -54,7 +54,6 @@ public class CharacterMessage implements Serializable{
 	Set<UUID> passengers = new HashSet<UUID>();
 	UUID checkoutClient;
 	Long checkoutTime;
-	boolean gunnerDead;
 	CharacterType type;
 	Vector orientation = new Vector(0, 0, 1);
 	Set<Action> actions = new HashSet<Action>();
@@ -68,11 +67,11 @@ public class CharacterMessage implements Serializable{
 	SquadType squadType = SquadType.RIFLE_TEAM;
 	
 	
-	public CharacterMessage(UUID identity, CharacterType type, Vector location, Country country, Weapon weapon, RankMessage rank, UUID commandingOfficer, boolean gunnerDead) {
-		this(identity, null, type, location, country, weapon, rank, commandingOfficer, gunnerDead);
+	public CharacterMessage(UUID identity, CharacterType type, Vector location, Country country, Weapon weapon, RankMessage rank, UUID commandingOfficer) {
+		this(identity, null, type, location, country, weapon, rank, commandingOfficer);
 	}
 	
-	public CharacterMessage(UUID identity, UUID userID, CharacterType type, Vector location, Country country, Weapon weapon, RankMessage rank, UUID commandingOfficer, boolean gunnerDead) {
+	public CharacterMessage(UUID identity, UUID userID, CharacterType type, Vector location, Country country, Weapon weapon, RankMessage rank, UUID commandingOfficer) {
 		this.id = identity;
 		this.userID = userID;
 		this.type = type;
@@ -80,7 +79,6 @@ public class CharacterMessage implements Serializable{
 		this.country = country;
 		this.weapon = weapon;
 		this.rank = rank;
-		this.gunnerDead = gunnerDead;
 		if(commandingOfficer!=null){
 			this.commandingOfficer = commandingOfficer;
 		}
@@ -147,7 +145,6 @@ public class CharacterMessage implements Serializable{
 		
 		unitsUnderCommand = ((Collection<String>)source.get("unitsUnderCommand")).stream().map(s -> UUID.fromString(s)).collect(Collectors.toSet());
 		passengers = ((Collection<String>)source.get("passengers")).stream().map(s -> UUID.fromString(s)).collect(Collectors.toSet());
-		gunnerDead = (boolean) source.get("gunnerDead");
 		isDead = (boolean) source.get("isDead");
 		engineDamaged = (boolean) source.get("engineDamaged");
 		if(isDead){
@@ -226,7 +223,6 @@ public class CharacterMessage implements Serializable{
 		                .field("squadType", squadType)
 		                .field("checkoutClient", checkoutClient)
 		                .field("checkoutTime", checkoutTime)
-		                .field("gunnerDead", gunnerDead)
 		                .field("isDead", isDead)
 		                .field("engineDamaged", engineDamaged)
 		                .field("timeOfDeath", timeOfDeath)
@@ -239,7 +235,6 @@ public class CharacterMessage implements Serializable{
 				.field("unitsUnderCommand", unitsUnderCommand)
 				.field("commandingOfficer", commandingOfficer)
 				.field("isDead", isDead)
-				.field("gunnerDead", gunnerDead)
 				.field("passengers", passengers)
 				.field("rank", rank)
 				.field("objectives", CharacterDAO.MAPPER.writeValueAsString(objectives))
@@ -373,7 +368,7 @@ public class CharacterMessage implements Serializable{
         }else{        	
         	type = CharacterType.SOLDIER;
         }
-		final CharacterMessage loadCharacter = new CharacterMessage(UUID.randomUUID(), type, spawnPoint, country, weapon, rankToReenforce, id, false);
+		final CharacterMessage loadCharacter = new CharacterMessage(UUID.randomUUID(), type, spawnPoint, country, weapon, rankToReenforce, id);
 		loadCharacter.addObjective(UUID.randomUUID(), new FollowUnit(getId(), new Vector(2, 0, 2), 10).asJSON());
 
 		log.debug("creating reenforcement:"+loadCharacter.getId());
@@ -396,7 +391,7 @@ public class CharacterMessage implements Serializable{
 
 	public CharacterMessage replaceWithAvatar(CharacterMessage deadAvatar, Collection<CharacterMessage> toUpdate, Map<UUID, CharacterMessage> allCharacters) throws IOException {
 		if(RankMessage.CADET_CORPORAL==rank){
-			CharacterMessage characterMessage = new CharacterMessage(deadAvatar.getId(), deadAvatar.getUserID(), CharacterType.AVATAR, location, country, Weapon.RIFLE, RankMessage.CADET_CORPORAL, commandingOfficer, false);
+			CharacterMessage characterMessage = new CharacterMessage(deadAvatar.getId(), deadAvatar.getUserID(), CharacterType.AVATAR, location, country, Weapon.RIFLE, RankMessage.CADET_CORPORAL, commandingOfficer);
 			characterMessage.unitsUnderCommand = unitsUnderCommand;
 			toUpdate.add(characterMessage);
 			Set<CharacterMessage> collect = unitsUnderCommand.stream().map(uuid->allCharacters.get(uuid)).filter(c->c!=null).collect(Collectors.toSet());
@@ -409,7 +404,7 @@ public class CharacterMessage implements Serializable{
 			return characterMessage;
 		}
 		else{
-			CharacterMessage characterMessage = new CharacterMessage(deadAvatar.getId(), deadAvatar.getUserID(), CharacterType.AVATAR, location, country, Weapon.RIFLE, reenformentCharacterRank(rank), id, false);
+			CharacterMessage characterMessage = new CharacterMessage(deadAvatar.getId(), deadAvatar.getUserID(), CharacterType.AVATAR, location, country, Weapon.RIFLE, reenformentCharacterRank(rank), id);
 			toUpdate.add(characterMessage);
 			return null;
 		}
@@ -479,7 +474,7 @@ public class CharacterMessage implements Serializable{
 
 	public Set<CharacterMessage> promoteCharacter(CharacterMessage co, CharacterDAO characterDAO) {
 		Set<CharacterMessage> ret = new HashSet<CharacterMessage>();
-		CharacterMessage replacemet = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, co.location, co.country, co.weapon, co.rank, co.id, co.gunnerDead);		
+		CharacterMessage replacemet = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, co.location, co.country, co.weapon, co.rank, co.id);		
 		replacemet.rank = rank;	
 		replacemet.unitsUnderCommand = new HashSet<UUID>(unitsUnderCommand);
 		replacemet.commandingOfficer = id;
@@ -557,7 +552,7 @@ public class CharacterMessage implements Serializable{
 	}
 
 	public void boardVehicle(CharacterMessage vehicle, CharacterDAO characterDAO, Map<UUID, CharacterMessage> toSave) {
-		log.debug("now boarding pasenger:"+id+", "+gunnerDead);
+		log.debug("now boarding pasenger:"+id+", "+isAbandoned());
 		
 		CharacterMessage co;
 		if(rank==RankMessage.PRIVATE){
@@ -566,7 +561,7 @@ public class CharacterMessage implements Serializable{
 			co = this;
 		}
 		if(!vehicle.commandingOfficer.equals(co.id)){
-			if(!vehicle.gunnerDead && vehicle.getCountry()!=country){
+			if(!vehicle.isAbandoned() && vehicle.getCountry()!=country){
 				return;
 			}
 			vehicle.disembarkPassengers(characterDAO, false).forEach(c->toSave.put(c.id, c));
@@ -582,10 +577,13 @@ public class CharacterMessage implements Serializable{
 		
 		this.boardedVehicle = vehicle.id;
 		vehicle.passengers.add(id);
-		vehicle.gunnerDead = false;
 
 		toSave.put(vehicle.getId(), vehicle);
 		toSave.put(getId(), this);
+	}
+
+	public boolean isAbandoned() {
+		return passengers.isEmpty();
 	}
 
 	public Set<CharacterMessage> disembarkPassengers(CharacterDAO characterRepository, boolean leaveGunner) {
@@ -594,9 +592,7 @@ public class CharacterMessage implements Serializable{
 		
 		toChange.forEach(c->c.boardedVehicle=null);
 		passengers.clear();
-		gunnerDead = true;
 		if(findAny.isPresent() && leaveGunner){
-			gunnerDead = false;
 			passengers.add(findAny.get().id);
 			findAny.get().boardedVehicle = id;
 		}
@@ -609,8 +605,7 @@ public class CharacterMessage implements Serializable{
 		
 	}
 
-	public CharacterMessage killGunner(CharacterDAO characterDAO) {
-		gunnerDead = true;
+	public CharacterMessage killPassenger(CharacterDAO characterDAO) {
 		Set<CharacterMessage> toChange = passengers.stream().map(id->characterDAO.getCharacter(id)).collect(Collectors.toSet());
 		Optional<CharacterMessage> findAny = toChange.stream().filter(c->c.getCharacterType()==CharacterType.SOLDIER).findAny();
 		if(findAny.isPresent()){
@@ -625,15 +620,6 @@ public class CharacterMessage implements Serializable{
 			return characterDAO.getCharacter(next);
 		}
 		return null;
-	}
-
-	public boolean isGunnerDead() {
-		return gunnerDead;
-	}
-
-	public void remanVehicle(CharacterMessage operator) {
-		gunnerDead = false;
-		kills.addAll(operator.kills);
 	}
 
 	public void setVersion(long i) {

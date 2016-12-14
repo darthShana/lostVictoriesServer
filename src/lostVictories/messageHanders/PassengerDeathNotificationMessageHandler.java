@@ -8,21 +8,21 @@ import java.util.UUID;
 import org.apache.log4j.Logger;
 
 import com.jme3.lostVictories.network.messages.CharacterMessage;
-import com.jme3.lostVictories.network.messages.GunnerDeathNotificationRequest;
+import com.jme3.lostVictories.network.messages.PassengerDeathNotificationRequest;
 import com.jme3.lostVictories.network.messages.LostVictoryMessage;
 
 import lostVictories.dao.CharacterDAO;
 
-public class GunnerDeathNotificationMessageHandler {
+public class PassengerDeathNotificationMessageHandler {
 
-	private static Logger log = Logger.getLogger(GunnerDeathNotificationMessageHandler.class);
+	private static Logger log = Logger.getLogger(PassengerDeathNotificationMessageHandler.class);
 	private CharacterDAO characterDAO;
 
-	public GunnerDeathNotificationMessageHandler(CharacterDAO characterDAO) {
+	public PassengerDeathNotificationMessageHandler(CharacterDAO characterDAO) {
 		this.characterDAO = characterDAO;
 	}
 
-	public LostVictoryMessage handle(GunnerDeathNotificationRequest msg) throws IOException {
+	public LostVictoryMessage handle(PassengerDeathNotificationRequest msg) throws IOException {
 		Map<UUID, CharacterMessage> toSave = new HashMap<UUID, CharacterMessage>();
 		
 		CharacterMessage vehicle = characterDAO.getCharacter(msg.getVictim());
@@ -32,7 +32,7 @@ public class GunnerDeathNotificationMessageHandler {
 		log.info("received gunner death notification:"+vehicle.getId());
 		
 		CharacterMessage killer = characterDAO.getCharacter(msg.getKiller());
-		CharacterMessage victim = vehicle.killGunner(characterDAO);
+		CharacterMessage victim = vehicle.killPassenger(characterDAO);
 		toSave.put(vehicle.getId(), vehicle);
 		if(victim!=null){
 			victim.kill();

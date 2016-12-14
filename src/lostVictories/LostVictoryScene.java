@@ -43,17 +43,16 @@ public class LostVictoryScene {
 		Set<CharacterMessage> characters = new HashSet<CharacterMessage>();
 		
 		
-		
-		CharacterMessage a = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, germanBase, Country.GERMAN, Weapon.RIFLE, RankMessage.COLONEL, null, false);
+		CharacterMessage a = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, germanBase, Country.GERMAN, Weapon.RIFLE, RankMessage.COLONEL, null);
 		a.addObjective(UUID.randomUUID(), new CaptureTown(System.currentTimeMillis()).asJSON());
-		CharacterMessage b = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, americanBase, Country.AMERICAN, Weapon.RIFLE, RankMessage.COLONEL, null, false);
+		CharacterMessage b = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, americanBase, Country.AMERICAN, Weapon.RIFLE, RankMessage.COLONEL, null);
 		b.addObjective(UUID.randomUUID(), new CaptureTown(System.currentTimeMillis()).asJSON());
 		
-		CharacterMessage gl1 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, germanBase.add(5, 0, 5), Country.GERMAN, Weapon.RIFLE, RankMessage.LIEUTENANT, a.getId(), false);
-		CharacterMessage gl2 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, germanBase.add(10, 0, 5), Country.GERMAN, Weapon.RIFLE, RankMessage.LIEUTENANT, a.getId(), false);
+		CharacterMessage gl1 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, germanBase.add(5, 0, 5), Country.GERMAN, Weapon.RIFLE, RankMessage.LIEUTENANT, a.getId());
+		CharacterMessage gl2 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, germanBase.add(10, 0, 5), Country.GERMAN, Weapon.RIFLE, RankMessage.LIEUTENANT, a.getId());
 		
-		CharacterMessage al1 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, americanBase.add(-5, 0, -5), Country.AMERICAN, Weapon.RIFLE, RankMessage.LIEUTENANT, b.getId(), false);
-		CharacterMessage al2 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, americanBase.add(-5, 0, -10), Country.AMERICAN, Weapon.RIFLE, RankMessage.LIEUTENANT, b.getId(), false );
+		CharacterMessage al1 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, americanBase.add(-5, 0, -5), Country.AMERICAN, Weapon.RIFLE, RankMessage.LIEUTENANT, b.getId());
+		CharacterMessage al2 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, americanBase.add(-5, 0, -10), Country.AMERICAN, Weapon.RIFLE, RankMessage.LIEUTENANT, b.getId());
 		
 		characters.add(a);
 		characters.add(b);
@@ -61,10 +60,10 @@ public class LostVictoryScene {
 		characters.add(gl2);
 		characters.add(al1);
 		characters.add(al2);
-		CharacterMessage a1 = new CharacterMessage(UUID.fromString("2fbe421f-f701-49c9-a0d4-abb0fa904204"), CharacterType.AVATAR, germanBase.add(22, 0, 13), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, gl1.getId(), false);
+		CharacterMessage a1 = new CharacterMessage(UUID.fromString("2fbe421f-f701-49c9-a0d4-abb0fa904204"), CharacterType.AVATAR, germanBase.add(22, 0, 13), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, gl1.getId());
 		loadSquad(characters, a1, germanBase.add(-10, 0, 15), Country.GERMAN, true, Weapon.RIFLE, Weapon.RIFLE, Weapon.RIFLE   );
 //		characters.add(loadAntiTankGun1(UUID.fromString("2d420131-2f1f-4901-b61a-248c2243848c"), germanBase.add(25, 0, 15), Country.GERMAN, a1));
-		characters.add(loadHalfTrack(germanBase.add(25, 0, 15), Country.GERMAN, a1));
+//		characters.add(loadHalfTrack(germanBase.add(25, 0, 15), Country.GERMAN, a1));
 //		a1.addObjective(UUID.randomUUID(), createBootCampObjective(new Vector(246.29144f, 96.77546f, 55.412266f)));
 //		a1.incrementKills(UUID.randomUUID());
 //		a1.incrementKills(UUID.randomUUID());
@@ -72,33 +71,33 @@ public class LostVictoryScene {
 //		a1.incrementKills(UUID.randomUUID());
 //		a1.incrementKills(UUID.randomUUID());
 		
-		CharacterMessage a2 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, germanBase.add(30, 0, 15), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, gl1.getId(), false);
+		CharacterMessage a2 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, germanBase.add(30, 0, 15), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, gl1.getId());
         loadSquad(characters, a2, germanBase.add(30, 0, 15), Country.GERMAN, true, Weapon.RIFLE, Weapon.RIFLE, Weapon.MG42);
         
-        CharacterMessage a3 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, germanBase.add(35, 0, 15), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, gl1.getId(), false);
+        CharacterMessage a3 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, germanBase.add(35, 0, 15), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, gl1.getId());
         loadSquad(characters, a3, germanBase.add(35, 0, 15), Country.GERMAN, true, Weapon.RIFLE, Weapon.RIFLE, Weapon.RIFLE);
         
-        CharacterMessage a4 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, germanBase.add(40, 0, 15), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, gl1.getId(), false);
+        CharacterMessage a4 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, germanBase.add(40, 0, 15), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, gl1.getId());
         loadSquad(characters, a4, germanBase.add(40, 0, 15), Country.GERMAN, true, Weapon.RIFLE, Weapon.RIFLE, Weapon.MORTAR);
         
-        CharacterMessage gv1 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, germanBase.add(20, 0, 16), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, gl2.getId(), false);
+        CharacterMessage gv1 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, germanBase.add(20, 0, 16), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, gl2.getId());
         loadSquad(characters, gv1, germanBase.add(21, 0, 17), Country.GERMAN, true, Weapon.RIFLE, Weapon.RIFLE);
         characters.add(loadAntiTankGun1(UUID.fromString("f47db5e3-f07c-4bbc-8cb1-52263131a7a2"), germanBase.add(22, 0, 18), Country.GERMAN, gv1));
         
-        CharacterMessage gv2 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, germanBase.add(81, 0, -10), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, gl2.getId(), false);
+        CharacterMessage gv2 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, germanBase.add(81, 0, -10), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, gl2.getId());
         loadSquad(characters, gv2, germanBase.add(82, 0, -11), Country.GERMAN, true, Weapon.RIFLE, Weapon.RIFLE);
         characters.add(loadHalfTrack(germanBase.add(83, 0, -14), Country.GERMAN, gv2));
         
-        CharacterMessage gv3 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, germanBase.add(30, 0, 10), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, gl2.getId(), false);
+        CharacterMessage gv3 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, germanBase.add(30, 0, 10), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, gl2.getId());
         loadSquad(characters, gv3, germanBase.add(25, 0, 15), Country.GERMAN, true, Weapon.RIFLE, Weapon.RIFLE, Weapon.RIFLE);
         
-        CharacterMessage gv4 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, germanBase.add(35, 0, 10), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, gl2.getId(), false);
+        CharacterMessage gv4 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, germanBase.add(35, 0, 10), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, gl2.getId());
         loadSquad(characters, gv4, germanBase.add(25, 0, 15), Country.GERMAN, true, Weapon.RIFLE, Weapon.RIFLE);
         
-        CharacterMessage b1 = new CharacterMessage(UUID.fromString("d993932f-a185-4a6f-8d86-4ef6e2c5ff95"), CharacterType.AVATAR, americanBase.add(-10, 0, 10), Country.AMERICAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, al1.getId(), false);
+        CharacterMessage b1 = new CharacterMessage(UUID.fromString("d993932f-a185-4a6f-8d86-4ef6e2c5ff95"), CharacterType.AVATAR, americanBase.add(-10, 0, 10), Country.AMERICAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, al1.getId());
         loadSquad(characters, b1, americanBase.add(-10, 0, 15), Country.AMERICAN, true, Weapon.RIFLE, Weapon.RIFLE);
-//        characters.add(loadAntiTankGun(americanBase.add(15, 0, 15), Country.AMERICAN, b1));
-        //characters.add(loadAmoredCar(americanBase.add(10, 0, 15), Country.AMERICAN, b1));
+        characters.add(loadAntiTankGun(americanBase.add(15, 0, 15), Country.AMERICAN, b1));
+//        characters.add(loadAmoredCar(americanBase.add(10, 0, 15), Country.AMERICAN, b1));
         //characters.add(loadAntiTankGun1(UUID.randomUUID(), americanBase.add(20, 0, 20), Country.AMERICAN, b1));
 //        b1.addObjective(UUID.randomUUID(), createBootCampObjective(new Vector(-57.21826f, 96.380104f, -203.38945f)));
 //        b1.incrementKills(UUID.randomUUID());
@@ -107,27 +106,27 @@ public class LostVictoryScene {
 //        b1.incrementKills(UUID.randomUUID());
 //        b1.incrementKills(UUID.randomUUID());
         
-        CharacterMessage b2 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, americanBase.add(20, 0, -25), Country.AMERICAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, al1.getId(), false);
+        CharacterMessage b2 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, americanBase.add(20, 0, -25), Country.AMERICAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, al1.getId());
         loadSquad(characters,  b2, americanBase.add(25, 0, -25), Country.AMERICAN, true, Weapon.RIFLE, Weapon.RIFLE, Weapon.MG42);
         
-        CharacterMessage b3 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, americanBase.add(22, 5, -30), Country.AMERICAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, al1.getId(), false);
+        CharacterMessage b3 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, americanBase.add(22, 5, -30), Country.AMERICAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, al1.getId());
         loadSquad(characters, b3, americanBase.add(21, 5, -39), Country.AMERICAN, true, Weapon.RIFLE, Weapon.RIFLE, Weapon.RIFLE);
         
-        CharacterMessage b4 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, americanBase.add(24, 5, -38), Country.AMERICAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, al1.getId(), false);
+        CharacterMessage b4 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, americanBase.add(24, 5, -38), Country.AMERICAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, al1.getId());
         loadSquad(characters, b4, americanBase.add(23, 5, -39), Country.AMERICAN, true, Weapon.RIFLE, Weapon.RIFLE, Weapon.MORTAR);
         
-        CharacterMessage c1 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, americanBase.add(9, 5, -9), Country.AMERICAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, al2.getId(), false);
+        CharacterMessage c1 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, americanBase.add(9, 5, -9), Country.AMERICAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, al2.getId());
         loadSquad(characters, c1, americanBase.add(6, 5, -9), Country.AMERICAN, true, Weapon.RIFLE, Weapon.RIFLE);
         characters.add(loadAntiTankGun1(UUID.fromString("00b5ceda-4a0a-490d-af71-bcaf81ede6eb"), americanBase.add(9, 5, -9), Country.AMERICAN, c1));
         
-        CharacterMessage c2 = new CharacterMessage(UUID.fromString("844fd93d-e65a-438a-82c5-dab9ad58e854"), CharacterType.SOLDIER, americanBase.add(40, 5, -40), Country.AMERICAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, al2.getId(), false);
+        CharacterMessage c2 = new CharacterMessage(UUID.fromString("844fd93d-e65a-438a-82c5-dab9ad58e854"), CharacterType.SOLDIER, americanBase.add(40, 5, -40), Country.AMERICAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, al2.getId());
         loadSquad(characters, c2, americanBase.add(45, 5, -35), Country.AMERICAN, true, Weapon.RIFLE, Weapon.RIFLE);
         characters.add(loadAmoredCar(americanBase.add(40, 5, -30), Country.AMERICAN, c2));
         
-        CharacterMessage c3 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, americanBase.add(19, 5, -35), Country.AMERICAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, al2.getId(), false);
+        CharacterMessage c3 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, americanBase.add(19, 5, -35), Country.AMERICAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, al2.getId());
         loadSquad(characters, c3, americanBase.add(25, 5, -30), Country.AMERICAN, true, Weapon.RIFLE, Weapon.RIFLE, Weapon.RIFLE);
         
-        CharacterMessage c4 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, americanBase.add(20, 5, -35), Country.AMERICAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, al2.getId(), false);
+        CharacterMessage c4 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, americanBase.add(20, 5, -35), Country.AMERICAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, al2.getId());
         loadSquad(characters,  c4, americanBase.add(20, 5, -30), Country.AMERICAN, true, Weapon.RIFLE, Weapon.RIFLE, Weapon.RIFLE);
         
         gl1.addCharactersUnderCommand(a1, a2, a3, a4);
@@ -247,7 +246,7 @@ public class LostVictoryScene {
 	}
 	
 	private CharacterMessage loadAmoredCar(Vector vector, Country country, CharacterMessage c2) {
-		CharacterMessage armoredCar = new CharacterMessage(UUID.randomUUID(), CharacterType.ARMORED_CAR, vector, country, CharacterType.ARMORED_CAR.getDefaultWeapon(), RankMessage.PRIVATE, c2.getId(), false);
+		CharacterMessage armoredCar = new CharacterMessage(UUID.randomUUID(), CharacterType.ARMORED_CAR, vector, country, CharacterType.ARMORED_CAR.getDefaultWeapon(), RankMessage.PRIVATE, c2.getId());
 		c2.addCharactersUnderCommand(armoredCar);
 		return armoredCar;
 	}
@@ -259,7 +258,7 @@ public class LostVictoryScene {
 
 
 	private CharacterMessage loadHalfTrack1(UUID randomUUID, Vector vector, Country country, CharacterMessage gv2) {
-		CharacterMessage halfTrack = new CharacterMessage(randomUUID, CharacterType.HALF_TRACK, vector, country, CharacterType.HALF_TRACK.getDefaultWeapon(), RankMessage.PRIVATE, gv2.getId(), false);
+		CharacterMessage halfTrack = new CharacterMessage(randomUUID, CharacterType.HALF_TRACK, vector, country, CharacterType.HALF_TRACK.getDefaultWeapon(), RankMessage.PRIVATE, gv2.getId());
 		gv2.addCharactersUnderCommand(halfTrack);
 		return halfTrack;
 	}
@@ -271,7 +270,7 @@ public class LostVictoryScene {
 
 
 	private CharacterMessage loadAntiTankGun1(UUID randomUUID, Vector vector, Country country, CharacterMessage gv1) {
-		CharacterMessage atg = new CharacterMessage(randomUUID, CharacterType.ANTI_TANK_GUN, vector, country, CharacterType.ANTI_TANK_GUN.getDefaultWeapon(), RankMessage.PRIVATE, gv1.getId(), false);
+		CharacterMessage atg = new CharacterMessage(randomUUID, CharacterType.ANTI_TANK_GUN, vector, country, CharacterType.ANTI_TANK_GUN.getDefaultWeapon(), RankMessage.PRIVATE, gv1.getId());
 		gv1.addCharactersUnderCommand(atg);
 		return atg;
 	}
@@ -282,7 +281,7 @@ public class LostVictoryScene {
         int i = 0;
         Vector3f offSet = new Vector3f(2, 0, 2);
         for(Weapon w:weapons){
-            CharacterMessage e = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, vector3f.add(i*3, 0, 0), country, w, RankMessage.PRIVATE, a1.getId(), false);
+            CharacterMessage e = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, vector3f.add(i*3, 0, 0), country, w, RankMessage.PRIVATE, a1.getId());
             if(folllowCommander){
             	e.addObjective(UUID.randomUUID(), new FollowUnit(a1.getId(), new Vector(offSet), 10).asJSON());
             	offSet = offSet.add(2, 0, 2);

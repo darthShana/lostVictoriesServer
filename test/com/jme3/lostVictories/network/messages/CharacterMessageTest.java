@@ -22,11 +22,11 @@ public class CharacterMessageTest {
 
 	@Before
 	public void setup(){
-		oldCo = new CharacterMessage(UUID.randomUUID(), CharacterType.AVATAR, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, null, false);
-		vehicle = new CharacterMessage(UUID.randomUUID(), CharacterType.ANTI_TANK_GUN, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.PRIVATE, oldCo.getId(), false);
-		avatar = new CharacterMessage(UUID.randomUUID(), CharacterType.AVATAR, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, null, false);
-		oldPassenger = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, null, false);
-		myUnit = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.PRIVATE, avatar.getId(), false);
+		oldCo = new CharacterMessage(UUID.randomUUID(), CharacterType.AVATAR, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, null);
+		vehicle = new CharacterMessage(UUID.randomUUID(), CharacterType.ANTI_TANK_GUN, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.PRIVATE, oldCo.getId());
+		avatar = new CharacterMessage(UUID.randomUUID(), CharacterType.AVATAR, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, null);
+		oldPassenger = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, null);
+		myUnit = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.PRIVATE, avatar.getId());
 
 		characterDAO = mock(CharacterDAO.class);
 		when(characterDAO.getCharacter(eq(oldCo.id))).thenReturn(oldCo);
@@ -39,14 +39,14 @@ public class CharacterMessageTest {
 	@Test
 	public void testIsAvailableForUpdate(){
 		myUnit.setVersion(3);
-		CharacterMessage myUnitUpdated = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.PRIVATE, avatar.getId(), false);
+		CharacterMessage myUnitUpdated = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.PRIVATE, avatar.getId());
 		assertFalse(myUnit.isAvailableForUpdate(avatar.getCheckoutClient(), myUnitUpdated));
 	}
 
 	@Test
 	public void testAvatarBoardVehicle() {
 		oldCo.unitsUnderCommand.add(vehicle.id);
-		vehicle.gunnerDead = true;
+		vehicle.passengers.clear();
 		
 		assertEquals(oldCo.id, vehicle.getCommandingOfficer());
 		assertTrue(oldCo.unitsUnderCommand.contains(vehicle.id));
@@ -55,18 +55,17 @@ public class CharacterMessageTest {
 		assertEquals(avatar.id, vehicle.getCommandingOfficer());
 		assertEquals(avatar.getCountry(), vehicle.getCountry());
 		assertFalse(oldCo.unitsUnderCommand.contains(vehicle.id));
-		assertFalse(vehicle.gunnerDead);
+		assertFalse(vehicle.isAbandoned());
 	}
 	
 	@Test
 	public void testNonAvatarBoardVehicle(){
 		vehicle.passengers.add(oldPassenger.id);
-		vehicle.gunnerDead = true;
 		myUnit.boardVehicle(vehicle, characterDAO, new HashMap<UUID, CharacterMessage>());
 		assertTrue(vehicle.passengers.contains(myUnit.id));
 		assertFalse(vehicle.passengers.contains(oldPassenger.id));
 		assertEquals(vehicle.getCommandingOfficer(), avatar.getId());
-		assertFalse(vehicle.gunnerDead);
+		assertFalse(vehicle.isAbandoned());
 	}
 	
 	@Test
@@ -84,7 +83,7 @@ public class CharacterMessageTest {
 		assertFalse(oldCo.unitsUnderCommand.contains(vehicle.id));
 		assertTrue(vehicle.passengers.contains(avatar.id));
 		assertFalse(vehicle.passengers.contains(oldPassenger.id));
-		assertFalse(vehicle.gunnerDead);
+		assertFalse(vehicle.isAbandoned());
 		assertTrue(toSave.containsKey(oldPassenger.id));
 	}
 	
@@ -97,7 +96,7 @@ public class CharacterMessageTest {
 		
 		vehicle.disembarkPassengers(characterDAO, true);
 		assertFalse(vehicle.passengers.isEmpty());
-		assertFalse(vehicle.gunnerDead);
+		assertFalse(vehicle.isAbandoned());
 		
 		assertEquals(1, vehicle.passengers.size());
 		assertEquals(oldPassenger.id, vehicle.passengers.iterator().next());
@@ -110,18 +109,29 @@ public class CharacterMessageTest {
 		
 		vehicle.disembarkPassengers(characterDAO, true);
 		assertTrue(vehicle.passengers.isEmpty());
-		assertTrue(vehicle.gunnerDead);
+		assertTrue(vehicle.isAbandoned());
 	}
 	
 	@Test
 	public void testCantBoardVehicleWithGunnerOFDiffCountry(){
-		CharacterMessage vehicle2 = new CharacterMessage(UUID.randomUUID(), CharacterType.ANTI_TANK_GUN, new Vector(0, 0, 0), Country.AMERICAN, Weapon.RIFLE, RankMessage.PRIVATE, oldCo.getId(), false);
-		vehicle2.gunnerDead = false;
+		CharacterMessage vehicle2 = new CharacterMessage(UUID.randomUUID(), CharacterType.ANTI_TANK_GUN, new Vector(0, 0, 0), Country.AMERICAN, Weapon.RIFLE, RankMessage.PRIVATE, oldCo.getId());
+		vehicle2.passengers.add(oldPassenger.id);
 
 		avatar.boardVehicle(vehicle2, characterDAO, new HashMap<UUID, CharacterMessage>());
 		assertEquals(oldCo.id, vehicle2.getCommandingOfficer());
 		assertEquals(Country.AMERICAN, vehicle2.getCountry());
 		assertFalse(vehicle2.passengers.contains(avatar.id));
+	}
+	
+	@Test
+	public void testCanBoardAbandonedVehicleOFDiffCountry(){
+		CharacterMessage vehicle2 = new CharacterMessage(UUID.randomUUID(), CharacterType.ANTI_TANK_GUN, new Vector(0, 0, 0), Country.AMERICAN, Weapon.RIFLE, RankMessage.PRIVATE, oldCo.getId());
+		vehicle2.passengers.clear();
+
+		avatar.boardVehicle(vehicle2, characterDAO, new HashMap<UUID, CharacterMessage>());
+		assertEquals(avatar.id, vehicle2.getCommandingOfficer());
+		assertEquals(Country.GERMAN, vehicle2.getCountry());
+		assertTrue(vehicle2.passengers.contains(avatar.id));
 	}
 	
 	@Test
@@ -134,20 +144,19 @@ public class CharacterMessageTest {
 	@Test
 	public void testKillGunner(){
 		vehicle.passengers.add(oldPassenger.id);
-		vehicle.gunnerDead = false;
 		
-		vehicle.killGunner(characterDAO);
+		vehicle.killPassenger(characterDAO);
 		assertTrue(vehicle.passengers.isEmpty());
-		assertTrue(vehicle.gunnerDead);
+		assertTrue(vehicle.isAbandoned());
 	}
 	
 	@Test
 	public void testReplaceMeWhileBeingPassengerOnVehicle(){
 		UUID vehicleID = UUID.randomUUID();
-		CharacterMessage oldCo1 = new CharacterMessage(UUID.randomUUID(), CharacterType.AVATAR, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, null, false);
-		CharacterMessage vehicle1 = new CharacterMessage(vehicleID, CharacterType.HALF_TRACK, new Vector(0, 0, 0), Country.AMERICAN, Weapon.RIFLE, RankMessage.PRIVATE, oldCo1.getId(), false);
-		CharacterMessage vehicle2 = new CharacterMessage(vehicleID, CharacterType.HALF_TRACK, new Vector(0, 0, 0), Country.AMERICAN, Weapon.RIFLE, RankMessage.PRIVATE, oldCo1.getId(), false);
-		CharacterMessage oldPassenger1 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, oldCo1.getId(), false);
+		CharacterMessage oldCo1 = new CharacterMessage(UUID.randomUUID(), CharacterType.AVATAR, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, null);
+		CharacterMessage vehicle1 = new CharacterMessage(vehicleID, CharacterType.HALF_TRACK, new Vector(0, 0, 0), Country.AMERICAN, Weapon.RIFLE, RankMessage.PRIVATE, oldCo1.getId());
+		CharacterMessage vehicle2 = new CharacterMessage(vehicleID, CharacterType.HALF_TRACK, new Vector(0, 0, 0), Country.AMERICAN, Weapon.RIFLE, RankMessage.PRIVATE, oldCo1.getId());
+		CharacterMessage oldPassenger1 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, oldCo1.getId());
 		oldCo1.unitsUnderCommand.add(vehicleID);
 		oldCo1.unitsUnderCommand.add(oldPassenger1.getId());
 		
@@ -160,15 +169,15 @@ public class CharacterMessageTest {
 		when(characterDAO.getAllCharacters(eq(oldCo1.unitsUnderCommand))).thenReturn(value);
 		
 		vehicle1.passengers.add(oldPassenger1.getId());
-		vehicle1.gunnerDead = true;
 		
 		HashMap<UUID, CharacterMessage> toSave = new HashMap<UUID, CharacterMessage>();
 		toSave.put(vehicle1.getId(), vehicle1);
 		oldCo1.replaceMe(characterDAO, toSave);
 		
 		assertTrue(toSave.containsKey(vehicle1.getId()));
-		assertTrue(toSave.get(vehicle1.getId()).gunnerDead);
+		assertFalse(toSave.get(vehicle1.getId()).isAbandoned());
 		assertEquals(toSave.get(vehicle1.getId()).passengers.size(), 1);
+		assertEquals(toSave.get(vehicle1.getId()).passengers.iterator().next(), oldPassenger1.id);
 		
 	}
 	

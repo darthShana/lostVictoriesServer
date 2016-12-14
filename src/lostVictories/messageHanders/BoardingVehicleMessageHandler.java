@@ -28,7 +28,7 @@ public class BoardingVehicleMessageHandler {
 		CharacterMessage vehicle = characterDAO.getCharacter(msg.getVehicleID());
 		CharacterMessage passenger = characterDAO.getCharacter(msg.getCharacterID());
 		log.debug("recived boarding request for:"+passenger.getId());
-		if(vehicle.getLocation().distance(passenger.getLocation())>5){
+		if(vehicle.getLocation().distance(passenger.getLocation())>7.5f){
 			if(CharacterType.AVATAR == passenger.getCharacterType() && passenger.getCheckoutClient().equals(passenger.getId())){
 				messageRepository.addMessage(msg.getClientID(), "Vehicle is too far to get in.");
 			}
