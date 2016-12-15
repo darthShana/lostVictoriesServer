@@ -6,8 +6,6 @@ import java.util.Map;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
-import lostVictories.LostVictoryScene;
-
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 

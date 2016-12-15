@@ -1,7 +1,10 @@
-package lostVictories;
+package com.jme3.lostVictories.network.messages;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -14,14 +17,6 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.node.ObjectNode;
 
-import com.jme3.lostVictories.network.messages.CharacterMessage;
-import com.jme3.lostVictories.network.messages.CharacterType;
-import com.jme3.lostVictories.network.messages.Country;
-import com.jme3.lostVictories.network.messages.HouseMessage;
-import com.jme3.lostVictories.network.messages.Quaternion;
-import com.jme3.lostVictories.network.messages.RankMessage;
-import com.jme3.lostVictories.network.messages.Vector;
-import com.jme3.lostVictories.network.messages.Weapon;
 import com.jme3.lostVictories.objectives.CaptureTown;
 import com.jme3.lostVictories.objectives.FollowUnit;
 import com.jme3.math.Vector3f;
@@ -40,7 +35,7 @@ public class LostVictoryScene {
 	public void loadScene(CharacterDAO characterDAO, HouseDAO housesDAO) throws JsonGenerationException, JsonMappingException, IOException {
 		log.debug("Loading Scene");
 		
-		Set<CharacterMessage> characters = new HashSet<CharacterMessage>();
+		Map<UUID, CharacterMessage> characters = new HashMap<UUID, CharacterMessage>();
 		
 		
 		CharacterMessage a = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, germanBase, Country.GERMAN, Weapon.RIFLE, RankMessage.COLONEL, null);
@@ -54,12 +49,12 @@ public class LostVictoryScene {
 		CharacterMessage al1 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, americanBase.add(-5, 0, -5), Country.AMERICAN, Weapon.RIFLE, RankMessage.LIEUTENANT, b.getId());
 		CharacterMessage al2 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, americanBase.add(-5, 0, -10), Country.AMERICAN, Weapon.RIFLE, RankMessage.LIEUTENANT, b.getId());
 		
-		characters.add(a);
-		characters.add(b);
-		characters.add(gl1);
-		characters.add(gl2);
-		characters.add(al1);
-		characters.add(al2);
+		characters.put(a.getId(), a);
+		characters.put(b.getId(), b);
+		characters.put(gl1.getId(), gl1);
+		characters.put(gl2.getId(), gl2);
+		characters.put(al1.getId(), al1);
+		characters.put(al2.getId(), al2);
 		CharacterMessage a1 = new CharacterMessage(UUID.fromString("2fbe421f-f701-49c9-a0d4-abb0fa904204"), CharacterType.AVATAR, germanBase.add(22, 0, 13), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, gl1.getId());
 		loadSquad(characters, a1, germanBase.add(-10, 0, 15), Country.GERMAN, true, Weapon.RIFLE, Weapon.RIFLE, Weapon.RIFLE   );
 //		characters.add(loadAntiTankGun1(UUID.fromString("2d420131-2f1f-4901-b61a-248c2243848c"), germanBase.add(25, 0, 15), Country.GERMAN, a1));
@@ -82,11 +77,13 @@ public class LostVictoryScene {
         
         CharacterMessage gv1 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, germanBase.add(20, 0, 16), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, gl2.getId());
         loadSquad(characters, gv1, germanBase.add(21, 0, 17), Country.GERMAN, true, Weapon.RIFLE, Weapon.RIFLE);
-        characters.add(loadAntiTankGun1(UUID.fromString("f47db5e3-f07c-4bbc-8cb1-52263131a7a2"), germanBase.add(22, 0, 18), Country.GERMAN, gv1));
+        CharacterMessage loadAntiTankGun1 = loadAntiTankGun1(UUID.fromString("f47db5e3-f07c-4bbc-8cb1-52263131a7a2"), germanBase.add(22, 0, 18), Country.GERMAN, gv1, characters);
+		characters.put(loadAntiTankGun1.getId(), loadAntiTankGun1);
         
         CharacterMessage gv2 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, germanBase.add(81, 0, -10), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, gl2.getId());
         loadSquad(characters, gv2, germanBase.add(82, 0, -11), Country.GERMAN, true, Weapon.RIFLE, Weapon.RIFLE);
-        characters.add(loadHalfTrack(germanBase.add(83, 0, -14), Country.GERMAN, gv2));
+        CharacterMessage loadHalfTrack = loadHalfTrack(germanBase.add(83, 0, -14), Country.GERMAN, gv2, characters);
+		characters.put(loadHalfTrack.getId(), loadHalfTrack);
         
         CharacterMessage gv3 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, germanBase.add(30, 0, 10), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, gl2.getId());
         loadSquad(characters, gv3, germanBase.add(25, 0, 15), Country.GERMAN, true, Weapon.RIFLE, Weapon.RIFLE, Weapon.RIFLE);
@@ -96,7 +93,8 @@ public class LostVictoryScene {
         
         CharacterMessage b1 = new CharacterMessage(UUID.fromString("d993932f-a185-4a6f-8d86-4ef6e2c5ff95"), CharacterType.AVATAR, americanBase.add(-10, 0, 10), Country.AMERICAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, al1.getId());
         loadSquad(characters, b1, americanBase.add(-10, 0, 15), Country.AMERICAN, true, Weapon.RIFLE, Weapon.RIFLE);
-        characters.add(loadAntiTankGun(americanBase.add(15, 0, 15), Country.AMERICAN, b1));
+        CharacterMessage loadAntiTankGun = loadAntiTankGun(americanBase.add(15, 0, 15), Country.AMERICAN, b1, characters);
+		characters.put(loadAntiTankGun.getId(), loadAntiTankGun);
 //        characters.add(loadAmoredCar(americanBase.add(10, 0, 15), Country.AMERICAN, b1));
         //characters.add(loadAntiTankGun1(UUID.randomUUID(), americanBase.add(20, 0, 20), Country.AMERICAN, b1));
 //        b1.addObjective(UUID.randomUUID(), createBootCampObjective(new Vector(-57.21826f, 96.380104f, -203.38945f)));
@@ -117,11 +115,13 @@ public class LostVictoryScene {
         
         CharacterMessage c1 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, americanBase.add(9, 5, -9), Country.AMERICAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, al2.getId());
         loadSquad(characters, c1, americanBase.add(6, 5, -9), Country.AMERICAN, true, Weapon.RIFLE, Weapon.RIFLE);
-        characters.add(loadAntiTankGun1(UUID.fromString("00b5ceda-4a0a-490d-af71-bcaf81ede6eb"), americanBase.add(9, 5, -9), Country.AMERICAN, c1));
+        CharacterMessage loadAntiTankGun12 = loadAntiTankGun1(UUID.fromString("00b5ceda-4a0a-490d-af71-bcaf81ede6eb"), americanBase.add(9, 5, -9), Country.AMERICAN, c1, characters);
+		characters.put(loadAntiTankGun12.getId(), loadAntiTankGun12);
         
         CharacterMessage c2 = new CharacterMessage(UUID.fromString("844fd93d-e65a-438a-82c5-dab9ad58e854"), CharacterType.SOLDIER, americanBase.add(40, 5, -40), Country.AMERICAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, al2.getId());
         loadSquad(characters, c2, americanBase.add(45, 5, -35), Country.AMERICAN, true, Weapon.RIFLE, Weapon.RIFLE);
-        characters.add(loadAmoredCar(americanBase.add(40, 5, -30), Country.AMERICAN, c2));
+        CharacterMessage loadAmoredCar = loadAmoredCar(americanBase.add(40, 5, -30), Country.AMERICAN, c2, characters);
+		characters.put(loadAmoredCar.getId(), loadAmoredCar);
         
         CharacterMessage c3 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, americanBase.add(19, 5, -35), Country.AMERICAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, al2.getId());
         loadSquad(characters, c3, americanBase.add(25, 5, -30), Country.AMERICAN, true, Weapon.RIFLE, Weapon.RIFLE, Weapon.RIFLE);
@@ -137,7 +137,7 @@ public class LostVictoryScene {
         a.addCharactersUnderCommand(gl1, gl2);
         b.addCharactersUnderCommand(al1, al2);
         
-        characters.stream().forEach(c -> characterDAO.putCharacter(c.getId(), c));
+        characters.values().stream().forEach(c -> characterDAO.putCharacter(c.getId(), c));
 
         
         
@@ -245,38 +245,53 @@ public class LostVictoryScene {
 		}
 	}
 	
-	private CharacterMessage loadAmoredCar(Vector vector, Country country, CharacterMessage c2) {
+	private CharacterMessage loadAmoredCar(Vector vector, Country country, CharacterMessage c2, Map<UUID, CharacterMessage> characters) {
 		CharacterMessage armoredCar = new CharacterMessage(UUID.randomUUID(), CharacterType.ARMORED_CAR, vector, country, CharacterType.ARMORED_CAR.getDefaultWeapon(), RankMessage.PRIVATE, c2.getId());
+		Optional<CharacterMessage> findFirst = c2.getUnitsUnderCommand().stream().map(i->characters.get(i)).filter(c->c.getCharacterType()==CharacterType.SOLDIER).findFirst();
 		c2.addCharactersUnderCommand(armoredCar);
+		if(findFirst.isPresent()){
+			armoredCar.passengers.add(findFirst.get().getId());
+			findFirst.get().boardedVehicle = armoredCar.getId();
+		}
 		return armoredCar;
 	}
 
-	private CharacterMessage loadHalfTrack(Vector vector, Country country, CharacterMessage gv2) {
-		return loadHalfTrack1(UUID.randomUUID(), vector, country, gv2);
+	private CharacterMessage loadHalfTrack(Vector vector, Country country, CharacterMessage gv2, Map<UUID, CharacterMessage> characters) {
+		return loadHalfTrack1(UUID.randomUUID(), vector, country, gv2, characters);
 	}
 
 
 
-	private CharacterMessage loadHalfTrack1(UUID randomUUID, Vector vector, Country country, CharacterMessage gv2) {
+	private CharacterMessage loadHalfTrack1(UUID randomUUID, Vector vector, Country country, CharacterMessage gv2, Map<UUID, CharacterMessage> characters) {
 		CharacterMessage halfTrack = new CharacterMessage(randomUUID, CharacterType.HALF_TRACK, vector, country, CharacterType.HALF_TRACK.getDefaultWeapon(), RankMessage.PRIVATE, gv2.getId());
+		Optional<CharacterMessage> findFirst = gv2.getUnitsUnderCommand().stream().map(i->characters.get(i)).filter(c->c.getCharacterType()==CharacterType.SOLDIER).findFirst();
 		gv2.addCharactersUnderCommand(halfTrack);
+		if(findFirst.isPresent()){
+			halfTrack.passengers.add(findFirst.get().getId());
+			findFirst.get().boardedVehicle = halfTrack.getId();
+		}
 		return halfTrack;
 	}
 
-	private CharacterMessage loadAntiTankGun(Vector vector, Country country, CharacterMessage gv1) {
-		return loadAntiTankGun1(UUID.randomUUID(), vector, country, gv1);
+	private CharacterMessage loadAntiTankGun(Vector vector, Country country, CharacterMessage gv1, Map<UUID, CharacterMessage> characters) {
+		return loadAntiTankGun1(UUID.randomUUID(), vector, country, gv1, characters);
 	}
 
 
 
-	private CharacterMessage loadAntiTankGun1(UUID randomUUID, Vector vector, Country country, CharacterMessage gv1) {
+	private CharacterMessage loadAntiTankGun1(UUID randomUUID, Vector vector, Country country, CharacterMessage gv1, Map<UUID, CharacterMessage> characters) {
 		CharacterMessage atg = new CharacterMessage(randomUUID, CharacterType.ANTI_TANK_GUN, vector, country, CharacterType.ANTI_TANK_GUN.getDefaultWeapon(), RankMessage.PRIVATE, gv1.getId());
+		Optional<CharacterMessage> findFirst = gv1.getUnitsUnderCommand().stream().map(i->characters.get(i)).filter(c->c.getCharacterType()==CharacterType.SOLDIER).findFirst();
 		gv1.addCharactersUnderCommand(atg);
+		if(findFirst.isPresent()){
+			atg.passengers.add(findFirst.get().getId());
+			findFirst.get().boardedVehicle = atg.getId();
+		}
 		return atg;
 	}
 
-	public void loadSquad(Set<CharacterMessage> characters, CharacterMessage a1, Vector vector3f, Country country, boolean folllowCommander, Weapon...weapons) throws JsonGenerationException, JsonMappingException, IOException {
-        characters.add(a1);
+	public void loadSquad(Map<UUID, CharacterMessage> characters, CharacterMessage a1, Vector vector3f, Country country, boolean folllowCommander, Weapon...weapons) throws JsonGenerationException, JsonMappingException, IOException {
+        characters.put(a1.getId(), a1);
 		Set<CharacterMessage> cc = new HashSet<CharacterMessage>();
         int i = 0;
         Vector3f offSet = new Vector3f(2, 0, 2);
@@ -290,7 +305,7 @@ public class LostVictoryScene {
             i++;
         }
         a1.addCharactersUnderCommand(cc);
-        characters.addAll(cc);
+        cc.forEach(c->characters.put(c.getId(), c));
     }
 
 }

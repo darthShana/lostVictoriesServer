@@ -77,8 +77,7 @@ public class UpdateCharactersMessageHandler {
 			Set<CharacterMessage> relatedCharacters = toReturn.values().stream()
 				.map(c->c.getUnitsUnderCommand()).filter(u->!toReturn.containsKey(u))
 				.map(u->characterDAO.getAllCharacters(u).values()).flatMap(l->l.stream()).collect(Collectors.toSet());
-			
-			
+						
 			GameStatistics statistics = worldRunner.getStatistics(storedAvatar.getCountry());
 			AchivementStatus achivementStatus = worldRunner.getAchivementStatus(storedAvatar);
 			

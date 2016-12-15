@@ -4,8 +4,8 @@ import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 import static com.jme3.lostVictories.network.messages.CharacterMessage.toLatitute;
 import static com.jme3.lostVictories.network.messages.CharacterMessage.toLongitude;
 import static com.jme3.lostVictories.network.messages.Vector.latLongToVector;
+import static com.jme3.lostVictories.network.messages.LostVictoryScene.SCENE_SCALE;
 import static com.jme3.lostVictories.network.messages.Quaternion.toQuaternion;
-import static lostVictories.LostVictoryScene.SCENE_SCALE;
 
 import java.io.IOException;
 import java.io.Serializable;

@@ -37,6 +37,8 @@ import org.jboss.netty.handler.codec.serialization.ClassResolvers;
 import org.jboss.netty.handler.codec.serialization.ObjectDecoder;
 import org.jboss.netty.handler.codec.serialization.ObjectEncoder;
 
+import com.jme3.lostVictories.network.messages.LostVictoryScene;
+
 
 public class LostVictoriesSever {
 	

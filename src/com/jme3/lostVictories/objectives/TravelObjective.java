@@ -1,6 +1,6 @@
 package com.jme3.lostVictories.objectives;
 
-import static lostVictories.LostVictoryScene.SCENE_SCALE;
+import static com.jme3.lostVictories.network.messages.LostVictoryScene.SCENE_SCALE;
 
 import java.io.IOException;
 import java.util.Map;

@@ -6,7 +6,6 @@ import static org.mockito.Mockito.*;
 import java.util.HashSet;
 import java.util.UUID;
 
-import lostVictories.LostVictoryScene;
 import lostVictories.dao.CharacterDAO;
 
 import org.elasticsearch.common.collect.ImmutableSet;
