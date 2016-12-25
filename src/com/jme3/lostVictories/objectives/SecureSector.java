@@ -56,7 +56,6 @@ public class SecureSector extends Objective {
 		}
 		if(houses2.stream().noneMatch(h->h.getOwner()!=c.getCountry())){
 			log.info(c.getCountry()+"- sector secured:");
-			isComplete = true;
 		}
 	}
 

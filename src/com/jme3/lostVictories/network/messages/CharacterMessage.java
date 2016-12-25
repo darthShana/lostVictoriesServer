@@ -367,13 +367,25 @@ public class CharacterMessage implements Serializable{
         }else{        	
         	type = CharacterType.SOLDIER;
         }
-		final CharacterMessage loadCharacter = new CharacterMessage(UUID.randomUUID(), type, spawnPoint, country, weapon, rankToReenforce, id);
+        
+        Set<CharacterMessage> addedCharacters = new HashSet<CharacterMessage>();
+		
+        final CharacterMessage loadCharacter = new CharacterMessage(UUID.randomUUID(), type, spawnPoint, country, weapon, rankToReenforce, id);
 		loadCharacter.addObjective(UUID.randomUUID(), new FollowUnit(getId(), new Vector(2, 0, 2), 10).asJSON());
-
+		
 		log.debug("creating reenforcement:"+loadCharacter.getId());
-		loadCharacter.commandingOfficer = id;
 		unitsUnderCommand.add(loadCharacter.getId());
-        return ImmutableSet.of(loadCharacter);
+		addedCharacters.add(loadCharacter);
+		
+		if(CharacterType.ANTI_TANK_GUN==loadCharacter.type || CharacterType.ARMORED_CAR==loadCharacter.type || CharacterType.HALF_TRACK==loadCharacter.type){
+			CharacterMessage passenger = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, spawnPoint, country, Weapon.RIFLE, RankMessage.PRIVATE, id);
+			unitsUnderCommand.add(passenger.getId());
+			addedCharacters.add(passenger);
+			loadCharacter.passengers.add(passenger.id);
+			passenger.boardedVehicle = loadCharacter.id;
+		}
+		
+        return addedCharacters;
 	}
 
 	private RankMessage reenformentCharacterRank(RankMessage rankMessage) {
@@ -564,7 +576,7 @@ public class CharacterMessage implements Serializable{
 				return;
 			}
 			vehicle.disembarkPassengers(characterDAO, false).forEach(c->toSave.put(c.id, c));
-			CharacterMessage oldCo = characterDAO.getCharacter(vehicle.getCommandingOfficer());
+			CharacterMessage oldCo = characterDAO.getCharacter(vehicle.commandingOfficer);
 			vehicle.commandingOfficer = co.id;
 			vehicle.objectives.clear();
 			vehicle.country = country;

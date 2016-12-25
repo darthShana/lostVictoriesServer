@@ -4,6 +4,7 @@ import java.awt.Rectangle;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -43,19 +44,20 @@ public class CaptureTown extends Objective {
 		}
 		
 		if(gameSectors==null){
-            gameSectors = calculateGameSector(houseDAO);
+            gameSectors = calculateGameSectors(houseDAO);
         }
 		
-		GameSector toSecure = findClosestUnsecuredGameSector(c, gameSectors);
-        
-        if(toSecure==null){
-            return;
-        }
+        Set<GameSector> exclude = new HashSet<>();
 		
 		for(UUID cid:c.getUnitsUnderCommand()){
 			CharacterMessage unit = characterDAO.getCharacter(cid);
 			if(unit !=null && !isBusy(unit) && RankMessage.LIEUTENANT == unit.getRank()){
-				log.info(c.getCountry()+": assigning new sector:"+toSecure.rect+" houses:"+toSecure.houses.size());
+				GameSector toSecure = findClosestUnsecuredGameSector(c, gameSectors, exclude);
+				if(toSecure==null){
+					continue;
+				}
+				exclude.add(toSecure);
+				log.info(c.getCountry()+": assigning new sector:"+toSecure.rects.iterator().next()+" houses:"+toSecure.houses.size());
 				SecureSector i = new SecureSector(toSecure.getHouses());
 				try {
 					unit.addObjective(UUID.randomUUID(), i.asJSON());
@@ -71,11 +73,12 @@ public class CaptureTown extends Objective {
 		}
 	}
 	
-	private GameSector findClosestUnsecuredGameSector(CharacterMessage character, Set<GameSector> gameSectors) {
+	private GameSector findClosestUnsecuredGameSector(CharacterMessage character, Set<GameSector> gameSectors, Set<GameSector> exclude) {
         GameSector closest = null;
         for(GameSector gameSector:gameSectors){
             if(gameSector.isUnsecured(character.getCountry())){
-                if(closest==null || closest.location().distance(character.getLocation().toVector())>gameSector.location().distance(character.getLocation().toVector())){
+                if(!exclude.contains(gameSector) && 
+                		(closest==null || closest.location().distance(character.getLocation().toVector())>gameSector.location().distance(character.getLocation().toVector()))){
                     closest = gameSector;
                 }
             }
@@ -84,41 +87,86 @@ public class CaptureTown extends Objective {
         return closest;
     }
 	
-	private Set<GameSector> calculateGameSector(HouseDAO houseDAO) {
-        Set<GameSector> ret = new HashSet<GameSector>();
+	Set<GameSector> calculateGameSectors(HouseDAO houseDAO) {
+        Set<GameSector> remaining = new HashSet<GameSector>();
         
-        for(int y = mapBounds.y;y<=mapBounds.getMaxY();y=y+400){
-            for(int x = mapBounds.x;x<=mapBounds.getMaxX();x=x+400){
-                ret.add(new GameSector(new Rectangle(x, y, 400, 400)));
+        for(int y = mapBounds.y;y<=mapBounds.getMaxY();y=y+50){
+            for(int x = mapBounds.x;x<=mapBounds.getMaxX();x=x+50){
+                remaining.add(new GameSector(new Rectangle(x, y, 50, 50)));
             }
         }
         
         for(HouseMessage house:houseDAO.getAllHouses()){
-            for(GameSector sector:ret){
+            for(GameSector sector:remaining){
                 if(sector.containsHouse(house)){
                     sector.add(house);
                 }
             }
         }
         
-        ret = ret.stream().filter(s->!s.houses.isEmpty()).collect(Collectors.toSet());
+        remaining = remaining.stream().filter(s->!s.houses.isEmpty()).collect(Collectors.toSet());
         
-        return ret;
+        //merge joining houses together with a limit on the number of houses
+        Set<GameSector> merged = new HashSet<GameSector>();
+        GameSector next = remaining.iterator().next();
+		merged.add(next);
+		remaining.remove(next);
+		
+        while(!remaining.isEmpty()){
+        	boolean foundMerge = false;
+        	for(GameSector sector:merged){
+        		Optional<GameSector> neighbour = findNeighbouringSector(sector, remaining);
+	        	if(neighbour.isPresent()){
+	        		sector.merge(neighbour.get());
+	        		remaining.remove(neighbour.get());
+	        		foundMerge = true;
+	        	}
+        	}
+        	if(!foundMerge){
+        		next = remaining.iterator().next();
+        		merged.add(next);
+        		remaining.remove(next);
+        	}
+        		
+        }       
+        return merged;
     }
 	
-	private static class GameSector {
-        private final Rectangle rect;
+	Optional<GameSector> findNeighbouringSector(GameSector sector, Set<GameSector> ret) {
+		return ret.stream().filter(s->sector.isJoinedTo(s)).findFirst();
+	}
+
+	static class GameSector {
+        private final Set<Rectangle> rects = new HashSet<Rectangle>();
         private final Set<HouseMessage> houses = new HashSet<HouseMessage>();
 
         public GameSector(Rectangle rect) {
-            this.rect = rect;
+            this.rects.add(rect);
         }
 
-        private boolean containsHouse(HouseMessage house) {
-            return rect.contains(house.getLocation().x, house.getLocation().z);
+        public boolean isJoinedTo(GameSector s) {
+			for(Rectangle r1: rects){
+				for(Rectangle r2:s.rects){
+					if(new Rectangle(r1.x-1, r1.y-1, r1.width+2, r1.height+2).intersects(r2)){
+						return true;
+					}
+				}
+				
+			}
+			return false;
+		}
+
+		public void merge(GameSector neighbour) {
+			houses.addAll(neighbour.houses);
+			rects.addAll(neighbour.rects);
+			
+		}
+
+		private boolean containsHouse(HouseMessage house) {
+            return rects.stream().filter(r->r.contains(house.getLocation().x, house.getLocation().z)).findAny().isPresent();
         }
 
-        private void add(HouseMessage house) {
+        void add(HouseMessage house) {
             houses.add(house);
         }
 
@@ -132,6 +180,7 @@ public class CaptureTown extends Objective {
         }
 
         private Vector3f location() {
+        	Rectangle rect = rects.iterator().next();
             return new Vector3f((float)rect.getCenterX(), 0, (float)rect.getCenterY());
         }
         
