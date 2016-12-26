@@ -1,5 +1,6 @@
 package lostVictories.messageHanders;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -24,7 +25,7 @@ public class BoardingVehicleMessageHandler {
 		this.messageRepository = messageRepository;
 	}
 
-	public LostVictoryMessage handle(BoardVehicleRequest msg) {
+	public LostVictoryMessage handle(BoardVehicleRequest msg) throws IOException {
 		CharacterMessage vehicle = characterDAO.getCharacter(msg.getVehicleID());
 		CharacterMessage passenger = characterDAO.getCharacter(msg.getCharacterID());
 		log.debug("recived boarding request for:"+passenger.getId());

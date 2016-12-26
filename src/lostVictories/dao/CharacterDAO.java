@@ -126,8 +126,15 @@ public class CharacterDAO {
 		return StreamSupport.stream(iterable.spliterator(), true).map(hit -> fromFields(UUID.fromString(hit.getId()), hit.version(), hit.getSource())).collect(Collectors.toSet());
 	}
 	
-	public void save(Collection<CharacterMessage> values) {
-		values.stream().forEach(c->putCharacter(c.getId(), c));
+	public void save(Collection<CharacterMessage> values) throws IOException {		
+		BulkRequestBuilder bulkRequest = esClient.prepareBulk();
+		for(CharacterMessage v: values){
+			bulkRequest.add(
+					new UpdateRequest(indexName, "unitStatus", v.getId().toString()).doc(v.getJSONRepresentation())
+					);
+		}
+		
+		bulkRequest.execute().actionGet();
 	}
 	
 	public void updateCharacterState(Map<UUID, CharacterMessage> map) throws IOException{

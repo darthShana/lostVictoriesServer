@@ -1,5 +1,6 @@
 package lostVictories.messageHanders;
 
+import java.io.IOException;
 import java.util.UUID;
 
 import org.apache.log4j.Logger;
@@ -20,7 +21,7 @@ public class DisembarkPassengersMessageHandler {
 		this.characterDAO = characterDAO;
 	}
 
-	public LostVictoryMessage handle(DisembarkPassengersRequest msg) {
+	public LostVictoryMessage handle(DisembarkPassengersRequest msg) throws IOException {
 		log.debug("received disembark request from:"+msg.getVehicleID());
 		CharacterMessage vehicle = characterDAO.getCharacter(msg.getVehicleID());
 		characterDAO.save(vehicle.disembarkPassengers(characterDAO, true));

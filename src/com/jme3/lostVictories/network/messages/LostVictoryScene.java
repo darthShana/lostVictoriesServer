@@ -107,14 +107,14 @@ public class LostVictoryScene {
         loadSquad(characters, b1, americanBase.add(-10, 0, 15), Country.AMERICAN, true, Weapon.RIFLE, Weapon.RIFLE);
         CharacterMessage loadAntiTankGun = loadAntiTankGun(americanBase.add(15, 0, 15), Country.AMERICAN, b1, characters);
 		characters.put(loadAntiTankGun.getId(), loadAntiTankGun);
-        CharacterMessage loadAmoredCar2 = loadAmoredCar(americanBase.add(10, 0, 15), Country.AMERICAN, b1, characters);
-		characters.put(loadAmoredCar2.getId(), loadAmoredCar2);
+//        CharacterMessage loadAmoredCar2 = loadAmoredCar(americanBase.add(10, 0, 15), Country.AMERICAN, b1, characters);
+//		characters.put(loadAmoredCar2.getId(), loadAmoredCar2);
         //characters.add(loadAntiTankGun1(UUID.randomUUID(), americanBase.add(20, 0, 20), Country.AMERICAN, b1));
 //        b1.addObjective(UUID.randomUUID(), createBootCampObjective(new Vector(-57.21826f, 96.380104f, -203.38945f)));
-        b1.incrementKills(UUID.randomUUID());
-        b1.incrementKills(UUID.randomUUID());
-        b1.incrementKills(UUID.randomUUID());
-        b1.incrementKills(UUID.randomUUID());
+//        b1.incrementKills(UUID.randomUUID());
+//        b1.incrementKills(UUID.randomUUID());
+//        b1.incrementKills(UUID.randomUUID());
+//        b1.incrementKills(UUID.randomUUID());
 //        b1.incrementKills(UUID.randomUUID());
         
         CharacterMessage b2 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, americanBase.add(20, 0, -25), Country.AMERICAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, al1.getId());
@@ -264,7 +264,10 @@ public class LostVictoryScene {
 	
 	private CharacterMessage loadAmoredCar(Vector vector, Country country, CharacterMessage c2, Map<UUID, CharacterMessage> characters) {
 		CharacterMessage armoredCar = new CharacterMessage(UUID.randomUUID(), CharacterType.ARMORED_CAR, vector, country, CharacterType.ARMORED_CAR.getDefaultWeapon(), RankMessage.PRIVATE, c2.getId());
-		Optional<CharacterMessage> findFirst = c2.getUnitsUnderCommand().stream().map(i->characters.get(i)).filter(c->c.getCharacterType()==CharacterType.SOLDIER).findFirst();
+		Optional<CharacterMessage> findFirst = c2.getUnitsUnderCommand().stream().map(i->characters.get(i))
+				.filter(c->c.getCharacterType()==CharacterType.SOLDIER)
+				.filter(c->c.boardedVehicle==null)
+				.findFirst();
 		c2.addCharactersUnderCommand(armoredCar);
 		if(findFirst.isPresent()){
 			armoredCar.passengers.add(findFirst.get().getId());
@@ -281,7 +284,10 @@ public class LostVictoryScene {
 
 	private CharacterMessage loadHalfTrack1(UUID randomUUID, Vector vector, Country country, CharacterMessage gv2, Map<UUID, CharacterMessage> characters) {
 		CharacterMessage halfTrack = new CharacterMessage(randomUUID, CharacterType.HALF_TRACK, vector, country, CharacterType.HALF_TRACK.getDefaultWeapon(), RankMessage.PRIVATE, gv2.getId());
-		Optional<CharacterMessage> findFirst = gv2.getUnitsUnderCommand().stream().map(i->characters.get(i)).filter(c->c.getCharacterType()==CharacterType.SOLDIER).findFirst();
+		Optional<CharacterMessage> findFirst = gv2.getUnitsUnderCommand().stream().map(i->characters.get(i))
+				.filter(c->c.getCharacterType()==CharacterType.SOLDIER)
+				.filter(c->c.boardedVehicle==null)
+				.findFirst();
 		gv2.addCharactersUnderCommand(halfTrack);
 		if(findFirst.isPresent()){
 			halfTrack.passengers.add(findFirst.get().getId());
@@ -298,7 +304,10 @@ public class LostVictoryScene {
 
 	private CharacterMessage loadAntiTankGun1(UUID randomUUID, Vector vector, Country country, CharacterMessage gv1, Map<UUID, CharacterMessage> characters) {
 		CharacterMessage atg = new CharacterMessage(randomUUID, CharacterType.ANTI_TANK_GUN, vector, country, CharacterType.ANTI_TANK_GUN.getDefaultWeapon(), RankMessage.PRIVATE, gv1.getId());
-		Optional<CharacterMessage> findFirst = gv1.getUnitsUnderCommand().stream().map(i->characters.get(i)).filter(c->c.getCharacterType()==CharacterType.SOLDIER).findFirst();
+		Optional<CharacterMessage> findFirst = gv1.getUnitsUnderCommand().stream().map(i->characters.get(i))
+				.filter(c->c.getCharacterType()==CharacterType.SOLDIER)
+				.filter(c->c.boardedVehicle==null)
+					.findFirst();
 		gv1.addCharactersUnderCommand(atg);
 		if(findFirst.isPresent()){
 			atg.passengers.add(findFirst.get().getId());
