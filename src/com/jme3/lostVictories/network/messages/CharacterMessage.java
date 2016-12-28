@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 import lostVictories.VehicleFactory;
 import lostVictories.WeaponsFactory;
 import lostVictories.dao.CharacterDAO;
+import lostVictories.messageHanders.CharacterCatch;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -429,8 +430,10 @@ public class CharacterMessage implements Serializable{
 		return timeOfDeath;
 	}
 
-	public void replaceMe(CharacterDAO characterDAO, Map<UUID, CharacterMessage> toSave) {
-		Map<UUID, CharacterMessage> oldSquad = unitsUnderCommand.stream().map(i->toSave.containsKey(i)?toSave.get(i):characterDAO.getCharacter(i)).collect(Collectors.toMap(CharacterMessage::getId, Function.identity()));
+	public void replaceMe(CharacterCatch characterDAO, Map<UUID, CharacterMessage> toSave) {
+		Map<UUID, CharacterMessage> oldSquad = unitsUnderCommand.stream()
+				.map(i->toSave.containsKey(i)?toSave.get(i):characterDAO.getCharacter(i))
+				.collect(Collectors.toMap(CharacterMessage::getId, Function.identity()));
 		log.debug("finding field replacement for"+country+":"+id+" ->["+unitsUnderCommand+"]");
 		
 		if(commandingOfficer!=null){
@@ -616,7 +619,7 @@ public class CharacterMessage implements Serializable{
 		
 	}
 
-	public CharacterMessage killPassenger(CharacterDAO characterDAO) {
+	public CharacterMessage killPassenger(CharacterCatch characterDAO) {
 		Set<CharacterMessage> toChange = passengers.stream().map(id->characterDAO.getCharacter(id)).collect(Collectors.toSet());
 		Optional<CharacterMessage> findAny = toChange.stream().filter(c->c.getCharacterType()==CharacterType.SOLDIER).findAny();
 		if(findAny.isPresent()){

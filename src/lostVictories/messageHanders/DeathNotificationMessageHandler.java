@@ -30,20 +30,20 @@ public class DeathNotificationMessageHandler {
 
 	public LostVictoryMessage handle(DeathNotificationRequest msg) {
 		Map<UUID, CharacterMessage> toSave = new HashMap<UUID, CharacterMessage>();
-		
-		CharacterMessage victim = characterDAO.getCharacter(msg.getVictim());
+		CharacterCatch catche = new CharacterCatch(characterDAO);
+		CharacterMessage victim = catche.getCharacter(msg.getVictim());
 		if(victim==null || victim.isDead()){
 			return new LostVictoryMessage(UUID.randomUUID());
 		}
 		log.info("received death notification:"+victim.getId());
 		
-		CharacterMessage killer = characterDAO.getCharacter(msg.getKiller());
+		CharacterMessage killer = catche.getCharacter(msg.getKiller());
 		victim.kill();
 		killer.incrementKills(victim.getId());
 		toSave.put(killer.getId(), killer);
 		toSave.put(victim.getId(), victim);
 		
-		victim.replaceMe(characterDAO, toSave);
+		victim.replaceMe(catche, toSave);
 		
 		if(victim.getWeapon().isReusable() && (victim.getCharacterType()==CharacterType.SOLDIER || victim.getCharacterType()==CharacterType.AVATAR)){
 			equipmentDAO.addUnclaiimedEquipment(new UnClaimedEquipmentMessage(UUID.randomUUID(), victim.getWeapon(), victim.getLocation(), new Vector(0, 0, 0)));

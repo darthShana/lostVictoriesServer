@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import lostVictories.dao.CharacterDAO;
+import lostVictories.messageHanders.CharacterCatch;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -145,7 +146,7 @@ public class CharacterMessageTest {
 	public void testKillGunner(){
 		vehicle.passengers.add(oldPassenger.id);
 		
-		vehicle.killPassenger(characterDAO);
+		vehicle.killPassenger(new CharacterCatch(characterDAO));
 		assertTrue(vehicle.passengers.isEmpty());
 		assertTrue(vehicle.isAbandoned());
 	}
@@ -172,7 +173,7 @@ public class CharacterMessageTest {
 		
 		HashMap<UUID, CharacterMessage> toSave = new HashMap<UUID, CharacterMessage>();
 		toSave.put(vehicle1.getId(), vehicle1);
-		oldCo1.replaceMe(characterDAO, toSave);
+		oldCo1.replaceMe(new CharacterCatch(characterDAO), toSave);
 		
 		assertTrue(toSave.containsKey(vehicle1.getId()));
 		assertFalse(toSave.get(vehicle1.getId()).isAbandoned());

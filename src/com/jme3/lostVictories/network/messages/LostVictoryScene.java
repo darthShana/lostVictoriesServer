@@ -107,9 +107,8 @@ public class LostVictoryScene {
         loadSquad(characters, b1, americanBase.add(-10, 0, 15), Country.AMERICAN, true, Weapon.RIFLE, Weapon.RIFLE);
         CharacterMessage loadAntiTankGun = loadAntiTankGun(americanBase.add(15, 0, 15), Country.AMERICAN, b1, characters);
 		characters.put(loadAntiTankGun.getId(), loadAntiTankGun);
-//        CharacterMessage loadAmoredCar2 = loadAmoredCar(americanBase.add(10, 0, 15), Country.AMERICAN, b1, characters);
+//        CharacterMessage loadAmoredCar2 = loadHalfTrack1(UUID.fromString("8c1bda23-33f9-4843-aae5-f1ceb30d70aa"), americanBase.add(10, 0, 15), Country.AMERICAN, b1, characters);
 //		characters.put(loadAmoredCar2.getId(), loadAmoredCar2);
-        //characters.add(loadAntiTankGun1(UUID.randomUUID(), americanBase.add(20, 0, 20), Country.AMERICAN, b1));
 //        b1.addObjective(UUID.randomUUID(), createBootCampObjective(new Vector(-57.21826f, 96.380104f, -203.38945f)));
 //        b1.incrementKills(UUID.randomUUID());
 //        b1.incrementKills(UUID.randomUUID());
