@@ -20,6 +20,7 @@ import lostVictories.dao.HouseDAO;
 import com.jme3.lostVictories.network.messages.CharacterMessage;
 import com.jme3.lostVictories.network.messages.HouseMessage;
 import com.jme3.lostVictories.network.messages.RankMessage;
+import com.jme3.lostVictories.network.messages.Vector;
 import com.jme3.math.Vector3f;
 
 public class SecureSector extends Objective {
@@ -27,11 +28,24 @@ public class SecureSector extends Objective {
 	private static Logger log = Logger.getLogger(SecureSector.class);
 	
 	private Set<UUID> houses = new HashSet<UUID>();
+	private Vector centre;
+	private TravelObjective travelObjective;
 	
 	private SecureSector() {}
 	
 	public SecureSector(Set<HouseMessage> houses) {
 		this.houses = houses.stream().map(h->h.getId()).collect(Collectors.toSet());
+		float totalX = 0, totalY = 0,totalZ = 0;
+		for(HouseMessage h:houses){
+            totalX+=h.getLocation().x;
+            totalY+=h.getLocation().y;
+            totalZ+=h.getLocation().z;
+        }
+        final float x = totalX/houses.size();
+        final float y = totalY/houses.size();
+        final float z = totalZ/houses.size();
+        centre = new Vector(x, y, z);
+        System.out.println("securing sector:"+centre);
 	}
 
 	@Override
@@ -57,6 +71,14 @@ public class SecureSector extends Objective {
 		if(houses2.stream().noneMatch(h->h.getOwner()!=c.getCountry())){
 			log.info(c.getCountry()+"- sector secured:");
 		}
+		if(centre.x-87<1 && centre.z-(-326)<1){
+			log.debug(c.getCountry()+": securing sector:"+c.getLocation());
+		}
+		if(travelObjective==null){
+			travelObjective = new TravelObjective(centre, null);
+		}
+		travelObjective.runObjective(c, uuid, characterDAO, houseDAO, toSave);
+		
 	}
 
 	public static HouseMessage findClosestHouse(CharacterMessage c, Set<HouseMessage> allHouses, Predicate<HouseMessage> pred) {
@@ -81,9 +103,13 @@ public class SecureSector extends Objective {
 	
 	public String asJSON() throws JsonGenerationException, JsonMappingException, IOException{
 		ObjectNode node = MAPPER.createObjectNode();
-		JsonNode valueToTree = MAPPER.valueToTree(houses);
+		JsonNode _houses = MAPPER.valueToTree(houses);
+		JsonNode _centre = MAPPER.valueToTree(centre);
+		JsonNode _travelObjective = MAPPER.valueToTree(travelObjective);
 		node.put("classType", getClass().getName());
-		node.put("houses", valueToTree);
+		node.put("houses", _houses);
+		node.put("centre", _centre);
+		node.put("travelObjective", _travelObjective);
         return MAPPER.writeValueAsString(node);
 	}
 

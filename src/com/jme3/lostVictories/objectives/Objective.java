@@ -1,5 +1,7 @@
 package com.jme3.lostVictories.objectives;
 
+import static com.jme3.lostVictories.objectives.Objective.MAPPER;
+
 import java.io.IOException;
 import java.util.Map;
 import java.util.UUID;
@@ -9,6 +11,7 @@ import lostVictories.dao.HouseDAO;
 
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
 import org.codehaus.jackson.annotate.JsonMethod;
@@ -35,12 +38,29 @@ public abstract class Objective {
 	public abstract String asJSON() throws JsonGenerationException, JsonMappingException, IOException;
 	
 	public boolean isBusy(CharacterMessage unit) {
-		return unit.isDead() || unit.getObjectives().values().stream().map(s->toJsonNodeSafe(s)).anyMatch(n->!isPassiveObjective(n));
+		return unit.isDead() || unit.getObjectives().values().stream()
+				.map(s->toJsonNodeSafe(s))
+				.map(json->toObjectiveSafe(json))
+				.filter(o->o!=null)
+			.anyMatch(o->!(o instanceof PassiveObjective));
 	}
 	
-	private boolean isPassiveObjective(JsonNode n) {
-		String s = n.get("classType").asText();
-		return "com.jme3.lostVictories.objectives.SurvivalObjective".equals(s) || "com.jme3.lostVictories.objectives.RemanVehicle".equals(s) || "com.jme3.lostVictories.objectives.FollowUnit".equals(s);
+	
+
+	private Objective toObjectiveSafe(JsonNode json) {
+		
+		try {
+			Class objectiveClass;
+			objectiveClass = Class.forName(json.get("classType").asText());
+			Objective objective = (Objective) MAPPER.treeToValue(json, objectiveClass);
+			return objective;
+		} catch (ClassNotFoundException e) {
+			//not all objectives are present lets assume these are passive
+			return null;
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+		
 	}
 
 	private JsonNode toJsonNodeSafe(String s) {

@@ -74,15 +74,18 @@ public class UpdateCharactersMessageHandler {
 					.collect(Collectors.toMap(p->p.getKey(), p->p.getValue()));
 			inRangeOfAvatar.values().stream().filter(c->!existingInServer.containsKey(c.getId())).forEach(c->toReturn.put(c.getId(), c));
 			
-			Set<CharacterMessage> relatedCharacters = toReturn.values().stream()
-				.map(c->c.getUnitsUnderCommand()).filter(u->!toReturn.containsKey(u))
+			Set<CharacterMessage> relatedCharacters1 = toReturn.values().stream()
+				.map(c->c.getUnitsUnderCommand()).filter(u->u!=null && !toReturn.containsKey(u))
 				.map(u->characterDAO.getAllCharacters(u).values()).flatMap(l->l.stream()).collect(Collectors.toSet());
-						
+			Set<CharacterMessage> relatedCharacters2 = toReturn.values().stream()
+				.map(c->c.getCommandingOfficer()).filter(u->u!=null && !toReturn.containsKey(u))
+				.map(u->characterDAO.getCharacter(u)).collect(Collectors.toSet());
+			relatedCharacters1.addAll(relatedCharacters2);
 			GameStatistics statistics = worldRunner.getStatistics(storedAvatar.getCountry());
 			AchivementStatus achivementStatus = worldRunner.getAchivementStatus(storedAvatar);
 			
 			Set<UnClaimedEquipmentMessage> unClaimedEquipment = equipmentDAO.getUnClaimedEquipment(v.x, v.y, v.z, CheckoutScreenMessageHandler.CLIENT_RANGE);
-			return new UpdateCharactersResponse(msg.getClientID(), new HashSet<CharacterMessage>(toReturn.values()), relatedCharacters, unClaimedEquipment, allHouses, statistics, achivementStatus, messageRepository.popMessages(msg.getClientID()));
+			return new UpdateCharactersResponse(msg.getClientID(), new HashSet<CharacterMessage>(toReturn.values()), relatedCharacters1, unClaimedEquipment, allHouses, statistics, achivementStatus, messageRepository.popMessages(msg.getClientID()));
 		}else{
 			toReturn = existingInServer;
 			log.debug("client did not send avatar for perspective");

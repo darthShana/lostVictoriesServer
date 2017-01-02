@@ -18,7 +18,7 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.node.ObjectNode;
 
 import com.jme3.lostVictories.objectives.CaptureTown;
-import com.jme3.lostVictories.objectives.FollowUnit;
+import com.jme3.lostVictories.objectives.FollowCommander;
 import com.jme3.math.Vector3f;
 
 public class LostVictoryScene {
@@ -323,7 +323,7 @@ public class LostVictoryScene {
         for(Weapon w:weapons){
             CharacterMessage e = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, vector3f.add(i*3, 0, 0), country, w, RankMessage.PRIVATE, a1.getId());
             if(folllowCommander){
-            	e.addObjective(UUID.randomUUID(), new FollowUnit(a1.getId(), new Vector(offSet), 10).asJSON());
+            	e.addObjective(UUID.randomUUID(), new FollowCommander(new Vector(offSet), 10).asJSON());
             	offSet = offSet.add(2, 0, 2);
             }
 			cc.add(e);

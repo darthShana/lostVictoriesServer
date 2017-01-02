@@ -26,15 +26,12 @@ import lostVictories.messageHanders.CharacterCatch;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.elasticsearch.common.collect.ImmutableSet;
 import org.elasticsearch.common.geo.GeoPoint;
 import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.type.TypeReference;
 
 import com.jme3.lostVictories.network.messages.actions.Action;
-import com.jme3.lostVictories.objectives.FollowUnit;
+import com.jme3.lostVictories.objectives.FollowCommander;
 
 public class CharacterMessage implements Serializable{
 	
@@ -372,7 +369,7 @@ public class CharacterMessage implements Serializable{
         Set<CharacterMessage> addedCharacters = new HashSet<CharacterMessage>();
 		
         final CharacterMessage loadCharacter = new CharacterMessage(UUID.randomUUID(), type, spawnPoint, country, weapon, rankToReenforce, id);
-		loadCharacter.addObjective(UUID.randomUUID(), new FollowUnit(getId(), new Vector(2, 0, 2), 10).asJSON());
+		loadCharacter.addObjective(UUID.randomUUID(), new FollowCommander(new Vector(2, 0, 2), 10).asJSON());
 		
 		log.debug("creating reenforcement:"+loadCharacter.getId());
 		unitsUnderCommand.add(loadCharacter.getId());
@@ -409,7 +406,7 @@ public class CharacterMessage implements Serializable{
 			Set<CharacterMessage> collect = unitsUnderCommand.stream().map(uuid->allCharacters.get(uuid)).filter(c->c!=null).collect(Collectors.toSet());
 			for(CharacterMessage c:collect){
 				c.commandingOfficer=characterMessage.id;
-				c.addObjective(UUID.randomUUID(), new FollowUnit(characterMessage.getId(), new Vector(2, 0, 2), 10).asJSON());
+				c.addObjective(UUID.randomUUID(), new FollowCommander(new Vector(2, 0, 2), 10).asJSON());
 
 			}
 			toUpdate.addAll(collect);

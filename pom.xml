@@ -19,6 +19,11 @@
 			<artifactId>jme3-core</artifactId>
 			<version>3.0.10</version>
 		</dependency>
+		<dependency>
+		  <groupId>net.sf.sociaal</groupId>
+		  <artifactId>jME3-ai</artifactId>
+		  <version>0.1.831</version>
+		</dependency>
   		<dependency>
 			<groupId>org.elasticsearch</groupId>
 			<artifactId>elasticsearch</artifactId>

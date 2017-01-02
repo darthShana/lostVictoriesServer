@@ -71,6 +71,7 @@ public class CharacterRunner implements Runnable{
 				Class objectiveClass = Class.forName(entry.getValue().get("classType").asText());
 				Objective objective = (Objective) MAPPER.treeToValue(entry.getValue(), objectiveClass);
 				objective.runObjective(c, entry.getKey(), characterDAO, houseDAO, toSave);
+				c.getObjectives().put(entry.getKey(), objective.asJSON());
 				if(objective.isComplete){
 					c.getObjectives().remove(entry.getKey());
 					toSave.put(c.getId(), c);

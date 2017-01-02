@@ -13,7 +13,7 @@ import org.codehaus.jackson.node.ObjectNode;
 
 import com.jme3.lostVictories.network.messages.CharacterMessage;
 
-public class CompleteBootCamp extends Objective {
+public class CompleteBootCamp extends Objective implements PassiveObjective{
 
 	@Override
 	public void runObjective(CharacterMessage c, String uuid, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave) {

@@ -69,7 +69,7 @@ public class NavigateObjective extends Objective{
 
 	@Override
 	public boolean clashesWith(Class<? extends Objective> newObjective) {
-		return newObjective.isAssignableFrom(FollowUnit.class);
+		return newObjective.isAssignableFrom(FollowCommander.class);
 	}
 
 }
