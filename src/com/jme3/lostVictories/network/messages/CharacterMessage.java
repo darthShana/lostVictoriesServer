@@ -2,6 +2,8 @@ package com.jme3.lostVictories.network.messages;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 import static com.jme3.lostVictories.network.messages.Vector.latLongToVector;
+import static com.jme3.lostVictories.objectives.Objective.toObjectiveSafe;
+import static com.jme3.lostVictories.objectives.Objective.toJsonNodeSafe;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -32,6 +34,7 @@ import org.codehaus.jackson.type.TypeReference;
 
 import com.jme3.lostVictories.network.messages.actions.Action;
 import com.jme3.lostVictories.objectives.FollowCommander;
+import com.jme3.lostVictories.objectives.PassiveObjective;
 
 public class CharacterMessage implements Serializable{
 	
@@ -286,6 +289,14 @@ public class CharacterMessage implements Serializable{
 		return this.checkoutClient==null || checkoutTime==null || System.currentTimeMillis()-checkoutTime>CHECKOUT_TIMEOUT;
 	}
 	
+	public boolean isBusy() {
+		return isDead() || getObjectives().values().stream()
+				.map(s->toJsonNodeSafe(s))
+				.map(json->toObjectiveSafe(json))
+				.filter(o->o!=null)
+			.anyMatch(o->!(o instanceof PassiveObjective));
+	}
+	
 	public void updateState(CharacterMessage other, UUID clientID, long checkoutTime) {
 		location = other.location;
 		orientation = other.orientation;
@@ -450,6 +461,7 @@ public class CharacterMessage implements Serializable{
 			toPromote.rank = rank;
 			toPromote.kills = new HashSet<UUID>();
 			toPromote.objectives = new HashMap<String, String>();
+			toPromote.unitsUnderCommand.clear();
 			if(commandingOfficer!=null){
 				toPromote.commandingOfficer = commandingOfficer;
 			}

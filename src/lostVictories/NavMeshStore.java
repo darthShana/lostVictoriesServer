@@ -1,8 +1,5 @@
 package lostVictories;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,7 +11,6 @@ import com.jme3.asset.DesktopAssetManager;
 import com.jme3.asset.plugins.FileLocator;
 import com.jme3.export.binary.BinaryImporter;
 import com.jme3.lostVictories.network.messages.Vector;
-import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 
 public class NavMeshStore {
@@ -43,12 +39,13 @@ public class NavMeshStore {
 			try{
 				pathFinder.clearPath();
 				pathFinder.setEntityRadius(.8f);
-				pathFinder.setPosition(pathFinder.warp(location.toVector()));
+				pathFinder.setPosition(location.toVector());
 				final DebugInfo debugInfo = new DebugInfo();
 
-				if(this.pathFinder.computePath(pathFinder.warp(destination.toVector()), debugInfo)){
+				if(this.pathFinder.computePath(destination.toVector(), debugInfo)){
 					return pathFinder.getPath().getWaypoints().stream().map(w->new Vector(w.getPosition())).collect(Collectors.toList());
-				}else{                  
+				}else{
+					System.out.println("unable to find path from:"+location+" to:"+destination);
 					return null;
 				}
 			}catch(Throwable e){

@@ -5,7 +5,6 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 import java.util.UUID;
 
-import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.junit.Test;
 
@@ -23,14 +22,14 @@ public class ObjectiveTest {
 		CharacterMessage character = new CharacterMessage(UUID.randomUUID(), CharacterType.AVATAR, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, null);
 
 		TravelObjective objective = new TravelObjective(new Vector(100, 0, 100), null);
-		assertFalse(objective.isBusy(character));
+		assertFalse(character.isBusy());
 
 		FollowCommander obj2 = new FollowCommander(new Vector(0, 0, 0), 3);
 		character.addObjective(UUID.randomUUID(), obj2.asJSON());
-		assertFalse(objective.isBusy(character));
+		assertFalse(character.isBusy());
 		
 		character.addObjective(UUID.randomUUID(), objective.asJSON());
-		assertTrue(objective.isBusy(character));
+		assertTrue(character.isBusy());
 	}
 
 }

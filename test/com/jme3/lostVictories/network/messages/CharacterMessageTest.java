@@ -4,7 +4,9 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import java.util.HashMap;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import lostVictories.dao.CharacterDAO;
 import lostVictories.messageHanders.CharacterCatch;
@@ -183,6 +185,39 @@ public class CharacterMessageTest {
 	}
 	
 	@Test
+	public void testRepleaceLiutenant(){
+		CharacterMessage oldCo1 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.LIEUTENANT, null);
+		CharacterMessage cp1 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, oldCo1.getId());
+		CharacterMessage cp2 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, oldCo1.getId());
+		oldCo1.addCharactersUnderCommand(cp1, cp2);
+		
+		CharacterMessage p1 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, cp1.getId());
+		CharacterMessage p2 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, cp1.getId());
+		cp1.addCharactersUnderCommand(p1, p2);
+		CharacterMessage p3 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, cp2.getId());
+		CharacterMessage p4 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, cp2.getId());
+		cp2.addCharactersUnderCommand(p3, p4);
+		
+		when(characterDAO.getCharacter(cp1.getId())).thenReturn(cp1);
+		when(characterDAO.getCharacter(cp2.getId())).thenReturn(cp2);
+		when(characterDAO.getCharacter(p1.getId())).thenReturn(cp2);
+		when(characterDAO.getCharacter(p2.getId())).thenReturn(cp2);
+		when(characterDAO.getCharacter(p3.getId())).thenReturn(cp2);
+		when(characterDAO.getCharacter(p4.getId())).thenReturn(cp2);
+
+		
+		HashMap<UUID, CharacterMessage> toSave = new HashMap<UUID, CharacterMessage>();
+		oldCo1.replaceMe(new CharacterCatch(characterDAO), toSave);
+		
+		Set<CharacterMessage> collect = toSave.values().stream().filter(c->c.rank==RankMessage.LIEUTENANT).collect(Collectors.toSet());
+		assertEquals(1, collect.size());
+		
+		CharacterMessage newLiutenant = collect.iterator().next();
+		assertEquals(1, newLiutenant.getUnitsUnderCommand().size());
+		assertEquals(RankMessage.CADET_CORPORAL, toSave.get(newLiutenant.getUnitsUnderCommand().iterator().next()).rank);
+	}
+	
+	@Test
 	public void testPromoteToSupreamCommander(){
 		avatar.rank = RankMessage.LIEUTENANT;
 		avatar.commandingOfficer = oldCo.id;
@@ -209,6 +244,21 @@ public class CharacterMessageTest {
 		
 		assertEquals(new Vector(177.0471f, 97.52623f, -14.900481f), latLongToVector);
 		
+	}
+	
+	@Test
+	public void testLogConv2(){
+		HashMap<String, Double> latlong = new HashMap<String, Double>();
+		latlong.put("lat", -24.09786033630371);
+		latlong.put("lon", 44.689910888671875);
+		Vector other = Vector.latLongToVector(latlong, 100.49753f);
+		System.out.println("other:"+other);
+		
+		latlong.put("lat", -57.450252532958984);
+		latlong.put("lon", 29.49251937866211);
+		Vector ava = Vector.latLongToVector(latlong, 100.72956f);
+		System.out.println("avatar:"+ava);
+		System.out.println("distance:"+ava.distance(other));
 	}
 
 }

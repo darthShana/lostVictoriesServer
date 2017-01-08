@@ -3,11 +3,13 @@ package com.jme3.lostVictories.objectives;
 import static com.jme3.lostVictories.network.messages.LostVictoryScene.SCENE_SCALE;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import lostVictories.NavMeshStore;
 import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.HouseDAO;
 
@@ -23,6 +25,7 @@ import com.jme3.math.Vector3f;
 public class NavigateObjective extends Objective{
 
 	private Vector target;
+	List<Vector> path;
     private Vector destination;
 	
     private NavigateObjective() {}
@@ -36,19 +39,31 @@ public class NavigateObjective extends Objective{
 	public void runObjective(CharacterMessage character, String uuid, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave) {
 		Vector c = character.getLocation();
 		Vector3f currentLocation = new Vector3f(c.x, c.y, c.z);
-		Vector3f dest = new Vector3f(destination.x, destination.y, destination.z);
-		Vector3f newLocation = currentLocation.add(dest.subtract(currentLocation).normalize().mult(10*SCENE_SCALE));
 		
-		if(currentLocation.distance(newLocation)>currentLocation.distance(dest)){
-			newLocation = dest;
-			isComplete = true;
+		if(path == null){
+	    	path = NavMeshStore.intstace().findPath(character.getLocation(), destination);
+		}
+		if(path == null){
+			return;
 		}
 		
-		Vector vector = new Vector(newLocation.x, newLocation.y, newLocation.z);
-		character.setLocation(vector);
+		if(!path.isEmpty() && currentLocation.distance(path.get(0).toVector())<1){
+			path.remove(0);
+		}
+		if(path.isEmpty()){
+			isComplete = true;
+			return;
+		}
+				
+		Vector3f newLocation = currentLocation.add(path.get(0).toVector().subtract(currentLocation).normalize().mult(10*SCENE_SCALE));
+		if(currentLocation.distance(newLocation)>currentLocation.distance(path.get(0).toVector())){
+			newLocation = path.get(0).toVector();
+		}
+		final Vector v = new Vector(newLocation);
+		character.setLocation(v);
 		
 		Set<CharacterMessage> collect = character.getPassengers().stream().map(id->characterDAO.getCharacter(id)).collect(Collectors.toSet());
-		collect.forEach(passenger->passenger.setLocation(vector));
+		collect.forEach(passenger->passenger.setLocation(v));
 		collect.add(character);
 		collect.forEach(moved->toSave.put(moved.getId(), moved));
 	}
@@ -61,6 +76,10 @@ public class NavigateObjective extends Objective{
         if(target!=null){
         	JsonNode f = MAPPER.valueToTree(target);
         	node.put("facePoint", f);
+        }
+        if(path!=null){
+        	JsonNode f = MAPPER.valueToTree(path);
+        	node.put("path", f);
         }
         node.put("classType", getClass().getName());
 

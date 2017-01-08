@@ -51,6 +51,7 @@ public class CharacterRunner implements Runnable{
 				.forEach(c->runCharacterBehavior(c, toSave));
 			try {
 				characterDAO.updateCharacterStateNoCheckout(toSave);
+				characterDAO.refresh();
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
@@ -71,6 +72,7 @@ public class CharacterRunner implements Runnable{
 				Class objectiveClass = Class.forName(entry.getValue().get("classType").asText());
 				Objective objective = (Objective) MAPPER.treeToValue(entry.getValue(), objectiveClass);
 				objective.runObjective(c, entry.getKey(), characterDAO, houseDAO, toSave);
+				//should not need to do this.....
 				c.getObjectives().put(entry.getKey(), objective.asJSON());
 				if(objective.isComplete){
 					c.getObjectives().remove(entry.getKey());
@@ -87,8 +89,19 @@ public class CharacterRunner implements Runnable{
 			}
 		}
 	}
+	
+	public static Objective fromStringToObjective(String jsonString){
+		JsonNode jsonNodeSafe = toJsonNodeSafe(jsonString);
+		try {
+			Class objectiveClass = Class.forName(jsonNodeSafe.get("classType").asText());
+			return (Objective) MAPPER.treeToValue(jsonNodeSafe, objectiveClass);
+		} catch (ClassNotFoundException | IOException e) {
+			throw new RuntimeException(e);
+		}
+		
+	}
 
-	private JsonNode toJsonNodeSafe(String s) {
+	private static JsonNode toJsonNodeSafe(String s) {
 		try {
 			return MAPPER.readTree(s);
 		} catch (JsonProcessingException e) {

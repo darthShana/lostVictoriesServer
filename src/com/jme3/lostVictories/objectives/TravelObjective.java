@@ -45,6 +45,7 @@ public class TravelObjective extends Objective{
 	    	path = NavMeshStore.intstace().findPath(character.getLocation(), destination);
 		}
 		if(path == null){
+			isComplete = true;
 			return;
 		}
 		

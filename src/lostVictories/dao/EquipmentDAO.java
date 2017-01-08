@@ -54,7 +54,7 @@ public class EquipmentDAO {
 		
 	}
 
-	public Set<UnClaimedEquipmentMessage> getUnClaimedEquipment(float x, float y, float z, Long range) {
+	public Set<UnClaimedEquipmentMessage> getUnClaimedEquipment(float x, float y, float z, float range) {
 		Vector topLeft = new Vector(x-range, y, z+range);
 		Vector bottomRight = new Vector(x+range, y, z-range);
 		

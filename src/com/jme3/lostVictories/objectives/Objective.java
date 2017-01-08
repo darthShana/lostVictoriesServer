@@ -1,6 +1,5 @@
 package com.jme3.lostVictories.objectives;
 
-import static com.jme3.lostVictories.objectives.Objective.MAPPER;
 
 import java.io.IOException;
 import java.util.Map;
@@ -11,7 +10,6 @@ import lostVictories.dao.HouseDAO;
 
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
 import org.codehaus.jackson.annotate.JsonMethod;
@@ -37,17 +35,8 @@ public abstract class Objective {
     
 	public abstract String asJSON() throws JsonGenerationException, JsonMappingException, IOException;
 	
-	public boolean isBusy(CharacterMessage unit) {
-		return unit.isDead() || unit.getObjectives().values().stream()
-				.map(s->toJsonNodeSafe(s))
-				.map(json->toObjectiveSafe(json))
-				.filter(o->o!=null)
-			.anyMatch(o->!(o instanceof PassiveObjective));
-	}
 	
-	
-
-	private Objective toObjectiveSafe(JsonNode json) {
+	public static Objective toObjectiveSafe(JsonNode json) {
 		
 		try {
 			Class objectiveClass;
@@ -63,7 +52,7 @@ public abstract class Objective {
 		
 	}
 
-	private JsonNode toJsonNodeSafe(String s) {
+	public static JsonNode toJsonNodeSafe(String s) {
 		try {
 			return MAPPER.readTree(s);
 		} catch (JsonProcessingException e) {

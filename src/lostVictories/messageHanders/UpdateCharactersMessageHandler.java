@@ -61,13 +61,12 @@ public class UpdateCharactersMessageHandler {
 		toSave.values().stream().forEach(c->c.updateState(sentFromClient.get(c.getId()), msg.getClientID(), System.currentTimeMillis()));
 		characterDAO.updateCharacterState(toSave);
 		
-		Map<UUID, CharacterMessage> toReturn;
+		Map<UUID, CharacterMessage> toReturn;                    
 		Set<HouseMessage> allHouses = houseDAO.getAllHouses();
 		if(msg.getAvatar()!=null){
 			CharacterMessage storedAvatar = characterDAO.getCharacter(msg.getAvatar().getId());
 			Vector v = storedAvatar.getLocation();
 			Map<UUID, CharacterMessage> inRangeOfAvatar = characterDAO.getAllCharacters(v.x, v.y, v.z, CheckoutScreenMessageHandler.CLIENT_RANGE).stream().collect(Collectors.toMap(CharacterMessage::getId, Function.identity()));
-			log.trace("found in range on avatar:"+v+" units: "+inRangeOfAvatar.size());
 			
 			toReturn = existingInServer.entrySet().stream()
 					.filter(entry->inRangeOfAvatar.containsKey(entry.getKey()))
@@ -81,6 +80,7 @@ public class UpdateCharactersMessageHandler {
 				.map(c->c.getCommandingOfficer()).filter(u->u!=null && !toReturn.containsKey(u))
 				.map(u->characterDAO.getCharacter(u)).collect(Collectors.toSet());
 			relatedCharacters1.addAll(relatedCharacters2);
+			
 			GameStatistics statistics = worldRunner.getStatistics(storedAvatar.getCountry());
 			AchivementStatus achivementStatus = worldRunner.getAchivementStatus(storedAvatar);
 			

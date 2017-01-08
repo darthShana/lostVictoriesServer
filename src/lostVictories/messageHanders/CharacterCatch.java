@@ -26,7 +26,9 @@ public class CharacterCatch {
 			return loaded.get(id);
 		}
 		CharacterMessage character = characterDAO.getCharacter(id);
-		loaded.put(character.getId(), character);
+		if(character!=null){
+			loaded.put(character.getId(), character);
+		}
 		return character;
 	}
 

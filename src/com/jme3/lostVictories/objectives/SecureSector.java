@@ -1,11 +1,11 @@
 package com.jme3.lostVictories.objectives;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
@@ -19,9 +19,7 @@ import lostVictories.dao.HouseDAO;
 
 import com.jme3.lostVictories.network.messages.CharacterMessage;
 import com.jme3.lostVictories.network.messages.HouseMessage;
-import com.jme3.lostVictories.network.messages.RankMessage;
 import com.jme3.lostVictories.network.messages.Vector;
-import com.jme3.math.Vector3f;
 
 public class SecureSector extends Objective {
 
@@ -29,8 +27,10 @@ public class SecureSector extends Objective {
 	
 	private Set<UUID> houses = new HashSet<UUID>();
 	private Vector centre;
-	private TravelObjective travelObjective;
+	Map<String, String> issuedOrders = new HashMap<>();
+	private SecureSectorState state = SecureSectorState.DEPLOY_TO_SECTOR;
 	
+	@SuppressWarnings("unused")
 	private SecureSector() {}
 	
 	public SecureSector(Set<HouseMessage> houses) {
@@ -45,71 +45,33 @@ public class SecureSector extends Objective {
         final float y = totalY/houses.size();
         final float z = totalZ/houses.size();
         centre = new Vector(x, y, z);
-        System.out.println("securing sector:"+centre);
+        log.debug("securing sector:"+centre);
 	}
 
 	@Override
 	public void runObjective(CharacterMessage c, String uuid, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave) {
-		Set<UUID> assigned = new HashSet<UUID>();
-		Set<HouseMessage> houses2 = houseDAO.getHouses(houses);
-		for(CharacterMessage unit:characterDAO.getAllCharacters(c.getUnitsUnderCommand()).values()){
-			if(!isBusy(unit) && RankMessage.CADET_CORPORAL==unit.getRank())	{
-				Set<HouseMessage> hh = houses2.stream().filter(h->!assigned.contains(h.getId())).collect(Collectors.toSet());
-				HouseMessage closest = findClosestHouse(c, hh, h -> h.getOwner()!=c.getCountry());
-				if(closest!=null){
-					try {
-						unit.addObjective(UUID.randomUUID(), new CaptureStructure(closest.getId().toString()).asJSON());
-						toSave.put(unit.getId(), unit);
-						assigned.add(closest.getId());
-						log.debug(c.getCountry()+"- setting new structure to capture:"+closest.getId());
-					} catch (Exception e) {
-						throw new RuntimeException(e);
-					} 
-				}
-			}
-		}
-		if(houses2.stream().noneMatch(h->h.getOwner()!=c.getCountry())){
-			log.info(c.getCountry()+"- sector secured:");
-		}
 		if(centre.x-87<1 && centre.z-(-326)<1){
-			log.debug(c.getCountry()+": securing sector:"+c.getLocation());
+			log.debug(c.getCountry()+": securing sector:"+c.getLocation()+":"+state);
 		}
-		if(travelObjective==null){
-			travelObjective = new TravelObjective(centre, null);
-		}
-		travelObjective.runObjective(c, uuid, characterDAO, houseDAO, toSave);
-		
+		state.runObjective(c, uuid, centre, houses, issuedOrders, characterDAO, houseDAO, toSave);
+		SecureSectorState newState = state.tansition(c, uuid, centre, houses, issuedOrders, characterDAO, houseDAO, toSave);
+		if(newState!=state){
+			issuedOrders.clear();          
+            state = newState;            
+        }
 	}
 
-	public static HouseMessage findClosestHouse(CharacterMessage c, Set<HouseMessage> allHouses, Predicate<HouseMessage> pred) {
-		HouseMessage closest = null;
-		Vector3f characterLocation = new Vector3f(c.getLocation().x, c.getLocation().y, c.getLocation().z);
-		
-		for(HouseMessage house:allHouses){
-			if(pred.test(house)){
-				if(closest==null){
-					closest = house;
-				}else{
-					Vector3f currentTarget = new Vector3f(closest.getLocation().x, closest.getLocation().y, closest.getLocation().z);
-					Vector3f newTarget = new Vector3f(house.getLocation().x, house.getLocation().y, house.getLocation().z);
-					if(characterLocation.distance(newTarget)<characterLocation.distance(currentTarget)){
-						closest = house;
-					}
-				}
-			}
-		}
-		return closest;
-	}
+	
 	
 	public String asJSON() throws JsonGenerationException, JsonMappingException, IOException{
 		ObjectNode node = MAPPER.createObjectNode();
 		JsonNode _houses = MAPPER.valueToTree(houses);
 		JsonNode _centre = MAPPER.valueToTree(centre);
-		JsonNode _travelObjective = MAPPER.valueToTree(travelObjective);
+		JsonNode _issuedOrders = MAPPER.valueToTree(issuedOrders);
 		node.put("classType", getClass().getName());
 		node.put("houses", _houses);
 		node.put("centre", _centre);
-		node.put("travelObjective", _travelObjective);
+		node.put("issuedOrders", _issuedOrders);
         return MAPPER.writeValueAsString(node);
 	}
 

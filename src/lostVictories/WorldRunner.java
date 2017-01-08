@@ -30,6 +30,7 @@ import com.jme3.lostVictories.network.messages.RankMessage;
 import com.jme3.lostVictories.network.messages.Vector;
 import com.jme3.lostVictories.objectives.FollowCommander;
 import com.jme3.lostVictories.objectives.SecureSector;
+import com.jme3.lostVictories.objectives.SecureSectorState;
 
 public class WorldRunner implements Runnable{
 
@@ -141,7 +142,7 @@ public class WorldRunner implements Runnable{
 							characterDAO.refresh();
                         }else{
                         	log.debug("in here test reenforce:"+c.getId());
-                        	HouseMessage point = SecureSector.findClosestHouse(c, houseDAO.getAllHouses(), h -> h.getOwner()==c.getCountry());
+                        	HouseMessage point = SecureSectorState.findClosestHouse(c, houseDAO.getAllHouses(), h -> h.getOwner()==c.getCountry());
                         	if(point!=null){
 	                            Collection<CharacterMessage> reenforceCharacter = c.reenforceCharacter(point.getLocation(), weaponsFactory.get(c.getCountry()), vehicleFactory.get(c.getCountry()));
 	                            characterDAO.updateCharactersUnderCommand(c);
