@@ -19,7 +19,6 @@ import org.codehaus.jackson.node.ObjectNode;
 
 import com.jme3.lostVictories.network.messages.CharacterMessage;
 import com.jme3.lostVictories.network.messages.Vector;
-import com.jme3.math.Vector3f;
 
 public class TransportSquad extends Objective{
 	private static Logger log = Logger.getLogger(TransportSquad.class);
@@ -59,7 +58,6 @@ public class TransportSquad extends Objective{
 				issuedOrders.put(c.getId().toString(), t.asJSON());
 			}
 			
-			Vector3f before = c.getLocation().toVector();
 			Objective fromStringToObjective = fromStringToObjective(issuedOrders.get(c.getId().toString()));
 			fromStringToObjective.runObjective(c, uuid, characterDAO, houseDAO, toSave);
 			issuedOrders.put(c.getId().toString(), fromStringToObjective.asJSON());

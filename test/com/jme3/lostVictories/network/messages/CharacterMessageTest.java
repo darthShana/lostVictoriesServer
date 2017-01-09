@@ -3,16 +3,23 @@ package com.jme3.lostVictories.network.messages;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
+import java.io.IOException;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import lostVictories.VehicleFactory;
+import lostVictories.WeaponsFactory;
 import lostVictories.dao.CharacterDAO;
 import lostVictories.messageHanders.CharacterCatch;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 
 public class CharacterMessageTest {
 	
@@ -260,5 +267,35 @@ public class CharacterMessageTest {
 		System.out.println("avatar:"+ava);
 		System.out.println("distance:"+ava.distance(other));
 	}
+	
+	@Test
+	public void testReenforceCharacter() throws IOException{
+		CharacterMessage cp1 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, null);
+		
+		CharacterMessage p1 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, cp1.getId());
+		CharacterMessage p2 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, cp1.getId());
+		cp1.addCharactersUnderCommand(p1, p2);
+		
+		WeaponsFactory weaponsFactory = new WeaponsFactory(Country.GERMAN);
+		weaponsFactory.updateSenses(new HashSet<>());
+		VehicleFactory vehicleFactory = new VehicleFactory(Country.GERMAN);
+		vehicleFactory.updateSenses(new HashSet<>());
+		
+		Collection<CharacterMessage> reenforceCharacter = cp1.reenforceCharacter(new Vector(100, 0, 100), weaponsFactory, vehicleFactory, characterDAO);
+		Set<UUID> unitsUnderCommand = cp1.getUnitsUnderCommand();
+		assertEquals(4, unitsUnderCommand.size());
+		unitsUnderCommand.remove(p1.getId());
+		unitsUnderCommand.remove(p2.getId());
+		
+		assertEquals(1, reenforceCharacter.size());
+		assertEquals(cp1.getId(), reenforceCharacter.iterator().next().getId());
+		ArgumentCaptor<UUID> valuesArgument = ArgumentCaptor.forClass(UUID.class);
+		verify(characterDAO, times(2)).putCharacter(valuesArgument.capture(), isA(CharacterMessage.class));
+		assertTrue(unitsUnderCommand.contains(valuesArgument.getAllValues().get(0)));
+		assertTrue(unitsUnderCommand.contains(valuesArgument.getAllValues().get(1)));
+		
+		
+	}
+	
 
 }

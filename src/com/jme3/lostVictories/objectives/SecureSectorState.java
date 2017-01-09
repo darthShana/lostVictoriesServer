@@ -34,15 +34,13 @@ public enum SecureSectorState {
 				public void accept(CharacterMessage unit) {
 					try {
 						TransportSquad deployToSector = new TransportSquad(centre);
-						System.out.println(unit.getId()+" new transport to:"+centre);
-
 						unit.addObjective(UUID.randomUUID(), deployToSector.asJSON());
 						toSave.put(unit.getId(), unit);
 						issuedOrders.put(unit.getId().toString(), deployToSector.asJSON());	
 					} catch (IOException e) {
 						throw new RuntimeException(e);
 					}
-				}					
+				}			
 			});
 			try {
 				if(!issuedOrders.containsKey(c.getId().toString())){

@@ -154,10 +154,6 @@ public class CharacterMessage implements Serializable{
 		this.kills = ((Collection<String>)source.get("kills")).stream().map(s -> UUID.fromString(s)).collect(Collectors.toSet());
 	}
 
-	void addUnit(CharacterMessage u){
-		unitsUnderCommand.add(u.id);
-	}
-
 	public Vector getLocation() {
 		return location;
 	}
@@ -365,7 +361,7 @@ public class CharacterMessage implements Serializable{
 		return unitsUnderCommand.size()>=rank.getFullStrengthPopulation();
 	}
 
-	public Collection<CharacterMessage> reenforceCharacter(Vector spawnPoint, WeaponsFactory weaponsFactory, VehicleFactory vehicleFactory) throws IOException {
+	public Collection<CharacterMessage> reenforceCharacter(Vector spawnPoint, WeaponsFactory weaponsFactory, VehicleFactory vehicleFactory, CharacterDAO characterDAO) throws IOException {
 		RankMessage rankToReenforce;
         rankToReenforce = reenformentCharacterRank(rank);
         Weapon weapon = weaponsFactory.getWeapon();
@@ -384,16 +380,16 @@ public class CharacterMessage implements Serializable{
 		
 		log.debug("creating reenforcement:"+loadCharacter.getId());
 		unitsUnderCommand.add(loadCharacter.getId());
-		addedCharacters.add(loadCharacter);
+		characterDAO.putCharacter(loadCharacter.getId(), loadCharacter);
 		
 		if(CharacterType.ANTI_TANK_GUN==loadCharacter.type || CharacterType.ARMORED_CAR==loadCharacter.type || CharacterType.HALF_TRACK==loadCharacter.type){
 			CharacterMessage passenger = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, spawnPoint, country, Weapon.RIFLE, RankMessage.PRIVATE, id);
 			unitsUnderCommand.add(passenger.getId());
-			addedCharacters.add(passenger);
 			loadCharacter.passengers.add(passenger.id);
 			passenger.boardedVehicle = loadCharacter.id;
+			characterDAO.putCharacter(passenger.getId(), passenger);
 		}
-		
+		addedCharacters.add(this);
         return addedCharacters;
 	}
 

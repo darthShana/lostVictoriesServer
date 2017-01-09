@@ -12,6 +12,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -215,8 +216,5 @@ public class CharacterDAO {
 	public void refresh() {
 		esClient.admin().indices().refresh(new RefreshRequest(indexName)).actionGet();
 	}
-
-	
-
 
 }

@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -74,7 +75,7 @@ public class UpdateCharactersMessageHandler {
 			inRangeOfAvatar.values().stream().filter(c->!existingInServer.containsKey(c.getId())).forEach(c->toReturn.put(c.getId(), c));
 			
 			Set<CharacterMessage> relatedCharacters1 = toReturn.values().stream()
-				.map(c->c.getUnitsUnderCommand()).filter(u->u!=null && !toReturn.containsKey(u))
+				.map(c->c.getUnitsUnderCommand()).filter(u->!toReturn.containsKey(u))
 				.map(u->characterDAO.getAllCharacters(u).values()).flatMap(l->l.stream()).collect(Collectors.toSet());
 			Set<CharacterMessage> relatedCharacters2 = toReturn.values().stream()
 				.map(c->c.getCommandingOfficer()).filter(u->u!=null && !toReturn.containsKey(u))

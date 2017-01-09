@@ -136,24 +136,23 @@ public class WorldRunner implements Runnable{
 							CharacterMessage replaceWithAvatar = avatarStore.reincarnateAvatar(deadAvatars.get(), c, toUpdate);
 							if(replaceWithAvatar!=null){
 								characterDAO.delete(c);
-								toUpdate.addAll(replaceWithAvatar.reenforceCharacter(c.getLocation().add(15, 7, 15), weaponsFactory.get(c.getCountry()), vehicleFactory.get(c.getCountry())));
+								toUpdate.addAll(replaceWithAvatar.reenforceCharacter(c.getLocation().add(15, 7, 15), weaponsFactory.get(c.getCountry()), vehicleFactory.get(c.getCountry()), characterDAO));
 							}
-							characterDAO.save(toUpdate);
-							characterDAO.refresh();
+							characterDAO.save(toUpdate);							
                         }else{
                         	log.debug("in here test reenforce:"+c.getId());
                         	HouseMessage point = SecureSectorState.findClosestHouse(c, houseDAO.getAllHouses(), h -> h.getOwner()==c.getCountry());
                         	if(point!=null){
-	                            Collection<CharacterMessage> reenforceCharacter = c.reenforceCharacter(point.getLocation(), weaponsFactory.get(c.getCountry()), vehicleFactory.get(c.getCountry()));
+	                            c.reenforceCharacter(point.getLocation(), weaponsFactory.get(c.getCountry()), vehicleFactory.get(c.getCountry()), characterDAO);
 	                            characterDAO.updateCharactersUnderCommand(c);
-								characterDAO.save(reenforceCharacter);
                         	}
                         }
+						characterDAO.refresh();
                         reduceManPower(c.getCountry());
                         
                     }
                 }else if(c.getTimeOfDeath()<(System.currentTimeMillis()-60000) && c.getCharacterType()!=CharacterType.AVATAR){
-                	log.debug("removing dead character:"+c.getId());
+                	log.debug("removing dead character:"+c.getId()+" co:"+c.getCommandingOfficer());
                 	characterDAO.delete(c);
                 }
             }

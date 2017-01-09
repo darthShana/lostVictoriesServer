@@ -50,9 +50,6 @@ public class SecureSector extends Objective {
 
 	@Override
 	public void runObjective(CharacterMessage c, String uuid, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave) {
-		if(centre.x-87<1 && centre.z-(-326)<1){
-			log.debug(c.getCountry()+": securing sector:"+c.getLocation()+":"+state);
-		}
 		state.runObjective(c, uuid, centre, houses, issuedOrders, characterDAO, houseDAO, toSave);
 		SecureSectorState newState = state.tansition(c, uuid, centre, houses, issuedOrders, characterDAO, houseDAO, toSave);
 		if(newState!=state){
