@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import java.util.Map.Entry;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -32,8 +33,11 @@ import org.apache.log4j.Logger;
 import org.elasticsearch.common.geo.GeoPoint;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.jme3.lostVictories.network.messages.actions.Action;
 import com.jme3.lostVictories.objectives.FollowCommander;
 import com.jme3.lostVictories.objectives.Objective;
@@ -530,11 +534,33 @@ public class CharacterMessage implements Serializable{
 	}
 
 	public void addObjective(UUID id, String objective) {
+		try{
+     		Class newObjective = Class.forName(toJsonNodeSafe(objective).get("class").asText());
+			
+			Map<String, JsonNode> objectives = getObjectives().entrySet().stream().collect(Collectors.toMap(e->e.getKey(), e->toJsonNodeSafe(e.getValue())));
+			for(Entry<String, JsonNode> entry:objectives.entrySet()){
+				Class objectiveClass = Class.forName(entry.getValue().get("class").asText());
+				if(objectiveClass!=null){
+					Objective obj = (Objective) MAPPER.treeToValue(entry.getValue(), objectiveClass);
+					if(obj.clashesWith(newObjective) || newObjective == objectiveClass){
+						 getObjectives().remove(entry.getKey());
+					}
+				}
+			}
+		}catch(ClassNotFoundException e){
+			log.debug(e);
+		} catch (JsonParseException e) {
+			log.debug(e);
+		} catch (JsonMappingException e) {
+			log.debug(e);
+		} catch (IOException e) {
+			log.debug(e);
+		}
 		objectives.put(id.toString(), objective);
 	}
 	
 	public void addObjective(UUID id, Objective objective) throws JsonProcessingException {
-		objectives.put(id.toString(), MAPPER.writeValueAsString(objective));
+		addObjective(id, MAPPER.writeValueAsString(objective));
 		
 	}
 

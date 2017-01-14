@@ -40,7 +40,8 @@ public class CaptureStructure extends Objective{
 			isComplete = true;
 			return;
 		}
-			
+		System.out.println(c.getId()+" at "+c.getLocation()+" cap house:"+house.getLocation());
+
 		if(travelObjective==null){
 			travelObjective = new TravelObjective(new Vector(house.getLocation().toVector()), null);
 		}
@@ -56,6 +57,9 @@ public class CaptureStructure extends Objective{
 	@Override
 	public boolean clashesWith(Class<? extends Objective> newObjective) {
 		if(newObjective.isAssignableFrom(TravelObjective.class)){
+			return true;
+		}
+		if(newObjective.isAssignableFrom(TransportSquad.class)){
 			return true;
 		}
 		return false;

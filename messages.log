@@ -26911,3 +26911,408 @@ recived boarding request for:6b38e6ca-aa36-42b2-8011-9db86b04631e
 now boarding pasenger:6b38e6ca-aa36-42b2-8011-9db86b04631e, true
 recived boarding request for:8a0ac958-3d10-4dfa-b710-326fffc9decd
 recived boarding request for:22174cb0-f1f2-4340-8ce2-b79ff2540e39
+[Doorman] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Doorman] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Doorman] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Doorman] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Doorman] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Doorman] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Doorman] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Doorman] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Doorman] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Doorman] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Doorman] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Doorman] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Doorman] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Doorman] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Doorman] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Doorman] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Doorman] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Doorman] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Doorman] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Doorman] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Doorman] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Doorman] connected to node [[Boobytrap][9KmPBw0ZTL-eND6Zy8jRcw][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+creating new index:test_lost_victories1_unit_status
+Loading Scene
+cant find game request for :test_lost_victories1
+Listening on 5055
+checking out scene for avatar:2fbe421f-f701-49c9-a0d4-abb0fa904204
+returning scene
+recived boarding request for:db689bc6-736c-4707-9612-df93cada254e
+recived boarding request for:0c215cdb-f7ed-4e37-a94f-cf2babaf6f1b
+recived boarding request for:db689bc6-736c-4707-9612-df93cada254e
+AMERICAN: assigning new sector:java.awt.Rectangle[x=88,y=-312,width=50,height=50] houses:20
+securing sector:87.875885,100.497536,-326.0263
+AMERICAN: assigning new sector:java.awt.Rectangle[x=138,y=-12,width=50,height=50] houses:31
+securing sector:139.33589,96.62017,31.722858
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-412,y=-262,width=50,height=50] houses:20
+securing sector:-309.96945,97.071014,-201.0857
+AMERICAN: assigning new sector:java.awt.Rectangle[x=288,y=88,width=50,height=50] houses:5
+securing sector:333.28955,96.266235,115.02185
+recived boarding request for:70ac1d02-a035-4e21-90ca-1721257d0423
+now boarding pasenger:70ac1d02-a035-4e21-90ca-1721257d0423, true
+recived boarding request for:70ac1d02-a035-4e21-90ca-1721257d0423
+recived boarding request for:70ac1d02-a035-4e21-90ca-1721257d0423
+recived boarding request for:0a57c1f9-9e68-41ba-b10e-9f0f350dabf8
+now boarding pasenger:0a57c1f9-9e68-41ba-b10e-9f0f350dabf8, true
+recived boarding request for:70ac1d02-a035-4e21-90ca-1721257d0423
+received disembark request from:d35e9193-2ab1-420d-8c15-d55898f079d8
+[Tethlam] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Tethlam] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Tethlam] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Tethlam] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Tethlam] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Tethlam] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Tethlam] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Tethlam] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Tethlam] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Tethlam] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Tethlam] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Tethlam] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Tethlam] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Tethlam] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Tethlam] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Tethlam] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Tethlam] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Tethlam] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Tethlam] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Tethlam] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Tethlam] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Tethlam] connected to node [[Eternal Brain][ELD75WikRMuX-Zr6EMo2eg][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+creating new index:test_lost_victories1_unit_status
+Loading Scene
+cant find game request for :test_lost_victories1
+Listening on 5055
+checking out scene for avatar:2fbe421f-f701-49c9-a0d4-abb0fa904204
+returning scene
+recived boarding request for:9e334cb2-1717-4e3b-9066-2bb64963aef8
+recived boarding request for:9c5ad331-3371-40ad-a761-582b68864694
+now boarding pasenger:9c5ad331-3371-40ad-a761-582b68864694, true
+recived boarding request for:9e334cb2-1717-4e3b-9066-2bb64963aef8
+recived boarding request for:26cd52e3-099a-4a91-82a9-c610bde0b330
+now boarding pasenger:26cd52e3-099a-4a91-82a9-c610bde0b330, true
+AMERICAN: assigning new sector:java.awt.Rectangle[x=88,y=-312,width=50,height=50] houses:20
+securing sector:87.87589,100.497536,-326.0263
+AMERICAN: assigning new sector:java.awt.Rectangle[x=138,y=-12,width=50,height=50] houses:31
+securing sector:139.33588,96.62016,31.722857
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-412,y=-262,width=50,height=50] houses:20
+securing sector:-309.96948,97.07101,-201.08566
+AMERICAN: assigning new sector:java.awt.Rectangle[x=288,y=88,width=50,height=50] houses:5
+securing sector:333.28955,96.266235,115.02185
+recived boarding request for:3199cc82-1aa2-4847-a59a-9edc6e5447d7
+now boarding pasenger:3199cc82-1aa2-4847-a59a-9edc6e5447d7, true
+received disembark request from:f47db5e3-f07c-4bbc-8cb1-52263131a7a2
+found understrenth unit to reenfoce:ee42a654-0ea1-4ed3-98f6-be820b6d583f rankCADET_CORPORAL
+in here test reenforce:ee42a654-0ea1-4ed3-98f6-be820b6d583f
+producing mg
+getVehicle :ANTI_TANK_GUN
+creating reenforcement:d6b97e1a-8fbb-44d1-a9a4-5af749706302
+recived boarding request for:9c5ad331-3371-40ad-a761-582b68864694
+now boarding pasenger:9c5ad331-3371-40ad-a761-582b68864694, true
+found understrenth unit to reenfoce:0411e3f3-7a09-41fd-9f7b-73058d8f4e53 rankCADET_CORPORAL
+in here test reenforce:0411e3f3-7a09-41fd-9f7b-73058d8f4e53
+producing mg
+getVehicle :ARMORED_CAR
+creating reenforcement:f9f9f2be-0590-44cb-9fc5-ec347935be9c
+[Elizabeth Twoyoungmen] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Elizabeth Twoyoungmen] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Elizabeth Twoyoungmen] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Elizabeth Twoyoungmen] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Elizabeth Twoyoungmen] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Elizabeth Twoyoungmen] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Elizabeth Twoyoungmen] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Elizabeth Twoyoungmen] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Elizabeth Twoyoungmen] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Elizabeth Twoyoungmen] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Elizabeth Twoyoungmen] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Elizabeth Twoyoungmen] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Elizabeth Twoyoungmen] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Elizabeth Twoyoungmen] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Elizabeth Twoyoungmen] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Elizabeth Twoyoungmen] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Elizabeth Twoyoungmen] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Elizabeth Twoyoungmen] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Elizabeth Twoyoungmen] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Elizabeth Twoyoungmen] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Elizabeth Twoyoungmen] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Elizabeth Twoyoungmen] connected to node [[Isaiah Bradley][LTJz3DF0RoWLosbQkdF-CA][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+creating new index:test_lost_victories1_unit_status
+Loading Scene
+cant find game request for :test_lost_victories1
+Listening on 5055
+checking out scene for avatar:2fbe421f-f701-49c9-a0d4-abb0fa904204
+returning scene
+recived boarding request for:e7ae42a0-f6be-440c-a6ab-1f55f65abbe0
+recived boarding request for:a8cc7609-3f60-41db-b24d-61c5bd74dfde
+now boarding pasenger:a8cc7609-3f60-41db-b24d-61c5bd74dfde, true
+recived boarding request for:11747e0e-de65-4833-b51c-c657bd17efa3
+recived boarding request for:a8cc7609-3f60-41db-b24d-61c5bd74dfde
+AMERICAN: assigning new sector:java.awt.Rectangle[x=88,y=-312,width=50,height=50] houses:20
+securing sector:87.87589,100.49751,-326.0263
+AMERICAN: assigning new sector:java.awt.Rectangle[x=138,y=-12,width=50,height=50] houses:31
+securing sector:139.33589,96.62016,31.722862
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-412,y=-262,width=50,height=50] houses:20
+securing sector:-309.96948,97.071014,-201.08572
+AMERICAN: assigning new sector:java.awt.Rectangle[x=288,y=88,width=50,height=50] houses:5
+securing sector:333.28955,96.266235,115.02185
+recived boarding request for:4fe64368-6a95-47dd-ab8e-f6f5367ed44e
+received disembark request from:fc72198e-6072-462d-afbd-e9205cdc24df
+received disembark request from:f47db5e3-f07c-4bbc-8cb1-52263131a7a2
+recived boarding request for:a8cc7609-3f60-41db-b24d-61c5bd74dfde
+now boarding pasenger:a8cc7609-3f60-41db-b24d-61c5bd74dfde, true
+recived boarding request for:11747e0e-de65-4833-b51c-c657bd17efa3
+java.lang.ClassNotFoundException: com.jme3.lostVictories.objectives.RemanVehicle
+java.lang.ClassNotFoundException: com.jme3.lostVictories.objectives.RemanVehicle
+java.lang.ClassNotFoundException: com.jme3.lostVictories.objectives.RemanVehicle
+java.lang.ClassNotFoundException: com.jme3.lostVictories.objectives.RemanVehicle
+java.lang.ClassNotFoundException: com.jme3.lostVictories.objectives.RemanVehicle
+java.lang.ClassNotFoundException: com.jme3.lostVictories.objectives.RemanVehicle
+[Nightshade] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Nightshade] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Nightshade] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Nightshade] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Nightshade] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Nightshade] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Nightshade] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Nightshade] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Nightshade] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Nightshade] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Nightshade] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Nightshade] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Nightshade] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Nightshade] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Nightshade] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Nightshade] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Nightshade] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Nightshade] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Nightshade] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Nightshade] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Nightshade] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Nightshade] connected to node [[Tito Bohusk][B4Hu_EPzQpu5cgjiga8zkw][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+creating new index:test_lost_victories1_unit_status
+Loading Scene
+cant find game request for :test_lost_victories1
+Listening on 5055
+checking out scene for avatar:2fbe421f-f701-49c9-a0d4-abb0fa904204
+returning scene
+java.lang.ClassNotFoundException: com.jme3.lostVictories.objectives.RemanAbandonedVehicles
+recived boarding request for:3927cd3f-1b43-4521-bafd-45cd128d87fd
+recived boarding request for:96688cdf-f2d9-46e0-9dd7-74ecf2623773
+now boarding pasenger:96688cdf-f2d9-46e0-9dd7-74ecf2623773, true
+recived boarding request for:96688cdf-f2d9-46e0-9dd7-74ecf2623773
+recived boarding request for:8ef0fe86-53c3-470b-aebb-0d11490137c5
+AMERICAN: assigning new sector:java.awt.Rectangle[x=88,y=-312,width=50,height=50] houses:20
+securing sector:87.87588,100.49752,-326.02628
+AMERICAN: assigning new sector:java.awt.Rectangle[x=138,y=-12,width=50,height=50] houses:31
+securing sector:139.33589,96.620155,31.722857
+AMERICAN: assigning new sector:java.awt.Rectangle[x=-412,y=-262,width=50,height=50] houses:20
+securing sector:-309.96945,97.071014,-201.08571
+AMERICAN: assigning new sector:java.awt.Rectangle[x=288,y=88,width=50,height=50] houses:5
+securing sector:333.28952,96.266235,115.02185
+recived boarding request for:9312ad7b-e334-4a5e-aa79-0b86b788e6ec
+completed stucture capture:817eea96-a22c-4c9d-ae5d-ef88143918be
+completed stucture capture:8c1708fa-6fb8-4a3e-b8f2-eee56462879e
+java.lang.ClassNotFoundException: com.jme3.lostVictories.objectives.CollectUnusedEquipment
+java.lang.ClassNotFoundException: com.jme3.lostVictories.objectives.SurvivalObjective
+found understrenth unit to reenfoce:fd180645-8183-46a4-8e81-020e2e5b79c1 rankCADET_CORPORAL
+in here test reenforce:fd180645-8183-46a4-8e81-020e2e5b79c1
+producing mg
+getVehicle :ANTI_TANK_GUN
+creating reenforcement:f3685451-ef8b-4026-8a6e-e2fa6bab6bb1
+found understrenth unit to reenfoce:bfba55ac-f566-42cc-b494-5ad095efc99a rankCADET_CORPORAL
+in here test reenforce:bfba55ac-f566-42cc-b494-5ad095efc99a
+producing mg
+getVehicle :ARMORED_CAR
+creating reenforcement:1d01a706-3a38-4edb-9184-68488e499945
+recived boarding request for:92eb9be4-c3e3-4c8b-9697-55b20df0cc5b
+now boarding pasenger:92eb9be4-c3e3-4c8b-9697-55b20df0cc5b, true
+completed stucture capture:63811dea-1b44-4a72-a00e-3bc583a4c729
+completed stucture capture:a27f97a6-9c94-40aa-8f2a-ed26f40221de
+java.lang.ClassNotFoundException: com.jme3.lostVictories.objectives.SurvivalObjective
+java.lang.ClassNotFoundException: com.jme3.lostVictories.objectives.SurvivalObjective
+received death notification:3ffc0c4e-a045-4cc0-89ed-c50fd430faef
+finding field replacement forAMERICAN:3ffc0c4e-a045-4cc0-89ed-c50fd430faef ->[[d993932f-a185-4a6f-8d86-4ef6e2c5ff95, 718874a1-baa2-4dd3-878c-e408b172ee11]]
+promoting:d993932f-a185-4a6f-8d86-4ef6e2c5ff95 to LIEUTENANT
+found understrenth unit to reenfoce:7b6fecef-e8e3-45ce-a54a-87bd2c94cd81 rankCADET_CORPORAL
+in here test reenforce:7b6fecef-e8e3-45ce-a54a-87bd2c94cd81
+producing mortar
+getVehicle :ANTI_TANK_GUN
+creating reenforcement:288a7e46-fbb1-4abb-80dc-018d62b00cfd
+found understrenth unit to reenfoce:035f2a1b-72ef-45a0-9ed0-392bd46174f6 rankCADET_CORPORAL
+in here test reenforce:035f2a1b-72ef-45a0-9ed0-392bd46174f6
+producing mortar
+getVehicle :HALF_TRACK
+creating reenforcement:20e45e08-c89f-497f-9d64-1f4eff8c882e
+recived boarding request for:92eb9be4-c3e3-4c8b-9697-55b20df0cc5b
+recived boarding request for:95c744e4-827e-4c48-a551-a09bc21de87b
+java.lang.ClassNotFoundException: com.jme3.lostVictories.objectives.CollectUnusedEquipment
+java.lang.ClassNotFoundException: com.jme3.lostVictories.objectives.SurvivalObjective
+java.lang.ClassNotFoundException: com.jme3.lostVictories.objectives.SurvivalObjective
+java.lang.ClassNotFoundException: com.jme3.lostVictories.objectives.SurvivalObjective
+java.lang.ClassNotFoundException: com.jme3.lostVictories.objectives.SurvivalObjective
+received disembark request from:f47db5e3-f07c-4bbc-8cb1-52263131a7a2
+received death notification:294dbbe9-b526-45e0-83fc-29f535f0060f
+finding field replacement forAMERICAN:294dbbe9-b526-45e0-83fc-29f535f0060f ->[[]]
+removing dead character:3ffc0c4e-a045-4cc0-89ed-c50fd430faef co:6bb42779-5522-4a46-aba3-0c277d9f2872
+found understrenth unit to reenfoce:9312ad7b-e334-4a5e-aa79-0b86b788e6ec rankCADET_CORPORAL
+in here test reenforce:9312ad7b-e334-4a5e-aa79-0b86b788e6ec
+producing mg
+getVehicle :ANTI_TANK_GUN
+creating reenforcement:bdabec05-c052-4947-a7ba-de9182ee25dc
+recived boarding request for:e9ef389c-5850-4b59-a415-04e18061c14e
+now boarding pasenger:e9ef389c-5850-4b59-a415-04e18061c14e, true
+java.lang.ClassNotFoundException: com.jme3.lostVictories.objectives.SurvivalObjective
+java.lang.ClassNotFoundException: com.jme3.lostVictories.objectives.CollectUnusedEquipment
+found understrenth unit to reenfoce:b0d5b009-5995-4e19-aa20-5e6dddc604c5 rankCADET_CORPORAL
+in here test reenforce:b0d5b009-5995-4e19-aa20-5e6dddc604c5
+producing mg
+getVehicle :ARMORED_CAR
+creating reenforcement:98ef722a-842e-40d8-bd2a-e5927dde6c45
+recived boarding request for:e9ef389c-5850-4b59-a415-04e18061c14e
+received death notification:3b3c3dba-b8cc-4f38-8afb-18f64fba892a
+finding field replacement forAMERICAN:3b3c3dba-b8cc-4f38-8afb-18f64fba892a ->[[]]
+received disembark request from:f47db5e3-f07c-4bbc-8cb1-52263131a7a2
+found understrenth unit to reenfoce:2fbe421f-f701-49c9-a0d4-abb0fa904204 rankCADET_CORPORAL
+in here test reenforce:2fbe421f-f701-49c9-a0d4-abb0fa904204
+creating reenforcement:f7ccb425-a2a0-43f5-94d5-ef767255881f
+recived boarding request for:96688cdf-f2d9-46e0-9dd7-74ecf2623773
+recived boarding request for:8ef0fe86-53c3-470b-aebb-0d11490137c5
+removing dead character:294dbbe9-b526-45e0-83fc-29f535f0060f co:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+received death notification:19a4db30-6585-44e6-b5a9-f2d971622829
+finding field replacement forAMERICAN:19a4db30-6585-44e6-b5a9-f2d971622829 ->[[]]
+recived boarding request for:9312ad7b-e334-4a5e-aa79-0b86b788e6ec
+now boarding pasenger:9312ad7b-e334-4a5e-aa79-0b86b788e6ec, true
+removing dead character:3b3c3dba-b8cc-4f38-8afb-18f64fba892a co:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+found understrenth unit to reenfoce:844fd93d-e65a-438a-82c5-dab9ad58e854 rankCADET_CORPORAL
+in here test reenforce:844fd93d-e65a-438a-82c5-dab9ad58e854
+producing mortar
+getVehicle :ANTI_TANK_GUN
+creating reenforcement:01c96df5-1737-41a8-8fce-6f152de2651b
+found understrenth unit to reenfoce:08e94987-d7f3-4995-965e-4253fec3529a rankCADET_CORPORAL
+in here test reenforce:08e94987-d7f3-4995-965e-4253fec3529a
+producing mortar
+getVehicle :HALF_TRACK
+creating reenforcement:8ce2779d-3b1c-40dd-ad91-855d6e3db117
+received death notification:d8ee2363-3ec9-41ea-b082-ac634edfea8f
+finding field replacement forAMERICAN:d8ee2363-3ec9-41ea-b082-ac634edfea8f ->[[]]
+received death notification:3a796cc5-66f1-40e1-a2fe-ec098e6aab27
+finding field replacement forAMERICAN:3a796cc5-66f1-40e1-a2fe-ec098e6aab27 ->[[]]
+recived boarding request for:2d652218-4889-4cec-b594-ff19be5f44c2
+now boarding pasenger:2d652218-4889-4cec-b594-ff19be5f44c2, true
+recived boarding request for:23b084ab-55da-41fa-8ef3-9a1ac9c5c341
+now boarding pasenger:23b084ab-55da-41fa-8ef3-9a1ac9c5c341, true
+found understrenth unit to reenfoce:d6aac53e-2800-4ed9-80f8-c09176f4f1ad rankCADET_CORPORAL
+in here test reenforce:d6aac53e-2800-4ed9-80f8-c09176f4f1ad
+producing mg
+getVehicle :ANTI_TANK_GUN
+creating reenforcement:684d2157-4e24-43ce-a342-47625a751577
+removing dead character:19a4db30-6585-44e6-b5a9-f2d971622829 co:a7e0d14b-be8d-4c29-94fe-f987391ffc7c
+removing dead character:d8ee2363-3ec9-41ea-b082-ac634edfea8f co:50b76e26-6f58-49a2-9a9d-91d0b93e2289
+removing dead character:3a796cc5-66f1-40e1-a2fe-ec098e6aab27 co:a7e0d14b-be8d-4c29-94fe-f987391ffc7c
+found understrenth unit to reenfoce:718874a1-baa2-4dd3-878c-e408b172ee11 rankCADET_CORPORAL
+in here test reenforce:718874a1-baa2-4dd3-878c-e408b172ee11
+producing mg
+getVehicle :ARMORED_CAR
+creating reenforcement:4df10c50-7f0f-41c0-b71e-fe49719f7cac
+found understrenth unit to reenfoce:75045ee9-dd15-4f09-ba9b-75889500742c rankCADET_CORPORAL
+in here test reenforce:75045ee9-dd15-4f09-ba9b-75889500742c
+creating reenforcement:86a78d63-7001-41c1-b49f-51a275a983be
+received death notification:e3ce3829-bbf8-463e-be61-5ebc2a25ea57
+finding field replacement forGERMAN:e3ce3829-bbf8-463e-be61-5ebc2a25ea57 ->[[]]
+completed stucture capture:0a84ca81-9db2-4481-ac6f-4e220021f769
+completed stucture capture:e4824256-0c80-4f7c-8315-dfb42bfac5b4
+found understrenth unit to reenfoce:1577a151-75e8-4182-b9b5-8af7f7f5dcde rankCADET_CORPORAL
+in here test reenforce:1577a151-75e8-4182-b9b5-8af7f7f5dcde
+creating reenforcement:03b6a8d0-79fe-4fed-ac9a-eebe9a352aa1
+completed stucture capture:126c1d3c-13df-4ca9-8353-6368300912b5
+completed stucture capture:b0bc5b3a-d8a6-469c-97bb-ac1310e7568b
+found understrenth unit to reenfoce:50b76e26-6f58-49a2-9a9d-91d0b93e2289 rankCADET_CORPORAL
+in here test reenforce:50b76e26-6f58-49a2-9a9d-91d0b93e2289
+producing mortar
+creating reenforcement:aaff7485-9ae0-4f54-b1dc-2d4d7371bd0a
+found understrenth unit to reenfoce:854c642d-2499-4d8e-bdcb-6ac97ed47c59 rankLIEUTENANT
+in here test reenforce:854c642d-2499-4d8e-bdcb-6ac97ed47c59
+producing mortar
+creating reenforcement:5ba1a33e-cda4-4c07-b25d-27cf8fcaf58c
+completed stucture capture:bf89cb8e-cf30-4cb1-965c-8835f9075697
+removing dead character:e3ce3829-bbf8-463e-be61-5ebc2a25ea57 co:d6aac53e-2800-4ed9-80f8-c09176f4f1ad
+received death notification:bfcac94b-b08f-4e15-b72a-c7be94d9805b
+finding field replacement forAMERICAN:bfcac94b-b08f-4e15-b72a-c7be94d9805b ->[[]]
+found understrenth unit to reenfoce:50b76e26-6f58-49a2-9a9d-91d0b93e2289 rankCADET_CORPORAL
+in here test reenforce:50b76e26-6f58-49a2-9a9d-91d0b93e2289
+creating reenforcement:782a377a-f404-43b7-b4c9-0349fa159b3b
+found understrenth unit to reenfoce:5ba1a33e-cda4-4c07-b25d-27cf8fcaf58c rankCADET_CORPORAL
+in here test reenforce:5ba1a33e-cda4-4c07-b25d-27cf8fcaf58c
+producing mg
+getVehicle :HALF_TRACK
+creating reenforcement:d5fb8ec5-81a4-44e8-b2b4-dc3e349ea200
+received death notification:7923be5c-f28a-43a0-8f5c-fa550b3984ff
+finding field replacement forAMERICAN:7923be5c-f28a-43a0-8f5c-fa550b3984ff ->[[50b76e26-6f58-49a2-9a9d-91d0b93e2289, a7e0d14b-be8d-4c29-94fe-f987391ffc7c]]
+promoting:50b76e26-6f58-49a2-9a9d-91d0b93e2289 to LIEUTENANT
+completed stucture capture:ebbf6c23-33a0-4fa0-bf66-f70f355515a5
+found understrenth unit to reenfoce:5ba1a33e-cda4-4c07-b25d-27cf8fcaf58c rankCADET_CORPORAL
+in here test reenforce:5ba1a33e-cda4-4c07-b25d-27cf8fcaf58c
+creating reenforcement:2f87a04f-8900-4d08-89c3-5d9fa81fd549
+received death notification:03b6a8d0-79fe-4fed-ac9a-eebe9a352aa1
+finding field replacement forGERMAN:03b6a8d0-79fe-4fed-ac9a-eebe9a352aa1 ->[[]]
+found understrenth unit to reenfoce:a7e0d14b-be8d-4c29-94fe-f987391ffc7c rankCADET_CORPORAL
+in here test reenforce:a7e0d14b-be8d-4c29-94fe-f987391ffc7c
+producing mg
+creating reenforcement:54f7a77e-8e48-44c3-b0c5-f641a42d9bca
+removing dead character:bfcac94b-b08f-4e15-b72a-c7be94d9805b co:a7e0d14b-be8d-4c29-94fe-f987391ffc7c
+received death notification:59285c69-4436-4a3e-bc35-d9ff78e2f65c
+finding field replacement forAMERICAN:59285c69-4436-4a3e-bc35-d9ff78e2f65c ->[[]]
+completed stucture capture:f9b42fad-e2da-4b2f-9943-47b943b09902
+completed stucture capture:0bcd9983-4309-484e-af5a-0766d4529419
+completed stucture capture:f8a5ceb3-a82b-43ae-92b2-910705e0dc8c
+removing dead character:7923be5c-f28a-43a0-8f5c-fa550b3984ff co:6bb42779-5522-4a46-aba3-0c277d9f2872
+found understrenth unit to reenfoce:1577a151-75e8-4182-b9b5-8af7f7f5dcde rankCADET_CORPORAL
+in here test reenforce:1577a151-75e8-4182-b9b5-8af7f7f5dcde
+creating reenforcement:0eea05a5-4443-40aa-aceb-bea08a3af32a
+found understrenth unit to reenfoce:a7e0d14b-be8d-4c29-94fe-f987391ffc7c rankCADET_CORPORAL
+in here test reenforce:a7e0d14b-be8d-4c29-94fe-f987391ffc7c
+creating reenforcement:03efb502-e66a-4c64-bfda-fa640eb305db
+received death notification:612febfb-0541-4234-ac4d-6471034f8c61
+finding field replacement forAMERICAN:612febfb-0541-4234-ac4d-6471034f8c61 ->[[]]
+removing dead character:03b6a8d0-79fe-4fed-ac9a-eebe9a352aa1 co:1577a151-75e8-4182-b9b5-8af7f7f5dcde
+found understrenth unit to reenfoce:5ba1a33e-cda4-4c07-b25d-27cf8fcaf58c rankCADET_CORPORAL
+in here test reenforce:5ba1a33e-cda4-4c07-b25d-27cf8fcaf58c
+creating reenforcement:ce5bcd0b-1312-4c71-814c-dd778d913016
+removing dead character:59285c69-4436-4a3e-bc35-d9ff78e2f65c co:50b76e26-6f58-49a2-9a9d-91d0b93e2289
+received death notification:a7e0d14b-be8d-4c29-94fe-f987391ffc7c
+finding field replacement forAMERICAN:a7e0d14b-be8d-4c29-94fe-f987391ffc7c ->[[54f7a77e-8e48-44c3-b0c5-f641a42d9bca, 03efb502-e66a-4c64-bfda-fa640eb305db]]
+promoting:54f7a77e-8e48-44c3-b0c5-f641a42d9bca to CADET_CORPORAL
+found understrenth unit to reenfoce:54f7a77e-8e48-44c3-b0c5-f641a42d9bca rankCADET_CORPORAL
+in here test reenforce:54f7a77e-8e48-44c3-b0c5-f641a42d9bca
+creating reenforcement:8b1420ef-2e1e-4a68-8c25-9dc189c10c05
+completed stucture capture:bafd44c1-2b4e-42e2-9907-cf0f6cdfa3f7
+found understrenth unit to reenfoce:64815c20-f1c0-4140-9d0c-ff8a55cf7cd3 rankLIEUTENANT
+in here test reenforce:64815c20-f1c0-4140-9d0c-ff8a55cf7cd3
+producing mg
+creating reenforcement:edb2adcf-21c7-463d-a4c9-51d417a34eda
+completed stucture capture:77b07bdb-5263-4e7a-9de6-88c2987a2afe
+found understrenth unit to reenfoce:54f7a77e-8e48-44c3-b0c5-f641a42d9bca rankCADET_CORPORAL
+in here test reenforce:54f7a77e-8e48-44c3-b0c5-f641a42d9bca
+creating reenforcement:4a5ee221-dce2-4135-b358-1c135dc0d52e
+removing dead character:612febfb-0541-4234-ac4d-6471034f8c61 co:718874a1-baa2-4dd3-878c-e408b172ee11
+completed stucture capture:21e71a42-0343-4a61-a262-7ee0974476f1
+found understrenth unit to reenfoce:edb2adcf-21c7-463d-a4c9-51d417a34eda rankCADET_CORPORAL
+in here test reenforce:edb2adcf-21c7-463d-a4c9-51d417a34eda
+creating reenforcement:f87a0edd-32bf-4c38-9c2b-e3ba32a4c476
