@@ -10,15 +10,15 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.node.ObjectNode;
 
 import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.HouseDAO;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.jme3.lostVictories.network.messages.CharacterMessage;
-import com.jme3.lostVictories.network.messages.CharacterType;
 import com.jme3.lostVictories.network.messages.Country;
 import com.jme3.lostVictories.network.messages.HouseMessage;
 import com.jme3.lostVictories.network.messages.RankMessage;
@@ -26,8 +26,11 @@ import com.jme3.math.Vector3f;
 
 public class CaptureTown extends Objective {
 
+	@JsonIgnore
 	private static Logger log = Logger.getLogger(CaptureTown.class);
+	@JsonIgnore
 	private Set<GameSector> gameSectors;
+	@JsonIgnore
 	public Rectangle mapBounds = new Rectangle(-512, -512, 1024, 1024);
 	private long startTime;
 	
@@ -60,7 +63,7 @@ public class CaptureTown extends Objective {
 				log.info(c.getCountry()+": assigning new sector:"+toSecure.rects.iterator().next()+" houses:"+toSecure.houses.size());
 				SecureSector i = new SecureSector(toSecure.getHouses());
 				try {
-					unit.addObjective(UUID.randomUUID(), i.asJSON());
+					unit.addObjective(UUID.randomUUID(), i);
 					toSave.put(unit.getId(), unit);
 				} catch (JsonGenerationException e) {
 					throw new RuntimeException(e);
@@ -188,17 +191,6 @@ public class CaptureTown extends Objective {
             return houses;
         }
     }
-
-	
-	
-	
-
-	public String asJSON() throws JsonGenerationException, JsonMappingException, IOException{
-		ObjectNode node = MAPPER.createObjectNode();
-		node.put("startTime", startTime);
-        node.put("classType", getClass().getName());
-        return MAPPER.writeValueAsString(node);
-	}
 	
 	@Override
 	public boolean clashesWith(Class<? extends Objective> newObjective) {

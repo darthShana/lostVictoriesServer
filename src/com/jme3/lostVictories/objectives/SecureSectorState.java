@@ -1,8 +1,7 @@
 package com.jme3.lostVictories.objectives;
 
-import static lostVictories.CharacterRunner.fromStringToObjective;
-
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -23,43 +22,41 @@ import com.jme3.math.Vector3f;
 public enum SecureSectorState {
 	DEPLOY_TO_SECTOR {
 		@Override
-		public void runObjective(CharacterMessage c, String uuid, Vector centre, Set<UUID> houses, Map<String, String> issuedOrders, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave) {
+		public void runObjective(CharacterMessage c, String uuid, Vector centre, Set<UUID> houses, Map<UUID, Objective> issuedOrders, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave) {
 			c.getUnitsUnderCommand().stream()				
-				.filter(id->!issuedOrders.containsKey(id.toString()))
+				.filter(id->!issuedOrders.containsKey(id))
 				.map(id->characterDAO.getCharacter(id))
-				.filter(cc->cc!=null)//should never happen but does need to fix
 				.forEach(new Consumer<CharacterMessage>() {
 
 				@Override
 				public void accept(CharacterMessage unit) {
 					try {
 						TransportSquad deployToSector = new TransportSquad(centre);
-						unit.addObjective(UUID.randomUUID(), deployToSector.asJSON());
+						unit.addObjective(UUID.randomUUID(), deployToSector);
 						toSave.put(unit.getId(), unit);
-						issuedOrders.put(unit.getId().toString(), deployToSector.asJSON());	
+						issuedOrders.put(unit.getId(), deployToSector);	
 					} catch (IOException e) {
 						throw new RuntimeException(e);
 					}
 				}			
 			});
-			try {
-				if(!issuedOrders.containsKey(c.getId().toString())){
-					TravelObjective t = new TravelObjective(centre, null);
-					issuedOrders.put(c.getId().toString(), t.asJSON());
-				}
+			if(!issuedOrders.containsKey(c.getId())){
+				TravelObjective t = new TravelObjective(centre, null);
+				issuedOrders.put(c.getId(), t);
+			}
 
-				Objective fromStringToObjective = fromStringToObjective(issuedOrders.get(c.getId().toString()));
-				fromStringToObjective.runObjective(c, uuid, characterDAO, houseDAO, toSave);
-				issuedOrders.put(c.getId().toString(), fromStringToObjective.asJSON());
-			} catch (IOException e) {
-				throw new RuntimeException(e);
+			Objective fromStringToObjective = issuedOrders.get(c.getId());
+			fromStringToObjective.runObjective(c, uuid, characterDAO, houseDAO, toSave);
+			if(fromStringToObjective.isComplete){
+				System.out.println(fromStringToObjective+"is complete");
 			}
 			toSave.put(c.getId(), c);
 		}
 
 		@Override
-		public SecureSectorState tansition(CharacterMessage c, String uuid, Vector centre, Set<UUID> houses, Map<String, String> issuedOrders, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave) {
-			if(fromStringToObjective(issuedOrders.get(c.getId().toString())).isComplete){
+		public SecureSectorState tansition(CharacterMessage c, String uuid, Vector centre, Set<UUID> houses, Map<UUID, Objective> issuedOrders, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave) {
+			if(issuedOrders.get(c.getId()).isComplete){
+				System.out.println(((TravelObjective)(issuedOrders.get(c.getId()))).destination+" complete changing to houses capture mode");
 				return CAPTURE_HOUSES;
 			}
 			return DEPLOY_TO_SECTOR;
@@ -68,30 +65,30 @@ public enum SecureSectorState {
 	
 	CAPTURE_HOUSES {
 		@Override
-		public void runObjective(CharacterMessage c, String uuid, Vector centre, Set<UUID> houses, Map<String, String> issuedOrders, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave) {
-			Predicate<HouseMessage> houseToCapture = new Predicate<HouseMessage>() {
-				
+		public void runObjective(CharacterMessage c, String uuid, Vector centre, Set<UUID> houses, Map<UUID, Objective> issuedOrders, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave) {
+			final Set<String> exclude = new HashSet<>();
+			Predicate<HouseMessage> houseToCapture = new Predicate<HouseMessage>() {				
 				@Override
 				public boolean test(HouseMessage t) {
-					return t.getOwner()==c.getCountry();
+					return t.getOwner()!=c.getCountry() && !exclude.contains(t.getId().toString());
 				}
 			};
 			
-			for(Iterator<Entry<String, String>> it = issuedOrders.entrySet().iterator();it.hasNext();){
-				Objective o = fromStringToObjective(it.next().getValue());
+			for(Iterator<Entry<UUID, Objective>> it = issuedOrders.entrySet().iterator();it.hasNext();){
+				Objective o = it.next().getValue();
 				if(o instanceof CaptureStructure){
-					if(houseDAO.getHouse(UUID.fromString(((CaptureStructure)o).structure)).getOwner() == c.getCountry()){
+					HouseMessage house = houseDAO.getHouse(UUID.fromString(((CaptureStructure)o).structure));
+					if(house.getOwner() == c.getCountry()){
 						it.remove();
+					}else{
+						exclude.add(house.getId().toString());
 					}
-				}
-				
+				}				
 			}
 			
-			c.getUnitsUnderCommand().stream()
-				
-				.filter(id->!issuedOrders.containsKey(id.toString()))
+			c.getUnitsUnderCommand().stream()				
+				.filter(id->!issuedOrders.containsKey(id))
 				.map(id->characterDAO.getCharacter(id))
-				.filter(cc->cc!=null)//should never happen but does need to fix
 				.forEach(new Consumer<CharacterMessage>() {
 
 				@Override
@@ -99,10 +96,13 @@ public enum SecureSectorState {
 					HouseMessage house = findClosestHouse(unit, houses.stream().map(h->houseDAO.getHouse(h)).collect(Collectors.toSet()), houseToCapture);
 					if(house!=null){
 						try {
+							System.out.println(unit.getId()+"CaptureStructure:"+house.getId().toString());
+
 							CaptureStructure captureStructure = new CaptureStructure(house.getId().toString());
-							unit.addObjective(UUID.randomUUID(), captureStructure.asJSON());
+							unit.addObjective(UUID.randomUUID(), captureStructure);
 							toSave.put(unit.getId(), unit);
-							issuedOrders.put(unit.getId().toString(), captureStructure.asJSON());
+							issuedOrders.put(unit.getId(), captureStructure);
+							exclude.add(house.getId().toString());
 						} catch (IOException e) {
 							throw new RuntimeException(e);
 						}
@@ -112,7 +112,7 @@ public enum SecureSectorState {
 		}
 
 		@Override
-		public SecureSectorState tansition(CharacterMessage c, String uuid, Vector centre, Set<UUID> houses, Map<String, String> issuedOrders, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave) {
+		public SecureSectorState tansition(CharacterMessage c, String uuid, Vector centre, Set<UUID> houses, Map<UUID, Objective> issuedOrders, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave) {
 			return CAPTURE_HOUSES;
 		}
 	};
@@ -137,8 +137,8 @@ public enum SecureSectorState {
 		return closest;
 	}
 
-	public abstract void runObjective(CharacterMessage c, String uuid, Vector centre, Set<UUID> houses, Map<String, String> issuedOrders, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave);
+	public abstract void runObjective(CharacterMessage c, String uuid, Vector centre, Set<UUID> houses, Map<UUID, Objective> issuedOrders, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave);
 
-	public abstract SecureSectorState tansition(CharacterMessage c, String uuid, Vector centre, Set<UUID> houses, Map<String, String> issuedOrders, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave);
+	public abstract SecureSectorState tansition(CharacterMessage c, String uuid, Vector centre, Set<UUID> houses, Map<UUID, Objective> issuedOrders, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave);
 
 }

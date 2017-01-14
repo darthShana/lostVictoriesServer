@@ -1,10 +1,15 @@
 package com.jme3.lostVictories.network.messages.actions;
 
-import org.codehaus.jackson.annotate.JsonCreator;
-import org.codehaus.jackson.annotate.JsonProperty;
 
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.jme3.lostVictories.network.messages.Vector;
 
+@JsonTypeInfo(use=Id.CLASS, include=As.PROPERTY, property="class")
 public class Shoot extends Action {
 
 	private long shootTime;

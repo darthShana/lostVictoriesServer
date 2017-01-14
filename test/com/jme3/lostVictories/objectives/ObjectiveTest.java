@@ -5,9 +5,9 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 import java.util.UUID;
 
-import org.codehaus.jackson.map.JsonMappingException;
 import org.junit.Test;
 
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.jme3.lostVictories.network.messages.CharacterMessage;
 import com.jme3.lostVictories.network.messages.CharacterType;
 import com.jme3.lostVictories.network.messages.Country;
@@ -25,10 +25,10 @@ public class ObjectiveTest {
 		assertFalse(character.isBusy());
 
 		FollowCommander obj2 = new FollowCommander(new Vector(0, 0, 0), 3);
-		character.addObjective(UUID.randomUUID(), obj2.asJSON());
+		character.addObjective(UUID.randomUUID(), obj2);
 		assertFalse(character.isBusy());
 		
-		character.addObjective(UUID.randomUUID(), objective.asJSON());
+		character.addObjective(UUID.randomUUID(), objective);
 		assertTrue(character.isBusy());
 	}
 

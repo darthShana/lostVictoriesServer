@@ -2,6 +2,7 @@ package com.jme3.lostVictories.network.messages;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 import static com.jme3.lostVictories.network.messages.Vector.latLongToVector;
+import static com.jme3.lostVictories.objectives.Objective.MAPPER;
 import static com.jme3.lostVictories.objectives.Objective.toObjectiveSafe;
 import static com.jme3.lostVictories.objectives.Objective.toJsonNodeSafe;
 
@@ -30,10 +31,12 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.elasticsearch.common.geo.GeoPoint;
 import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.codehaus.jackson.type.TypeReference;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.jme3.lostVictories.network.messages.actions.Action;
 import com.jme3.lostVictories.objectives.FollowCommander;
+import com.jme3.lostVictories.objectives.Objective;
 import com.jme3.lostVictories.objectives.PassiveObjective;
 
 public class CharacterMessage implements Serializable{
@@ -210,7 +213,7 @@ public class CharacterMessage implements Serializable{
 		                .field("weapon", getWeapon())
 		                .field("rank", getRank())
 		                .field("kills", kills)
-		                .field("actions", CharacterDAO.MAPPER.writeValueAsString(actions))
+		                .field("actions", MAPPER.writerFor(new TypeReference<Set<Action>>() {}).writeValueAsString(actions))
 		                .field("objectives", CharacterDAO.MAPPER.writeValueAsString(objectives))
 		                .field("commandingOfficer", commandingOfficer)
 		                .field("unitsUnderCommand", unitsUnderCommand)
@@ -246,7 +249,7 @@ public class CharacterMessage implements Serializable{
 				.field("location", new GeoPoint(toLatitute(getLocation()), toLongitude(getLocation())))
 				.field("altitude", getLocation().y)
 				.field("orientation", orientation.toMap())
-				.field("actions", CharacterDAO.MAPPER.writeValueAsString(actions))
+				.field("actions", MAPPER.writerFor(new TypeReference<Set<Action>>() {}).writeValueAsString(actions))
 				.field("objectives", CharacterDAO.MAPPER.writeValueAsString(objectives))	
 				.field("engineDamaged", engineDamaged)
 				.field("checkoutClient", checkoutClient)
@@ -376,7 +379,7 @@ public class CharacterMessage implements Serializable{
         Set<CharacterMessage> addedCharacters = new HashSet<CharacterMessage>();
 		
         final CharacterMessage loadCharacter = new CharacterMessage(UUID.randomUUID(), type, spawnPoint, country, weapon, rankToReenforce, id);
-		loadCharacter.addObjective(UUID.randomUUID(), new FollowCommander(new Vector(2, 0, 2), 10).asJSON());
+		loadCharacter.addObjective(UUID.randomUUID(), new FollowCommander(new Vector(2, 0, 2), 10));
 		
 		log.debug("creating reenforcement:"+loadCharacter.getId());
 		unitsUnderCommand.add(loadCharacter.getId());
@@ -413,7 +416,7 @@ public class CharacterMessage implements Serializable{
 			Set<CharacterMessage> collect = unitsUnderCommand.stream().map(uuid->allCharacters.get(uuid)).filter(c->c!=null).collect(Collectors.toSet());
 			for(CharacterMessage c:collect){
 				c.commandingOfficer=characterMessage.id;
-				c.addObjective(UUID.randomUUID(), new FollowCommander(new Vector(2, 0, 2), 10).asJSON());
+				c.addObjective(UUID.randomUUID(), new FollowCommander(new Vector(2, 0, 2), 10));
 
 			}
 			toUpdate.addAll(collect);
@@ -528,6 +531,11 @@ public class CharacterMessage implements Serializable{
 
 	public void addObjective(UUID id, String objective) {
 		objectives.put(id.toString(), objective);
+	}
+	
+	public void addObjective(UUID id, Objective objective) throws JsonProcessingException {
+		objectives.put(id.toString(), MAPPER.writeValueAsString(objective));
+		
 	}
 
 	public Set<UUID> getUnitsUnderCommand() {
@@ -645,7 +653,5 @@ public class CharacterMessage implements Serializable{
 		this.version = i;
 		
 	}
-	
-
 
 }

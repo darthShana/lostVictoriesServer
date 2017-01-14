@@ -2,23 +2,12 @@ package com.jme3.lostVictories.network.messages.actions;
 
 import java.io.Serializable;
 
-import org.codehaus.jackson.annotate.JsonSubTypes;
-import org.codehaus.jackson.annotate.JsonSubTypes.Type;
-import org.codehaus.jackson.annotate.JsonTypeInfo;
-
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.jme3.lostVictories.network.messages.Vector;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 
-@JsonTypeInfo(  
-    use = JsonTypeInfo.Id.NAME,  
-    include = JsonTypeInfo.As.PROPERTY,  
-    property = "type")  
-@JsonSubTypes({  
-    @Type(value = Idle.class, name = "idle"),  
-    @Type(value = Move.class, name = "move"),
-    @Type(value = ManualControl.class, name = "manualControl"),
-    @Type(value = Shoot.class, name = "shoot"),
-    @Type(value = Crouch.class, name = "crouch"),
-    @Type(value = SetupWeapon.class, name = "setupWeapon")})  
+@JsonTypeInfo(use=Id.CLASS, include=As.PROPERTY, property="class")
 public abstract class Action implements Serializable{
 	
 	protected final String type;

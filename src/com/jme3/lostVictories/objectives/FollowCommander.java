@@ -9,11 +9,10 @@ import java.util.UUID;
 import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.HouseDAO;
 
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.node.ObjectNode;
-
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.jme3.lostVictories.network.messages.CharacterMessage;
 import com.jme3.lostVictories.network.messages.Vector;
 import com.jme3.math.Vector3f;
@@ -46,16 +45,6 @@ public class FollowCommander extends Objective implements PassiveObjective{
 		
 		Vector vector = new Vector(newLocation.x, newLocation.y, newLocation.z);
 		character.setLocation(vector);
-		toSave.put(character.getId(), character);
-	}
-	@Override
-	public String asJSON() throws JsonGenerationException, JsonMappingException, IOException {
-		ObjectNode node = MAPPER.createObjectNode();
-		JsonNode d = MAPPER.valueToTree(direction);
-        node.put("direction", d);
-        node.put("maxDistance", maxDistance);
-        node.put("classType", getClass().getName());
-        return MAPPER.writeValueAsString(node);
 	}
 	
 	@Override

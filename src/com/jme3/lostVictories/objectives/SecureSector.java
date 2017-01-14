@@ -9,26 +9,24 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.node.ObjectNode;
 
 import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.HouseDAO;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jme3.lostVictories.network.messages.CharacterMessage;
 import com.jme3.lostVictories.network.messages.HouseMessage;
 import com.jme3.lostVictories.network.messages.Vector;
 
 public class SecureSector extends Objective {
 
+	@JsonIgnore
 	private static Logger log = Logger.getLogger(SecureSector.class);
 	
 	private Set<UUID> houses = new HashSet<UUID>();
 	private Vector centre;
-	Map<String, String> issuedOrders = new HashMap<>();
-	private SecureSectorState state = SecureSectorState.DEPLOY_TO_SECTOR;
+	Map<UUID, Objective> issuedOrders = new HashMap<>();
+	SecureSectorState state = SecureSectorState.DEPLOY_TO_SECTOR;
 	
 	@SuppressWarnings("unused")
 	private SecureSector() {}
@@ -52,24 +50,11 @@ public class SecureSector extends Objective {
 	public void runObjective(CharacterMessage c, String uuid, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave) {
 		state.runObjective(c, uuid, centre, houses, issuedOrders, characterDAO, houseDAO, toSave);
 		SecureSectorState newState = state.tansition(c, uuid, centre, houses, issuedOrders, characterDAO, houseDAO, toSave);
+		
 		if(newState!=state){
 			issuedOrders.clear();          
             state = newState;            
         }
-	}
-
-	
-	
-	public String asJSON() throws JsonGenerationException, JsonMappingException, IOException{
-		ObjectNode node = MAPPER.createObjectNode();
-		JsonNode _houses = MAPPER.valueToTree(houses);
-		JsonNode _centre = MAPPER.valueToTree(centre);
-		JsonNode _issuedOrders = MAPPER.valueToTree(issuedOrders);
-		node.put("classType", getClass().getName());
-		node.put("houses", _houses);
-		node.put("centre", _centre);
-		node.put("issuedOrders", _issuedOrders);
-        return MAPPER.writeValueAsString(node);
 	}
 
 	@Override

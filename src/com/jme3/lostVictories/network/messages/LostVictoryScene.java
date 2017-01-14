@@ -12,11 +12,11 @@ import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.HouseDAO;
 
 import org.apache.log4j.Logger;
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.node.ObjectNode;
 
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.jme3.lostVictories.objectives.CaptureTown;
 import com.jme3.lostVictories.objectives.FollowCommander;
 import com.jme3.math.Vector3f;
@@ -39,9 +39,9 @@ public class LostVictoryScene {
 		
 		
 		CharacterMessage a = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, germanBase, Country.GERMAN, Weapon.RIFLE, RankMessage.COLONEL, null);
-		a.addObjective(UUID.randomUUID(), new CaptureTown(System.currentTimeMillis()).asJSON());
+		a.addObjective(UUID.randomUUID(), new CaptureTown(System.currentTimeMillis()));
 		CharacterMessage b = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, americanBase, Country.AMERICAN, Weapon.RIFLE, RankMessage.COLONEL, null);
-		b.addObjective(UUID.randomUUID(), new CaptureTown(System.currentTimeMillis()).asJSON());
+		b.addObjective(UUID.randomUUID(), new CaptureTown(System.currentTimeMillis()));
 		
 		CharacterMessage gl1 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, germanBase.add(5, 0, 5), Country.GERMAN, Weapon.RIFLE, RankMessage.LIEUTENANT, a.getId());
 		CharacterMessage gl2 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, germanBase.add(10, 0, 5), Country.GERMAN, Weapon.RIFLE, RankMessage.LIEUTENANT, a.getId());
@@ -252,9 +252,9 @@ public class LostVictoryScene {
 	private String createBootCampObjective(final Vector vector)  {
 		ObjectNode node = CharacterDAO.MAPPER.createObjectNode();
 		try {
-			node.put("classType", "com.jme3.lostVictories.objectives.CompleteBootCamp");
+			node.put("class", "com.jme3.lostVictories.objectives.CompleteBootCamp");
 			JsonNode valueToTree = CharacterDAO.MAPPER.valueToTree(vector);
-			node.put("location", valueToTree);
+			node.set("location", valueToTree);
 			return CharacterDAO.MAPPER.writeValueAsString(node);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
@@ -323,7 +323,7 @@ public class LostVictoryScene {
         for(Weapon w:weapons){
             CharacterMessage e = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, vector3f.add(i*3, 0, 0), country, w, RankMessage.PRIVATE, a1.getId());
             if(folllowCommander){
-            	e.addObjective(UUID.randomUUID(), new FollowCommander(new Vector(offSet), 10).asJSON());
+            	e.addObjective(UUID.randomUUID(), new FollowCommander(new Vector(offSet), 10));
             	offSet = offSet.add(2, 0, 2);
             }
 			cc.add(e);

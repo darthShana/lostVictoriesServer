@@ -12,15 +12,11 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import org.apache.log4j.Logger;
-import org.codehaus.jackson.annotate.JsonMethod;
-import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
 import org.elasticsearch.action.delete.DeleteResponse;
@@ -32,6 +28,9 @@ import org.elasticsearch.index.engine.VersionConflictEngineException;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.search.SearchHit;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jme3.lostVictories.network.messages.CharacterMessage;
 import com.jme3.lostVictories.network.messages.Vector;
 
@@ -40,7 +39,7 @@ public class CharacterDAO {
 	public static ObjectMapper MAPPER;
 	static{
 		MAPPER = new ObjectMapper();
-		MAPPER.setVisibility(JsonMethod.FIELD, Visibility.ANY);
+		MAPPER.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
 	}
 	
 	private Client esClient;

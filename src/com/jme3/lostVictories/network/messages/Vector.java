@@ -4,8 +4,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.codehaus.jackson.annotate.JsonProperty;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 

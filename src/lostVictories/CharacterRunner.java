@@ -7,14 +7,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.JsonProcessingException;
-import org.codehaus.jackson.map.JsonMappingException;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.jme3.lostVictories.network.messages.CharacterMessage;
 import com.jme3.lostVictories.objectives.Objective;
 
@@ -67,19 +68,30 @@ public class CharacterRunner implements Runnable{
 			toSave.put(c.getId(), c);
 		}
 		
+		for(UUID u:c.getUnitsUnderCommand()){
+			if(characterDAO.getCharacter(u)==null){
+				System.out.println("found null character:"+u+" under command"+c);
+			}
+		}
+		
+		
 		for(Entry<String, JsonNode> entry:objectives.entrySet()){
 			try{
-				Class objectiveClass = Class.forName(entry.getValue().get("classType").asText());
+				if(entry.getValue().get("class")==null){
+					System.out.println("obj with null class");
+				}
+				Class objectiveClass = Class.forName(entry.getValue().get("class").asText());
 				Objective objective = (Objective) MAPPER.treeToValue(entry.getValue(), objectiveClass);
 				objective.runObjective(c, entry.getKey(), characterDAO, houseDAO, toSave);
 				//should not need to do this.....
-				c.getObjectives().put(entry.getKey(), objective.asJSON());
+				c.getObjectives().put(entry.getKey(), MAPPER.writeValueAsString(objective));
 				if(objective.isComplete){
 					c.getObjectives().remove(entry.getKey());
-					toSave.put(c.getId(), c);
+					
 				}
+				toSave.put(c.getId(), c);
 			}catch(ClassNotFoundException e){
-				log.trace(entry.getValue().get("classType")+ " not found on Character runner");
+				log.trace(entry.getValue().get("class")+ " not found on Character runner");
 			} catch (JsonParseException e) {
 				throw new RuntimeException(e);
 			} catch (JsonMappingException e) {
@@ -93,7 +105,7 @@ public class CharacterRunner implements Runnable{
 	public static Objective fromStringToObjective(String jsonString){
 		JsonNode jsonNodeSafe = toJsonNodeSafe(jsonString);
 		try {
-			Class objectiveClass = Class.forName(jsonNodeSafe.get("classType").asText());
+			Class objectiveClass = Class.forName(jsonNodeSafe.get("class").asText());
 			return (Objective) MAPPER.treeToValue(jsonNodeSafe, objectiveClass);
 		} catch (ClassNotFoundException | IOException e) {
 			throw new RuntimeException(e);

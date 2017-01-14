@@ -1,5 +1,6 @@
 package com.jme3.lostVictories.network.messages;
 
+import static com.jme3.lostVictories.objectives.Objective.MAPPER;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
@@ -20,6 +21,13 @@ import lostVictories.messageHanders.CharacterCatch;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.jme3.lostVictories.network.messages.actions.Action;
+import com.jme3.lostVictories.network.messages.actions.Idle;
+import com.jme3.lostVictories.objectives.Objective;
+import com.jme3.lostVictories.objectives.TravelObjective;
 
 public class CharacterMessageTest {
 	
