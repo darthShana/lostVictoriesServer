@@ -1,6 +1,6 @@
 package com.jme3.lostVictories.network.messages.actions;
 
-import static com.jme3.lostVictories.objectives.Objective.MAPPER;
+import static lostVictories.dao.CharacterDAO.MAPPER;
 import static org.junit.Assert.*;
 
 import java.io.IOException;

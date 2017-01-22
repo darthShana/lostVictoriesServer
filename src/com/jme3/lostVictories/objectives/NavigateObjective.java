@@ -2,7 +2,6 @@ package com.jme3.lostVictories.objectives;
 
 import static com.jme3.lostVictories.network.messages.LostVictoryScene.SCENE_SCALE;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -13,10 +12,6 @@ import lostVictories.NavMeshStore;
 import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.HouseDAO;
 
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.jme3.lostVictories.network.messages.CharacterMessage;
 import com.jme3.lostVictories.network.messages.Vector;
 import com.jme3.math.Vector3f;
@@ -27,7 +22,8 @@ public class NavigateObjective extends Objective{
 	List<Vector> path;
     private Vector destination;
 	
-    private NavigateObjective() {}
+    @SuppressWarnings("unused")
+	private NavigateObjective() {}
     
     public NavigateObjective(Vector destination, Vector target) {
 		this.destination = destination;

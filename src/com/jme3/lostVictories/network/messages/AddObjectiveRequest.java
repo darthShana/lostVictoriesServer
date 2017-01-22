@@ -1,6 +1,5 @@
 package com.jme3.lostVictories.network.messages;
 
-import java.io.Serializable;
 import java.util.UUID;
 
 /**

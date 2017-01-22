@@ -27,9 +27,6 @@ import com.jme3.lostVictories.network.messages.Country;
 import com.jme3.lostVictories.network.messages.GameStatistics;
 import com.jme3.lostVictories.network.messages.HouseMessage;
 import com.jme3.lostVictories.network.messages.RankMessage;
-import com.jme3.lostVictories.network.messages.Vector;
-import com.jme3.lostVictories.objectives.FollowCommander;
-import com.jme3.lostVictories.objectives.SecureSector;
 import com.jme3.lostVictories.objectives.SecureSectorState;
 
 public class WorldRunner implements Runnable{
@@ -115,7 +112,7 @@ public class WorldRunner implements Runnable{
 			}
 			
 			Set<CharacterMessage> allCharacters = characterDAO.getAllCharacters();
-			AvatarStore avatarStore = new AvatarStore(allCharacters);
+			AvatarStore avatarStore = new AvatarStore(characterDAO);
 			
 			for(Country c:weaponsFactory.keySet()){
 				weaponsFactory.get(c).updateSenses(allCharacters);
@@ -152,8 +149,16 @@ public class WorldRunner implements Runnable{
                         
                     }
                 }else if(c.getTimeOfDeath()<(System.currentTimeMillis()-60000) && c.getCharacterType()!=CharacterType.AVATAR){
-                	log.debug("removing dead character:"+c.getId()+" co:"+c.getCommandingOfficer());
-                	characterDAO.delete(c);
+//                	log.debug("removing dead character:"+c.getId()+" co:"+c.getCommandingOfficer());
+//                	characterDAO.delete(c);
+                }else if(c.getCommandingOfficer()==null && c.getRank()==RankMessage.PRIVATE){
+                	CharacterMessage newCo = characterDAO.findClosestCharacter(c, RankMessage.CADET_CORPORAL);
+                	if(newCo!=null){
+                		log.debug("found orphan unit:"+c.getId()+" adopted by:"+newCo.getId());
+                		newCo.addopt(c);
+                		characterDAO.putCharacter(newCo.getId(), newCo);
+                		characterDAO.putCharacter(c.getId(), c);
+                	}
                 }
             }
 			
@@ -164,8 +169,9 @@ public class WorldRunner implements Runnable{
 					if(coId!=null){
 						CharacterMessage co = characterDAO.getCharacter(coId);
 						if(CharacterType.AVATAR != co.getCharacterType()){
-							Set<CharacterMessage> promotions = avatar.promoteCharacter(co, characterDAO);
+							Set<CharacterMessage> promotions = avatar.promoteAvatar(co, characterDAO);
 							characterDAO.saveCommandStructure(promotions.stream().collect(Collectors.toMap(CharacterMessage::getId, Function.identity())));
+							characterDAO.refresh();
 						}
 					}
 					if(avatar.getCheckoutClient().equals(avatar.getId())){

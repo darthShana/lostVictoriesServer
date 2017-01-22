@@ -1,6 +1,5 @@
 package com.jme3.lostVictories.objectives;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -15,6 +14,7 @@ import lostVictories.dao.HouseDAO;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jme3.lostVictories.network.messages.CharacterMessage;
+import com.jme3.lostVictories.network.messages.Country;
 import com.jme3.lostVictories.network.messages.HouseMessage;
 import com.jme3.lostVictories.network.messages.Vector;
 
@@ -55,6 +55,7 @@ public class SecureSector extends Objective {
 			issuedOrders.clear();          
             state = newState;            
         }
+		
 	}
 
 	@Override

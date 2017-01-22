@@ -1,13 +1,12 @@
 package lostVictories;
 
-import static com.jme3.lostVictories.objectives.Objective.MAPPER;
+import static lostVictories.dao.CharacterDAO.MAPPER;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
@@ -67,13 +66,6 @@ public class CharacterRunner implements Runnable{
 			c.setCheckoutClient(null);
 			toSave.put(c.getId(), c);
 		}
-		
-		for(UUID u:c.getUnitsUnderCommand()){
-			if(characterDAO.getCharacter(u)==null){
-				System.out.println("found null character:"+u+" under command"+c);
-			}
-		}
-		
 		
 		for(Entry<String, JsonNode> entry:objectives.entrySet()){
 			try{

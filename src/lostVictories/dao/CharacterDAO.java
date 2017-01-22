@@ -24,23 +24,36 @@ import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.client.Client;
+import org.elasticsearch.common.geo.GeoDistance;
+import org.elasticsearch.common.unit.DistanceUnit;
 import org.elasticsearch.index.engine.VersionConflictEngineException;
+import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.sort.GeoDistanceSortBuilder;
+import org.elasticsearch.search.sort.SortBuilders;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jme3.lostVictories.network.messages.CharacterMessage;
+import com.jme3.lostVictories.network.messages.RankMessage;
 import com.jme3.lostVictories.network.messages.Vector;
 
 public class CharacterDAO {
 	private static Logger log = Logger.getLogger(CharacterDAO.class); 
 	public static ObjectMapper MAPPER;
-	static{
-		MAPPER = new ObjectMapper();
-		MAPPER.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
-	}
+	
+    static{
+            MAPPER = new ObjectMapper();
+            MAPPER.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
+            MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            MAPPER.setSerializationInclusion(Include.NON_NULL);
+
+    }
 	
 	private Client esClient;
 	private String indexName;
@@ -91,6 +104,27 @@ public class CharacterDAO {
 		Iterator<SearchHit> iterator = searchResponse.getHits().iterator();
 		Iterable<SearchHit> iterable = () -> iterator;
 		return StreamSupport.stream(iterable.spliterator(), true).map(hit -> fromFields(UUID.fromString(hit.getId()), hit.getVersion(), hit.getSource())).collect(Collectors.toSet());
+	}
+	
+	public CharacterMessage findClosestCharacter(CharacterMessage c, RankMessage rank) {
+		double tl_latitute = toLatitute(c.getLocation());
+		double tl_longitude = toLongitude(c.getLocation());
+		
+		GeoDistanceSortBuilder geoDistanceSort = SortBuilders.geoDistanceSort("geo").point(tl_latitute, tl_longitude)
+	            .unit(DistanceUnit.METERS).sortMode("ASC")
+	            .geoDistance(GeoDistance.PLANE);
+
+	    SearchResponse searchResponse = esClient.prepareSearch(indexName)
+	    		.setQuery(QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery(), FilterBuilders.termFilter("rank",rank.name()))).setSize(100)
+	    		.addSort(geoDistanceSort)
+	            .setVersion(true)
+                .execute().actionGet();
+
+	    if(searchResponse.getHits().getTotalHits()==0){
+	    	return null;
+	    }
+	    SearchHit closest = searchResponse.getHits().iterator().next();
+		return fromFields(UUID.fromString(closest.getId()), closest.getVersion(), closest.getSource());
 	}
 
 	private CharacterMessage fromFields(UUID id, long version, Map<String, Object> source) {
@@ -215,5 +249,7 @@ public class CharacterDAO {
 	public void refresh() {
 		esClient.admin().indices().refresh(new RefreshRequest(indexName)).actionGet();
 	}
+
+
 
 }

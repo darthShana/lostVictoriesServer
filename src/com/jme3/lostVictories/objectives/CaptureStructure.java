@@ -1,7 +1,6 @@
 package com.jme3.lostVictories.objectives;
 
 
-import java.io.IOException;
 import java.util.Map;
 import java.util.UUID;
 
@@ -11,10 +10,6 @@ import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.HouseDAO;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.jme3.lostVictories.network.messages.CharacterMessage;
 import com.jme3.lostVictories.network.messages.HouseMessage;
 import com.jme3.lostVictories.network.messages.Vector;
@@ -40,7 +35,6 @@ public class CaptureStructure extends Objective{
 			isComplete = true;
 			return;
 		}
-		System.out.println(c.getId()+" at "+c.getLocation()+" cap house:"+house.getLocation());
 
 		if(travelObjective==null){
 			travelObjective = new TravelObjective(new Vector(house.getLocation().toVector()), null);

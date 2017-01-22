@@ -1,6 +1,6 @@
 package lostVictories.messageHanders;
 
-import static com.jme3.lostVictories.objectives.Objective.MAPPER;
+import static lostVictories.dao.CharacterDAO.MAPPER;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 

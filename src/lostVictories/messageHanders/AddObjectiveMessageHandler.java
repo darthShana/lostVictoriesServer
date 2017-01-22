@@ -1,9 +1,5 @@
 package lostVictories.messageHanders;
 
-import static com.jme3.lostVictories.objectives.Objective.MAPPER;
-
-
-
 
 import java.util.UUID;
 
@@ -11,7 +7,9 @@ import org.apache.log4j.Logger;
 
 import com.jme3.lostVictories.network.messages.AddObjectiveRequest;
 import com.jme3.lostVictories.network.messages.CharacterMessage;
+import com.jme3.lostVictories.network.messages.Country;
 import com.jme3.lostVictories.network.messages.LostVictoryMessage;
+import com.jme3.lostVictories.network.messages.RankMessage;
 
 import lostVictories.dao.CharacterDAO;
 
@@ -27,7 +25,6 @@ public class AddObjectiveMessageHandler {
 
 	public LostVictoryMessage handle(AddObjectiveRequest msg) {
 		CharacterMessage character = characterDAO.getCharacter(msg.getCharacter());
-		
 		character.addObjective(msg.getIdentity(), msg.getObjective());
 		characterDAO.putCharacter(character.getId(), character);
 		return new LostVictoryMessage(UUID.randomUUID());

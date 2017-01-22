@@ -1,6 +1,5 @@
 package com.jme3.lostVictories.network.messages;
 
-import static com.jme3.lostVictories.objectives.Objective.MAPPER;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
@@ -21,13 +20,6 @@ import lostVictories.messageHanders.CharacterCatch;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.jme3.lostVictories.network.messages.actions.Action;
-import com.jme3.lostVictories.network.messages.actions.Idle;
-import com.jme3.lostVictories.objectives.Objective;
-import com.jme3.lostVictories.objectives.TravelObjective;
 
 public class CharacterMessageTest {
 	
@@ -215,10 +207,10 @@ public class CharacterMessageTest {
 		
 		when(characterDAO.getCharacter(cp1.getId())).thenReturn(cp1);
 		when(characterDAO.getCharacter(cp2.getId())).thenReturn(cp2);
-		when(characterDAO.getCharacter(p1.getId())).thenReturn(cp2);
-		when(characterDAO.getCharacter(p2.getId())).thenReturn(cp2);
-		when(characterDAO.getCharacter(p3.getId())).thenReturn(cp2);
-		when(characterDAO.getCharacter(p4.getId())).thenReturn(cp2);
+		when(characterDAO.getCharacter(p1.getId())).thenReturn(p1);
+		when(characterDAO.getCharacter(p2.getId())).thenReturn(p2);
+		when(characterDAO.getCharacter(p3.getId())).thenReturn(p3);
+		when(characterDAO.getCharacter(p4.getId())).thenReturn(p4);
 
 		
 		HashMap<UUID, CharacterMessage> toSave = new HashMap<UUID, CharacterMessage>();
@@ -228,8 +220,73 @@ public class CharacterMessageTest {
 		assertEquals(1, collect.size());
 		
 		CharacterMessage newLiutenant = collect.iterator().next();
+		assertEquals(2, newLiutenant.getUnitsUnderCommand().size());
+		Iterator<UUID> iterator = newLiutenant.getUnitsUnderCommand().iterator();
+		CharacterMessage newCorporal1 = toSave.get(iterator.next());
+		CharacterMessage newCorporal2 = toSave.get(iterator.next());
+		assertEquals(RankMessage.CADET_CORPORAL, newCorporal1.rank);
+		assertEquals(RankMessage.CADET_CORPORAL, newCorporal2.rank);
+		
+		
+	}
+	
+	@Test
+	public void testRepleaceLiutenantNoOrphanUnits(){
+		CharacterMessage oldCo1 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.LIEUTENANT, null);
+		CharacterMessage cp1 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, oldCo1.getId());
+		oldCo1.addCharactersUnderCommand(cp1);
+		
+		CharacterMessage p1 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, cp1.getId());
+		CharacterMessage p2 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, cp1.getId());
+		cp1.addCharactersUnderCommand(p1, p2);
+		
+		when(characterDAO.getCharacter(cp1.getId())).thenReturn(cp1);
+		when(characterDAO.getCharacter(p1.getId())).thenReturn(p1);
+		when(characterDAO.getCharacter(p2.getId())).thenReturn(p2);
+		
+		HashMap<UUID, CharacterMessage> toSave = new HashMap<UUID, CharacterMessage>();
+		oldCo1.replaceMe(new CharacterCatch(characterDAO), toSave);
+		
+		Set<CharacterMessage> collect = toSave.values().stream().filter(c->c.rank==RankMessage.LIEUTENANT).collect(Collectors.toSet());
+		assertEquals(1, collect.size());
+		
+		CharacterMessage newLiutenant = collect.iterator().next();
 		assertEquals(1, newLiutenant.getUnitsUnderCommand().size());
-		assertEquals(RankMessage.CADET_CORPORAL, toSave.get(newLiutenant.getUnitsUnderCommand().iterator().next()).rank);
+		Iterator<UUID> iterator = newLiutenant.getUnitsUnderCommand().iterator();
+		CharacterMessage newCorporal1 = toSave.get(iterator.next());
+		assertEquals(RankMessage.CADET_CORPORAL, newCorporal1.rank);
+		
+		if(newCorporal1.getId().equals(p1.id)){
+			assertEquals(toSave.get(p2.id).commandingOfficer, newCorporal1.id);
+		}else{
+			assertEquals(toSave.get(p1.id).commandingOfficer, newCorporal1.id);
+		}
+		
+	}
+	
+	@Test
+	public void testRepleaceLiutenantWithOrphanUnits(){
+		CharacterMessage oldCo1 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.LIEUTENANT, null);
+		CharacterMessage cp1 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, oldCo1.getId());
+		oldCo1.addCharactersUnderCommand(cp1);
+		
+		CharacterMessage p1 = new CharacterMessage(UUID.randomUUID(), CharacterType.ANTI_TANK_GUN, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, cp1.getId());
+		cp1.addCharactersUnderCommand(p1);
+		
+		when(characterDAO.getCharacter(cp1.getId())).thenReturn(cp1);
+		when(characterDAO.getCharacter(p1.getId())).thenReturn(p1);
+		
+		HashMap<UUID, CharacterMessage> toSave = new HashMap<UUID, CharacterMessage>();
+		oldCo1.replaceMe(new CharacterCatch(characterDAO), toSave);
+		
+		Set<CharacterMessage> collect = toSave.values().stream().filter(c->c.rank==RankMessage.LIEUTENANT).collect(Collectors.toSet());
+		assertEquals(1, collect.size());
+		
+		CharacterMessage newLiutenant = collect.iterator().next();
+
+		assertTrue(newLiutenant.getUnitsUnderCommand().isEmpty());
+		assertNull(toSave.get(p1.getId()).commandingOfficer);
+		
 	}
 	
 	@Test
@@ -238,7 +295,7 @@ public class CharacterMessageTest {
 		avatar.commandingOfficer = oldCo.id;
 		oldCo.rank = RankMessage.COLONEL;
 		
-		avatar.promoteCharacter(oldCo, characterDAO);
+		avatar.promoteAvatar(oldCo, characterDAO);
 		assertEquals(RankMessage.COLONEL, avatar.getRank());
 	}
 	
@@ -300,9 +357,36 @@ public class CharacterMessageTest {
 		ArgumentCaptor<UUID> valuesArgument = ArgumentCaptor.forClass(UUID.class);
 		verify(characterDAO, times(2)).putCharacter(valuesArgument.capture(), isA(CharacterMessage.class));
 		assertTrue(unitsUnderCommand.contains(valuesArgument.getAllValues().get(0)));
-		assertTrue(unitsUnderCommand.contains(valuesArgument.getAllValues().get(1)));
+		assertTrue(unitsUnderCommand.contains(valuesArgument.getAllValues().get(1)));		
 		
+	}
+	
+	@Test
+	public void testReplaceWithAvatar() throws IOException{
+		CharacterMessage oldCo1 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.LIEUTENANT, null);
+		CharacterMessage cp1 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, oldCo1.getId());
+		oldCo1.addCharactersUnderCommand(cp1);
 		
+		CharacterMessage p1 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, cp1.getId());
+		CharacterMessage p2 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, cp1.getId());
+		cp1.addCharactersUnderCommand(p1, p2);
+		
+		CharacterMessage cp2 = new CharacterMessage(UUID.randomUUID(), CharacterType.AVATAR, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, oldCo1.getId());
+		
+		HashSet<CharacterMessage> toUpdate = new HashSet<CharacterMessage>();
+		CharacterDAO allCharacters = mock(CharacterDAO.class);
+		when(allCharacters.getCharacter(eq(oldCo1.getId()))).thenReturn(oldCo1);
+		when(allCharacters.getCharacter(eq(cp1.getId()))).thenReturn(cp1);
+		when(allCharacters.getCharacter(eq(p1.getId()))).thenReturn(p1);
+		when(allCharacters.getCharacter(eq(p2.getId()))).thenReturn(p2);
+		when(allCharacters.getCharacter(eq(cp2.getId()))).thenReturn(cp2);
+		
+		cp1.replaceWithAvatar(cp2, toUpdate, allCharacters);
+		
+		assertTrue(toUpdate.contains(oldCo1));
+		assertTrue(oldCo1.getUnitsUnderCommand().contains(cp2.getId()));
+		assertFalse(oldCo1.getUnitsUnderCommand().contains(cp1.getId()));
+
 	}
 	
 

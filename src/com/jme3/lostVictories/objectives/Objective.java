@@ -1,5 +1,6 @@
 package com.jme3.lostVictories.objectives;
 
+import static lostVictories.dao.CharacterDAO.MAPPER;
 
 import java.io.IOException;
 import java.util.Map;
@@ -8,29 +9,17 @@ import java.util.UUID;
 import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.HouseDAO;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
+
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jme3.lostVictories.network.messages.CharacterMessage;
 
 
 @JsonTypeInfo(use=Id.CLASS, include=As.PROPERTY, property="class")
 public abstract class Objective {
-	
-	public static ObjectMapper MAPPER;
-	
-    static{
-            MAPPER = new ObjectMapper();
-            MAPPER.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
-            MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
-    }
 
 	public boolean isComplete = false;
 

@@ -4,7 +4,6 @@ import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.UUID;
 
 import org.apache.log4j.Logger;
 import org.elasticsearch.ElasticsearchException;

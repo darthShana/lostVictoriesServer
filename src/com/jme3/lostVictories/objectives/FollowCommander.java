@@ -2,17 +2,12 @@ package com.jme3.lostVictories.objectives;
 
 import static com.jme3.lostVictories.network.messages.LostVictoryScene.SCENE_SCALE;
 
-import java.io.IOException;
 import java.util.Map;
 import java.util.UUID;
 
 import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.HouseDAO;
 
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.jme3.lostVictories.network.messages.CharacterMessage;
 import com.jme3.lostVictories.network.messages.Vector;
 import com.jme3.math.Vector3f;
@@ -33,8 +28,10 @@ public class FollowCommander extends Objective implements PassiveObjective{
 	public void runObjective(CharacterMessage character, String uuid, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave) {
 		Vector c = character.getLocation();
 		Vector3f currentLocation = new Vector3f(c.x, c.y, c.z);
-		
-		CharacterMessage toFollow = characterDAO.getCharacter(character.getCommandingOfficer());
+		CharacterMessage toFollow = null;
+		if(character.getCommandingOfficer()!=null){
+			toFollow = characterDAO.getCharacter(character.getCommandingOfficer());
+		}
 		if(toFollow==null){
 			isComplete = true;
 			return;

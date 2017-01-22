@@ -74,11 +74,31 @@ public class UpdateCharactersMessageHandler {
 					.collect(Collectors.toMap(p->p.getKey(), p->p.getValue()));
 			inRangeOfAvatar.values().stream().filter(c->!existingInServer.containsKey(c.getId())).forEach(c->toReturn.put(c.getId(), c));
 			
+//			for(CharacterMessage c:toReturn.values()){
+//				if(!c.isDead()){
+//					for(UUID u:c.getUnitsUnderCommand()){
+//						CharacterMessage unit = characterDAO.getCharacter(u);
+//						if(unit==null){
+//							System.out.println("found character:"+c.getId()+" with uni unit:"+u);
+//						}						
+//					}
+//				}
+//			}
+//			
+//			for(CharacterMessage c:toReturn.values()){
+//				if(!c.isDead() && c.getCommandingOfficer()!=null){
+//					CharacterMessage co = characterDAO.getCharacter(c.getCommandingOfficer());
+//					if(co==null){
+//						System.out.println("found character:"+c.getId()+" with null CO:"+c.getCommandingOfficer());
+//					}
+//				}
+//			}
+			
 			Set<CharacterMessage> relatedCharacters1 = toReturn.values().stream()
-				.map(c->c.getUnitsUnderCommand()).filter(u->!toReturn.containsKey(u))
+				.filter(u->!u.isDead()).map(c->c.getUnitsUnderCommand()).filter(u->!toReturn.containsKey(u))
 				.map(u->characterDAO.getAllCharacters(u).values()).flatMap(l->l.stream()).collect(Collectors.toSet());
 			Set<CharacterMessage> relatedCharacters2 = toReturn.values().stream()
-				.map(c->c.getCommandingOfficer()).filter(u->u!=null && !toReturn.containsKey(u))
+				.filter(c->!c.isDead()).map(c->c.getCommandingOfficer()).filter(u->u!=null && !toReturn.containsKey(u))
 				.map(u->characterDAO.getCharacter(u)).collect(Collectors.toSet());
 			relatedCharacters1.addAll(relatedCharacters2);
 			
