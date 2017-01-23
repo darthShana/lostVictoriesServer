@@ -36244,3 +36244,514 @@ now boarding pasenger:4e11f9f4-5d0c-4d93-97ed-4b58598e9a8d, true
 finding field replacement forGERMAN:98d79cc3-3fed-4246-b872-0f5fea80d17f ->[[4f648383-5f66-41bb-b677-cb0971086d56]]
 promoting:4f648383-5f66-41bb-b677-cb0971086d56 to LIEUTENANT
 now boarding pasenger:ebe893ee-55ee-4448-8fb2-5074581cdded, true
+[James Jaspers] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[James Jaspers] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[James Jaspers] creating thread_pool [generic], type [cached], keep_alive [30s]
+[James Jaspers] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[James Jaspers] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[James Jaspers] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[James Jaspers] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[James Jaspers] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[James Jaspers] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[James Jaspers] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[James Jaspers] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[James Jaspers] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[James Jaspers] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[James Jaspers] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[James Jaspers] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[James Jaspers] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[James Jaspers] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[James Jaspers] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[James Jaspers] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[James Jaspers] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[James Jaspers] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[James Jaspers] connected to node [[Quagmire][_szIE-ulRrS6FXC-oA7Q3A][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+creating new index:test_lost_victories1_unit_status
+Loading Scene
+cant find game request for :test_lost_victories1
+Listening on 5055
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+recived boarding request for:5e099f35-8d3a-4231-9ba9-9a9a75778bc3
+recived boarding request for:85319cc6-2498-475c-81cf-48a64b7e8903
+recived boarding request for:57befa08-379f-4764-8ade-b6c5686ffee6
+now boarding pasenger:57befa08-379f-4764-8ade-b6c5686ffee6, true
+recived boarding request for:844fd93d-e65a-438a-82c5-dab9ad58e854
+now boarding pasenger:844fd93d-e65a-438a-82c5-dab9ad58e854, true
+recived boarding request for:fc6d0b40-d283-46cd-b2ad-8bc23cbdc61d
+now boarding pasenger:fc6d0b40-d283-46cd-b2ad-8bc23cbdc61d, true
+GERMAN: assigning new sector:java.awt.Rectangle[x=138,y=-12,width=50,height=50] houses:31
+securing sector:139.3359,96.62016,31.722858
+GERMAN: assigning new sector:java.awt.Rectangle[x=288,y=88,width=50,height=50] houses:5
+securing sector:333.28955,96.266235,115.02185
+GERMAN: assigning new sector:java.awt.Rectangle[x=88,y=-312,width=50,height=50] houses:20
+securing sector:87.875885,100.49754,-326.0263
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=238,width=50,height=50] houses:5
+securing sector:-72.93648,97.14044,243.69778
+recived boarding request for:aac4a3d0-976f-46db-aa69-75b498def4c6
+now boarding pasenger:aac4a3d0-976f-46db-aa69-75b498def4c6, true
+completed stucture capture:67d3115e-57c6-4b22-aa5c-a8552e06c8c9
+received disembark request from:00b5ceda-4a0a-490d-af71-bcaf81ede6eb
+completed stucture capture:4afa0c46-6ff4-4d86-91ef-27435e5ab38b
+received death notification:50675dc1-84bc-4f22-8d5d-62b32bc0e231
+finding field replacement forAMERICAN:50675dc1-84bc-4f22-8d5d-62b32bc0e231 ->[[]]
+received death notification:1da79d74-ee4f-4589-a2a0-e94e6653cf68
+finding field replacement forAMERICAN:1da79d74-ee4f-4589-a2a0-e94e6653cf68 ->[[]]
+received death notification:76126914-b35a-44cd-b8df-fbe404c2d5a8
+finding field replacement forAMERICAN:76126914-b35a-44cd-b8df-fbe404c2d5a8 ->[[]]
+received death notification:ebcbad5b-1439-42d2-9a03-86fa7b6df694
+finding field replacement forAMERICAN:ebcbad5b-1439-42d2-9a03-86fa7b6df694 ->[[]]
+received death notification:dbae65a1-3410-4619-afea-bc1015b6b4f0
+finding field replacement forAMERICAN:dbae65a1-3410-4619-afea-bc1015b6b4f0 ->[[]]
+received death notification:a991cdf7-129f-4da6-8f1d-a3e9f59dfc65
+finding field replacement forAMERICAN:a991cdf7-129f-4da6-8f1d-a3e9f59dfc65 ->[[]]
+received death notification:d8b3ac6e-4808-405f-8c5c-f6fff6149640
+finding field replacement forGERMAN:d8b3ac6e-4808-405f-8c5c-f6fff6149640 ->[[]]
+received death notification:e3a77932-29fa-493c-a103-32748a90b0f8
+finding field replacement forAMERICAN:e3a77932-29fa-493c-a103-32748a90b0f8 ->[[]]
+received death notification:7ec2fe12-733d-41f4-bef3-44f83f43ffea
+finding field replacement forGERMAN:7ec2fe12-733d-41f4-bef3-44f83f43ffea ->[[]]
+found understrenth unit to reenfoce:762712a2-81de-42f7-ab74-aa654e915076 rankCADET_CORPORAL
+in here test reenforce:762712a2-81de-42f7-ab74-aa654e915076
+producing mg
+getVehicle :ANTI_TANK_GUN
+creating reenforcement:23bd5f07-4b08-4c83-a1e9-abfd75857636
+received death notification:dbbe834c-6ea5-4031-bd31-b8f98c281977
+finding field replacement forAMERICAN:dbbe834c-6ea5-4031-bd31-b8f98c281977 ->[[]]
+received death notification:b72c43ca-33d6-4691-9a8a-b5e201428a7b
+finding field replacement forAMERICAN:b72c43ca-33d6-4691-9a8a-b5e201428a7b ->[[]]
+found understrenth unit to reenfoce:a49884e0-bda5-4117-b7b4-5e53329d72db rankCADET_CORPORAL
+in here test reenforce:a49884e0-bda5-4117-b7b4-5e53329d72db
+producing mg
+getVehicle :ARMORED_CAR
+creating reenforcement:3e557214-bafb-4cce-92f6-ec1489a4295a
+received death notification:90b00d10-2d1b-47a0-81b3-cc00bd15f37a
+finding field replacement forGERMAN:90b00d10-2d1b-47a0-81b3-cc00bd15f37a ->[[]]
+received death notification:0e320ea1-c97f-4043-9677-25e05d7c580d
+finding field replacement forGERMAN:0e320ea1-c97f-4043-9677-25e05d7c580d ->[[]]
+recived boarding request for:5769b99a-25ef-4af5-8c72-b00f4164c721
+now boarding pasenger:5769b99a-25ef-4af5-8c72-b00f4164c721, true
+recived boarding request for:844fd93d-e65a-438a-82c5-dab9ad58e854
+recived boarding request for:85319cc6-2498-475c-81cf-48a64b7e8903
+recived boarding request for:57befa08-379f-4764-8ade-b6c5686ffee6
+recived boarding request for:844fd93d-e65a-438a-82c5-dab9ad58e854
+found understrenth unit to reenfoce:762712a2-81de-42f7-ab74-aa654e915076 rankCADET_CORPORAL
+in here test reenforce:762712a2-81de-42f7-ab74-aa654e915076
+producing mortar
+getVehicle :HALF_TRACK
+creating reenforcement:ca38513f-0088-4284-ac79-646de5a01285
+recived boarding request for:844fd93d-e65a-438a-82c5-dab9ad58e854
+recived boarding request for:85319cc6-2498-475c-81cf-48a64b7e8903
+recived boarding request for:57befa08-379f-4764-8ade-b6c5686ffee6
+recived boarding request for:844fd93d-e65a-438a-82c5-dab9ad58e854
+received death notification:50f7f025-09a6-48df-bfc1-b0a6cf55540e
+finding field replacement forGERMAN:50f7f025-09a6-48df-bfc1-b0a6cf55540e ->[[b7e3b930-37ab-4fb0-a8ec-202bc27ef0c1, 762712a2-81de-42f7-ab74-aa654e915076]]
+promoting:b7e3b930-37ab-4fb0-a8ec-202bc27ef0c1 to LIEUTENANT
+completed stucture capture:5792dcb0-a1f2-411a-8625-a16eb821a306
+received death notification:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+finding field replacement forAMERICAN:d993932f-a185-4a6f-8d86-4ef6e2c5ff95 ->[[5c3c6766-e989-4e6e-bf7f-aa37356d615f, fb523b27-0cdf-42be-bd14-e9b3de4f2e04, f8eed875-5cd1-4ef8-adce-6ac62ada493a]]
+promoting:5c3c6766-e989-4e6e-bf7f-aa37356d615f to CADET_CORPORAL
+received death notification:7e6c63c8-99e5-4282-a3fb-24a4b7005f81
+finding field replacement forAMERICAN:7e6c63c8-99e5-4282-a3fb-24a4b7005f81 ->[[]]
+received death notification:fb523b27-0cdf-42be-bd14-e9b3de4f2e04
+finding field replacement forAMERICAN:fb523b27-0cdf-42be-bd14-e9b3de4f2e04 ->[[]]
+found understrenth unit to reenfoce:62c95dcd-7fb4-4196-b5b0-19d1b623f254 rankCADET_CORPORAL
+in here test reenforce:62c95dcd-7fb4-4196-b5b0-19d1b623f254
+creating reenforcement:68eb4178-d331-43c7-8967-95edf83577ef
+found understrenth unit to reenfoce:844fd93d-e65a-438a-82c5-dab9ad58e854 rankCADET_CORPORAL
+in here test reincarnate avatar
+producing mortar
+getVehicle :ANTI_TANK_GUN
+creating reenforcement:76293b13-5337-49d5-993c-33529bd49463
+received death notification:59239ca9-09d4-4f0e-ac66-79a7c39d1106
+finding field replacement forGERMAN:59239ca9-09d4-4f0e-ac66-79a7c39d1106 ->[[]]
+completed stucture capture:01802199-39ab-4e07-9392-4d70556a3243
+completed stucture capture:01802199-39ab-4e07-9392-4d70556a3243
+recived boarding request for:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+now boarding pasenger:d993932f-a185-4a6f-8d86-4ef6e2c5ff95, true
+received death notification:06d1fbbb-e29e-444e-81b0-f5fc7380f1ac
+finding field replacement forAMERICAN:06d1fbbb-e29e-444e-81b0-f5fc7380f1ac ->[[]]
+found understrenth unit to reenfoce:2fbe421f-f701-49c9-a0d4-abb0fa904204 rankCADET_CORPORAL
+in here test reenforce:2fbe421f-f701-49c9-a0d4-abb0fa904204
+producing mg
+getVehicle :ANTI_TANK_GUN
+creating reenforcement:15691eda-2889-4d30-8824-270fbb02399c
+[Dark Phoenix] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Dark Phoenix] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Dark Phoenix] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Dark Phoenix] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Dark Phoenix] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Dark Phoenix] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Dark Phoenix] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Dark Phoenix] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Dark Phoenix] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Dark Phoenix] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Dark Phoenix] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Dark Phoenix] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Dark Phoenix] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Dark Phoenix] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Dark Phoenix] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Dark Phoenix] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Dark Phoenix] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Dark Phoenix] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Dark Phoenix] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Dark Phoenix] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Dark Phoenix] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Dark Phoenix] connected to node [[Nth Man][GAV4dxLgTvKEaGg-zrBFFQ][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+creating new index:test_lost_victories1_unit_status
+Loading Scene
+cant find game request for :test_lost_victories1
+Listening on 5055
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+recived boarding request for:7f36d9ea-501b-4b9c-90b8-27523b642d93
+recived boarding request for:7cd07dc0-a776-4330-88c5-66862ce0362f
+recived boarding request for:05e853f6-7e14-4c7a-977b-fa31e30c7298
+now boarding pasenger:05e853f6-7e14-4c7a-977b-fa31e30c7298, true
+GERMAN: assigning new sector:java.awt.Rectangle[x=138,y=-12,width=50,height=50] houses:31
+securing sector:139.33589,96.62016,31.72286
+GERMAN: assigning new sector:java.awt.Rectangle[x=288,y=88,width=50,height=50] houses:5
+securing sector:333.28952,96.266235,115.02185
+GERMAN: assigning new sector:java.awt.Rectangle[x=88,y=-312,width=50,height=50] houses:20
+securing sector:87.875885,100.49752,-326.0263
+GERMAN: assigning new sector:java.awt.Rectangle[x=-112,y=238,width=50,height=50] houses:5
+securing sector:-72.93648,97.14044,243.6978
+recived boarding request for:844fd93d-e65a-438a-82c5-dab9ad58e854
+now boarding pasenger:844fd93d-e65a-438a-82c5-dab9ad58e854, true
+completed stucture capture:3d5388ab-abcd-4da6-b6b9-cc39a7d4cc7c
+completed stucture capture:29e2df05-441f-4fe2-b26c-9551c0268bbc
+completed stucture capture:43106496-ea94-4496-bedf-2d693ab686c1
+received disembark request from:db2b8d7a-b64e-4770-b762-05544061216d
+found understrenth unit to reenfoce:4e0676ea-7cb4-4b1a-9a62-15eee11f072d rankCADET_CORPORAL
+in here test reenforce:4e0676ea-7cb4-4b1a-9a62-15eee11f072d
+producing mg
+getVehicle :ANTI_TANK_GUN
+creating reenforcement:d4d99eed-4554-41e0-892b-73ddf0c98549
+[Johann Schmidt] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Johann Schmidt] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Johann Schmidt] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Johann Schmidt] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Johann Schmidt] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Johann Schmidt] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Johann Schmidt] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Johann Schmidt] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Johann Schmidt] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Johann Schmidt] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Johann Schmidt] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Johann Schmidt] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Johann Schmidt] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Johann Schmidt] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Johann Schmidt] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Johann Schmidt] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Johann Schmidt] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Johann Schmidt] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Johann Schmidt] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Johann Schmidt] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Johann Schmidt] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Johann Schmidt] connected to node [[Nth Man][GAV4dxLgTvKEaGg-zrBFFQ][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+index:test_lost_victories1_unit_status already exisits
+cant find game request for :test_lost_victories1
+Listening on 5055
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+received death notification:7123b8ed-21f0-4cd1-adc0-0462372c7135
+finding field replacement forAMERICAN:7123b8ed-21f0-4cd1-adc0-0462372c7135 ->[[]]
+recived boarding request for:7f36d9ea-501b-4b9c-90b8-27523b642d93
+recived boarding request for:7cd07dc0-a776-4330-88c5-66862ce0362f
+found understrenth unit to reenfoce:414731d0-4e32-4721-93d2-05e5f55139c0 rankCADET_CORPORAL
+in here test reenforce:414731d0-4e32-4721-93d2-05e5f55139c0
+getVehicle :ANTI_TANK_GUN
+creating reenforcement:c55667c4-468f-48e7-b217-ca02585ce1b5
+received death notification:852c1415-e6d3-49de-985c-83e02815699c
+finding field replacement forAMERICAN:852c1415-e6d3-49de-985c-83e02815699c ->[[]]
+recived boarding request for:05e853f6-7e14-4c7a-977b-fa31e30c7298
+now boarding pasenger:05e853f6-7e14-4c7a-977b-fa31e30c7298, true
+received death notification:edcc6c34-a2f9-487b-9147-cf3ab280455c
+finding field replacement forAMERICAN:edcc6c34-a2f9-487b-9147-cf3ab280455c ->[[]]
+recived boarding request for:844fd93d-e65a-438a-82c5-dab9ad58e854
+now boarding pasenger:844fd93d-e65a-438a-82c5-dab9ad58e854, true
+completed stucture capture:a49d8a05-1c62-400f-9fe2-1be50ac036f5
+received disembark request from:db2b8d7a-b64e-4770-b762-05544061216d
+completed stucture capture:a5aa5222-69e1-4e3b-97ec-d6e675cd14d2
+completed stucture capture:c414d52c-e7c5-4727-ae3e-6936c86d8fe7
+found understrenth unit to reenfoce:d539ba70-e17b-4704-8fd7-fc910fcd70cd rankCADET_CORPORAL
+in here test reenforce:d539ba70-e17b-4704-8fd7-fc910fcd70cd
+getVehicle :ARMORED_CAR
+creating reenforcement:c0886f57-8c47-4b9c-8576-80b7e5719c06
+completed stucture capture:13788eaf-8b10-4720-8c57-f05e8d3a9f71
+found understrenth unit to reenfoce:a52fde80-4ca8-4799-a761-c0e5c0ce9503 rankCADET_CORPORAL
+in here test reenforce:a52fde80-4ca8-4799-a761-c0e5c0ce9503
+getVehicle :HALF_TRACK
+creating reenforcement:cffd663b-c1d4-4c8c-b42b-073b3475f8d7
+completed stucture capture:8e101a1a-30b3-4ba0-88d7-e5d6ec00f6e2
+completed stucture capture:9f897ce9-3893-4579-99c6-207da0f744cf
+found understrenth unit to reenfoce:afc76d13-ce5d-4e23-8dfa-9be83b6b5bb9 rankCADET_CORPORAL
+in here test reenforce:afc76d13-ce5d-4e23-8dfa-9be83b6b5bb9
+producing mg
+getVehicle :ANTI_TANK_GUN
+creating reenforcement:cf31c859-20d9-4113-b19b-0afb7826fac6
+found understrenth unit to reenfoce:2fbe421f-f701-49c9-a0d4-abb0fa904204 rankCADET_CORPORAL
+in here test reenforce:2fbe421f-f701-49c9-a0d4-abb0fa904204
+producing mg
+creating reenforcement:77ba15d2-f3dd-4c9d-b71d-bce3069adbea
+[Masked Rose] [/Users/dharshanar/development/eclipse/lostVictoriesSever/plugins] directory does not exist.
+[Masked Rose] loaded [], sites []
+using encoder [VanillaChunkDecoder] and decoder[{}] 
+[Masked Rose] creating thread_pool [generic], type [cached], keep_alive [30s]
+[Masked Rose] creating thread_pool [index], type [fixed], size [8], queue_size [200]
+[Masked Rose] creating thread_pool [bulk], type [fixed], size [8], queue_size [50]
+[Masked Rose] creating thread_pool [get], type [fixed], size [8], queue_size [1k]
+[Masked Rose] creating thread_pool [search], type [fixed], size [24], queue_size [1k]
+[Masked Rose] creating thread_pool [suggest], type [fixed], size [8], queue_size [1k]
+[Masked Rose] creating thread_pool [percolate], type [fixed], size [8], queue_size [1k]
+[Masked Rose] creating thread_pool [management], type [scaling], min [1], size [5], keep_alive [5m]
+[Masked Rose] creating thread_pool [listener], type [fixed], size [4], queue_size [null]
+[Masked Rose] creating thread_pool [flush], type [scaling], min [1], size [4], keep_alive [5m]
+[Masked Rose] creating thread_pool [merge], type [scaling], min [1], size [4], keep_alive [5m]
+[Masked Rose] creating thread_pool [refresh], type [scaling], min [1], size [4], keep_alive [5m]
+[Masked Rose] creating thread_pool [warmer], type [scaling], min [1], size [4], keep_alive [5m]
+[Masked Rose] creating thread_pool [snapshot], type [scaling], min [1], size [4], keep_alive [5m]
+[Masked Rose] creating thread_pool [optimize], type [fixed], size [1], queue_size [null]
+[Masked Rose] creating thread_pool [bench], type [scaling], min [1], size [4], keep_alive [5m]
+using gathering [true]
+[Masked Rose] node_sampler_interval[5s]
+Using select timeout of 500
+Epoll-bug workaround enabled = false
+[Masked Rose] adding address [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Masked Rose] connected to node [[#transport#-1][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+[Masked Rose] connected to node [[Nth Man][GAV4dxLgTvKEaGg-zrBFFQ][Dharshanas-MacBook-Pro.local][inet[localhost/127.0.0.1:9300]]]
+index:test_lost_victories1_unit_status already exisits
+cant find game request for :test_lost_victories1
+Listening on 5055
+checking out scene for avatar:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+returning scene
+found understrenth unit to reenfoce:4689051b-cb6e-4b42-95a8-db6cc1575e14 rankCADET_CORPORAL
+in here test reenforce:4689051b-cb6e-4b42-95a8-db6cc1575e14
+getVehicle :ARMORED_CAR
+creating reenforcement:aa429966-f96b-462e-9af1-1a0c2f97890b
+completed stucture capture:72d2a834-2839-47a5-bf0d-60bad4361544
+found understrenth unit to reenfoce:bd0e0631-d73d-4c7e-8063-f520d6acbdd8 rankCADET_CORPORAL
+in here test reenforce:bd0e0631-d73d-4c7e-8063-f520d6acbdd8
+getVehicle :ANTI_TANK_GUN
+creating reenforcement:b60a9be1-5650-4e67-a1d5-b00b301398f1
+recived boarding request for:7f36d9ea-501b-4b9c-90b8-27523b642d93
+recived boarding request for:27c097b8-6aa1-4c11-a161-da6e568d723f
+now boarding pasenger:27c097b8-6aa1-4c11-a161-da6e568d723f, true
+recived boarding request for:3cc38dab-5521-44e2-b54c-41e59296a2f2
+now boarding pasenger:3cc38dab-5521-44e2-b54c-41e59296a2f2, true
+recived boarding request for:05e853f6-7e14-4c7a-977b-fa31e30c7298
+now boarding pasenger:05e853f6-7e14-4c7a-977b-fa31e30c7298, true
+adding unknow objective type:{"targets":[{"x":190.06265258789062,"y":103.56310272216797,"z":-197.68113708496094}],"class":"com.jme3.lostVictories.objectives.AttackBoggies"}
+received death notification:fb2d65e9-2070-4e23-9768-c6941986f3d7
+finding field replacement forAMERICAN:fb2d65e9-2070-4e23-9768-c6941986f3d7 ->[[]]
+received death notification:98c356ae-8cf5-4400-8c58-ee8632d95852
+finding field replacement forGERMAN:98c356ae-8cf5-4400-8c58-ee8632d95852 ->[[414731d0-4e32-4721-93d2-05e5f55139c0, 2fbe421f-f701-49c9-a0d4-abb0fa904204]]
+promoting:414731d0-4e32-4721-93d2-05e5f55139c0 to LIEUTENANT
+promoting:488b3dc7-5a7e-4c34-b26c-c60a3b05e317 to CADET_CORPORAL
+recived boarding request for:844fd93d-e65a-438a-82c5-dab9ad58e854
+recived boarding request for:7f36d9ea-501b-4b9c-90b8-27523b642d93
+recived boarding request for:05e853f6-7e14-4c7a-977b-fa31e30c7298
+recived boarding request for:844fd93d-e65a-438a-82c5-dab9ad58e854
+recived boarding request for:844fd93d-e65a-438a-82c5-dab9ad58e854
+recived boarding request for:6aca8756-8306-46ee-a9a2-46e820c2b829
+recived boarding request for:9de4b407-1c8f-426a-b29e-ef2cc9514f82
+now boarding pasenger:9de4b407-1c8f-426a-b29e-ef2cc9514f82, true
+recived boarding request for:844fd93d-e65a-438a-82c5-dab9ad58e854
+recived boarding request for:d539ba70-e17b-4704-8fd7-fc910fcd70cd
+recived boarding request for:3cc38dab-5521-44e2-b54c-41e59296a2f2
+recived boarding request for:844fd93d-e65a-438a-82c5-dab9ad58e854
+recived boarding request for:7f36d9ea-501b-4b9c-90b8-27523b642d93
+now boarding pasenger:7f36d9ea-501b-4b9c-90b8-27523b642d93, true
+recived boarding request for:d539ba70-e17b-4704-8fd7-fc910fcd70cd
+recived boarding request for:7cd07dc0-a776-4330-88c5-66862ce0362f
+now boarding pasenger:7cd07dc0-a776-4330-88c5-66862ce0362f, true
+recived boarding request for:844fd93d-e65a-438a-82c5-dab9ad58e854
+recived boarding request for:d539ba70-e17b-4704-8fd7-fc910fcd70cd
+recived boarding request for:d539ba70-e17b-4704-8fd7-fc910fcd70cd
+recived boarding request for:c9770b8a-21d3-43f1-9819-81ef5a634d64
+recived boarding request for:d539ba70-e17b-4704-8fd7-fc910fcd70cd
+received disembark request from:db2b8d7a-b64e-4770-b762-05544061216d
+found understrenth unit to reenfoce:79fb4179-92d2-436c-a24a-73d2646f55e8 rankCADET_CORPORAL
+in here test reenforce:79fb4179-92d2-436c-a24a-73d2646f55e8
+getVehicle :HALF_TRACK
+creating reenforcement:7064917b-57d7-41d2-b6fb-17d9c6cef9bb
+completed stucture capture:355d276c-6fa8-4bee-9abe-57911bed6a63
+found understrenth unit to reenfoce:d993932f-a185-4a6f-8d86-4ef6e2c5ff95 rankCADET_CORPORAL
+in here test reenforce:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+getVehicle :ANTI_TANK_GUN
+creating reenforcement:60d4dcee-8bbd-45d1-957a-709acbbcc474
+completed stucture capture:999fae5a-4a9b-4145-9bbe-149353ee2999
+received death notification:c0886f57-8c47-4b9c-8576-80b7e5719c06
+finding field replacement forAMERICAN:c0886f57-8c47-4b9c-8576-80b7e5719c06 ->[[]]
+received death notification:9de4b407-1c8f-426a-b29e-ef2cc9514f82
+finding field replacement forAMERICAN:9de4b407-1c8f-426a-b29e-ef2cc9514f82 ->[[]]
+recived boarding request for:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+now boarding pasenger:d993932f-a185-4a6f-8d86-4ef6e2c5ff95, true
+found understrenth unit to reenfoce:b62dc0c9-5d1f-4d52-8008-95419013a420 rankCADET_CORPORAL
+in here test reenforce:b62dc0c9-5d1f-4d52-8008-95419013a420
+producing mortar
+creating reenforcement:13b2d464-8c3f-4405-9973-868e027239ca
+recived boarding request for:c4501aeb-e983-4e9f-a063-8802800f3ed6
+now boarding pasenger:c4501aeb-e983-4e9f-a063-8802800f3ed6, true
+received death notification:7113591c-1b34-411c-a61f-3e9885cbb08c
+finding field replacement forGERMAN:7113591c-1b34-411c-a61f-3e9885cbb08c ->[[]]
+received death notification:27b7c77f-b4ac-49a6-9d10-b3359b2873fe
+finding field replacement forAMERICAN:27b7c77f-b4ac-49a6-9d10-b3359b2873fe ->[[58e9ee66-066a-4d83-8f3c-079cfa9817bd, 89600b2c-60bd-4782-bba0-5c0f3e86c1f6]]
+promoting:58e9ee66-066a-4d83-8f3c-079cfa9817bd to CADET_CORPORAL
+received death notification:dccf3eac-d9be-4bd3-ab8f-8d5cafa18d68
+finding field replacement forGERMAN:dccf3eac-d9be-4bd3-ab8f-8d5cafa18d68 ->[[]]
+found understrenth unit to reenfoce:844fd93d-e65a-438a-82c5-dab9ad58e854 rankCADET_CORPORAL
+in here test reenforce:844fd93d-e65a-438a-82c5-dab9ad58e854
+producing mg
+creating reenforcement:bf349bd3-9a15-4599-867e-86b3ab73e3ed
+received death notification:d75cecda-fbee-4e7e-903e-32bfe88a3a18
+finding field replacement forAMERICAN:d75cecda-fbee-4e7e-903e-32bfe88a3a18 ->[[]]
+received death notification:4622aa64-d7c7-4d43-b810-92bb304c6fd8
+finding field replacement forGERMAN:4622aa64-d7c7-4d43-b810-92bb304c6fd8 ->[[]]
+recived boarding request for:94edfb56-b1d4-4f10-805f-8a56fc2b8ba4
+recived boarding request for:4689051b-cb6e-4b42-95a8-db6cc1575e14
+now boarding pasenger:4689051b-cb6e-4b42-95a8-db6cc1575e14, true
+recived boarding request for:4689051b-cb6e-4b42-95a8-db6cc1575e14
+received death notification:89600b2c-60bd-4782-bba0-5c0f3e86c1f6
+finding field replacement forAMERICAN:89600b2c-60bd-4782-bba0-5c0f3e86c1f6 ->[[]]
+found understrenth unit to reenfoce:23db8a50-beef-42cb-9fb8-d83eee3547d6 rankCADET_CORPORAL
+in here test reenforce:23db8a50-beef-42cb-9fb8-d83eee3547d6
+creating reenforcement:e034189d-195b-4ae5-a8a7-d90c49bc6688
+promoting avatar:2fbe421f-f701-49c9-a0d4-abb0fa904204
+GERMAN: assigning new sector:java.awt.Rectangle[x=138,y=-12,width=50,height=50] houses:31
+securing sector:139.33588,96.62017,31.722855
+received disembark request from:00b5ceda-4a0a-490d-af71-bcaf81ede6eb
+received disembark request from:c55667c4-468f-48e7-b217-ca02585ce1b5
+received death notification:1b23eacf-b12b-4271-8c8b-d418e6dcd252
+finding field replacement forAMERICAN:1b23eacf-b12b-4271-8c8b-d418e6dcd252 ->[[]]
+received death notification:ff87ea5c-c04c-4c04-b272-db0010bcd5bc
+finding field replacement forGERMAN:ff87ea5c-c04c-4c04-b272-db0010bcd5bc ->[[bc25c2b1-f2ed-4022-b652-5ef070848d59, 2fbe421f-f701-49c9-a0d4-abb0fa904204, a67595c4-1df5-4f4a-a5cf-308540c78839, f1c6d360-3919-4beb-a3e6-d0a178541ad9]]
+promoting:bc25c2b1-f2ed-4022-b652-5ef070848d59 to COLONEL
+promoting:79fb4179-92d2-436c-a24a-73d2646f55e8 to LIEUTENANT
+promoting:a61537a7-33f2-4b18-8608-580226be4ca8 to CADET_CORPORAL
+received death notification:bc25c2b1-f2ed-4022-b652-5ef070848d59
+finding field replacement forGERMAN:bc25c2b1-f2ed-4022-b652-5ef070848d59 ->[[79fb4179-92d2-436c-a24a-73d2646f55e8, 2fbe421f-f701-49c9-a0d4-abb0fa904204, a67595c4-1df5-4f4a-a5cf-308540c78839, f1c6d360-3919-4beb-a3e6-d0a178541ad9]]
+promoting:79fb4179-92d2-436c-a24a-73d2646f55e8 to COLONEL
+promoting:a61537a7-33f2-4b18-8608-580226be4ca8 to LIEUTENANT
+promoting:64ea886f-6ba9-4d33-9af8-2d6aabb62f83 to CADET_CORPORAL
+received death notification:47729ac3-f5ba-4830-8b44-ffbf58bee39e
+finding field replacement forGERMAN:47729ac3-f5ba-4830-8b44-ffbf58bee39e ->[[]]
+received death notification:ef9d7357-1f60-4ec9-a277-a6e1eff440f5
+finding field replacement forAMERICAN:ef9d7357-1f60-4ec9-a277-a6e1eff440f5 ->[[]]
+received death notification:9ee298a8-0b9d-4a9d-873b-5c5d422a4625
+finding field replacement forAMERICAN:9ee298a8-0b9d-4a9d-873b-5c5d422a4625 ->[[]]
+received death notification:f4384c19-7ad9-4974-aa02-c762381678ae
+finding field replacement forAMERICAN:f4384c19-7ad9-4974-aa02-c762381678ae ->[[]]
+received death notification:4f29761a-9209-4455-bc79-ca4badb2f6d2
+finding field replacement forAMERICAN:4f29761a-9209-4455-bc79-ca4badb2f6d2 ->[[0857000b-4fe9-443b-9e64-47d41d12e5a9, afc76d13-ce5d-4e23-8dfa-9be83b6b5bb9]]
+promoting:0857000b-4fe9-443b-9e64-47d41d12e5a9 to LIEUTENANT
+promoting:2f7d5c38-6fd2-4b33-a256-83de823c6949 to CADET_CORPORAL
+received death notification:5f9502f7-c430-4e5c-8b11-1d4bc6fbd672
+finding field replacement forAMERICAN:5f9502f7-c430-4e5c-8b11-1d4bc6fbd672 ->[[]]
+received death notification:64ea886f-6ba9-4d33-9af8-2d6aabb62f83
+finding field replacement forGERMAN:64ea886f-6ba9-4d33-9af8-2d6aabb62f83 ->[[06361834-0cb4-4bb3-be0d-9ec3bed461b7, 7064917b-57d7-41d2-b6fb-17d9c6cef9bb, 18ace8b3-211f-496b-af8b-0df90ed9e1bf]]
+promoting:06361834-0cb4-4bb3-be0d-9ec3bed461b7 to CADET_CORPORAL
+recived boarding request for:afc76d13-ce5d-4e23-8dfa-9be83b6b5bb9
+now boarding pasenger:afc76d13-ce5d-4e23-8dfa-9be83b6b5bb9, true
+found understrenth unit to reenfoce:06361834-0cb4-4bb3-be0d-9ec3bed461b7 rankCADET_CORPORAL
+in here test reenforce:06361834-0cb4-4bb3-be0d-9ec3bed461b7
+creating reenforcement:59bf40bb-f1e1-4e0f-8d8d-2beebe47f239
+recived boarding request for:afc76d13-ce5d-4e23-8dfa-9be83b6b5bb9
+received death notification:2fbe421f-f701-49c9-a0d4-abb0fa904204
+finding field replacement forGERMAN:2fbe421f-f701-49c9-a0d4-abb0fa904204 ->[[488b3dc7-5a7e-4c34-b26c-c60a3b05e317]]
+promoting:488b3dc7-5a7e-4c34-b26c-c60a3b05e317 to LIEUTENANT
+promoting:136cb422-d26d-4770-88d8-afefd31756c5 to CADET_CORPORAL
+recived boarding request for:59fdc0e9-a282-4d99-b07b-2496d2292a41
+now boarding pasenger:59fdc0e9-a282-4d99-b07b-2496d2292a41, true
+recived boarding request for:afc76d13-ce5d-4e23-8dfa-9be83b6b5bb9
+found understrenth unit to reenfoce:afc76d13-ce5d-4e23-8dfa-9be83b6b5bb9 rankCADET_CORPORAL
+in here test reenforce:afc76d13-ce5d-4e23-8dfa-9be83b6b5bb9
+producing mortar
+getVehicle :ARMORED_CAR
+creating reenforcement:e572884a-c6aa-469a-94b5-72eefa45afb2
+received death notification:2f7d5c38-6fd2-4b33-a256-83de823c6949
+finding field replacement forAMERICAN:2f7d5c38-6fd2-4b33-a256-83de823c6949 ->[[]]
+recived boarding request for:afc76d13-ce5d-4e23-8dfa-9be83b6b5bb9
+recived boarding request for:afc76d13-ce5d-4e23-8dfa-9be83b6b5bb9
+recived boarding request for:afc76d13-ce5d-4e23-8dfa-9be83b6b5bb9
+recived boarding request for:afc76d13-ce5d-4e23-8dfa-9be83b6b5bb9
+recived boarding request for:5e5b2900-4236-4664-a75b-8265e126771d
+now boarding pasenger:5e5b2900-4236-4664-a75b-8265e126771d, true
+recived boarding request for:afc76d13-ce5d-4e23-8dfa-9be83b6b5bb9
+recived boarding request for:afc76d13-ce5d-4e23-8dfa-9be83b6b5bb9
+received death notification:23db8a50-beef-42cb-9fb8-d83eee3547d6
+finding field replacement forGERMAN:23db8a50-beef-42cb-9fb8-d83eee3547d6 ->[[b70071c9-3da4-4067-b60d-7c55dfd17463, 9aa4e442-f096-429f-a5e7-e194804d1be3, 24ae3c11-5942-448a-85d4-9761dd09b83e, e034189d-195b-4ae5-a8a7-d90c49bc6688]]
+promoting:b70071c9-3da4-4067-b60d-7c55dfd17463 to CADET_CORPORAL
+received death notification:ee9d5600-ca28-45bd-9d70-6be9b7dd324e
+finding field replacement forAMERICAN:ee9d5600-ca28-45bd-9d70-6be9b7dd324e ->[[]]
+recived boarding request for:afc76d13-ce5d-4e23-8dfa-9be83b6b5bb9
+recived boarding request for:afc76d13-ce5d-4e23-8dfa-9be83b6b5bb9
+recived boarding request for:afc76d13-ce5d-4e23-8dfa-9be83b6b5bb9
+recived boarding request for:afc76d13-ce5d-4e23-8dfa-9be83b6b5bb9
+recived boarding request for:afc76d13-ce5d-4e23-8dfa-9be83b6b5bb9
+recived boarding request for:afc76d13-ce5d-4e23-8dfa-9be83b6b5bb9
+recived boarding request for:afc76d13-ce5d-4e23-8dfa-9be83b6b5bb9
+found understrenth unit to reenfoce:06361834-0cb4-4bb3-be0d-9ec3bed461b7 rankCADET_CORPORAL
+in here test reincarnate avatar
+getVehicle :HALF_TRACK
+creating reenforcement:4da3d5b2-7b52-49b6-8ea6-ea557613278c
+received death notification:4da3d5b2-7b52-49b6-8ea6-ea557613278c
+finding field replacement forGERMAN:4da3d5b2-7b52-49b6-8ea6-ea557613278c ->[[]]
+found understrenth unit to reenfoce:58e9ee66-066a-4d83-8f3c-079cfa9817bd rankCADET_CORPORAL
+in here test reenforce:58e9ee66-066a-4d83-8f3c-079cfa9817bd
+creating reenforcement:8b20a393-0e52-48d6-aa05-3f778f1d1884
+recived boarding request for:d6e419a9-ee0f-47ef-ba09-21029695a0dd
+recived boarding request for:ff05ecda-c0fb-4afd-af1a-6058ebf61106
+found understrenth unit to reenfoce:136cb422-d26d-4770-88d8-afefd31756c5 rankCADET_CORPORAL
+in here test reenforce:136cb422-d26d-4770-88d8-afefd31756c5
+creating reenforcement:2738767d-fa82-4ff0-bc51-cc48332d98fe
+received death notification:b76fb987-2cf0-4981-9274-d5fe4ba3a78e
+finding field replacement forGERMAN:b76fb987-2cf0-4981-9274-d5fe4ba3a78e ->[[]]
+received death notification:b70071c9-3da4-4067-b60d-7c55dfd17463
+finding field replacement forGERMAN:b70071c9-3da4-4067-b60d-7c55dfd17463 ->[[9aa4e442-f096-429f-a5e7-e194804d1be3, 24ae3c11-5942-448a-85d4-9761dd09b83e, e034189d-195b-4ae5-a8a7-d90c49bc6688]]
+promoting:9aa4e442-f096-429f-a5e7-e194804d1be3 to CADET_CORPORAL
+received death notification:24ae3c11-5942-448a-85d4-9761dd09b83e
+finding field replacement forGERMAN:24ae3c11-5942-448a-85d4-9761dd09b83e ->[[]]
+recived boarding request for:bd0e0631-d73d-4c7e-8063-f520d6acbdd8
+now boarding pasenger:bd0e0631-d73d-4c7e-8063-f520d6acbdd8, true
+recived boarding request for:1ea4d6ea-69fa-4873-b1c0-86f4aa520057
+now boarding pasenger:1ea4d6ea-69fa-4873-b1c0-86f4aa520057, true
+found understrenth unit to reenfoce:3e4afa90-c048-4c11-adc6-94d9e2ec6967 rankCADET_CORPORAL
+in here test reenforce:3e4afa90-c048-4c11-adc6-94d9e2ec6967
+creating reenforcement:42eae79b-e981-454d-8cc2-c25e09969670
+received disembark request from:aa429966-f96b-462e-9af1-1a0c2f97890b
+recived boarding request for:18ace8b3-211f-496b-af8b-0df90ed9e1bf
+now boarding pasenger:18ace8b3-211f-496b-af8b-0df90ed9e1bf, true
+received gunner death notification:f47db5e3-f07c-4bbc-8cb1-52263131a7a2
+finding field replacement forGERMAN:030686dc-9046-42e5-a2de-7daa451f6696 ->[[]]
+found understrenth unit to reenfoce:d539ba70-e17b-4704-8fd7-fc910fcd70cd rankCADET_CORPORAL
+in here test reenforce:d539ba70-e17b-4704-8fd7-fc910fcd70cd
+creating reenforcement:a78f965a-3a64-458a-a986-e1974fcaf532
+found understrenth unit to reenfoce:9aa4e442-f096-429f-a5e7-e194804d1be3 rankCADET_CORPORAL
+in here test reenforce:9aa4e442-f096-429f-a5e7-e194804d1be3
+creating reenforcement:bd991c01-2e35-47ea-b8c0-718651c528f6
+received death notification:d993932f-a185-4a6f-8d86-4ef6e2c5ff95
+finding field replacement forAMERICAN:d993932f-a185-4a6f-8d86-4ef6e2c5ff95 ->[[aa429966-f96b-462e-9af1-1a0c2f97890b, 2cfcc68e-d6c2-40b5-87a1-72f0d115cb85, 992251f6-d5d2-4a30-85a3-a1ce6af3db00, e77c7a4d-638e-4cfc-a3d0-c7c712155858, 4ba5e53a-030a-47d3-a2ac-26f51f472ad5, 60d4dcee-8bbd-45d1-957a-709acbbcc474]]
+promoting:2cfcc68e-d6c2-40b5-87a1-72f0d115cb85 to CADET_CORPORAL
+received death notification:bd991c01-2e35-47ea-b8c0-718651c528f6
+finding field replacement forGERMAN:bd991c01-2e35-47ea-b8c0-718651c528f6 ->[[]]
+recived boarding request for:cdca43dc-270b-46b1-91ac-98444e1cb899
+found understrenth unit to reenfoce:bd0e0631-d73d-4c7e-8063-f520d6acbdd8 rankCADET_CORPORAL
+in here test reenforce:bd0e0631-d73d-4c7e-8063-f520d6acbdd8
+creating reenforcement:5bb0ccd6-b7a4-4507-bc0e-06ceba97edc8
+found understrenth unit to reenfoce:58e9ee66-066a-4d83-8f3c-079cfa9817bd rankCADET_CORPORAL
+in here test reincarnate avatar
+producing mortar
+creating reenforcement:70f4f0ba-3d04-467b-a4fb-300f396ec355

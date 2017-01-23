@@ -110,8 +110,8 @@ public class CharacterDAO {
 		double tl_latitute = toLatitute(c.getLocation());
 		double tl_longitude = toLongitude(c.getLocation());
 		
-		GeoDistanceSortBuilder geoDistanceSort = SortBuilders.geoDistanceSort("geo").point(tl_latitute, tl_longitude)
-	            .unit(DistanceUnit.METERS).sortMode("ASC")
+		GeoDistanceSortBuilder geoDistanceSort = SortBuilders.geoDistanceSort("location").point(tl_latitute, tl_longitude)
+	            .unit(DistanceUnit.METERS)
 	            .geoDistance(GeoDistance.PLANE);
 
 	    SearchResponse searchResponse = esClient.prepareSearch(indexName)
