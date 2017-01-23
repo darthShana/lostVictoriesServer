@@ -226,6 +226,8 @@ public class CharacterMessageTest {
 		CharacterMessage newCorporal2 = toSave.get(iterator.next());
 		assertEquals(RankMessage.CADET_CORPORAL, newCorporal1.rank);
 		assertEquals(RankMessage.CADET_CORPORAL, newCorporal2.rank);
+		assertEquals(newLiutenant.id, newCorporal1.commandingOfficer);
+		assertEquals(newLiutenant.id, newCorporal2.commandingOfficer);
 		
 		
 	}

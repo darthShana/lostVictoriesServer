@@ -505,7 +505,7 @@ public class CharacterMessage implements Serializable{
 		toSave.put(id, this);
 		Optional<CharacterMessage> findReplacement = findReplacement(oldUnits);
 		if(findReplacement.isPresent()){
-			CharacterMessage c = findReplacement.get().promoteCharacter(characterDAO, toSave, oldUnits, rank, commandingOfficer);
+			CharacterMessage c = findReplacement.get().promoteCharacter(characterDAO, toSave, oldUnits, rank, id);
 			unitsUnderCommand.add(c.id);
 			toSave.put(c.id, c);
 		}else{
