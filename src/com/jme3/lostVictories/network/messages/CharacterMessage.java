@@ -746,4 +746,15 @@ public class CharacterMessage implements Serializable{
 		
 	}
 
+	public int getCurrentStrength(CharacterDAO characterDAO) {
+		int population = 1;
+		for(UUID u:unitsUnderCommand){
+			CharacterMessage character = characterDAO.getCharacter(u);
+			if(character!=null){
+				population+=character.getCurrentStrength(characterDAO);
+			}
+		}
+		return population;
+	}
+
 }

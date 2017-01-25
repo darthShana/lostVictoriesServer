@@ -33,6 +33,7 @@ public class CaptureTown extends Objective {
 	public Rectangle mapBounds = new Rectangle(-512, -512, 1024, 1024);
 	private long startTime;
 	
+	@SuppressWarnings("unused")
 	private CaptureTown() {}
 	
 	public CaptureTown(long startTime){
@@ -60,7 +61,7 @@ public class CaptureTown extends Objective {
 				}
 				exclude.add(toSecure);
 				log.info(c.getCountry()+": assigning new sector:"+toSecure.rects.iterator().next()+" houses:"+toSecure.houses.size());
-				SecureSector i = new SecureSector(toSecure.getHouses());
+				SecureSector i = new SecureSector(toSecure.getHouses(), 10, 5, c.getLocation());
 				try {
 					unit.addObjective(UUID.randomUUID(), i);
 					toSave.put(unit.getId(), unit);

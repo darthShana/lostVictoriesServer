@@ -19,7 +19,7 @@ public class TransportSquad extends Objective{
 	@JsonIgnore
 	private static Logger log = Logger.getLogger(TransportSquad.class);
 
-	private Vector destination;
+	Vector destination;
 	Map<UUID, Objective> issuedOrders = new HashMap<>();
 	
 	@SuppressWarnings("unused")
@@ -58,7 +58,13 @@ public class TransportSquad extends Objective{
 
 	@Override
 	public boolean clashesWith(Class<? extends Objective> newObjective) {
-		return true;
+		if(newObjective.isAssignableFrom(TravelObjective.class)){
+			return true;
+		}
+		if(newObjective.isAssignableFrom(CaptureStructure.class)){
+			return true;
+		}
+		return false;
 	}
 
 }

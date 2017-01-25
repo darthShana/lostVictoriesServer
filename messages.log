@@ -36755,3 +36755,26 @@ found understrenth unit to reenfoce:58e9ee66-066a-4d83-8f3c-079cfa9817bd rankCAD
 in here test reincarnate avatar
 producing mortar
 creating reenforcement:70f4f0ba-3d04-467b-a4fb-300f396ec355
+finding field replacement forGERMAN:48711c22-8656-457d-8f78-5bc4cccc349f ->[[204cc031-3712-401d-93b5-4acd0281399c, ab9c44d1-1c05-4f41-a6d2-d0f49872eff6]]
+promoting:204cc031-3712-401d-93b5-4acd0281399c to LIEUTENANT
+promoting:533aa238-210a-4724-b59d-87ebb6da7db5 to CADET_CORPORAL
+now boarding pasenger:411784da-9a3c-4c2f-8f69-a68fba327534, true
+now boarding pasenger:3941bfc1-dda3-44ae-9cfc-2306f85ef498, true
+finding field replacement forGERMAN:74df1522-68e9-408d-9143-8eca4da238c7 ->[[5d7281f7-a59e-45c8-9e67-ecdd3282527f]]
+promoting:5d7281f7-a59e-45c8-9e67-ecdd3282527f to LIEUTENANT
+promoting:ca8092ec-535f-4149-8abe-c2fe8f1f6c11 to CADET_CORPORAL
+finding field replacement forGERMAN:c7514d3e-d0ec-42cd-9b7b-44eac6796fea ->[[0c4224fe-834f-41aa-99f9-107fd7ebf4f0, 5db1c0fe-22c8-4de7-bfc7-a99fafbb9e34]]
+promoting:5db1c0fe-22c8-4de7-bfc7-a99fafbb9e34 to CADET_CORPORAL
+now boarding pasenger:8be88108-3bd1-43ba-8719-c23a6223a689, true
+getVehicle :ANTI_TANK_GUN
+creating reenforcement:578c85e4-1377-4256-bf46-7a2728ced8f3
+now boarding pasenger:fa739c7b-de0d-4d7f-8aa4-17fadc49d212, true
+now boarding pasenger:0fcd2272-b41c-4bc6-aa5e-792f85b97028, true
+finding field replacement forGERMAN:8f1eb811-04b3-4274-a09b-4c298b1ef55a ->[[fa2f0219-75f5-492a-84d0-cbf23ef6f010]]
+promoting:fa2f0219-75f5-492a-84d0-cbf23ef6f010 to LIEUTENANT
+now boarding pasenger:54be0659-aab6-4c07-9966-98baf1d7cd4a, true
+adding unknow objective type:{"class":"com.jme3.lostVictories.objectives.RemanVehicle"}
+received gunner death notification:7d007f47-bace-4fb8-b918-b60f65011db0
+finding field replacement forAMERICAN:7d007f47-bace-4fb8-b918-b60f65011db0 ->[[]]
+getVehicle :ANTI_TANK_GUN
+getVehicle :HALF_TRACK

@@ -85,6 +85,9 @@ public class LostVictoryScene {
         CharacterMessage a4 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, germanBase.add(40, 0, 15), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, gl2.getId());
         loadSquad(characters, a4, germanBase.add(40, 0, 15), Country.GERMAN, true, Weapon.RIFLE, Weapon.RIFLE, Weapon.MORTAR);
         
+        CharacterMessage a5 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, germanBase.add(35, 0, 15), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, gl2.getId());
+        loadSquad(characters, a5, germanBase.add(35, 0, 15), Country.GERMAN, true, Weapon.RIFLE, Weapon.RIFLE, Weapon.RIFLE);
+        
         CharacterMessage gv1 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, germanBase.add(20, 0, 16), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, gl3.getId());
         loadSquad(characters, gv1, germanBase.add(21, 0, 17), Country.GERMAN, true, Weapon.RIFLE, Weapon.RIFLE);
         CharacterMessage loadAntiTankGun1 = loadAntiTankGun1(UUID.fromString("f47db5e3-f07c-4bbc-8cb1-52263131a7a2"), germanBase.add(22, 0, 18), Country.GERMAN, gv1, characters);
@@ -141,14 +144,17 @@ public class LostVictoryScene {
         CharacterMessage c4 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, americanBase.add(20, 5, -35), Country.AMERICAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, al4.getId());
         loadSquad(characters,  c4, americanBase.add(20, 5, -30), Country.AMERICAN, true, Weapon.RIFLE, Weapon.RIFLE, Weapon.RIFLE);
         
+        CharacterMessage c5 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, americanBase.add(15, 5, -30), Country.AMERICAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, al4.getId());
+        loadSquad(characters,  c5, americanBase.add(15, 5, -25), Country.AMERICAN, true, Weapon.RIFLE, Weapon.RIFLE, Weapon.RIFLE);
+        
         gl1.addCharactersUnderCommand(a1, a2);
-        gl2.addCharactersUnderCommand(a3, a4);
+        gl2.addCharactersUnderCommand(a3, a4, a5);
         gl3.addCharactersUnderCommand(gv1, gv2);
         gl4.addCharactersUnderCommand(gv3, gv4);
         al1.addCharactersUnderCommand(b1, b2);
         al2.addCharactersUnderCommand(b3, b4);
         al3.addCharactersUnderCommand(c1, c2);
-        al4.addCharactersUnderCommand(c3, c4);
+        al4.addCharactersUnderCommand(c3, c4, c5);
         
         a.addCharactersUnderCommand(gl1, gl2, gl3, gl4);
         b.addCharactersUnderCommand(al1, al2, al3, al4);

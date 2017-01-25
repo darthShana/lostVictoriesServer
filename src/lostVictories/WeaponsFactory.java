@@ -12,8 +12,8 @@ import com.jme3.lostVictories.network.messages.Weapon;
 
 public class WeaponsFactory {
 
-	private static final int MAX_ALLOWED_MG42 = 2;
-	private static final int MAX_ALLOWED_MORTAR = 2;
+	private static final int MAX_ALLOWED_MG42 = 4;
+	private static final int MAX_ALLOWED_MORTAR = 4;
 	private long mg42_last_produced = System.currentTimeMillis();
 	private long mortar_last_produced = System.currentTimeMillis();
 	private EnumMap<Weapon, Long> senses = new EnumMap<Weapon, Long>(Weapon.class);

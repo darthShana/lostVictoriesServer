@@ -23,15 +23,22 @@ public class SecureSector extends Objective {
 	@JsonIgnore
 	private static Logger log = Logger.getLogger(SecureSector.class);
 	
-	private Set<UUID> houses = new HashSet<UUID>();
-	private Vector centre;
+	Set<UUID> houses = new HashSet<UUID>();
+	Vector centre;
 	Map<UUID, Objective> issuedOrders = new HashMap<>();
-	SecureSectorState state = SecureSectorState.DEPLOY_TO_SECTOR;
+	int deploymentStrength;
+    int minimumFightingStrenght;
+    SecureSectorState lastState;
+    Vector homeBase;
+	SecureSectorState state = SecureSectorState.WAIT_FOR_REENFORCEMENTS;
 	
 	@SuppressWarnings("unused")
 	private SecureSector() {}
 	
-	public SecureSector(Set<HouseMessage> houses) {
+	public SecureSector(Set<HouseMessage> houses, int deploymentStrength, int minimumFightingStrenght, Vector homeBase) {
+		this.deploymentStrength = deploymentStrength;
+		this.minimumFightingStrenght = minimumFightingStrenght;
+		this.homeBase = homeBase;
 		this.houses = houses.stream().map(h->h.getId()).collect(Collectors.toSet());
 		float totalX = 0, totalY = 0,totalZ = 0;
 		for(HouseMessage h:houses){
@@ -43,15 +50,16 @@ public class SecureSector extends Objective {
         final float y = totalY/houses.size();
         final float z = totalZ/houses.size();
         centre = new Vector(x, y, z);
-        log.debug("securing sector:"+centre);
+        log.trace("securing sector:"+centre);
 	}
 
 	@Override
 	public void runObjective(CharacterMessage c, String uuid, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave) {
-		state.runObjective(c, uuid, centre, houses, issuedOrders, characterDAO, houseDAO, toSave);
-		SecureSectorState newState = state.tansition(c, uuid, centre, houses, issuedOrders, characterDAO, houseDAO, toSave);
+		state.runObjective(c, uuid, this, characterDAO, houseDAO, toSave);
+		SecureSectorState newState = state.tansition(c, uuid, this, characterDAO, houseDAO, toSave);
 		
 		if(newState!=state){
+			System.out.println(c.getRank()+" :"+c.getId()+" in state:"+newState);
 			issuedOrders.clear();          
             state = newState;            
         }
