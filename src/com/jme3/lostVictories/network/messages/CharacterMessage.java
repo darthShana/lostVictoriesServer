@@ -305,7 +305,7 @@ public class CharacterMessage implements Serializable{
 		location = other.location;
 		orientation = other.orientation;
 		actions = other.actions;
-
+		
 		other.objectives.entrySet().stream().forEach(e->objectives.putIfAbsent(e.getKey(), e.getValue()));
 		objectives = objectives.entrySet().stream().filter(e->!other.completedObjectives.contains(e.getKey())).collect(Collectors.toMap(e->e.getKey(), e->e.getValue()));
 
@@ -374,7 +374,7 @@ public class CharacterMessage implements Serializable{
 		CharacterType type = vehicleFactory.getVehicle(rankToReenforce);
 		if(type!=null){
 			weapon = type.getDefaultWeapon();
-			spawnPoint = (Country.AMERICAN==country)?LostVictoryScene.americanBase:LostVictoryScene.germanBase;
+			spawnPoint = (Country.AMERICAN==country)?LostVictoryScene.americanVehicleSpawnPoint:LostVictoryScene.germanVehicleSpawnPoint;
 		}else{        	
 			type = CharacterType.SOLDIER;
 		}
@@ -454,20 +454,20 @@ public class CharacterMessage implements Serializable{
 	}
 
 	public void replaceMe(CharacterCatch characterDAO, Map<UUID, CharacterMessage> toSave) {
-		Map<UUID, CharacterMessage> oldSquad = unitsUnderCommand.stream()
-				.map(i->toSave.containsKey(i)?toSave.get(i):characterDAO.getCharacter(i))
-				.collect(Collectors.toMap(CharacterMessage::getId, Function.identity()));
+
+		Map<UUID, CharacterMessage> oldSquad = characterDAO.getAllCharacters(unitsUnderCommand);
+		
 		log.debug("finding field replacement for"+country+":"+id+" ->["+unitsUnderCommand+"]");
 
+		CharacterMessage co = null;
 		if(commandingOfficer!=null){
-			CharacterMessage co = characterDAO.getCharacter(commandingOfficer);
-			try{
-				co.unitsUnderCommand.remove(id);
-				co.calculateSquadType(characterDAO.getAllCharacters(co.unitsUnderCommand).values(), co.squadType);
-				toSave.put(co.getId(), co);
-			}catch(NullPointerException e){
-				log.error(commandingOfficer+" not found in repo");
-			}
+			co = characterDAO.getCharacter(commandingOfficer);
+		}
+		
+		if(co!=null){
+			co.unitsUnderCommand.remove(id);
+			co.calculateSquadType(characterDAO.getAllCharacters(co.unitsUnderCommand).values(), co.squadType);
+			toSave.put(co.getId(), co);
 		}
 
 		Optional<CharacterMessage> findReplacement = findReplacement(oldSquad);
@@ -475,6 +475,9 @@ public class CharacterMessage implements Serializable{
 			CharacterMessage cc = findReplacement.get().promoteCharacter(characterDAO, toSave, oldSquad, rank, commandingOfficer);
 			if(cc!=null){
 				toSave.put(cc.id, cc);
+			}
+			if(co!=null){
+				co.unitsUnderCommand.add(cc.id);
 			}
 		}else{
 			oldSquad.values().stream().forEach(new Consumer<CharacterMessage>() {
@@ -494,7 +497,7 @@ public class CharacterMessage implements Serializable{
 		
 		kills = new HashSet<UUID>();
 		objectives = new HashMap<String, String>();
-		unitsUnderCommand.clear();		
+		unitsUnderCommand.clear();
 		commandingOfficer = newCO;
 		
 		log.info("promoting:"+getId()+" to "+newRank);
@@ -519,6 +522,7 @@ public class CharacterMessage implements Serializable{
 			});
 		}
 		rank = newRank;
+		calculateSquadType(characterDAO.getAllCharacters(unitsUnderCommand).values(), squadType);
 		return this;
 	}
 

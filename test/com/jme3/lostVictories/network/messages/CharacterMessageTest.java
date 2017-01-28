@@ -1,5 +1,6 @@
 package com.jme3.lostVictories.network.messages;
 
+import static lostVictories.dao.CharacterDAO.MAPPER;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
@@ -20,6 +21,9 @@ import lostVictories.messageHanders.CharacterCatch;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.jme3.lostVictories.objectives.TravelObjective;
 
 public class CharacterMessageTest {
 	
@@ -165,16 +169,15 @@ public class CharacterMessageTest {
 		UUID vehicleID = UUID.randomUUID();
 		CharacterMessage oldCo1 = new CharacterMessage(UUID.randomUUID(), CharacterType.AVATAR, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, null);
 		CharacterMessage vehicle1 = new CharacterMessage(vehicleID, CharacterType.HALF_TRACK, new Vector(0, 0, 0), Country.AMERICAN, Weapon.RIFLE, RankMessage.PRIVATE, oldCo1.getId());
-		CharacterMessage vehicle2 = new CharacterMessage(vehicleID, CharacterType.HALF_TRACK, new Vector(0, 0, 0), Country.AMERICAN, Weapon.RIFLE, RankMessage.PRIVATE, oldCo1.getId());
 		CharacterMessage oldPassenger1 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, oldCo1.getId());
 		oldCo1.unitsUnderCommand.add(vehicleID);
 		oldCo1.unitsUnderCommand.add(oldPassenger1.getId());
 		
 		when(characterDAO.getCharacter(eq(oldCo1.id))).thenReturn(oldCo1);
-		when(characterDAO.getCharacter(eq(vehicle2.id))).thenReturn(vehicle2);
+		when(characterDAO.getCharacter(eq(vehicle1.id))).thenReturn(vehicle1);
 		when(characterDAO.getCharacter(eq(oldPassenger1.id))).thenReturn(oldPassenger1);
 		HashMap<UUID, CharacterMessage> value = new HashMap<UUID, CharacterMessage>();
-		value.put(vehicleID, vehicle2);
+		value.put(vehicleID, vehicle1);
 		value.put(oldPassenger1.id, oldPassenger1);
 		when(characterDAO.getAllCharacters(eq(oldCo1.unitsUnderCommand))).thenReturn(value);
 		
@@ -234,14 +237,17 @@ public class CharacterMessageTest {
 	
 	@Test
 	public void testRepleaceLiutenantNoOrphanUnits(){
-		CharacterMessage oldCo1 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.LIEUTENANT, null);
+		CharacterMessage supreamLeader = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.COLONEL, null);
+		CharacterMessage oldCo1 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.LIEUTENANT, supreamLeader.getId());
 		CharacterMessage cp1 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, oldCo1.getId());
 		oldCo1.addCharactersUnderCommand(cp1);
+		supreamLeader.addCharactersUnderCommand(oldCo1);
 		
 		CharacterMessage p1 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, cp1.getId());
 		CharacterMessage p2 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, cp1.getId());
 		cp1.addCharactersUnderCommand(p1, p2);
-		
+
+		when(characterDAO.getCharacter(supreamLeader.getId())).thenReturn(supreamLeader);
 		when(characterDAO.getCharacter(cp1.getId())).thenReturn(cp1);
 		when(characterDAO.getCharacter(p1.getId())).thenReturn(p1);
 		when(characterDAO.getCharacter(p2.getId())).thenReturn(p2);
@@ -256,6 +262,7 @@ public class CharacterMessageTest {
 		assertEquals(1, newLiutenant.getUnitsUnderCommand().size());
 		Iterator<UUID> iterator = newLiutenant.getUnitsUnderCommand().iterator();
 		CharacterMessage newCorporal1 = toSave.get(iterator.next());
+		assertEquals(newCorporal1.getId(), newLiutenant.getUnitsUnderCommand().iterator().next());
 		assertEquals(RankMessage.CADET_CORPORAL, newCorporal1.rank);
 		
 		if(newCorporal1.getId().equals(p1.id)){
@@ -263,7 +270,10 @@ public class CharacterMessageTest {
 		}else{
 			assertEquals(toSave.get(p1.id).commandingOfficer, newCorporal1.id);
 		}
-		
+		CharacterMessage cm3 = toSave.get(supreamLeader.getId());
+		assertEquals(1, cm3.unitsUnderCommand.size());
+ 		assertEquals(newLiutenant.getId(), cm3.unitsUnderCommand.iterator().next());
+ 		
 	}
 	
 	@Test
@@ -388,6 +398,19 @@ public class CharacterMessageTest {
 		assertTrue(toUpdate.contains(oldCo1));
 		assertTrue(oldCo1.getUnitsUnderCommand().contains(cp2.getId()));
 		assertFalse(oldCo1.getUnitsUnderCommand().contains(cp1.getId()));
+
+	}
+	
+	@Test 
+	public void testUpdateState() throws JsonProcessingException{
+		CharacterMessage oldCo1 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.LIEUTENANT, null);
+		CharacterMessage other = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.LIEUTENANT, null);
+		String objectiveID = UUID.randomUUID().toString();
+		other.objectives.put(objectiveID, MAPPER.writeValueAsString(new TravelObjective(new Vector(0, 0, 0), null)));
+		other.completedObjectives = new HashSet<>();
+		oldCo1.updateState(other, UUID.randomUUID(), System.currentTimeMillis());
+		
+		assertTrue(oldCo1.objectives.containsKey(objectiveID));
 
 	}
 	

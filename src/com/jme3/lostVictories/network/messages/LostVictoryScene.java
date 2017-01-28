@@ -26,9 +26,11 @@ public class LostVictoryScene {
 	public static int SCENE_WIDTH = 512;
 	public static int SCENE_HEIGHT = 512;
 	public static float SCENE_SCALE = .25f;
-	public static Vector germanBase = new Vector(150, 100, 20);
+	public static Vector germanVehicleSpawnPoint = new Vector(257, 96, 31);
+	private static Vector germanBase = new Vector(150, 100, 20);
 	//Vector americanBase = new Vector(170, 100, 40);
-	public static Vector americanBase = new Vector(90, 100, -380);
+	public static Vector americanVehicleSpawnPoint = new Vector(26, 101, -402);
+	private static Vector americanBase = new Vector(90, 100, -380);
 	
 	private static Logger log = Logger.getLogger(LostVictoryScene.class); 
 	
@@ -107,7 +109,7 @@ public class LostVictoryScene {
         
         
         CharacterMessage b1 = new CharacterMessage(UUID.fromString("d993932f-a185-4a6f-8d86-4ef6e2c5ff95"), CharacterType.AVATAR, americanBase.add(-10, 0, 10), Country.AMERICAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, al1.getId());
-        loadSquad(characters, b1, americanBase.add(-10, 0, 15), Country.AMERICAN, true, Weapon.RIFLE, Weapon.RIFLE);
+        loadSquad(characters, b1, americanBase.add(-10, 0, 15), Country.AMERICAN, true, Weapon.RIFLE, Weapon.RIFLE, Weapon.RIFLE);
         CharacterMessage loadAntiTankGun = loadAntiTankGun(americanBase.add(15, 0, 15), Country.AMERICAN, b1, characters);
 		characters.put(loadAntiTankGun.getId(), loadAntiTankGun);
 //        CharacterMessage loadAmoredCar2 = loadHalfTrack1(UUID.fromString("8c1bda23-33f9-4843-aae5-f1ceb30d70aa"), americanBase.add(10, 0, 15), Country.AMERICAN, b1, characters);
