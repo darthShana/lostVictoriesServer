@@ -55,7 +55,7 @@ public class CaptureTown extends Objective {
 		for(UUID cid:c.getUnitsUnderCommand()){
 			CharacterMessage unit = characterDAO.getCharacter(cid);
 			if(unit !=null && !unit.isBusy() && RankMessage.LIEUTENANT == unit.getRank()){
-				GameSector toSecure = findClosestUnsecuredGameSector(c, gameSectors, exclude);
+				GameSector toSecure = findClosestUnsecuredGameSector(unit, gameSectors, exclude);
 				if(toSecure==null){
 					continue;
 				}

@@ -1,7 +1,10 @@
 package lostVictories;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.apache.log4j.Logger;
 
 import com.jme3.ai.navmesh.DebugInfo;
 import com.jme3.ai.navmesh.NavMesh;
@@ -17,7 +20,8 @@ import com.jme3.scene.Geometry;
 public class NavMeshStore {
 	private static NavMeshStore instance;
 	private final NavMeshPathfinder pathFinder;
-	
+	private static Logger log = Logger.getLogger(NavMeshStore.class);
+
 	public static NavMeshStore intstace(){
 		if(instance == null){
 			instance = new NavMeshStore();
@@ -48,8 +52,9 @@ public class NavMeshStore {
 				if(this.pathFinder.computePath(dest, debugInfo)){
 					return pathFinder.getPath().getWaypoints().stream().map(w->new Vector(w.getPosition())).collect(Collectors.toList());
 				}else{
-					System.out.println("unable to find path from:"+location+" to:"+destination);
-					return null;
+					List<Vector> ret = new ArrayList<Vector>();
+					ret.add(destination);
+					return ret;
 				}
 			}catch(Throwable e){
 				e.printStackTrace();

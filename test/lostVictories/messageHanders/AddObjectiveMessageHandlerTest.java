@@ -37,7 +37,7 @@ public class AddObjectiveMessageHandlerTest {
 		
 		AddObjectiveMessageHandler handler = new AddObjectiveMessageHandler(characterDAO);
 		
-		TravelObjective travel = new TravelObjective(new Vector(100, 0 , 100),  new Vector(0, 0, 0));
+		TravelObjective travel = new TravelObjective(characterMessage, new Vector(100, 0 , 100),  new Vector(0, 0, 0));
 		UUID travelId = UUID.randomUUID();
 		
 		handler.handle(new AddObjectiveRequest(characterID, characterID, travelId, MAPPER.writeValueAsString(travel)));

@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jme3.lostVictories.network.messages.CharacterMessage;
+import com.jme3.lostVictories.network.messages.CharacterType;
 import com.jme3.lostVictories.network.messages.Vector;
 
 public class TransportSquad extends Objective{
@@ -39,7 +40,12 @@ public class TransportSquad extends Objective{
 			@Override
 			public void accept(CharacterMessage c) {				
 				try {
-					TravelObjective t = new TravelObjective(destination, null);
+					Objective t = null;
+					if(CharacterType.AVATAR == c.getCharacterType() || CharacterType.SOLDIER == c.getCharacterType()){
+						t = new TravelObjective(c, destination, null);
+					}else{
+						t = new NavigateObjective(destination, null);
+					}
 					c.addObjective(UUID.randomUUID(), t);
 					issuedOrders.put(c.getId(), t);
 				} catch (IOException e) {
@@ -47,8 +53,13 @@ public class TransportSquad extends Objective{
 				}				
 			}
 		});
-		if(!issuedOrders.containsKey(c.getId())){			
-			TravelObjective t = new TravelObjective(destination, null);
+		if(!issuedOrders.containsKey(c.getId())){
+			Objective t = null;
+			if(CharacterType.AVATAR == c.getCharacterType() || CharacterType.SOLDIER == c.getCharacterType()){
+				t = new TravelObjective(c, destination, null);
+			}else{
+				t = new NavigateObjective(destination, null);
+			}
 			issuedOrders.put(c.getId(), t);
 		}
 		

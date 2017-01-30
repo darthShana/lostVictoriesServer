@@ -380,14 +380,12 @@ public class CharacterMessage implements Serializable{
 		}
 
 		Set<CharacterMessage> addedCharacters = new HashSet<CharacterMessage>();
-
 		final CharacterMessage loadCharacter = new CharacterMessage(UUID.randomUUID(), type, spawnPoint, country, weapon, rankToReenforce, id);
 		loadCharacter.addObjective(UUID.randomUUID(), new FollowCommander(new Vector(2, 0, 2), 10));
 
 		log.debug("creating reenforcement:"+loadCharacter.getId());
 		unitsUnderCommand.add(loadCharacter.getId());
-		characterDAO.putCharacter(loadCharacter.getId(), loadCharacter);
-
+		
 		if(CharacterType.ANTI_TANK_GUN==loadCharacter.type || CharacterType.ARMORED_CAR==loadCharacter.type || CharacterType.HALF_TRACK==loadCharacter.type){
 			CharacterMessage passenger = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, spawnPoint, country, Weapon.RIFLE, RankMessage.PRIVATE, id);
 			unitsUnderCommand.add(passenger.getId());
@@ -395,6 +393,8 @@ public class CharacterMessage implements Serializable{
 			passenger.boardedVehicle = loadCharacter.id;
 			characterDAO.putCharacter(passenger.getId(), passenger);
 		}
+		
+		characterDAO.putCharacter(loadCharacter.getId(), loadCharacter);
 		addedCharacters.add(this);
 		return addedCharacters;
 	}
@@ -423,12 +423,18 @@ public class CharacterMessage implements Serializable{
 			for(CharacterMessage c:collect){
 				c.commandingOfficer=characterMessage.id;
 				c.addObjective(UUID.randomUUID(), new FollowCommander(new Vector(2, 0, 2), 10));
-
 			}
 			if(oldCo!=null){
 				oldCo.unitsUnderCommand.remove(id);
 				oldCo.unitsUnderCommand.add(characterMessage.getId());
 				toUpdate.add(oldCo);
+			}
+			if(boardedVehicle!=null){
+				characterMessage.boardedVehicle = boardedVehicle;
+				CharacterMessage vehicle = allCharacters.getCharacter(boardedVehicle);
+				vehicle.passengers.remove(id);
+				vehicle.passengers.add(characterMessage.id);
+				toUpdate.add(vehicle);
 			}
 			toUpdate.addAll(collect);
 			toDelete = characterMessage;
@@ -442,6 +448,8 @@ public class CharacterMessage implements Serializable{
 				toUpdate.add(oldCo);
 			}
 		}
+		
+		
 		return toDelete;
 	}
 

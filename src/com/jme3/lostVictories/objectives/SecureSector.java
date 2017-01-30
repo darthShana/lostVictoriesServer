@@ -59,7 +59,7 @@ public class SecureSector extends Objective {
 		SecureSectorState newState = state.tansition(c, uuid, this, characterDAO, houseDAO, toSave);
 		
 		if(newState!=state){
-			System.out.println(c.getCountry()+" "+c.getRank()+" :"+c.getId()+" in state:"+newState);
+            System.out.println(c.getCountry()+" "+c.getRank()+":"+c.getId()+" new state:"+newState+" houses:"+houses.size()+" loc:"+c.getLocation()+" home:"+homeBase);
 			issuedOrders.clear();          
             state = newState;            
         }

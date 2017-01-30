@@ -26,7 +26,8 @@ public class TravelObjectiveTest {
 	@Test
 	public void testTravelTowardsWaypoint() {
 		Vector3f destination = new Vector3f(100, 100, 100);
-		TravelObjective objective = new TravelObjective(new Vector(destination), null);
+		CharacterMessage myUnit = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.PRIVATE, null);
+		TravelObjective objective = new TravelObjective(myUnit, new Vector(destination), null);
 		Vector3f start = new Vector3f(0, 100, 0);
 		CharacterMessage character = new CharacterMessage(UUID.randomUUID(), CharacterType.AVATAR, new Vector(start), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, null);
 		ArrayList<Vector> path = new ArrayList<Vector>();
@@ -40,7 +41,8 @@ public class TravelObjectiveTest {
 	@Test
 	public void testDontGoPastWaypoint(){
 		Vector3f destination = new Vector3f(100, 100, 100);
-		TravelObjective objective = new TravelObjective(new Vector(destination), null);
+		CharacterMessage myUnit = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.PRIVATE, null);
+		TravelObjective objective = new TravelObjective(myUnit, new Vector(destination), null);
 		CharacterMessage character = new CharacterMessage(UUID.randomUUID(), CharacterType.AVATAR, new Vector(48.5f, 100f, 48.5f), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, null);
 		
 		ArrayList<Vector> path = new ArrayList<Vector>();

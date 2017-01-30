@@ -401,12 +401,34 @@ public class CharacterMessageTest {
 
 	}
 	
+	@Test
+	public void testReplaceWithAvatarWhileBeingPassenger() throws IOException{
+		CharacterMessage cp2 = new CharacterMessage(UUID.randomUUID(), CharacterType.AVATAR, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, null);
+		CharacterMessage cp1 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, null);
+		CharacterMessage vehicle1 = new CharacterMessage(UUID.randomUUID(), CharacterType.HALF_TRACK, new Vector(0, 0, 0), Country.AMERICAN, Weapon.RIFLE, RankMessage.PRIVATE, cp1.getId());
+		cp1.unitsUnderCommand.add(vehicle1.id);
+		vehicle1.passengers.add(cp1.id);
+		cp1.boardedVehicle = vehicle1.id;
+		
+		HashSet<CharacterMessage> toUpdate = new HashSet<CharacterMessage>();
+		CharacterDAO allCharacters = mock(CharacterDAO.class);
+		when(allCharacters.getCharacter(eq(cp1.getId()))).thenReturn(cp1);
+		when(allCharacters.getCharacter(eq(vehicle1.getId()))).thenReturn(vehicle1);
+		
+		cp1.replaceWithAvatar(cp2, toUpdate, allCharacters);
+		CharacterMessage newAvator = toUpdate.stream().filter(a->a.id.equals(cp2.id)).findFirst().get();
+		assertTrue(newAvator.unitsUnderCommand.contains(vehicle1.id));
+		assertTrue(vehicle1.passengers.contains(newAvator.getId()));
+		assertFalse(vehicle1.passengers.contains(cp1.getId()));
+		assertTrue(toUpdate.contains(vehicle1));
+	}
+	
 	@Test 
 	public void testUpdateState() throws JsonProcessingException{
 		CharacterMessage oldCo1 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.LIEUTENANT, null);
 		CharacterMessage other = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.LIEUTENANT, null);
 		String objectiveID = UUID.randomUUID().toString();
-		other.objectives.put(objectiveID, MAPPER.writeValueAsString(new TravelObjective(new Vector(0, 0, 0), null)));
+		other.objectives.put(objectiveID, MAPPER.writeValueAsString(new TravelObjective(other, new Vector(0, 0, 0), null)));
 		other.completedObjectives = new HashSet<>();
 		oldCo1.updateState(other, UUID.randomUUID(), System.currentTimeMillis());
 		

@@ -48,7 +48,7 @@ public class UpdateCharactersMessageHandler {
 		Set<CharacterMessage> allCharacter = ((UpdateCharactersRequest) msg).getCharacters();
 		log.trace("client sending "+allCharacter.size()+" characters to update");
 		Map<UUID, CharacterMessage> sentFromClient = allCharacter.stream().collect(Collectors.toMap(CharacterMessage::getId, Function.identity()));
-		Map<UUID, CharacterMessage> existingInServer = characterDAO.getAllCharacters(allCharacter.stream().map(c->c.getId()).collect(Collectors.toSet()));
+		Map<UUID, CharacterMessage> existingInServer = characterDAO.getAllCharacters(allCharacter.stream().filter(c->!c.isDead()).map(c->c.getId()).collect(Collectors.toSet()));
 		
 //		Set<UUID> hasChanged = sentFromClient.values().stream()
 //				.filter(c->c.hasChanged(existingInServer.get(c.getId())))

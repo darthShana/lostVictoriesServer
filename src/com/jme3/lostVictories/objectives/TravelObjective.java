@@ -14,6 +14,7 @@ import lostVictories.dao.HouseDAO;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jme3.lostVictories.network.messages.CharacterMessage;
+import com.jme3.lostVictories.network.messages.CharacterType;
 import com.jme3.lostVictories.network.messages.Vector;
 import com.jme3.math.Vector3f;
 
@@ -28,7 +29,10 @@ public class TravelObjective extends Objective{
     @SuppressWarnings("unused")
 	private TravelObjective(){}
     
-    public TravelObjective(Vector destination, Vector facePoint) {
+    public TravelObjective(CharacterMessage character, Vector destination, Vector facePoint) {
+    	if(character.getCharacterType()!=CharacterType.SOLDIER && character.getCharacterType()!=CharacterType.AVATAR){
+    		new RuntimeException().printStackTrace();
+    	}
 		this.facePoint = facePoint;
     	this.destination = destination;
 	}

@@ -11,6 +11,7 @@ import lostVictories.dao.HouseDAO;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jme3.lostVictories.network.messages.CharacterMessage;
+import com.jme3.lostVictories.network.messages.CharacterType;
 import com.jme3.lostVictories.network.messages.HouseMessage;
 import com.jme3.lostVictories.network.messages.Vector;
 
@@ -18,7 +19,7 @@ public class CaptureStructure extends Objective{
 	@JsonIgnore
 	private static Logger log = Logger.getLogger(CaptureStructure.class);
 	String structure;
-	TravelObjective travelObjective;
+	Objective travelObjective;
 	
 	public CaptureStructure(String structure){
 		this.structure = structure;
@@ -37,7 +38,11 @@ public class CaptureStructure extends Objective{
 		}
 
 		if(travelObjective==null){
-			travelObjective = new TravelObjective(new Vector(house.getLocation().toVector()), null);
+			if(CharacterType.AVATAR == c.getCharacterType() || CharacterType.SOLDIER == c.getCharacterType()){
+				travelObjective = new TravelObjective(c, new Vector(house.getLocation().toVector()), null);
+			}else{
+				travelObjective = new NavigateObjective(new Vector(house.getLocation().toVector()), null);
+			}
 		}
 		travelObjective.runObjective(c, uuid, characterDAO, houseDAO, toSave);
 		if(travelObjective.isComplete){

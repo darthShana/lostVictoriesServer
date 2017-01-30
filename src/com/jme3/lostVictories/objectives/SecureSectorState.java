@@ -15,6 +15,7 @@ import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.HouseDAO;
 
 import com.jme3.lostVictories.network.messages.CharacterMessage;
+import com.jme3.lostVictories.network.messages.CharacterType;
 import com.jme3.lostVictories.network.messages.HouseMessage;
 import com.jme3.lostVictories.network.messages.Vector;
 import com.jme3.math.Vector3f;
@@ -161,7 +162,12 @@ public enum SecureSectorState {
 			}			
 		});
 		if(!objective.issuedOrders.containsKey(c.getId())){
-			TravelObjective t = new TravelObjective(location, null);
+			Objective t = null;
+			if(CharacterType.AVATAR == c.getCharacterType() || CharacterType.SOLDIER == c.getCharacterType()){
+				t = new TravelObjective(c, location, null);
+			}else{
+				t = new NavigateObjective(location, null);
+			}
 			objective.issuedOrders.put(c.getId(), t);
 		}
 
