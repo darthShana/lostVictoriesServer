@@ -236,6 +236,33 @@ public class CharacterMessageTest {
 	}
 	
 	@Test
+	public void testRepleaceVehicleKillsPassengers(){
+		UUID vehicleID = UUID.randomUUID();
+		CharacterMessage oldCo1 = new CharacterMessage(UUID.randomUUID(), CharacterType.AVATAR, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, null);
+		CharacterMessage vehicle1 = new CharacterMessage(vehicleID, CharacterType.HALF_TRACK, new Vector(0, 0, 0), Country.AMERICAN, Weapon.RIFLE, RankMessage.PRIVATE, oldCo1.getId());
+		CharacterMessage oldPassenger1 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, oldCo1.getId());
+		oldCo1.unitsUnderCommand.add(vehicleID);
+		oldCo1.unitsUnderCommand.add(oldPassenger1.getId());
+		
+		when(characterDAO.getCharacter(eq(oldCo1.id))).thenReturn(oldCo1);
+		when(characterDAO.getCharacter(eq(vehicle1.id))).thenReturn(vehicle1);
+		when(characterDAO.getCharacter(eq(oldPassenger1.id))).thenReturn(oldPassenger1);
+		HashMap<UUID, CharacterMessage> value = new HashMap<UUID, CharacterMessage>();
+		value.put(vehicleID, vehicle1);
+		value.put(oldPassenger1.id, oldPassenger1);
+		when(characterDAO.getAllCharacters(eq(oldCo1.unitsUnderCommand))).thenReturn(value);
+		
+		vehicle1.passengers.add(oldPassenger1.getId());
+		
+		HashMap<UUID, CharacterMessage> toSave = new HashMap<UUID, CharacterMessage>();
+		vehicle1.replaceMe(new CharacterCatch(characterDAO), toSave);
+		assertTrue(toSave.get(oldPassenger1.getId()).isDead);
+		assertFalse(toSave.get(oldCo1.getId()).unitsUnderCommand.contains(vehicle1.getId()));
+		assertFalse(toSave.get(oldCo1.getId()).unitsUnderCommand.contains(oldPassenger1.getId()));
+
+	}
+	
+	@Test
 	public void testRepleaceLiutenantNoOrphanUnits(){
 		CharacterMessage supreamLeader = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.COLONEL, null);
 		CharacterMessage oldCo1 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.LIEUTENANT, supreamLeader.getId());

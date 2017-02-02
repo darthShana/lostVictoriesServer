@@ -16,6 +16,7 @@ import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.GameRequestDAO;
 import lostVictories.dao.GameStatusDAO;
 import lostVictories.dao.HouseDAO;
+import lostVictories.dao.PlayerUsageDAO;
 import lostVictories.messageHanders.MessageRepository;
 
 import org.apache.log4j.Logger;
@@ -56,19 +57,22 @@ public class WorldRunner implements Runnable{
 
 	private MessageRepository messageRepository;
 
-	public static WorldRunner instance(String gameName, CharacterDAO characterDAO, HouseDAO houseDAO, GameStatusDAO gameStatusDAO, GameRequestDAO gameRequestDAO, MessageRepository messageRepository) {
+	private PlayerUsageDAO playerUsageDAO;
+
+	public static WorldRunner instance(String gameName, CharacterDAO characterDAO, HouseDAO houseDAO, GameStatusDAO gameStatusDAO, GameRequestDAO gameRequestDAO, PlayerUsageDAO playerUsageDAO, MessageRepository messageRepository) {
 		if(instance==null){
-			instance = new WorldRunner(gameName, characterDAO, houseDAO, gameStatusDAO, gameRequestDAO, messageRepository);
+			instance = new WorldRunner(gameName, characterDAO, houseDAO, gameStatusDAO, gameRequestDAO, playerUsageDAO, messageRepository);
 		}
 		return instance;
 	}
 
-	private WorldRunner(String gameName, CharacterDAO characterDAO, HouseDAO houseDAO, GameStatusDAO gameStatusDAO, GameRequestDAO gameRequestDAO, MessageRepository messageRepository) {
+	private WorldRunner(String gameName, CharacterDAO characterDAO, HouseDAO houseDAO, GameStatusDAO gameStatusDAO, GameRequestDAO gameRequestDAO, PlayerUsageDAO playerUsageDAO, MessageRepository messageRepository) {
 		this.gameName = gameName;
 		this.characterDAO = characterDAO;
 		this.houseDAO = houseDAO;
 		this.gameStatusDAO = gameStatusDAO;
 		this.gameRequestDAO = gameRequestDAO;
+		this.playerUsageDAO = playerUsageDAO;
 		this.messageRepository = messageRepository;
 		victoryPoints.put(Country.AMERICAN, 5000);
         victoryPoints.put(Country.GERMAN, 5000);
@@ -184,12 +188,14 @@ public class WorldRunner implements Runnable{
 			log.trace("american vp:"+victoryPoints.get(Country.AMERICAN));
 			if(victoryPoints.get(Country.GERMAN)<=0){
 				gameStatusDAO.recordAmericanVictory();
+				playerUsageDAO.endAllGameSessions(System.currentTimeMillis());
 				UUID gameRequest = gameRequestDAO.getGameRequest(gameName);
 				gameRequestDAO.updateGameeRequest(gameRequest, "COMPLETED");
 				
 			}
 			if(victoryPoints.get(Country.AMERICAN)<=0){
 				gameStatusDAO.recordGermanVictory();
+				playerUsageDAO.endAllGameSessions(System.currentTimeMillis());
 				UUID gameRequest = gameRequestDAO.getGameRequest(gameName);
 				gameRequestDAO.updateGameeRequest(gameRequest, "COMPLETED");
 			}

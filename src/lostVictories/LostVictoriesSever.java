@@ -13,6 +13,7 @@ import lostVictories.dao.EquipmentDAO;
 import lostVictories.dao.GameRequestDAO;
 import lostVictories.dao.GameStatusDAO;
 import lostVictories.dao.HouseDAO;
+import lostVictories.dao.PlayerUsageDAO;
 import lostVictories.messageHanders.MessageHandler;
 import lostVictories.messageHanders.MessageRepository;
 
@@ -71,6 +72,7 @@ public class LostVictoriesSever {
 		EquipmentDAO equipmentDAO = new EquipmentDAO(esClient, equipmentIndexName);
 		GameStatusDAO gameStatusDAO = new GameStatusDAO(esClient, characterIndexName);
 		GameRequestDAO gameRequestDAO = new GameRequestDAO(esClient);
+		PlayerUsageDAO playerUsageDAO = new PlayerUsageDAO(esClient, gameName);
 		
 		boolean existing = createIndices(adminClient, characterDAO, houseDAO);
 		if(!existing){
@@ -79,20 +81,20 @@ public class LostVictoriesSever {
 		
 		MessageRepository messageRepository = new MessageRepository();
 		ScheduledExecutorService worldRunnerService = Executors.newScheduledThreadPool(2);
-		WorldRunner worldRunner = WorldRunner.instance(gameName, characterDAO, houseDAO, gameStatusDAO, gameRequestDAO, messageRepository);
+		WorldRunner worldRunner = WorldRunner.instance(gameName, characterDAO, houseDAO, gameStatusDAO, gameRequestDAO, playerUsageDAO, messageRepository);
 		worldRunnerService.scheduleAtFixedRate(worldRunner, 0, 2, TimeUnit.SECONDS);
-		CharacterRunner characterRunner = CharacterRunner.instance(characterDAO, houseDAO);
+		CharacterRunner characterRunner = CharacterRunner.instance(characterDAO, houseDAO, playerUsageDAO);
 		worldRunnerService.scheduleAtFixedRate(characterRunner, 0, 2, TimeUnit.SECONDS);
 		
 		ServerBootstrap bootstrap = new ServerBootstrap( new NioServerSocketChannelFactory(Executors.newCachedThreadPool(), Executors.newCachedThreadPool()));
-				 
+
 		 // Set up the pipeline factory.
 		bootstrap.setPipelineFactory(new ChannelPipelineFactory() {
 			public ChannelPipeline getPipeline() throws Exception {
 				return Channels.pipeline(
 					new ObjectDecoder(ClassResolvers.cacheDisabled(getClass().getClassLoader())),
 					new ObjectEncoder(),
-					new MessageHandler(characterDAO, houseDAO, equipmentDAO, worldRunner, messageRepository)
+					new MessageHandler(characterDAO, houseDAO, equipmentDAO, playerUsageDAO, worldRunner, messageRepository)
 				);
 			 };
 		 });

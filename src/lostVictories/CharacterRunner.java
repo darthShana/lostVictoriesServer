@@ -16,10 +16,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.jme3.lostVictories.network.messages.CharacterMessage;
+import com.jme3.lostVictories.network.messages.CharacterType;
 import com.jme3.lostVictories.objectives.Objective;
 
 import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.HouseDAO;
+import lostVictories.dao.PlayerUsageDAO;
 
 public class CharacterRunner implements Runnable{
 
@@ -28,15 +30,17 @@ public class CharacterRunner implements Runnable{
 	private static CharacterRunner instance;	
 	private CharacterDAO characterDAO;
 	private HouseDAO houseDAO;
+	private PlayerUsageDAO playerUsageDAO;
 
-	private CharacterRunner(CharacterDAO characterDAO, HouseDAO houseDAO) {
+	private CharacterRunner(CharacterDAO characterDAO, HouseDAO houseDAO, PlayerUsageDAO playerUsageDAO) {
 		this.characterDAO = characterDAO;
 		this.houseDAO = houseDAO;
+		this.playerUsageDAO = playerUsageDAO;
 	}
 
-	public static CharacterRunner instance(CharacterDAO characterDAO, HouseDAO houseDAO) {
+	public static CharacterRunner instance(CharacterDAO characterDAO, HouseDAO houseDAO, PlayerUsageDAO playerUsageDAO) {
 		if(instance==null){
-			instance = new CharacterRunner(characterDAO, houseDAO);
+			instance = new CharacterRunner(characterDAO, houseDAO, playerUsageDAO);
 		}
 		return instance;
 	}
@@ -48,7 +52,7 @@ public class CharacterRunner implements Runnable{
 			characterDAO.getAllCharacters().parallelStream()
 				.filter(c->!c.isDead())
 				.filter(c->c.isAvailableForCheckout())
-				.forEach(c->runCharacterBehavior(c, toSave));
+				.forEach(c->runCharacterBehavior(c, toSave, characterDAO, playerUsageDAO));
 			try {
 				characterDAO.updateCharacterStateNoCheckout(toSave);
 				characterDAO.refresh();
@@ -60,12 +64,18 @@ public class CharacterRunner implements Runnable{
 		}
 	}
 
-	private void runCharacterBehavior(CharacterMessage c, Map<UUID, CharacterMessage> toSave) {
+	private void runCharacterBehavior(CharacterMessage c, Map<UUID, CharacterMessage> toSave, CharacterDAO characterDAO, PlayerUsageDAO playerUsageDAO) {
 		Map<String, JsonNode> objectives = c.getObjectives().entrySet().stream().collect(Collectors.toMap(e->e.getKey(), e->toJsonNodeSafe(e.getValue())));
 		if(c.getCheckoutClient()!=null){
+			if(CharacterType.AVATAR==c.getCharacterType()){
+				playerUsageDAO.registerStopGame(c.getUserID(), System.currentTimeMillis());
+			}
 			c.setCheckoutClient(null);
-			toSave.put(c.getId(), c);
+			characterDAO.putCharacter(c.getId(), c);
+			return;
+			
 		}
+		
 		
 		for(Entry<String, JsonNode> entry:objectives.entrySet()){
 			try{

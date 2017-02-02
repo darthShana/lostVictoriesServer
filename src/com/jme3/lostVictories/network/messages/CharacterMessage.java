@@ -290,7 +290,7 @@ public class CharacterMessage implements Serializable{
 	}
 
 	public boolean isAvailableForCheckout() {
-		return this.checkoutClient==null || checkoutTime==null || System.currentTimeMillis()-checkoutTime>CHECKOUT_TIMEOUT;
+		return this.checkoutClient==null || checkoutTime==null || (System.currentTimeMillis()-checkoutTime)>CHECKOUT_TIMEOUT;
 	}
 
 	public boolean isBusy() {
@@ -477,7 +477,14 @@ public class CharacterMessage implements Serializable{
 			co.calculateSquadType(characterDAO.getAllCharacters(co.unitsUnderCommand).values(), co.squadType);
 			toSave.put(co.getId(), co);
 		}
-
+		
+		for(UUID id:passengers){
+			CharacterMessage passenger = characterDAO.getCharacter(id);
+			passenger.kill();
+			toSave.put(passenger.id, passenger);
+			passenger.replaceMe(characterDAO, toSave);
+		}
+		
 		Optional<CharacterMessage> findReplacement = findReplacement(oldSquad);
 		if(findReplacement.isPresent()){
 			CharacterMessage cc = findReplacement.get().promoteCharacter(characterDAO, toSave, oldSquad, rank, commandingOfficer);
