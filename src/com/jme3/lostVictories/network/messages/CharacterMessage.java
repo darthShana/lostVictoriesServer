@@ -411,8 +411,8 @@ public class CharacterMessage implements Serializable{
 		return rankToReenforce;
 	}
 
-	public CharacterMessage replaceWithAvatar(CharacterMessage deadAvatar, Collection<CharacterMessage> toUpdate, CharacterDAO allCharacters) throws IOException {
-		CharacterMessage toDelete = null;
+	public CharacterMessage replaceWithAvatar(CharacterMessage deadAvatar, Collection<CharacterMessage> toUpdate, CharacterCatch allCharacters) throws IOException {
+		CharacterMessage newAvatar = null;
 		CharacterMessage oldCo = allCharacters.getCharacter(commandingOfficer);
 
 		if(RankMessage.CADET_CORPORAL==rank){
@@ -437,7 +437,7 @@ public class CharacterMessage implements Serializable{
 				toUpdate.add(vehicle);
 			}
 			toUpdate.addAll(collect);
-			toDelete = characterMessage;
+			newAvatar = characterMessage;
 
 		}
 		else{
@@ -450,7 +450,7 @@ public class CharacterMessage implements Serializable{
 		}
 		
 		
-		return toDelete;
+		return newAvatar;
 	}
 
 	public long getVersion() {
@@ -477,7 +477,11 @@ public class CharacterMessage implements Serializable{
 			co.calculateSquadType(characterDAO.getAllCharacters(co.unitsUnderCommand).values(), co.squadType);
 			toSave.put(co.getId(), co);
 		}
-		
+		if(boardedVehicle!=null){
+			CharacterMessage vehicle = characterDAO.getCharacter(boardedVehicle);
+			vehicle.passengers.remove(id);
+			toSave.put(vehicle.id, vehicle);
+		}
 		for(UUID id:passengers){
 			CharacterMessage passenger = characterDAO.getCharacter(id);
 			passenger.kill();

@@ -136,6 +136,7 @@ public class WorldRunner implements Runnable{
 							Collection<CharacterMessage> toUpdate = new ArrayList<CharacterMessage>();
 							CharacterMessage replaceWithAvatar = avatarStore.reincarnateAvatar(deadAvatars.get(), c, toUpdate);
 							if(replaceWithAvatar!=null){
+								log.debug("character:"+c.getId()+" replaced by avatar:"+deadAvatars.get().getId());
 								characterDAO.delete(c);
 								toUpdate.addAll(replaceWithAvatar.reenforceCharacter(c.getLocation().add(15, 7, 15), weaponsFactory.get(c.getCountry()), vehicleFactory.get(c.getCountry()), characterDAO));
 							}

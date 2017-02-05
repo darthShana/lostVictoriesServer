@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import lostVictories.dao.CharacterDAO;
+import lostVictories.messageHanders.CharacterCatch;
 
 import com.jme3.lostVictories.network.messages.CharacterMessage;
 import com.jme3.lostVictories.network.messages.CharacterType;
@@ -26,7 +27,7 @@ public class AvatarStore {
 	}
 
 	public CharacterMessage reincarnateAvatar(CharacterMessage deadAvatar, CharacterMessage c, Collection<CharacterMessage> updated) throws IOException {
-		CharacterMessage replaceWithAvatar = c.replaceWithAvatar(deadAvatar, updated, characterDAO);
+		CharacterMessage replaceWithAvatar = c.replaceWithAvatar(deadAvatar, updated, new CharacterCatch(characterDAO));
 		return replaceWithAvatar;
 	}
 

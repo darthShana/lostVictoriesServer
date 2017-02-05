@@ -14,7 +14,6 @@ import lostVictories.dao.HouseDAO;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jme3.lostVictories.network.messages.CharacterMessage;
-import com.jme3.lostVictories.network.messages.Country;
 import com.jme3.lostVictories.network.messages.HouseMessage;
 import com.jme3.lostVictories.network.messages.Vector;
 
@@ -59,7 +58,7 @@ public class SecureSector extends Objective {
 		SecureSectorState newState = state.tansition(c, uuid, this, characterDAO, houseDAO, toSave);
 		
 		if(newState!=state){
-            System.out.println(c.getCountry()+" "+c.getRank()+":"+c.getId()+" new state:"+newState+" houses:"+houses.size()+" loc:"+c.getLocation()+" home:"+homeBase);
+            System.out.println(c.getCountry()+" "+c.getRank()+":"+c.getId()+" new state:"+newState+" houses:"+houses.size()+" centre:"+centre+" loc:"+c.getLocation()+" home:"+homeBase);
 			issuedOrders.clear();          
             state = newState;            
         }

@@ -21,6 +21,8 @@ import lostVictories.messageHanders.CharacterCatch;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.jme3.lostVictories.objectives.TravelObjective;
@@ -420,7 +422,7 @@ public class CharacterMessageTest {
 		when(allCharacters.getCharacter(eq(p2.getId()))).thenReturn(p2);
 		when(allCharacters.getCharacter(eq(cp2.getId()))).thenReturn(cp2);
 		
-		cp1.replaceWithAvatar(cp2, toUpdate, allCharacters);
+		cp1.replaceWithAvatar(cp2, toUpdate, new CharacterCatch(allCharacters));
 		
 		assertTrue(toUpdate.contains(oldCo1));
 		assertTrue(oldCo1.getUnitsUnderCommand().contains(cp2.getId()));
@@ -430,20 +432,36 @@ public class CharacterMessageTest {
 	
 	@Test
 	public void testReplaceWithAvatarWhileBeingPassenger() throws IOException{
-		CharacterMessage cp2 = new CharacterMessage(UUID.randomUUID(), CharacterType.AVATAR, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, null);
-		CharacterMessage cp1 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, null);
-		CharacterMessage vehicle1 = new CharacterMessage(UUID.randomUUID(), CharacterType.HALF_TRACK, new Vector(0, 0, 0), Country.AMERICAN, Weapon.RIFLE, RankMessage.PRIVATE, cp1.getId());
-		cp1.unitsUnderCommand.add(vehicle1.id);
-		vehicle1.passengers.add(cp1.id);
-		cp1.boardedVehicle = vehicle1.id;
+		UUID cp2id = UUID.randomUUID();
+		UUID cp1id = UUID.randomUUID();
+		UUID vehicleID = UUID.randomUUID();
+		
+		CharacterMessage cp2 = new CharacterMessage(cp2id, CharacterType.AVATAR, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, null);
+		CharacterMessage cp1 = new CharacterMessage(cp1id, CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, null);
+		cp1.unitsUnderCommand.add(vehicleID);
+		cp1.boardedVehicle = vehicleID;
 		
 		HashSet<CharacterMessage> toUpdate = new HashSet<CharacterMessage>();
 		CharacterDAO allCharacters = mock(CharacterDAO.class);
-		when(allCharacters.getCharacter(eq(cp1.getId()))).thenReturn(cp1);
-		when(allCharacters.getCharacter(eq(vehicle1.getId()))).thenReturn(vehicle1);
+		when(allCharacters.getCharacter(eq(cp1.getId()))).then(new Answer<CharacterMessage>() {
+			@Override
+			public CharacterMessage answer(InvocationOnMock invocation) throws Throwable {
+				return new CharacterMessage(cp1id, CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, null);
+			}
+		});
+		when(allCharacters.getCharacter(eq(vehicleID))).then(new Answer<CharacterMessage>() {
+			@Override
+			public CharacterMessage answer(InvocationOnMock invocation) throws Throwable {
+				CharacterMessage characterMessage = new CharacterMessage(vehicleID, CharacterType.HALF_TRACK, new Vector(0, 0, 0), Country.AMERICAN, Weapon.RIFLE, RankMessage.PRIVATE, cp1.getId());
+				characterMessage.passengers.add(cp1.id);
+				return characterMessage;
+			}
+		});
 		
-		cp1.replaceWithAvatar(cp2, toUpdate, allCharacters);
+		cp1.replaceWithAvatar(cp2, toUpdate, new CharacterCatch(allCharacters));
 		CharacterMessage newAvator = toUpdate.stream().filter(a->a.id.equals(cp2.id)).findFirst().get();
+		CharacterMessage vehicle1 = toUpdate.stream().filter(a->a.id.equals(vehicleID)).findFirst().get();
+		
 		assertTrue(newAvator.unitsUnderCommand.contains(vehicle1.id));
 		assertTrue(vehicle1.passengers.contains(newAvator.getId()));
 		assertFalse(vehicle1.passengers.contains(cp1.getId()));
