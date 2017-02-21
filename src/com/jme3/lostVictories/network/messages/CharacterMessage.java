@@ -482,7 +482,7 @@ public class CharacterMessage implements Serializable{
 			vehicle.passengers.remove(id);
 			toSave.put(vehicle.id, vehicle);
 		}
-		for(UUID id:passengers){
+		for(UUID id:getPassengers()){
 			CharacterMessage passenger = characterDAO.getCharacter(id);
 			passenger.kill();
 			toSave.put(passenger.id, passenger);
@@ -696,7 +696,7 @@ public class CharacterMessage implements Serializable{
 		}else{
 			co = this;
 		}
-		if(!vehicle.commandingOfficer.equals(co.id)){
+		if(vehicle.commandingOfficer!=null && !vehicle.commandingOfficer.equals(co.id)){
 			if(!vehicle.isAbandoned() && vehicle.getCountry()!=country){
 				return;
 			}
@@ -737,7 +737,7 @@ public class CharacterMessage implements Serializable{
 	}
 
 	public Set<UUID> getPassengers() {
-		return passengers;
+		return new HashSet<UUID>(passengers);
 
 	}
 

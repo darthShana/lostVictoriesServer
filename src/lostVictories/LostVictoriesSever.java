@@ -14,6 +14,7 @@ import lostVictories.dao.GameRequestDAO;
 import lostVictories.dao.GameStatusDAO;
 import lostVictories.dao.HouseDAO;
 import lostVictories.dao.PlayerUsageDAO;
+import lostVictories.dao.TreeDAO;
 import lostVictories.messageHanders.MessageHandler;
 import lostVictories.messageHanders.MessageRepository;
 
@@ -48,6 +49,7 @@ public class LostVictoriesSever {
 	private int port;
 	private String characterIndexName;
 	private String houseIndexName;
+	private String treeIndexName;
 	private String equipmentIndexName;
 
 	private String instance;
@@ -59,6 +61,7 @@ public class LostVictoriesSever {
 		this.instance = instance.toLowerCase().replace(' ', '_');
 		characterIndexName = this.instance+"_unit_status";
 		houseIndexName = this.instance+"_house_status";
+		treeIndexName = this.instance+"_tree_status";
 		equipmentIndexName = this.instance+"_equipment_status";
 		this.port = port;
 		
@@ -69,12 +72,13 @@ public class LostVictoriesSever {
 		IndicesAdminClient adminClient = esClient.admin().indices();
 		CharacterDAO characterDAO = new CharacterDAO(esClient, characterIndexName);
 		HouseDAO houseDAO = new HouseDAO(esClient, houseIndexName);
+		TreeDAO treeDAO = new TreeDAO(esClient, treeIndexName);
 		EquipmentDAO equipmentDAO = new EquipmentDAO(esClient, equipmentIndexName);
 		GameStatusDAO gameStatusDAO = new GameStatusDAO(esClient, characterIndexName);
 		GameRequestDAO gameRequestDAO = new GameRequestDAO(esClient);
 		PlayerUsageDAO playerUsageDAO = new PlayerUsageDAO(esClient, gameName);
 		
-		boolean existing = createIndices(adminClient, characterDAO, houseDAO);
+		boolean existing = createIndices(adminClient, characterDAO, houseDAO, treeDAO);
 		if(!existing){
 			gameStatusDAO.createGameStatus(this.instance, gameName, port, characterIndexName, houseIndexName, equipmentIndexName);
 		}
@@ -118,7 +122,7 @@ public class LostVictoriesSever {
 
 
 
-	private boolean createIndices(IndicesAdminClient adminClient, CharacterDAO characterDAO, HouseDAO housesDAO) throws IOException {
+	private boolean createIndices(IndicesAdminClient adminClient, CharacterDAO characterDAO, HouseDAO housesDAO, TreeDAO treeDAO) throws IOException {
 		final IndicesExistsResponse res = adminClient.prepareExists(characterIndexName).execute().actionGet();
         if (res.isExists()) {
         	log.info("index:"+characterIndexName+" already exisits");
@@ -169,6 +173,9 @@ public class LostVictoriesSever {
 	    houseIndexRequestBuilder.addMapping("houseStatus", builder);
 	    houseIndexRequestBuilder.execute().actionGet();
 	    
+	    final CreateIndexRequestBuilder treeIndexRequestBuilder = adminClient.prepareCreate(treeIndexName);
+	    treeIndexRequestBuilder.execute().actionGet();
+	    
 	    final CreateIndexRequestBuilder equipmentIndexRequestBuilder = adminClient.prepareCreate(equipmentIndexName);
 	    builder = XContentFactory.jsonBuilder().startObject().startObject("equipmentStatus").startObject("properties");
 	    builder.startObject("location")
@@ -179,7 +186,7 @@ public class LostVictoriesSever {
 	    equipmentIndexRequestBuilder.addMapping("equipmentStatus", builder);
 	    equipmentIndexRequestBuilder.execute().actionGet();
 	    
-	    new LostVictoryScene().loadScene(characterDAO, housesDAO);
+	    new LostVictoryScene().loadScene(characterDAO, housesDAO, treeDAO);
 	    return false;
 	}
 

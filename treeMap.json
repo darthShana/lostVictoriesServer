@@ -1,0 +1,155 @@
+
+{
+  "trees":[
+  { "location":{ "x":-412.5,"y":107.05167,"z":-212.09076},
+    "trees":[
+      { "location":{ "x":4.904188,"y":0,"z":2.4770715}, "standing":true}
+    ]
+  },
+  { "location":{ "x":-412.5,"y":144.58066,"z":-112.09076},
+    "trees":[
+      { "location":{ "x":0.09367287,"y":0,"z":1.5667119}, "standing":true},
+      { "location":{ "x":2.9619012,"y":0,"z":1.3189203}, "standing":true},
+      { "location":{ "x":4.332427,"y":0,"z":4.050943}, "standing":true},
+      { "location":{ "x":3.336978,"y":0,"z":0.4710549}, "standing":true},
+      { "location":{ "x":1.6761458,"y":0,"z":1.6286502}, "standing":true}
+    ]
+  },
+  { "location":{ "x":-412.5,"y":97.43031,"z":287.90924},
+    "trees":[
+      { "location":{ "x":1.4725906,"y":0,"z":0.5276066}, "standing":true},
+      { "location":{ "x":2.097723,"y":0,"z":2.096759}, "standing":true},
+      { "location":{ "x":2.0108285,"y":0,"z":3.292522}, "standing":true},
+      { "location":{ "x":4.1773562,"y":0,"z":2.1157072}, "standing":true}
+    ]
+  },
+  { "location":{ "x":-312.5,"y":108.54509,"z":-312.09076},
+    "trees":[
+      { "location":{ "x":4.904188,"y":0,"z":2.4770715}, "standing":true}
+    ]
+  },
+  { "location":{ "x":-312.5,"y":76.19844,"z":87.90924},
+    "trees":[
+      { "location":{ "x":0.6753993,"y":0,"z":4.278256}, "standing":true},
+      { "location":{ "x":1.0354823,"y":0,"z":0.04024148}, "standing":true},
+      { "location":{ "x":1.662072,"y":0,"z":2.6829185}, "standing":true}
+    ]
+  },
+  { "location":{ "x":-212.5,"y":97.29613,"z":-412.09076},
+    "trees":[
+      { "location":{ "x":3.4823143,"y":0,"z":2.221282}, "standing":true},
+      { "location":{ "x":0.23869127,"y":0,"z":1.2709877}, "standing":true}
+    ]
+  },
+  { "location":{ "x":-212.5,"y":104.53476,"z":-12.090759},
+    "trees":[
+      { "location":{ "x":1.891067,"y":0,"z":0.78068286}, "standing":true},
+      { "location":{ "x":1.123843,"y":0,"z":2.3722463}, "standing":true},
+      { "location":{ "x":1.4105344,"y":0,"z":4.0594034}, "standing":true},
+      { "location":{ "x":4.56951,"y":0,"z":4.7620864}, "standing":true}
+    ]
+  },
+  { "location":{ "x":-112.5,"y":120.73466,"z":-312.09076},
+    "trees":[
+      { "location":{ "x":1.3614398,"y":0,"z":3.087226}, "standing":true},
+      { "location":{ "x":3.577461,"y":0,"z":4.6642137}, "standing":true},
+      { "location":{ "x":1.6895363,"y":0,"z":2.389736}, "standing":true},
+      { "location":{ "x":2.8366063,"y":0,"z":0.36966175}, "standing":true},
+      { "location":{ "x":4.4467235,"y":0,"z":2.6612868}, "standing":true}
+    ]
+  },
+  { "location":{ "x":-112.5,"y":102.32887,"z":-112.09076},
+    "trees":[
+      { "location":{ "x":3.4789908,"y":0,"z":4.3682055}, "standing":true},
+      { "location":{ "x":2.924264,"y":0,"z":1.4649346}, "standing":true},
+      { "location":{ "x":2.8250363,"y":0,"z":4.1879168}, "standing":true},
+      { "location":{ "x":3.3184419,"y":0,"z":1.320509}, "standing":true}
+    ]
+  },
+  { "location":{ "x":-112.5,"y":100.15767,"z":-12.090759},
+    "trees":[
+      { "location":{ "x":4.904188,"y":0,"z":2.4770715}, "standing":true}
+    ]
+  },
+  { "location":{ "x":-112.5,"y":110.79276,"z":287.90924},
+    "trees":[
+      { "location":{ "x":4.904188,"y":0,"z":2.4770715}, "standing":true}
+    ]
+  },
+  { "location":{ "x":-112.5,"y":103.17183,"z":387.90924},
+    "trees":[
+      { "location":{ "x":1.6970181,"y":0,"z":3.5236752}, "standing":true},
+      { "location":{ "x":3.7589433,"y":0,"z":2.8897252}, "standing":true},
+      { "location":{ "x":1.3860065,"y":0,"z":4.7554226}, "standing":true},
+      { "location":{ "x":0.13408363,"y":0,"z":2.5981731}, "standing":true}
+    ]
+  },
+  { "location":{ "x":87.5,"y":100.23387,"z":-412.09076},
+    "trees":[
+      { "location":{ "x":4.857397,"y":0,"z":4.340726}, "standing":true},
+      { "location":{ "x":3.7069287,"y":0,"z":0.29900432}, "standing":true},
+      { "location":{ "x":0.020814836,"y":0,"z":0.18107772}, "standing":true},
+      { "location":{ "x":1.1384132,"y":0,"z":3.1471581}, "standing":true},
+      { "location":{ "x":2.445629,"y":0,"z":4.337693}, "standing":true}
+    ]
+  },
+  { "location":{ "x":87.5,"y":61.837234,"z":-112.09076},
+    "trees":[
+      { "location":{ "x":1.0636213,"y":0,"z":2.0309625}, "standing":true},
+      { "location":{ "x":3.1962502,"y":0,"z":1.0971075}, "standing":true},
+      { "location":{ "x":2.1359153,"y":0,"z":0.67088455}, "standing":true},
+      { "location":{ "x":0.79182804,"y":0,"z":4.9246593}, "standing":true}
+    ]
+  },
+  { "location":{ "x":87.5,"y":99.98211,"z":-12.090759},
+    "trees":[
+      { "location":{ "x":4.904188,"y":0,"z":2.4770715}, "standing":true}
+    ]
+  },
+  { "location":{ "x":87.5,"y":113.75388,"z":187.90924},
+    "trees":[
+      { "location":{ "x":2.1205208,"y":0,"z":2.8420277}, "standing":true},
+      { "location":{ "x":0.77305377,"y":0,"z":1.432156}, "standing":true},
+      { "location":{ "x":0.9411785,"y":0,"z":2.4616995}, "standing":true}
+    ]
+  },
+  { "location":{ "x":187.5,"y":100.26179,"z":-412.09076},
+    "trees":[
+      { "location":{ "x":1.4552909,"y":0,"z":3.377625}, "standing":true},
+      { "location":{ "x":0.053492785,"y":0,"z":2.0271049}, "standing":true},
+      { "location":{ "x":1.2805533,"y":0,"z":3.0074677}, "standing":true}
+    ]
+  },
+  { "location":{ "x":187.5,"y":93.538376,"z":287.90924},
+    "trees":[
+      { "location":{ "x":4.2573028,"y":0,"z":4.1643705}, "standing":true}
+    ]
+  },
+  { "location":{ "x":287.5,"y":100.03656,"z":87.90924},
+    "trees":[
+      { "location":{ "x":1.6917017,"y":0,"z":0.8184415}, "standing":true},
+      { "location":{ "x":1.5400076,"y":0,"z":1.5913606}, "standing":true},
+      { "location":{ "x":0.2100122,"y":0,"z":0.8108887}, "standing":true},
+      { "location":{ "x":4.861583,"y":0,"z":4.385719}, "standing":true}
+    ]
+  },
+  { "location":{ "x":287.5,"y":96.13165,"z":287.90924},
+    "trees":[
+      { "location":{ "x":4.904188,"y":0,"z":2.4770715}, "standing":true}
+    ]
+  },
+  { "location":{ "x":387.5,"y":96.12606,"z":287.90924},
+    "trees":[
+      { "location":{ "x":1.2355757,"y":0,"z":4.5041637}, "standing":true},
+      { "location":{ "x":3.1199055,"y":0,"z":0.8186698}, "standing":true},
+      { "location":{ "x":1.1701617,"y":0,"z":0.22143245}, "standing":true},
+      { "location":{ "x":2.0225263,"y":0,"z":1.0916698}, "standing":true},
+      { "location":{ "x":3.652866,"y":0,"z":4.471165}, "standing":true}
+    ]
+  },
+  { "location":{ "x":387.5,"y":98.860886,"z":387.90924},
+    "trees":[
+      { "location":{ "x":4.904188,"y":0,"z":2.4770715}, "standing":true}
+    ]
+  }
+]}

@@ -17,6 +17,7 @@ import lostVictories.dao.HouseDAO;
 import com.jme3.lostVictories.network.messages.CharacterMessage;
 import com.jme3.lostVictories.network.messages.CharacterType;
 import com.jme3.lostVictories.network.messages.HouseMessage;
+import com.jme3.lostVictories.network.messages.RankMessage;
 import com.jme3.lostVictories.network.messages.Vector;
 import com.jme3.math.Vector3f;
 
@@ -147,6 +148,7 @@ public enum SecureSectorState {
 		c.getUnitsUnderCommand().stream()				
 			.filter(id->!objective.issuedOrders.containsKey(id))
 			.map(id->characterDAO.getCharacter(id))
+			.filter(unit->unit.getRank()==RankMessage.CADET_CORPORAL)
 			.forEach(new Consumer<CharacterMessage>() {
 
 			@Override

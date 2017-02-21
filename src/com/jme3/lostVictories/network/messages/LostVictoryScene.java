@@ -1,5 +1,6 @@
 package com.jme3.lostVictories.network.messages;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -10,12 +11,15 @@ import java.util.UUID;
 
 import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.HouseDAO;
+import lostVictories.dao.TreeDAO;
 
 import org.apache.log4j.Logger;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.jme3.lostVictories.objectives.CaptureTown;
 import com.jme3.lostVictories.objectives.FollowCommander;
@@ -34,7 +38,7 @@ public class LostVictoryScene {
 	
 	private static Logger log = Logger.getLogger(LostVictoryScene.class); 
 	
-	public void loadScene(CharacterDAO characterDAO, HouseDAO housesDAO) throws JsonGenerationException, JsonMappingException, IOException {
+	public void loadScene(CharacterDAO characterDAO, HouseDAO housesDAO, TreeDAO treeDAO) throws JsonGenerationException, JsonMappingException, IOException {
 		log.debug("Loading Scene");
 		
 		Map<UUID, CharacterMessage> characters = new HashMap<UUID, CharacterMessage>();
@@ -115,7 +119,7 @@ public class LostVictoryScene {
         loadSquad(characters, b1, americanBase.add(-10, 0, 15), Country.AMERICAN, true, Weapon.RIFLE, Weapon.RIFLE, Weapon.RIFLE);
         CharacterMessage loadAntiTankGun = loadAntiTankGun(americanBase.add(15, 0, 15), Country.AMERICAN, b1, characters);
 		characters.put(loadAntiTankGun.getId(), loadAntiTankGun);
-//        CharacterMessage loadAmoredCar2 = loadHalfTrack1(UUID.fromString("8c1bda23-33f9-4843-aae5-f1ceb30d70aa"), americanBase.add(10, 0, 15), Country.AMERICAN, b1, characters);
+//        CharacterMessage loadAmoredCar2 = loadAmoredCar(americanBase.add(10, 0, 15), Country.AMERICAN, b1, characters);
 //		characters.put(loadAmoredCar2.getId(), loadAmoredCar2);
 //        b1.addObjective(UUID.randomUUID(), createBootCampObjective(new Vector(-57.21826f, 96.380104f, -203.38945f)));
 //        b1.incrementKills(UUID.randomUUID());
@@ -251,13 +255,30 @@ public class LostVictoryScene {
         houses.add(new HouseMessage("Models/Structures/house2.j3o", new Vector(-331.56793f, 97.07747f, -156.47841f), new Quaternion(0.0f, 0.008407291f, 0.0f, -0.9999668f)));
         houses.add(new HouseMessage("Models/Structures/casaMedieval.j3o", new Vector(-330.9898f, 96.112755f, -146.50629f), new Quaternion(4.086152E-10f, 0.7032834f, -8.368974E-10f, 0.7109173f)));
         houses.add(new HouseMessage("Models/Structures/house2.j3o", new Vector(-340.83585f, 97.07747f, -156.5674f), new Quaternion(0.0f, 0.008407291f, 0.0f, -0.9999668f)));
-       
         
         houses.forEach(h->housesDAO.putHouse(h.getId(), h));
         
-        //Set<TreeMessage> trees = new HashSet<TreeMessage>();
+        Set<TreeGroupMessage> trees = new HashSet<TreeGroupMessage>();
+        JsonNode readTree = CharacterDAO.MAPPER.readTree(new File("treeMap.json"));
+		JsonNode jsonNode = readTree.get("trees");
+		jsonNode.spliterator().forEachRemaining(treeGroup->trees.add(toObjectFromSource(treeGroup)));		
+        trees.forEach(t->treeDAO.putTree(t.getId(), t));
+        	
+        
 	}
 	
+
+
+	private TreeGroupMessage toObjectFromSource(JsonNode treeGroup) {
+		try {
+			TreeGroupMessage treeToValue = CharacterDAO.MAPPER.treeToValue(treeGroup, TreeGroupMessage.class);
+			treeToValue.setId(UUID.randomUUID());
+			return treeToValue;
+		} catch (JsonProcessingException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 
 
 	private String createBootCampObjective(final Vector vector)  {
@@ -282,6 +303,7 @@ public class LostVictoryScene {
 		if(findFirst.isPresent()){
 			armoredCar.passengers.add(findFirst.get().getId());
 			findFirst.get().boardedVehicle = armoredCar.getId();
+			findFirst.get().setLocation(vector);
 		}
 		return armoredCar;
 	}
