@@ -2,6 +2,7 @@ package com.jme3.lostVictories.network.messages;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -259,12 +260,14 @@ public class LostVictoryScene {
         houses.forEach(h->housesDAO.putHouse(h.getId(), h));
         
         Set<TreeGroupMessage> trees = new HashSet<TreeGroupMessage>();
-        JsonNode readTree = CharacterDAO.MAPPER.readTree(new File("treeMap.json"));
+        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+        InputStream is = classloader.getResourceAsStream("treeMap.json");
+        JsonNode readTree = CharacterDAO.MAPPER.readTree(is);
 		JsonNode jsonNode = readTree.get("trees");
 		jsonNode.spliterator().forEachRemaining(treeGroup->trees.add(toObjectFromSource(treeGroup)));		
         trees.forEach(t->treeDAO.putTree(t.getId(), t));
         	
-        
+        log.debug("scene loaded....");
 	}
 	
 

@@ -11,6 +11,7 @@ import com.jme3.ai.navmesh.NavMesh;
 import com.jme3.ai.navmesh.NavMeshPathfinder;
 import com.jme3.asset.AssetManager;
 import com.jme3.asset.DesktopAssetManager;
+import com.jme3.asset.plugins.ClasspathLocator;
 import com.jme3.asset.plugins.FileLocator;
 import com.jme3.export.binary.BinaryImporter;
 import com.jme3.lostVictories.network.messages.Vector;
@@ -22,7 +23,7 @@ public class NavMeshStore {
 	private final NavMeshPathfinder pathFinder;
 	private static Logger log = Logger.getLogger(NavMeshStore.class);
 
-	public static NavMeshStore intstace(){
+	public static synchronized NavMeshStore intstace(){
 		if(instance == null){
 			instance = new NavMeshStore();
 		}
@@ -32,8 +33,10 @@ public class NavMeshStore {
 	private NavMeshStore(){
     	AssetManager assetManager = new DesktopAssetManager();
     	assetManager.registerLoader(BinaryImporter.class, "j3o");
-    	assetManager.registerLocator(".", FileLocator.class);
+    	assetManager.registerLocator("/", ClasspathLocator.class);
+    	log.debug("attempting to load NavMesh");
     	Geometry loadedNode = (Geometry) assetManager.loadModel("NavMesh.j3o");
+    	log.debug("NavMEsh loaded");
         NavMesh nm = new NavMesh(loadedNode.getMesh());
         pathFinder = new NavMeshPathfinder(nm);
 		
