@@ -45,6 +45,13 @@ public class BoardingVehicleMessageHandler {
 		Map<UUID, CharacterMessage> toSave = new HashMap<UUID, CharacterMessage>();
 		passenger.boardVehicle(vehicle, characterDAO, toSave);
 		
+		if(msg.getClientID().equals(passenger.getId()) && passenger.getCharacterType()==CharacterType.AVATAR){
+			log.debug("checkout boarded vehicle:"+msg.getVehicleID()+" by client:"+msg.getClientID());
+			CharacterMessage savedVehicle = toSave.get(msg.getVehicleID());
+			savedVehicle.setCheckoutClient(msg.getClientID());
+			savedVehicle.setCheckoutTime(System.currentTimeMillis());
+		}
+		
 		characterDAO.save(toSave.values());
 		return new LostVictoryMessage(UUID.randomUUID());
 	}

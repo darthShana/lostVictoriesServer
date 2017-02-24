@@ -32,8 +32,8 @@ public class PassengerDeathNotificationMessageHandlerTest {
 		UUID victimID = UUID.randomUUID();
 		CharacterMessage victim = new CharacterMessage(victimID, CharacterType.SOLDIER, new Vector(0, 0, 0), Country.AMERICAN, Weapon.RIFLE, RankMessage.PRIVATE, coID);
 		UUID vehicleID = UUID.randomUUID();
-		CharacterMessage vehicle = new CharacterMessage(victimID, CharacterType.ARMORED_CAR, new Vector(0, 0, 0), Country.AMERICAN, Weapon.RIFLE, RankMessage.PRIVATE, coID);
-		vehicle.getPassengers().add(victimID);
+		CharacterMessage vehicle = new CharacterMessage(vehicleID, CharacterType.ARMORED_CAR, new Vector(0, 0, 0), Country.AMERICAN, Weapon.RIFLE, RankMessage.PRIVATE, coID);
+		vehicle.addPassengers(victimID);
 		
 		when(characterDAO.getCharacter(coID)).thenAnswer(new Answer<CharacterMessage>() {
 

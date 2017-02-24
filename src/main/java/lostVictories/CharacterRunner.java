@@ -67,7 +67,7 @@ public class CharacterRunner implements Runnable{
 	private void runCharacterBehavior(CharacterMessage c, Map<UUID, CharacterMessage> toSave, CharacterDAO characterDAO, PlayerUsageDAO playerUsageDAO) {
 		Map<String, JsonNode> objectives = c.getObjectives().entrySet().stream().collect(Collectors.toMap(e->e.getKey(), e->toJsonNodeSafe(e.getValue())));
 		if(c.getCheckoutClient()!=null){
-			if(CharacterType.AVATAR==c.getCharacterType()){
+			if(CharacterType.AVATAR==c.getCharacterType() && c.getUserID()!=null){
 				playerUsageDAO.registerStopGame(c.getUserID(), System.currentTimeMillis());
 			}
 			c.setCheckoutClient(null);

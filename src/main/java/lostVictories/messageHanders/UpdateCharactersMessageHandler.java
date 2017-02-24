@@ -3,7 +3,9 @@ package lostVictories.messageHanders;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
@@ -50,13 +52,9 @@ public class UpdateCharactersMessageHandler {
 		Map<UUID, CharacterMessage> sentFromClient = allCharacter.stream().collect(Collectors.toMap(CharacterMessage::getId, Function.identity()));
 		Map<UUID, CharacterMessage> existingInServer = characterDAO.getAllCharacters(allCharacter.stream().filter(c->!c.isDead()).map(c->c.getId()).collect(Collectors.toSet()));
 		
-//		Set<UUID> hasChanged = sentFromClient.values().stream()
-//				.filter(c->c.hasChanged(existingInServer.get(c.getId())))
-//			.map(CharacterMessage::getId).collect(Collectors.toSet());
 		
 		Map<UUID, CharacterMessage> toSave = existingInServer.values().stream()
 				.filter(c->c.isAvailableForUpdate(msg.getClientID(), sentFromClient.get(c.getId())))
-//				.filter(c->hasChanged.contains(c.getId()))
 			.collect(Collectors.toMap(c->c.getId(), Function.identity()));
 		
 		toSave.values().stream().forEach(c->c.updateState(sentFromClient.get(c.getId()), msg.getClientID(), System.currentTimeMillis()));
@@ -73,6 +71,19 @@ public class UpdateCharactersMessageHandler {
 					.filter(entry->inRangeOfAvatar.containsKey(entry.getKey()))
 					.collect(Collectors.toMap(p->p.getKey(), p->p.getValue()));
 			inRangeOfAvatar.values().stream().filter(c->!existingInServer.containsKey(c.getId())).forEach(c->toReturn.put(c.getId(), c));
+			
+			if(storedAvatar.getBoardedVehicle()!=null){
+				CharacterMessage vehicle = toReturn.get(storedAvatar.getBoardedVehicle());
+				if(vehicle!=null && !vehicle.getCheckoutClient().equals(msg.getClientID())){
+					log.debug("force checkout of vehicle:"+vehicle.getId());
+					vehicle.setCheckoutClient(msg.getClientID());
+					vehicle.setCheckoutTime(System.currentTimeMillis());
+					List<CharacterMessage> values = new ArrayList<>();
+					values.add(vehicle);
+					characterDAO.save(values);
+				}
+				
+			}
 			
 			for(CharacterMessage c:toReturn.values()){
 				if(!c.isDead()){

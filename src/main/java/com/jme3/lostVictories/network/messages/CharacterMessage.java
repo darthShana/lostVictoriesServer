@@ -177,6 +177,10 @@ public class CharacterMessage implements Serializable{
 	public RankMessage getRank() {
 		return rank;
 	}
+	
+	public UUID getBoardedVehicle(){
+		return boardedVehicle;
+	}
 
 	public UUID getCommandingOfficer() {
 		return commandingOfficer;
@@ -778,6 +782,13 @@ public class CharacterMessage implements Serializable{
 			}
 		}
 		return population;
+	}
+
+	public void addPassengers(UUID...newPAssengers) {
+		for(UUID p:newPAssengers){
+			passengers.add(p);
+		}
+		
 	}
 
 }

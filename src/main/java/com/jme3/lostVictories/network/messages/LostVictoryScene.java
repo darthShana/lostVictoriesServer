@@ -116,12 +116,11 @@ public class LostVictoryScene {
         
         CharacterMessage b1 = new CharacterMessage(UUID.fromString("d993932f-a185-4a6f-8d86-4ef6e2c5ff95"), CharacterType.AVATAR, americanBase.add(-10, 0, 10), Country.AMERICAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, al1.getId());
         b1.userID = UUID.fromString("d993932f-a185-4a6f-8d86-4ef6e2c5ff95");
-
         loadSquad(characters, b1, americanBase.add(-10, 0, 15), Country.AMERICAN, true, Weapon.RIFLE, Weapon.RIFLE, Weapon.RIFLE);
         CharacterMessage loadAntiTankGun = loadAntiTankGun(americanBase.add(15, 0, 15), Country.AMERICAN, b1, characters);
 		characters.put(loadAntiTankGun.getId(), loadAntiTankGun);
-//        CharacterMessage loadAmoredCar2 = loadAmoredCar(americanBase.add(10, 0, 15), Country.AMERICAN, b1, characters);
-//		characters.put(loadAmoredCar2.getId(), loadAmoredCar2);
+        CharacterMessage loadAmoredCar2 = loadAmoredCar(americanBase.add(10, 0, 15), Country.AMERICAN, b1, characters);
+		characters.put(loadAmoredCar2.getId(), loadAmoredCar2);
 //        b1.addObjective(UUID.randomUUID(), createBootCampObjective(new Vector(-57.21826f, 96.380104f, -203.38945f)));
 //        b1.incrementKills(UUID.randomUUID());
 //        b1.incrementKills(UUID.randomUUID());
@@ -143,7 +142,9 @@ public class LostVictoryScene {
         CharacterMessage loadAntiTankGun12 = loadAntiTankGun1(UUID.fromString("00b5ceda-4a0a-490d-af71-bcaf81ede6eb"), americanBase.add(9, 5, -9), Country.AMERICAN, c1, characters);
 		characters.put(loadAntiTankGun12.getId(), loadAntiTankGun12);
         
-        CharacterMessage c2 = new CharacterMessage(UUID.fromString("844fd93d-e65a-438a-82c5-dab9ad58e854"), CharacterType.SOLDIER, americanBase.add(40, 5, -40), Country.AMERICAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, al3.getId());
+        CharacterMessage c2 = new CharacterMessage(UUID.fromString("844fd93d-e65a-438a-82c5-dab9ad58e854"), CharacterType.AVATAR, americanBase.add(40, 5, -40), Country.AMERICAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, al3.getId());
+        c2.id = UUID.fromString("844fd93d-e65a-438a-82c5-dab9ad58e854");
+
         loadSquad(characters, c2, americanBase.add(45, 5, -35), Country.AMERICAN, true, Weapon.RIFLE, Weapon.RIFLE, Weapon.RIFLE);
         CharacterMessage loadAmoredCar = loadAmoredCar(americanBase.add(40, 5, -30), Country.AMERICAN, c2, characters);
 		characters.put(loadAmoredCar.getId(), loadAmoredCar);
