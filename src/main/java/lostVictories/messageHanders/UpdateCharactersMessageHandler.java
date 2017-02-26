@@ -74,7 +74,7 @@ public class UpdateCharactersMessageHandler {
 			
 			if(storedAvatar.getBoardedVehicle()!=null){
 				CharacterMessage vehicle = toReturn.get(storedAvatar.getBoardedVehicle());
-				if(vehicle!=null && !vehicle.getCheckoutClient().equals(msg.getClientID())){
+				if(vehicle!=null && vehicle.getCheckoutClient()!=null && !vehicle.getCheckoutClient().equals(msg.getClientID())){
 					log.debug("force checkout of vehicle:"+vehicle.getId());
 					vehicle.setCheckoutClient(msg.getClientID());
 					vehicle.setCheckoutTime(System.currentTimeMillis());
