@@ -41,7 +41,7 @@ public class CaptureTown extends Objective {
 	}
 	
 	@Override
-	public void runObjective(CharacterMessage c, String uuid, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave) {
+	public void runObjective(CharacterMessage c, String uuid, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave, Map<UUID, UUID> kills) {
 		if(System.currentTimeMillis()-startTime<(60*1000)){
 			return;
 		}

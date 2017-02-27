@@ -17,11 +17,15 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.jme3.lostVictories.network.messages.CharacterMessage;
 import com.jme3.lostVictories.network.messages.CharacterType;
+import com.jme3.lostVictories.network.messages.LostVictoryMessage;
+import com.jme3.lostVictories.network.messages.UnClaimedEquipmentMessage;
+import com.jme3.lostVictories.network.messages.Vector;
 import com.jme3.lostVictories.objectives.Objective;
 
 import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.HouseDAO;
 import lostVictories.dao.PlayerUsageDAO;
+import lostVictories.messageHanders.CharacterCatch;
 
 public class CharacterRunner implements Runnable{
 
@@ -49,22 +53,52 @@ public class CharacterRunner implements Runnable{
 	public void run() {
 		try{
 			Map<UUID, CharacterMessage> toSave = new HashMap<UUID, CharacterMessage>();
+			Map<UUID, UUID> kills = new HashMap<>();
 			characterDAO.getAllCharacters().parallelStream()
 				.filter(c->!c.isDead())
 				.filter(c->c.isAvailableForCheckout())
-				.forEach(c->runCharacterBehavior(c, toSave, characterDAO, playerUsageDAO));
+				.forEach(c->runCharacterBehavior(c, toSave, kills, characterDAO, playerUsageDAO));
 			try {
 				characterDAO.updateCharacterStateNoCheckout(toSave);
 				characterDAO.refresh();
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
+			
+			kills.entrySet().stream().forEach(entry->doKill(entry.getKey(), entry.getValue()));
 		}catch(Throwable e){
 			e.printStackTrace();
 		}
+		
 	}
 
-	private void runCharacterBehavior(CharacterMessage c, Map<UUID, CharacterMessage> toSave, CharacterDAO characterDAO, PlayerUsageDAO playerUsageDAO) {
+	private void doKill(UUID _killer, UUID _victim) {
+		Map<UUID, CharacterMessage> toSave = new HashMap<UUID, CharacterMessage>();
+		CharacterCatch catche = new CharacterCatch(characterDAO);
+		CharacterMessage victim = catche.getCharacter(_victim);
+		if(victim==null || victim.isDead()){
+			return;
+		}
+		log.info("killed in server:"+victim.getId());
+		
+		CharacterMessage killer = catche.getCharacter(_killer);
+		victim.kill();
+		killer.incrementKills(victim.getId());
+		toSave.put(killer.getId(), killer);
+		toSave.put(victim.getId(), victim);
+		
+		victim.replaceMe(catche, toSave);
+		
+		try {
+			characterDAO.saveCommandStructure(toSave);
+			characterDAO.refresh();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+		
+	}
+
+	private void runCharacterBehavior(CharacterMessage c, Map<UUID, CharacterMessage> toSave, Map<UUID, UUID> kills, CharacterDAO characterDAO, PlayerUsageDAO playerUsageDAO) {
 		Map<String, JsonNode> objectives = c.getObjectives().entrySet().stream().collect(Collectors.toMap(e->e.getKey(), e->toJsonNodeSafe(e.getValue())));
 		if(c.getCheckoutClient()!=null){
 			if(CharacterType.AVATAR==c.getCharacterType() && c.getUserID()!=null){
@@ -84,7 +118,7 @@ public class CharacterRunner implements Runnable{
 				}
 				Class objectiveClass = Class.forName(entry.getValue().get("class").asText());
 				Objective objective = (Objective) MAPPER.treeToValue(entry.getValue(), objectiveClass);
-				objective.runObjective(c, entry.getKey(), characterDAO, houseDAO, toSave);
+				objective.runObjective(c, entry.getKey(), characterDAO, houseDAO, toSave, kills);
 				//should not need to do this.....
 				c.getObjectives().put(entry.getKey(), MAPPER.writeValueAsString(objective));
 				if(objective.isComplete){

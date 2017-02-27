@@ -23,7 +23,7 @@ public abstract class Objective {
 
 	public boolean isComplete = false;
 
-	public abstract void runObjective(CharacterMessage c, String uuid, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave);	
+	public abstract void runObjective(CharacterMessage c, String uuid, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave, Map<UUID, UUID> kills);	
 	
 	public static Objective toObjectiveSafe(JsonNode json) {
 		

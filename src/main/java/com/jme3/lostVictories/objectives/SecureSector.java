@@ -53,8 +53,8 @@ public class SecureSector extends Objective {
 	}
 
 	@Override
-	public void runObjective(CharacterMessage c, String uuid, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave) {
-		state.runObjective(c, uuid, this, characterDAO, houseDAO, toSave);
+	public void runObjective(CharacterMessage c, String uuid, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave, Map<UUID, UUID> kills) {
+		state.runObjective(c, uuid, this, characterDAO, houseDAO, toSave, kills);
 		SecureSectorState newState = state.tansition(c, uuid, this, characterDAO, houseDAO, toSave);
 		
 		if(newState!=state){

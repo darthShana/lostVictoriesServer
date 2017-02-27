@@ -31,7 +31,7 @@ public class NavigateObjective extends Objective{
 	}
     
 	@Override
-	public void runObjective(CharacterMessage character, String uuid, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave) {
+	public void runObjective(CharacterMessage character, String uuid, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave, Map<UUID, UUID> kills) {
 		Vector c = character.getLocation();
 		Vector3f currentLocation = new Vector3f(c.x, c.y, c.z);
 		if(currentLocation.distance(destination.toVector())<1){

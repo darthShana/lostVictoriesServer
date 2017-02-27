@@ -44,13 +44,13 @@ public class TransportSquadTest {
 	@Test
 	public void testStoreAndRetriveObjective() {
 		TransportSquad transportSquad = new TransportSquad(new Vector(100, 1, 1));
-		transportSquad.runObjective(oldCo, UUID.randomUUID().toString(), characterDAO, houseDAO, new HashMap<UUID, CharacterMessage>());
+		transportSquad.runObjective(oldCo, UUID.randomUUID().toString(), characterDAO, houseDAO, new HashMap<UUID, CharacterMessage>(), new HashMap<>());
 		Objective o = transportSquad.issuedOrders.get(oldCo.getId());
 		assertNotNull(o);
 		assertTrue(o instanceof TravelObjective);
 		assertEquals(1, unit.getObjectives().size());
 
-		transportSquad.runObjective(oldCo, UUID.randomUUID().toString(), characterDAO, houseDAO, new HashMap<UUID, CharacterMessage>());
+		transportSquad.runObjective(oldCo, UUID.randomUUID().toString(), characterDAO, houseDAO, new HashMap<UUID, CharacterMessage>(), new HashMap<>());
 		assertEquals(1, unit.getObjectives().size());
 	}
 

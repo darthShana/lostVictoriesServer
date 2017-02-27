@@ -24,7 +24,7 @@ import com.jme3.math.Vector3f;
 public enum SecureSectorState {
 	WAIT_FOR_REENFORCEMENTS {
 		@Override
-		public void runObjective(CharacterMessage c, String uuid, SecureSector objective, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave) {			
+		public void runObjective(CharacterMessage c, String uuid, SecureSector objective, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave, Map<UUID, UUID> kills) {			
 		}
 
 		@Override
@@ -37,8 +37,8 @@ public enum SecureSectorState {
 	},
 	RETREAT {
 		@Override
-		public void runObjective(CharacterMessage c, String uuid, SecureSector objective, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave) {
-			sendEveryoneTo(c, uuid, objective, characterDAO, houseDAO, toSave, objective.homeBase);			
+		public void runObjective(CharacterMessage c, String uuid, SecureSector objective, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave, Map<UUID, UUID> kills) {
+			sendEveryoneTo(c, uuid, objective, characterDAO, houseDAO, toSave, kills, objective.homeBase);			
 		}
 
 		@Override
@@ -51,8 +51,8 @@ public enum SecureSectorState {
 	},
 	DEPLOY_TO_SECTOR {
 		@Override
-		public void runObjective(CharacterMessage c, String uuid, SecureSector objective, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave) {
-			sendEveryoneTo(c, uuid, objective, characterDAO, houseDAO, toSave, objective.centre);
+		public void runObjective(CharacterMessage c, String uuid, SecureSector objective, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave, Map<UUID, UUID> kills) {
+			sendEveryoneTo(c, uuid, objective, characterDAO, houseDAO, toSave, kills, objective.centre);
 		}
 
 		@Override
@@ -69,7 +69,7 @@ public enum SecureSectorState {
 	
 	CAPTURE_HOUSES {
 		@Override
-		public void runObjective(CharacterMessage c, String uuid, SecureSector objective, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave) {
+		public void runObjective(CharacterMessage c, String uuid, SecureSector objective, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave, Map<UUID, UUID> kills) {
 			final Set<String> exclude = new HashSet<>();
 			Predicate<HouseMessage> houseToCapture = new Predicate<HouseMessage>() {				
 				@Override
@@ -144,7 +144,7 @@ public enum SecureSectorState {
 		return closest;
 	}
 
-	private static void sendEveryoneTo(CharacterMessage c, String uuid, SecureSector objective, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave, Vector location) {
+	private static void sendEveryoneTo(CharacterMessage c, String uuid, SecureSector objective, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave, Map<UUID, UUID> kills, Vector location) {
 		c.getUnitsUnderCommand().stream()				
 			.filter(id->!objective.issuedOrders.containsKey(id))
 			.map(id->characterDAO.getCharacter(id))
@@ -174,10 +174,10 @@ public enum SecureSectorState {
 		}
 
 		Objective fromStringToObjective = objective.issuedOrders.get(c.getId());
-		fromStringToObjective.runObjective(c, uuid, characterDAO, houseDAO, toSave);
+		fromStringToObjective.runObjective(c, uuid, characterDAO, houseDAO, toSave, kills);
 		toSave.put(c.getId(), c);
 	}
-	public abstract void runObjective(CharacterMessage c, String uuid, SecureSector objective, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave);
+	public abstract void runObjective(CharacterMessage c, String uuid, SecureSector objective, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave, Map<UUID, UUID> kills);
 
 	public abstract SecureSectorState tansition(CharacterMessage c, String uuid, SecureSector objective, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave);
 

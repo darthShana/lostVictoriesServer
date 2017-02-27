@@ -45,15 +45,16 @@ public class DeathNotificationMessageHandler {
 		
 		victim.replaceMe(catche, toSave);
 		
-		if(victim.getWeapon().isReusable() && (victim.getCharacterType()==CharacterType.SOLDIER || victim.getCharacterType()==CharacterType.AVATAR)){
-			equipmentDAO.addUnclaiimedEquipment(new UnClaimedEquipmentMessage(UUID.randomUUID(), victim.getWeapon(), victim.getLocation(), new Vector(0, 0, 0)));
-		}
-		
 		try {
 			characterDAO.saveCommandStructure(toSave);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
+		
+		if(victim.getWeapon().isReusable() && (victim.getCharacterType()==CharacterType.SOLDIER || victim.getCharacterType()==CharacterType.AVATAR)){
+			equipmentDAO.addUnclaiimedEquipment(new UnClaimedEquipmentMessage(UUID.randomUUID(), victim.getWeapon(), victim.getLocation(), new Vector(0, 0, 0)));
+		}
+		
 		return new LostVictoryMessage(UUID.randomUUID());
 	}
 

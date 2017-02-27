@@ -1,6 +1,5 @@
 package com.jme3.lostVictories.objectives;
 
-import static com.jme3.lostVictories.network.messages.LostVictoryScene.SCENE_SCALE;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
@@ -34,7 +33,7 @@ public class TravelObjectiveTest {
 		path.add(new Vector(destination));
 		objective.path = path;
 		
-		objective.runObjective(character, "", mock(CharacterDAO.class), mock(HouseDAO.class), new HashMap<UUID, CharacterMessage>());
+		objective.runObjective(character, "", mock(CharacterDAO.class), mock(HouseDAO.class), new HashMap<UUID, CharacterMessage>(), new HashMap<>());
 		assertTrue(character.getLocation().toVector().distance(destination)<start.distance(destination));
 	}
 	
@@ -50,10 +49,10 @@ public class TravelObjectiveTest {
 		path.add(new Vector(100, 100, 100));
 		objective.path = path;
 		
-		objective.runObjective(character, "", mock(CharacterDAO.class), mock(HouseDAO.class), new HashMap<UUID, CharacterMessage>());
+		objective.runObjective(character, "", mock(CharacterDAO.class), mock(HouseDAO.class), new HashMap<UUID, CharacterMessage>(), new HashMap<>());
 		assertEquals(new Vector(50, 100, 50), character.getLocation());
 		
-		objective.runObjective(character, "", mock(CharacterDAO.class), mock(HouseDAO.class), new HashMap<UUID, CharacterMessage>());
+		objective.runObjective(character, "", mock(CharacterDAO.class), mock(HouseDAO.class), new HashMap<UUID, CharacterMessage>(), new HashMap<>());
 		assertEquals(1, objective.path.size());
 		assertEquals(destination, objective.path.get(0).toVector());
 	}

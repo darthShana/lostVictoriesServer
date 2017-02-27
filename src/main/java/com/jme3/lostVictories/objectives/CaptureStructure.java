@@ -29,7 +29,7 @@ public class CaptureStructure extends Objective{
 	private CaptureStructure() {}
 
 	@Override
-	public void runObjective(CharacterMessage c, String uuid, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave) {
+	public void runObjective(CharacterMessage c, String uuid, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave, Map<UUID, UUID> kills) {
 		HouseMessage house = houseDAO.getHouse(UUID.fromString(structure));
 		if(house.getOwner()==c.getCountry()){
 			log.debug("completed stucture capture:"+structure);
@@ -44,7 +44,7 @@ public class CaptureStructure extends Objective{
 				travelObjective = new NavigateObjective(new Vector(house.getLocation().toVector()), null);
 			}
 		}
-		travelObjective.runObjective(c, uuid, characterDAO, houseDAO, toSave);
+		travelObjective.runObjective(c, uuid, characterDAO, houseDAO, toSave, kills);
 		if(travelObjective.isComplete){
 			isComplete = true;
 		}

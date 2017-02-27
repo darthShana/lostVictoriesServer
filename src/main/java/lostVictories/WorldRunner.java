@@ -179,7 +179,7 @@ public class WorldRunner implements Runnable{
 							characterDAO.refresh();
 						}
 					}
-					if(avatar.getCheckoutClient().equals(avatar.getId())){
+					if(avatar.getCheckoutClient()!=null && avatar.getCheckoutClient().equals(avatar.getId())){
 						messageRepository.addMessage(avatar.getCheckoutClient(), "Congradulations! You have been promoted to:"+avatar.getRank());
 					}
 				}

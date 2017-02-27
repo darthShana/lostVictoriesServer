@@ -31,6 +31,9 @@ public class SecureSectorTest {
 	private CharacterMessage unit1;
 	private CharacterMessage unit2;
 	private CharacterDAO characterDAO;
+	HashMap<UUID, CharacterMessage> toSave;
+	HashMap<UUID, UUID> kills;
+
 
 	@Before
 	public void setup(){
@@ -55,17 +58,19 @@ public class SecureSectorTest {
 		characterDAO = mock(CharacterDAO.class);
 		when(characterDAO.getCharacter(eq(unit1.getId()))).thenReturn(unit1);
 		when(characterDAO.getCharacter(eq(unit2.getId()))).thenReturn(unit2);
+		
+		toSave = new HashMap<UUID, CharacterMessage>();
+		kills = new HashMap<>();
 	}
 	
 	@Test
 	public void testSaveAndRestoreObjective(){
 		SecureSector objective = new SecureSector(houses, 3, 1, new Vector(100, 0, 100));
-		HashMap<UUID, CharacterMessage> toSave = new HashMap<UUID, CharacterMessage>();
 		oldCo.setLocation(new Vector(100, 1, 100));
 		objective.state = SecureSectorState.DEPLOY_TO_SECTOR;
-		objective.runObjective(oldCo, UUID.randomUUID().toString(), characterDAO, houseDAO, toSave);
+		objective.runObjective(oldCo, UUID.randomUUID().toString(), characterDAO, houseDAO, toSave, kills);
 		assertEquals(1, unit1.getObjectives().size());
-		objective.runObjective(oldCo, UUID.randomUUID().toString(), characterDAO, houseDAO, toSave);
+		objective.runObjective(oldCo, UUID.randomUUID().toString(), characterDAO, houseDAO, toSave, kills);
 		assertEquals(1, unit1.getObjectives().size());
 	}
 	
@@ -73,9 +78,8 @@ public class SecureSectorTest {
 	public void testCompleteDeployPhaseAndChangeToCaptureHouse(){
 		SecureSector objective = new SecureSector(houses, 3, 1, new Vector(100, 0, 100));
 		oldCo.setLocation(new Vector(110, 1, 100));
-		HashMap<UUID, CharacterMessage> toSave = new HashMap<UUID, CharacterMessage>();
 		objective.state = SecureSectorState.DEPLOY_TO_SECTOR;
-		objective.runObjective(oldCo, UUID.randomUUID().toString(), characterDAO, houseDAO, toSave);
+		objective.runObjective(oldCo, UUID.randomUUID().toString(), characterDAO, houseDAO, toSave, kills);
 		
 		assertEquals(SecureSectorState.CAPTURE_HOUSES, objective.state);
 	}
@@ -84,9 +88,8 @@ public class SecureSectorTest {
 	public void testCaptureHouses() {
 		SecureSector objective = new SecureSector(houses, 3, 1, new Vector(100, 0, 100));
 		objective.state = SecureSectorState.CAPTURE_HOUSES;
-		HashMap<UUID, CharacterMessage> toSave = new HashMap<UUID, CharacterMessage>();
 		
-		objective.runObjective(oldCo, UUID.randomUUID().toString(), characterDAO, houseDAO, toSave);
+		objective.runObjective(oldCo, UUID.randomUUID().toString(), characterDAO, houseDAO, toSave, kills);
 		
 		assertTrue(toSave.containsKey(unit1.getId()));
 		CaptureStructure order1 = (CaptureStructure) objective.issuedOrders.get(unit1.getId());
@@ -98,7 +101,7 @@ public class SecureSectorTest {
 		oldCo.addCharactersUnderCommand(unit3);
 		when(characterDAO.getCharacter(eq(unit3.getId()))).thenReturn(unit3);
 		
-		objective.runObjective(oldCo, UUID.randomUUID().toString(), characterDAO, houseDAO, toSave);
+		objective.runObjective(oldCo, UUID.randomUUID().toString(), characterDAO, houseDAO, toSave, kills);
 		CaptureStructure order3 = (CaptureStructure) objective.issuedOrders.get(unit3.getId());
 		assertFalse(order3.structure.equals(order1.structure));
 		assertFalse(order3.structure.equals(order2.structure));
@@ -107,16 +110,15 @@ public class SecureSectorTest {
 	@Test
     public void testWaitsForNorminalStrengthBeforeDeployment(){
 		SecureSector objective = new SecureSector(houses, 4, 1, new Vector(100, 0, 100));
-		HashMap<UUID, CharacterMessage> toSave = new HashMap<UUID, CharacterMessage>();
 		
-		objective.runObjective(oldCo, UUID.randomUUID().toString(), characterDAO, houseDAO, toSave);
+		objective.runObjective(oldCo, UUID.randomUUID().toString(), characterDAO, houseDAO, toSave, kills);
 		assertEquals(SecureSectorState.WAIT_FOR_REENFORCEMENTS, objective.state);
 		
 		CharacterMessage p1 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.PRIVATE, unit1.getId());
 		unit1.addCharactersUnderCommand(p1);
 		when(characterDAO.getCharacter(eq(p1.getId()))).thenReturn(p1);
 
-		objective.runObjective(oldCo, UUID.randomUUID().toString(), characterDAO, houseDAO, toSave);
+		objective.runObjective(oldCo, UUID.randomUUID().toString(), characterDAO, houseDAO, toSave, kills);
 		assertEquals(SecureSectorState.DEPLOY_TO_SECTOR, objective.state);
 	}
 	
@@ -124,18 +126,17 @@ public class SecureSectorTest {
     public void testRetreatsWhenStrengthFalls(){
 		oldCo.setLocation(new Vector(110, 100, 110));
 		SecureSector objective = new SecureSector(houses, 4, 3, new Vector(100, 0, 100));
-		HashMap<UUID, CharacterMessage> toSave = new HashMap<UUID, CharacterMessage>();
 		
 		objective.state = SecureSectorState.DEPLOY_TO_SECTOR;
-		objective.runObjective(oldCo, UUID.randomUUID().toString(), characterDAO, houseDAO, toSave);
+		objective.runObjective(oldCo, UUID.randomUUID().toString(), characterDAO, houseDAO, toSave, kills);
 		assertEquals(SecureSectorState.RETREAT, objective.state);
 		
 		objective.state = SecureSectorState.CAPTURE_HOUSES;
-		objective.runObjective(oldCo, UUID.randomUUID().toString(), characterDAO, houseDAO, toSave);
+		objective.runObjective(oldCo, UUID.randomUUID().toString(), characterDAO, houseDAO, toSave, kills);
 		assertEquals(SecureSectorState.RETREAT, objective.state);
 		
 		objective.issuedOrders.clear();
-		objective.runObjective(oldCo, UUID.randomUUID().toString(), characterDAO, houseDAO, toSave);
+		objective.runObjective(oldCo, UUID.randomUUID().toString(), characterDAO, houseDAO, toSave, kills);
 		TravelObjective t1 = (TravelObjective) objective.issuedOrders.get(oldCo.getId());
 		TransportSquad t2 = (TransportSquad) objective.issuedOrders.get(unit1.getId());
 		TransportSquad t3 = (TransportSquad) objective.issuedOrders.get(unit2.getId());
@@ -148,12 +149,11 @@ public class SecureSectorTest {
     public void testReteatEndsWhenReachedEnemyBase(){
 		oldCo.setLocation(new Vector(110, 100, 110));
 		SecureSector objective = new SecureSector(houses, 4, 3, new Vector(100, 100, 100));
-		HashMap<UUID, CharacterMessage> toSave = new HashMap<UUID, CharacterMessage>();
 		objective.state = SecureSectorState.RETREAT;
 		
-		objective.runObjective(oldCo, UUID.randomUUID().toString(), characterDAO, houseDAO, toSave);
+		objective.runObjective(oldCo, UUID.randomUUID().toString(), characterDAO, houseDAO, toSave, kills);
 		objective.issuedOrders.get(oldCo.getId()).isComplete = true;
-		objective.runObjective(oldCo, UUID.randomUUID().toString(), characterDAO, houseDAO, toSave);
+		objective.runObjective(oldCo, UUID.randomUUID().toString(), characterDAO, houseDAO, toSave, kills);
 		assertEquals(SecureSectorState.WAIT_FOR_REENFORCEMENTS, objective.state);
 	}
 	

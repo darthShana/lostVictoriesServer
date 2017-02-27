@@ -31,7 +31,7 @@ public class TransportSquad extends Objective{
 	}
 	
 	@Override
-	public void runObjective(CharacterMessage c, String uuid,CharacterDAO characterDAO, HouseDAO houseDAO,Map<UUID, CharacterMessage> toSave)  {
+	public void runObjective(CharacterMessage c, String uuid,CharacterDAO characterDAO, HouseDAO houseDAO,Map<UUID, CharacterMessage> toSave, Map<UUID, UUID> kills)  {
 		c.getUnitsUnderCommand().stream()
 			.filter(id->!issuedOrders.containsKey(id))
 			.map(id->characterDAO.getCharacter(id))
@@ -64,7 +64,7 @@ public class TransportSquad extends Objective{
 		}
 		
 		Objective fromStringToObjective = issuedOrders.get(c.getId());
-		fromStringToObjective.runObjective(c, uuid, characterDAO, houseDAO, toSave);		
+		fromStringToObjective.runObjective(c, uuid, characterDAO, houseDAO, toSave, kills);		
 	}
 
 	@Override
