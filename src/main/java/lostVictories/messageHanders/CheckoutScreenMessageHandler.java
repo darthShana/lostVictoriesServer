@@ -9,6 +9,7 @@ import com.jme3.lostVictories.network.messages.CheckoutScreenRequest;
 import com.jme3.lostVictories.network.messages.CheckoutScreenResponse;
 import com.jme3.lostVictories.network.messages.HouseMessage;
 import com.jme3.lostVictories.network.messages.LostVictoryMessage;
+import com.jme3.lostVictories.network.messages.TreeGroupMessage;
 import com.jme3.lostVictories.network.messages.UnClaimedEquipmentMessage;
 import com.jme3.lostVictories.network.messages.Vector;
 
@@ -16,6 +17,7 @@ import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.EquipmentDAO;
 import lostVictories.dao.HouseDAO;
 import lostVictories.dao.PlayerUsageDAO;
+import lostVictories.dao.TreeDAO;
 
 public class CheckoutScreenMessageHandler{
 	
@@ -25,11 +27,13 @@ public class CheckoutScreenMessageHandler{
 	private HouseDAO houseDAO;
 	private EquipmentDAO equipmentDAO;
 	private PlayerUsageDAO playerUsageDAO;
+	private TreeDAO treeDAO;
 
-	public CheckoutScreenMessageHandler(CharacterDAO characterDAO, HouseDAO houseDAO, EquipmentDAO equipmentDAO, PlayerUsageDAO playerUsageDAO) {
+	public CheckoutScreenMessageHandler(CharacterDAO characterDAO, HouseDAO houseDAO, EquipmentDAO equipmentDAO, TreeDAO treeDAO, PlayerUsageDAO playerUsageDAO) {
 		this.characterDAO = characterDAO;
 		this.houseDAO = houseDAO;
 		this.equipmentDAO = equipmentDAO;
+		this.treeDAO = treeDAO;
 		this.playerUsageDAO = playerUsageDAO;
 	}
 
@@ -41,8 +45,9 @@ public class CheckoutScreenMessageHandler{
 	       	Set<CharacterMessage> allCharacters = characterDAO.getAllCharacters(l.x, l.y, l.z, CLIENT_RANGE);
 	       	Set<UnClaimedEquipmentMessage> allEquipment = equipmentDAO.getUnClaimedEquipment(l.x, l.y, l.z, CLIENT_RANGE);
 			Set<HouseMessage> allHouses = houseDAO.getAllHouses();
+			Set<TreeGroupMessage> allTrees = treeDAO.getAllTrees();
 			playerUsageDAO.registerStartGame(avatar.getUserID(), System.currentTimeMillis());
-			return new CheckoutScreenResponse(allCharacters, allHouses, allEquipment);
+			return new CheckoutScreenResponse(allCharacters, allHouses, allEquipment, allTrees);
 		}
 		return new LostVictoryMessage(m.getClientID());
 	}

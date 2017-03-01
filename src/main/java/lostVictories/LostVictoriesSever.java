@@ -98,7 +98,7 @@ public class LostVictoriesSever {
 				return Channels.pipeline(
 					new ObjectDecoder(ClassResolvers.cacheDisabled(getClass().getClassLoader())),
 					new ObjectEncoder(),
-					new MessageHandler(characterDAO, houseDAO, equipmentDAO, playerUsageDAO, worldRunner, messageRepository)
+					new MessageHandler(characterDAO, houseDAO, equipmentDAO, playerUsageDAO, treeDAO, worldRunner, messageRepository)
 				);
 			 };
 		 });
@@ -169,11 +169,16 @@ public class LostVictoriesSever {
         	.field("type", "geo_point")
         	.field("store", "yes")
         	.endObject();
-	    
 	    houseIndexRequestBuilder.addMapping("houseStatus", builder);
 	    houseIndexRequestBuilder.execute().actionGet();
 	    
 	    final CreateIndexRequestBuilder treeIndexRequestBuilder = adminClient.prepareCreate(treeIndexName);
+	    builder = XContentFactory.jsonBuilder().startObject().startObject("treeStatus").startObject("properties");
+	    builder.startObject("location")
+        	.field("type", "geo_point")
+        	.field("store", "yes")
+        	.endObject();
+	    treeIndexRequestBuilder.addMapping("treeStatus", builder);
 	    treeIndexRequestBuilder.execute().actionGet();
 	    
 	    final CreateIndexRequestBuilder equipmentIndexRequestBuilder = adminClient.prepareCreate(equipmentIndexName);

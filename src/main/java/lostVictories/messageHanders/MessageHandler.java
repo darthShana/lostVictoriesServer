@@ -8,6 +8,7 @@ import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.EquipmentDAO;
 import lostVictories.dao.HouseDAO;
 import lostVictories.dao.PlayerUsageDAO;
+import lostVictories.dao.TreeDAO;
 
 import org.apache.log4j.Logger;
 import org.jboss.netty.channel.Channel;
@@ -43,9 +44,9 @@ public class MessageHandler extends SimpleChannelHandler {
 	private BoardingVehicleMessageHandler boardingVehicleMessageHandler;
 	private DisembarkPassengersMessageHandler disembarkPassengersMessageHandler;
 
-	public MessageHandler(CharacterDAO characterDAO, HouseDAO houseDAO, EquipmentDAO equipmentDAO, PlayerUsageDAO playerUsageDAO, WorldRunner worldRunner, MessageRepository messageRepository) {
+	public MessageHandler(CharacterDAO characterDAO, HouseDAO houseDAO, EquipmentDAO equipmentDAO, PlayerUsageDAO playerUsageDAO, TreeDAO treeDAO, WorldRunner worldRunner, MessageRepository messageRepository) {
 		updateCharactersMessageHandler = new UpdateCharactersMessageHandler(characterDAO, houseDAO, equipmentDAO, worldRunner, messageRepository);
-		checkoutScreenMessageHandler = new CheckoutScreenMessageHandler(characterDAO, houseDAO, equipmentDAO, playerUsageDAO);
+		checkoutScreenMessageHandler = new CheckoutScreenMessageHandler(characterDAO, houseDAO, equipmentDAO, treeDAO, playerUsageDAO);
 		deathNotificationMessageHandler = new DeathNotificationMessageHandler(characterDAO, equipmentDAO);
 		gunnerDeathNotificationMessageHandler = new PassengerDeathNotificationMessageHandler(characterDAO);
 		addObjectiveMessageHandler = new AddObjectiveMessageHandler(characterDAO);

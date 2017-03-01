@@ -2,6 +2,7 @@ package lostVictories.dao;
 
 import static org.elasticsearch.index.query.QueryBuilders.matchAllQuery;
 
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -45,10 +46,10 @@ public class TreeDAO {
 	public void putTree(UUID uuid, TreeGroupMessage t) {
 		try {
 			esClient.prepareIndex(indexName, "treeStatus", uuid.toString())
-			        .setSource(CharacterDAO.MAPPER.writeValueAsString(t))
+			        .setSource(t.getJSONRepresentation())
 			        .execute()
 			        .actionGet();
-		} catch (ElasticsearchException | JsonProcessingException e) {
+		} catch (ElasticsearchException | IOException e) {
 			throw new RuntimeException(e);
 		}
 	}
