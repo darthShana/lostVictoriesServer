@@ -62,7 +62,7 @@ public class NavigateObjective extends Objective{
 		final Vector vector = new Vector(newLocation);
 		character.setLocation(vector);
 		
-		Set<CharacterMessage> collect = character.getPassengers().stream().map(id->characterDAO.getCharacter(id)).collect(Collectors.toSet());
+		Set<CharacterMessage> collect = character.getPassengers().stream().map(id->characterDAO.getCharacter(id)).filter(cc->cc!=null).collect(Collectors.toSet());
 		collect.forEach(passenger->passenger.setLocation(vector));
 		collect.forEach(moved->toSave.put(moved.getId(), moved));
 	}

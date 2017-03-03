@@ -33,6 +33,11 @@ public class CollectEquipmentMessageHandler {
 		UnClaimedEquipmentMessage equipment = equipmentDAO.get(msg.getEquipmentId());
 		CharacterMessage character = characterDAO.getCharacter(msg.getCharacterID());
 		log.info("received equipment pickup:"+msg.getEquipmentId()+" for character "+msg.getCharacterID());
+		
+		if(equipment==null || character==null){
+			return new LostVictoryMessage(UUID.randomUUID());
+		}
+		
 		Vector3f l1 = new Vector3f(equipment.getLocation().x, 0, equipment.getLocation().z);
 		Vector3f l2 = new Vector3f(character.getLocation().x, 0, character.getLocation().z);
 		if(l1.distance(l2)>2){

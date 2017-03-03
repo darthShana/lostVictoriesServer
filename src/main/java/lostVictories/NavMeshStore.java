@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 
+import com.jme3.ai.navmesh.CustomNavMeshPathfinder;
 import com.jme3.ai.navmesh.DebugInfo;
 import com.jme3.ai.navmesh.NavMesh;
 import com.jme3.ai.navmesh.NavMeshPathfinder;
@@ -38,7 +39,7 @@ public class NavMeshStore {
     	Geometry loadedNode = (Geometry) assetManager.loadModel("NavMesh.j3o");
     	log.debug("NavMEsh loaded");
         NavMesh nm = new NavMesh(loadedNode.getMesh());
-        pathFinder = new NavMeshPathfinder(nm);
+        pathFinder = new CustomNavMeshPathfinder(nm);
 		
 	}
 

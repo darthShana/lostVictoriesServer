@@ -156,7 +156,7 @@ public class WorldRunner implements Runnable{
                 }else if(c.getTimeOfDeath()<(System.currentTimeMillis()-60000) && c.getCharacterType()!=CharacterType.AVATAR){
                 	log.debug("removing dead character:"+c.getId()+" co:"+c.getCommandingOfficer());
                 	characterDAO.delete(c);
-                }else if(c.getCommandingOfficer()==null && c.getRank()==RankMessage.PRIVATE){
+                }else if(c.getCommandingOfficer()==null && c.getRank()==RankMessage.PRIVATE && !c.isDead()){
                 	CharacterMessage newCo = characterDAO.findClosestCharacter(c, RankMessage.CADET_CORPORAL);
                 	if(newCo!=null){
                 		log.debug("found orphan unit:"+c.getId()+" adopted by:"+newCo.getId());
