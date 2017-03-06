@@ -59,18 +59,14 @@ public class UpdateCharactersMessageHandler {
 		
 		toSave.values().stream().forEach(c->c.updateState(sentFromClient.get(c.getId()), msg.getClientID(), System.currentTimeMillis()));
 		characterDAO.updateCharacterState(toSave);
+		characterDAO.refresh();
 		
 		Map<UUID, CharacterMessage> toReturn;                    
 		Set<HouseMessage> allHouses = houseDAO.getAllHouses();
 		if(msg.getAvatar()!=null){
 			CharacterMessage storedAvatar = characterDAO.getCharacter(msg.getAvatar().getId());
 			Vector v = storedAvatar.getLocation();
-			Map<UUID, CharacterMessage> inRangeOfAvatar = characterDAO.getAllCharacters(v.x, v.y, v.z, CheckoutScreenMessageHandler.CLIENT_RANGE).stream().collect(Collectors.toMap(CharacterMessage::getId, Function.identity()));
-			
-			toReturn = existingInServer.entrySet().stream()
-					.filter(entry->inRangeOfAvatar.containsKey(entry.getKey()))
-					.collect(Collectors.toMap(p->p.getKey(), p->p.getValue()));
-			inRangeOfAvatar.values().stream().filter(c->!existingInServer.containsKey(c.getId())).forEach(c->toReturn.put(c.getId(), c));
+			toReturn = characterDAO.getAllCharacters(v.x, v.y, v.z, CheckoutScreenMessageHandler.CLIENT_RANGE).stream().collect(Collectors.toMap(CharacterMessage::getId, Function.identity()));
 			
 			if(storedAvatar.getBoardedVehicle()!=null){
 				CharacterMessage vehicle = toReturn.get(storedAvatar.getBoardedVehicle());
@@ -85,25 +81,25 @@ public class UpdateCharactersMessageHandler {
 				
 			}
 			
-			for(CharacterMessage c:toReturn.values()){
-				if(!c.isDead()){
-					for(UUID u:c.getUnitsUnderCommand()){
-						CharacterMessage unit = characterDAO.getCharacter(u);
-						if(unit==null){
-							System.out.println("found character:"+c.getId()+" with uni unit:"+u);
-						}						
-					}
-				}
-			}
-			
-			for(CharacterMessage c:toReturn.values()){
-				if(!c.isDead() && c.getCommandingOfficer()!=null){
-					CharacterMessage co = characterDAO.getCharacter(c.getCommandingOfficer());
-					if(co==null){
-						System.out.println("found character:"+c.getId()+" with null CO:"+c.getCommandingOfficer());
-					}
-				}
-			}
+//			for(CharacterMessage c:toReturn.values()){
+//				if(!c.isDead()){
+//					for(UUID u:c.getUnitsUnderCommand()){
+//						CharacterMessage unit = characterDAO.getCharacter(u);
+//						if(unit==null){
+//							System.out.println("found character:"+c.getId()+" with uni unit:"+u);
+//						}						
+//					}
+//				}
+//			}
+//			
+//			for(CharacterMessage c:toReturn.values()){
+//				if(!c.isDead() && c.getCommandingOfficer()!=null){
+//					CharacterMessage co = characterDAO.getCharacter(c.getCommandingOfficer());
+//					if(co==null){
+//						System.out.println("found character:"+c.getId()+" with null CO:"+c.getCommandingOfficer());
+//					}
+//				}
+//			}
 			
 			Set<CharacterMessage> relatedCharacters1 = toReturn.values().stream()
 				.filter(u->!u.isDead()).map(c->c.getUnitsUnderCommand()).filter(u->!toReturn.containsKey(u))
@@ -115,7 +111,7 @@ public class UpdateCharactersMessageHandler {
 			
 			GameStatistics statistics = worldRunner.getStatistics(storedAvatar.getCountry());
 			AchivementStatus achivementStatus = worldRunner.getAchivementStatus(storedAvatar);
-			
+						
 			Set<UnClaimedEquipmentMessage> unClaimedEquipment = equipmentDAO.getUnClaimedEquipment(v.x, v.y, v.z, CheckoutScreenMessageHandler.CLIENT_RANGE);
 			return new UpdateCharactersResponse(msg.getClientID(), new HashSet<CharacterMessage>(toReturn.values()), relatedCharacters1, unClaimedEquipment, allHouses, statistics, achivementStatus, messageRepository.popMessages(msg.getClientID()));
 		}else{

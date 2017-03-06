@@ -44,6 +44,7 @@ public class PassengerDeathNotificationMessageHandler {
 		}
 		
 		characterDAO.saveCommandStructure(toSave);
+		characterDAO.refresh();
 		return new LostVictoryMessage(UUID.randomUUID());
 	}
 

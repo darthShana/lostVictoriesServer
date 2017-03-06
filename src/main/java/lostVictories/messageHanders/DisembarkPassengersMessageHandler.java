@@ -25,6 +25,7 @@ public class DisembarkPassengersMessageHandler {
 		log.debug("received disembark request from:"+msg.getVehicleID());
 		CharacterMessage vehicle = characterDAO.getCharacter(msg.getVehicleID());
 		characterDAO.save(vehicle.disembarkPassengers(characterDAO, true));
+		characterDAO.refresh();
 		return new LostVictoryMessage(UUID.randomUUID());
 	}
 
