@@ -579,6 +579,7 @@ public class CharacterMessage implements Serializable{
 		rank = co.getRank();
 		objectives = new HashMap<String, String>();
 		unitsUnderCommand = co.unitsUnderCommand.stream().filter(c->!c.equals(id)).collect(Collectors.toSet());
+		unitsUnderCommand.add(replacemet.id);
 		commandingOfficer = co.commandingOfficer;
 		kills = new HashSet<UUID>();
 

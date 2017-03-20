@@ -132,7 +132,7 @@ public class WorldRunner implements Runnable{
                     	log.debug("found understrenth unit to reenfoce:"+c.getId()+" rank"+c.getRank());
                         Optional<CharacterMessage> deadAvatars = avatarStore.getDeadAvatars(c.getCountry());
 						if(deadAvatars.isPresent() && c.getCharacterType()!=CharacterType.AVATAR){
-							log.debug("in here test reincarnate avatar");
+							log.debug("in here test reincarnate avatar:"+c.getId());
 							Collection<CharacterMessage> toUpdate = new ArrayList<CharacterMessage>();
 							CharacterMessage replaceWithAvatar = avatarStore.reincarnateAvatar(deadAvatars.get(), c, toUpdate);
 							if(replaceWithAvatar!=null){

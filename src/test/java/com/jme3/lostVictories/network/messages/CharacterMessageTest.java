@@ -331,13 +331,30 @@ public class CharacterMessageTest {
 	}
 	
 	@Test
-	public void testPromoteToSupreamCommander(){
+	public void testPromoteToSupreamCommander() throws IOException{
 		avatar.rank = RankMessage.LIEUTENANT;
 		avatar.commandingOfficer = oldCo.id;
 		oldCo.rank = RankMessage.COLONEL;
 		
 		avatar.promoteAvatar(oldCo, characterDAO);
 		assertEquals(RankMessage.COLONEL, avatar.getRank());
+	}
+	
+	@Test
+	public void testPromoteAvatarToLieutenant() throws IOException{
+		oldCo.rank = RankMessage.LIEUTENANT;
+		CharacterMessage unit1 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.PRIVATE, avatar.getId());
+		CharacterMessage unit2 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.PRIVATE, avatar.getId());
+		when(characterDAO.getCharacter(unit1.getId())).thenReturn(unit1);
+		when(characterDAO.getCharacter(unit2.getId())).thenReturn(unit2);
+		
+		avatar.addCharactersUnderCommand(unit1, unit2);
+		avatar.commandingOfficer = oldCo.id;
+
+		avatar.promoteAvatar(oldCo, characterDAO);
+		
+		assertEquals(RankMessage.LIEUTENANT, avatar.getRank());
+		assertEquals(1, avatar.getUnitsUnderCommand().size());		
 	}
 	
 	@Test
