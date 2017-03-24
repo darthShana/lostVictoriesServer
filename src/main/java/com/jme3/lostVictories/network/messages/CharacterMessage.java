@@ -260,7 +260,6 @@ public class CharacterMessage implements Serializable{
 				.field("orientation", orientation.toMap())
 				.field("actions", MAPPER.writerFor(new TypeReference<Set<Action>>() {}).writeValueAsString(actions))
 				.field("objectives", CharacterDAO.MAPPER.writeValueAsString(objectives))	
-				.field("engineDamaged", engineDamaged)
 				.field("checkoutClient", checkoutClient)
 				.field("checkoutTime", checkoutTime)
 				.endObject();

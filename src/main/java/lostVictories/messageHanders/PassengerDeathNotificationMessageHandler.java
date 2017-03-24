@@ -34,6 +34,8 @@ public class PassengerDeathNotificationMessageHandler {
 		
 		CharacterMessage killer = catche.getCharacter(msg.getKiller());
 		CharacterMessage victim = vehicle.killPassenger(catche);
+		log.info("killed passenger:"+victim.getId());
+
 		toSave.put(vehicle.getId(), vehicle);
 		if(victim!=null){
 			victim.kill();

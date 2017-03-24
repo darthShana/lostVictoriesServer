@@ -33,7 +33,7 @@ public class HouseMessageTest {
 		house.statusChangeTime = 100l;
 		house.chechOwnership(characterDAO);
 		assertEquals(CaptureStatus.CAPTURED, house.getStatus());
-		assertEquals(Country.AMERICAN, house.getOwner());
+		assertEquals(Country.AMERICAN, house.getOwner());		
 	}
 	
 	@Test

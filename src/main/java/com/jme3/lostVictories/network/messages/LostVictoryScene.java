@@ -76,7 +76,9 @@ public class LostVictoryScene {
 		a1.userID = UUID.fromString("2fbe421f-f701-49c9-a0d4-abb0fa904204");
 		loadSquad(characters, a1, germanBase.add(-10, 0, 15), Country.GERMAN, true, Weapon.RIFLE, Weapon.RIFLE, Weapon.RIFLE   );
 //		characters.add(loadAntiTankGun1(UUID.fromString("2d420131-2f1f-4901-b61a-248c2243848c"), germanBase.add(25, 0, 15), Country.GERMAN, a1));
-//		characters.add(loadHalfTrack(germanBase.add(25, 0, 15), Country.GERMAN, a1));
+//		CharacterMessage hf2 = loadHalfTrack1(UUID.fromString("9740bc8a-835d-4fa2-ab2b-6ed8d914e6ef"), germanBase.add(25, 0, 15), Country.GERMAN, a1, characters);
+//		characters.put(hf2.getId(), hf2);
+
 //		a1.addObjective(UUID.randomUUID(), createBootCampObjective(new Vector(246.29144f, 96.77546f, 55.412266f)));
 //		a1.incrementKills(UUID.randomUUID());
 //		a1.incrementKills(UUID.randomUUID());
