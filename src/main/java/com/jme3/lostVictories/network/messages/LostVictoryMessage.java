@@ -16,4 +16,5 @@ public class LostVictoryMessage implements Serializable{
 	public UUID getClientID(){
 		return clientID;
 	}
+
 }

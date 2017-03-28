@@ -3,6 +3,11 @@ package lostVictories.messageHanders;
 
 import java.util.UUID;
 
+import io.netty.buffer.Unpooled;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.channel.socket.DatagramPacket;
+import io.netty.util.CharsetUtil;
 import lostVictories.WorldRunner;
 import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.EquipmentDAO;
@@ -11,14 +16,6 @@ import lostVictories.dao.PlayerUsageDAO;
 import lostVictories.dao.TreeDAO;
 
 import org.apache.log4j.Logger;
-import org.jboss.netty.channel.Channel;
-import org.jboss.netty.channel.ChannelEvent;
-import org.jboss.netty.channel.ChannelFuture;
-import org.jboss.netty.channel.ChannelHandlerContext;
-import org.jboss.netty.channel.Channels;
-import org.jboss.netty.channel.DownstreamMessageEvent;
-import org.jboss.netty.channel.MessageEvent;
-import org.jboss.netty.channel.SimpleChannelHandler;
 
 import com.jme3.lostVictories.network.messages.AddObjectiveRequest;
 import com.jme3.lostVictories.network.messages.BoardVehicleRequest;
@@ -31,7 +28,7 @@ import com.jme3.lostVictories.network.messages.LostVictoryMessage;
 import com.jme3.lostVictories.network.messages.UpdateCharactersRequest;
 
 
-public class MessageHandler extends SimpleChannelHandler {
+public class MessageHandler extends SimpleChannelInboundHandler<DatagramPacket> {
 
 	private static Logger log = Logger.getLogger(MessageHandler.class);
 	
@@ -56,9 +53,9 @@ public class MessageHandler extends SimpleChannelHandler {
 	}
 
 	@Override
-	public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
-		
-		LostVictoryMessage msg = (LostVictoryMessage)e.getMessage();
+	public void messageReceived(ChannelHandlerContext ctx, DatagramPacket packet) throws Exception {
+
+		LostVictoryMessage msg = CharacterDAO.MAPPER.readValue(packet.content().toString(CharsetUtil.UTF_8), LostVictoryMessage.class);
 		LostVictoryMessage lostVictoryMessage;
 		
 		if(msg instanceof CheckoutScreenRequest){
@@ -84,12 +81,15 @@ public class MessageHandler extends SimpleChannelHandler {
 			System.out.println("Hey Guys !  I got a date ! [" + msg.getClientID() + "] and I modified it to []");
 		}
 		
-		Channel channel = e.getChannel();
-		ChannelFuture channelFuture = Channels.future(e.getChannel());
-		ChannelEvent responseEvent = new DownstreamMessageEvent(channel, channelFuture, lostVictoryMessage, channel.getRemoteAddress());
-		ctx.sendDownstream(responseEvent);
-		
-		super.messageReceived(ctx, e);
+//		Channel channel = e.getChannel();
+//		ChannelFuture channelFuture = Channels.future(e.getChannel());
+//		ChannelEvent responseEvent = new DownstreamMessageEvent(channel, channelFuture, lostVictoryMessage, channel.getRemoteAddress());
+//		ctx.sendDownstream(responseEvent);
+//
+//		super.messageReceived(ctx, e);
+
+		ctx.write(new DatagramPacket(Unpooled.copiedBuffer(CharacterDAO.MAPPER.writeValueAsString(lostVictoryMessage), CharsetUtil.UTF_8), packet.sender()));
+
 	}
 
 

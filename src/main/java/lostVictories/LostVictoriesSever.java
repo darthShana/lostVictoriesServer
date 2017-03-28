@@ -8,6 +8,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import io.netty.channel.EventLoopGroup;
+import io.netty.channel.nio.NioEventLoopGroup;
 import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.EquipmentDAO;
 import lostVictories.dao.GameRequestDAO;
@@ -30,14 +32,13 @@ import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
-import org.jboss.netty.bootstrap.ServerBootstrap;
-import org.jboss.netty.channel.ChannelPipeline;
-import org.jboss.netty.channel.ChannelPipelineFactory;
-import org.jboss.netty.channel.Channels;
-import org.jboss.netty.channel.socket.nio.NioServerSocketChannelFactory;
-import org.jboss.netty.handler.codec.serialization.ClassResolvers;
-import org.jboss.netty.handler.codec.serialization.ObjectDecoder;
-import org.jboss.netty.handler.codec.serialization.ObjectEncoder;
+
+
+import io.netty.bootstrap.Bootstrap;
+import io.netty.channel.ChannelOption;
+import io.netty.channel.EventLoopGroup;
+import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.nio.NioDatagramChannel;
 
 import com.jme3.lostVictories.network.messages.LostVictoryScene;
 
@@ -90,21 +91,35 @@ public class LostVictoriesSever {
 		CharacterRunner characterRunner = CharacterRunner.instance(characterDAO, houseDAO, playerUsageDAO);
 		worldRunnerService.scheduleAtFixedRate(characterRunner, 0, 2, TimeUnit.SECONDS);
 		
-		ServerBootstrap bootstrap = new ServerBootstrap( new NioServerSocketChannelFactory(Executors.newCachedThreadPool(), Executors.newCachedThreadPool()));
+//		ServerBootstrap bootstrap = new ServerBootstrap( new NioServerSocketChannelFactory(Executors.newCachedThreadPool(), Executors.newCachedThreadPool()));
+//
+//		 // Set up the pipeline factory.
+//		bootstrap.setPipelineFactory(new ChannelPipelineFactory() {
+//			public ChannelPipeline getPipeline() throws Exception {
+//				return Channels.pipeline(
+//					new ObjectDecoder(ClassResolvers.cacheDisabled(getClass().getClassLoader())),
+//					new ObjectEncoder(),
+//					new MessageHandler(characterDAO, houseDAO, equipmentDAO, playerUsageDAO, treeDAO, worldRunner, messageRepository)
+//				);
+//			 };
+//		 });
 
-		 // Set up the pipeline factory.
-		bootstrap.setPipelineFactory(new ChannelPipelineFactory() {
-			public ChannelPipeline getPipeline() throws Exception {
-				return Channels.pipeline(
-					new ObjectDecoder(ClassResolvers.cacheDisabled(getClass().getClassLoader())),
-					new ObjectEncoder(),
-					new MessageHandler(characterDAO, houseDAO, equipmentDAO, playerUsageDAO, treeDAO, worldRunner, messageRepository)
-				);
-			 };
-		 });
+// Bind and start to accept incoming connections.
+//		bootstrap.bind(new InetSocketAddress("0.0.0.0", port));
+
+		EventLoopGroup group = new NioEventLoopGroup();
+		try {
+			Bootstrap b = new Bootstrap();
+			b.group(group)
+					.channel(NioDatagramChannel.class)
+					.handler(new MessageHandler(characterDAO, houseDAO, equipmentDAO, playerUsageDAO, treeDAO, worldRunner, messageRepository));
+
+			b.bind(port).sync().channel().closeFuture().await();
+		} finally {
+			group.shutdownGracefully();
+		}
 		 
-		 // Bind and start to accept incoming connections.
-		 bootstrap.bind(new InetSocketAddress("0.0.0.0", port));
+
 		 UUID gameRequest = null;
 		 try{
 			 gameRequest = gameRequestDAO.getGameRequest(gameName);

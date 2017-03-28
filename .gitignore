@@ -14,3 +14,4 @@ hs_err_pid*
 /bin/
 /target/
 messages.log
+.idea/
