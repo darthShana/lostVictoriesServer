@@ -5,29 +5,27 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
-import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import com.jme3.lostVictories.network.messages.wrapper.*;
 import org.apache.log4j.Logger;
 
-import com.jme3.lostVictories.network.messages.AchivementStatus;
+import com.jme3.lostVictories.network.messages.AchievementStatus;
 import com.jme3.lostVictories.network.messages.CharacterMessage;
 import com.jme3.lostVictories.network.messages.GameStatistics;
 import com.jme3.lostVictories.network.messages.HouseMessage;
-import com.jme3.lostVictories.network.messages.LostVictoryMessage;
 import com.jme3.lostVictories.network.messages.UnClaimedEquipmentMessage;
-import com.jme3.lostVictories.network.messages.UpdateCharactersRequest;
-import com.jme3.lostVictories.network.messages.UpdateCharactersResponse;
+
 import com.jme3.lostVictories.network.messages.Vector;
 
 import lostVictories.WorldRunner;
 import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.EquipmentDAO;
 import lostVictories.dao.HouseDAO;
+import org.elasticsearch.common.collect.Lists;
 
 public class UpdateCharactersMessageHandler {
 
@@ -46,7 +44,8 @@ public class UpdateCharactersMessageHandler {
 		this.messageRepository = messageRepository;
 	}
 
-	public LostVictoryMessage handle(UpdateCharactersRequest msg) throws IOException {
+	public Set<LostVictoryMessage> handle(UpdateCharactersRequest msg) throws IOException {
+		Set<LostVictoryMessage> ret = new HashSet<>();
 		Set<CharacterMessage> allCharacter = ((UpdateCharactersRequest) msg).getCharacters();
 		log.trace("client sending "+allCharacter.size()+" characters to update");
 		Map<UUID, CharacterMessage> sentFromClient = allCharacter.stream().collect(Collectors.toMap(CharacterMessage::getId, Function.identity()));
@@ -101,25 +100,42 @@ public class UpdateCharactersMessageHandler {
 //				}
 //			}
 			
-			Set<CharacterMessage> relatedCharacters1 = toReturn.values().stream()
+			Set<CharacterMessage> relatedCharacters = toReturn.values().stream()
 				.filter(u->!u.isDead()).map(c->c.getUnitsUnderCommand()).filter(u->!toReturn.containsKey(u))
 				.map(u->characterDAO.getAllCharacters(u).values()).flatMap(l->l.stream()).filter(u->u!=null).collect(Collectors.toSet());
 			Set<CharacterMessage> relatedCharacters2 = toReturn.values().stream()
 				.filter(c->!c.isDead()).map(c->c.getCommandingOfficer()).filter(u->u!=null && !toReturn.containsKey(u))
 				.map(u->characterDAO.getCharacter(u)).filter(u->u!=null).collect(Collectors.toSet());
-			relatedCharacters1.addAll(relatedCharacters2);
+			relatedCharacters.addAll(relatedCharacters2);
 			
 			GameStatistics statistics = worldRunner.getStatistics(storedAvatar.getCountry());
-			AchivementStatus achivementStatus = worldRunner.getAchivementStatus(storedAvatar);
+			AchievementStatus achivementStatus = worldRunner.getAchivementStatus(storedAvatar);
 						
 			Set<UnClaimedEquipmentMessage> unClaimedEquipment = equipmentDAO.getUnClaimedEquipment(v.x, v.y, v.z, CheckoutScreenMessageHandler.CLIENT_RANGE);
-			return new UpdateCharactersResponse(msg.getClientID(), new HashSet<CharacterMessage>(toReturn.values()), relatedCharacters1, unClaimedEquipment, allHouses, statistics, achivementStatus, messageRepository.popMessages(msg.getClientID()));
+
+			Lists.partition(new ArrayList<>(toReturn.values()), 20).forEach(
+					units->{
+						//relatedCharacters is too big
+						ret.add(new CharacterStatusResponse(units));
+					}
+			);
+			ret.add(new EquipmentStatusResponse(unClaimedEquipment));
+			//houses is to big
+			ret.add(new HouseStatusResponse(allHouses));
+			ret.add(new GameStatsResponse(messageRepository.popMessages(msg.getClientID()), statistics, achivementStatus));
+			return ret;
 		}else{
 			toReturn = existingInServer;
 			log.debug("client did not send avatar for perspective");
 		}
-		
+
 		log.debug("sending back characters:"+toReturn.size());
-		return new UpdateCharactersResponse(msg.getClientID(), new HashSet<CharacterMessage>(toReturn.values()), new HashSet<CharacterMessage>(), new HashSet<UnClaimedEquipmentMessage>(), allHouses, null, null, new ArrayList<String>());
+		Lists.partition(new ArrayList<>(toReturn.values()), 20).forEach(
+				units->{
+					ret.add(new CharacterStatusResponse(units));
+				}
+		);
+		ret.add(new HouseStatusResponse(allHouses));
+		return ret;
 	}
 }

@@ -4,18 +4,15 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import com.jme3.lostVictories.network.messages.wrapper.CharacterStatusResponse;
+import com.jme3.lostVictories.network.messages.wrapper.LostVictoryMessage;
 import lostVictories.WorldRunner;
 import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.EquipmentDAO;
-import lostVictories.dao.GameStatusDAO;
 import lostVictories.dao.HouseDAO;
 
 import org.elasticsearch.common.collect.ImmutableSet;
@@ -25,8 +22,7 @@ import org.mockito.ArgumentMatcher;
 
 import com.jme3.lostVictories.network.messages.CharacterMessage;
 import com.jme3.lostVictories.network.messages.RankMessage;
-import com.jme3.lostVictories.network.messages.UpdateCharactersRequest;
-import com.jme3.lostVictories.network.messages.UpdateCharactersResponse;
+import com.jme3.lostVictories.network.messages.wrapper.UpdateCharactersRequest;
 import com.jme3.lostVictories.network.messages.Vector;
 import com.jme3.lostVictories.network.messages.actions.Action;
 
@@ -68,8 +64,10 @@ public class UpdateCharactersMessageHandlerTest {
 		CharacterMessage cc3 = getCharacterSource(c1.getId(), new Vector(2.1f, 2, 2), new Vector(0, 0, 1), Action.move());
 		characters.add(cc3);
 		characters.add(getCharacterSource(c2.getId(), new Vector(3.1f, 3, 3), new Vector(0, 0, 1), Action.move()));
-		UpdateCharactersResponse handle = (UpdateCharactersResponse) handler.handle(new UpdateCharactersRequest(clientID, characters, cc3));
-		
+
+		Set<LostVictoryMessage> results = handler.handle(new UpdateCharactersRequest(clientID, characters, cc3));
+		CharacterStatusResponse handle = (CharacterStatusResponse) results.stream().filter(s->s instanceof  CharacterStatusResponse).findFirst().get();
+
 		assertEquals(2, handle.getCharacters().size());
 		Map<UUID, CharacterMessage> ret = handle.getCharacters().stream().collect(Collectors.toMap(CharacterMessage::getId, Function.identity()));
 		CharacterMessage first = ret.get(c1.getId());
@@ -120,7 +118,9 @@ public class UpdateCharactersMessageHandlerTest {
 		HashSet<CharacterMessage> characters = new HashSet<CharacterMessage>();
 		characters.add(getCharacterSource(d1.getId(), new Vector(2.2f, 2, 2), new Vector(0, 0, 1), Action.move()));
 		characters.add(getCharacterSource(d2.getId(), new Vector(3.1f, 3, 3), new Vector(0, 0, 1), Action.move()));
-		UpdateCharactersResponse handle = (UpdateCharactersResponse) handler.handle(new UpdateCharactersRequest(clientID, characters, d1));
+
+		Set<LostVictoryMessage> results = handler.handle(new UpdateCharactersRequest(clientID, characters, d1));
+		CharacterStatusResponse handle = (CharacterStatusResponse) results.stream().filter(s->s instanceof  CharacterStatusResponse).findFirst().get();
 		
 		assertEquals(2, handle.getCharacters().size());
 		Map<UUID, CharacterMessage> ret = handle.getCharacters().stream().collect(Collectors.toMap(CharacterMessage::getId, Function.identity()));
@@ -156,8 +156,10 @@ public class UpdateCharactersMessageHandlerTest {
 		HashSet<CharacterMessage> characters = new HashSet<CharacterMessage>();
 		characters.add(getCharacterSource(cc1.getId(), new Vector(2.2f, 2, 2), new Vector(0, 0, 1), Action.move()));
 		characters.add(getCharacterSource(cc2.getId(), new Vector(4.1f, 4, 4), new Vector(0, 0, 1), Action.move()));
-		UpdateCharactersResponse handle = (UpdateCharactersResponse) handler.handle(new UpdateCharactersRequest(clientID, characters, cc1));
-		
+
+		Set<LostVictoryMessage> results = handler.handle(new UpdateCharactersRequest(clientID, characters, cc1));
+		CharacterStatusResponse handle = (CharacterStatusResponse) results.stream().filter(s->s instanceof  CharacterStatusResponse).findFirst().get();
+
 		assertEquals(2, handle.getCharacters().size());
 		Map<UUID, CharacterMessage> ret = handle.getCharacters().stream().collect(Collectors.toMap(CharacterMessage::getId, Function.identity()));
 		CharacterMessage first = ret.get(cc1.getId());
@@ -202,8 +204,10 @@ public class UpdateCharactersMessageHandlerTest {
 		HashSet<CharacterMessage> characters = new HashSet<CharacterMessage>();
 		characters.add(getCharacterSource(c1, new Vector(2.2f, 2, 2), new Vector(0, 0, 1), Action.move()));
 		characters.add(getCharacterSource(c2, new Vector(4.1f, 4, 4), new Vector(0, 0, 1), Action.move()));
-		UpdateCharactersResponse handle = (UpdateCharactersResponse) handler.handle(new UpdateCharactersRequest(clientID, characters, cc1));
-		
+
+		Set<LostVictoryMessage> results = handler.handle(new UpdateCharactersRequest(clientID, characters, cc1));
+		CharacterStatusResponse handle = (CharacterStatusResponse) results.stream().filter(s->s instanceof  CharacterStatusResponse).findFirst().get();
+
 		assertEquals(3, handle.getCharacters().size());
 		Map<UUID, CharacterMessage> ret = handle.getCharacters().stream().collect(Collectors.toMap(CharacterMessage::getId, Function.identity()));
 		CharacterMessage first = ret.get(c1);
@@ -252,8 +256,10 @@ public class UpdateCharactersMessageHandlerTest {
 		characters.add(getCharacterSource(c1, new Vector(2.2f, 2, 2), new Vector(0, 0, 1), Action.move()));
 		characters.add(getCharacterSource(c2, new Vector(4.1f, 4, 4), new Vector(0, 0, 1), Action.move()));
 		characters.add(getCharacterSource(c3, new Vector(6.1f, 6, 6), new Vector(0, 0, 1), Action.move()));
-		UpdateCharactersResponse handle = (UpdateCharactersResponse) handler.handle(new UpdateCharactersRequest(clientID, characters, cc1));
-		
+
+		Set<LostVictoryMessage> results = handler.handle(new UpdateCharactersRequest(clientID, characters, cc1));
+		CharacterStatusResponse handle = (CharacterStatusResponse) results.stream().filter(s->s instanceof  CharacterStatusResponse).findFirst().get();
+
 		assertEquals(2, handle.getCharacters().size());
 		Map<UUID, CharacterMessage> ret = handle.getCharacters().stream().collect(Collectors.toMap(CharacterMessage::getId, Function.identity()));
 		CharacterMessage first = ret.get(c1);
@@ -290,12 +296,17 @@ public class UpdateCharactersMessageHandlerTest {
 		HashSet<CharacterMessage> characters1 = new HashSet<CharacterMessage>();
 		characters1.add(getCharacterSource(cc1.getId(), new Vector(2.2f, 2, 2), new Vector(0, 0, 1), Action.move()));
 		characters1.add(getCharacterSource(cc2.getId(), new Vector(4.1f, 4, 4), new Vector(0, 0, 1), Action.move()));
-		UpdateCharactersResponse handle1 = (UpdateCharactersResponse) handler.handle(new UpdateCharactersRequest(clientID1, characters1, cc1));
+
+		Set<LostVictoryMessage> results = handler.handle(new UpdateCharactersRequest(clientID1, characters1, cc1));
+		CharacterStatusResponse handle = (CharacterStatusResponse) results.stream().filter(s->s instanceof  CharacterStatusResponse).findFirst().get();
+
 		HashSet<CharacterMessage> characters2 = new HashSet<CharacterMessage>();
 		characters2.add(getCharacterSource(cc1.getId(), new Vector(3.2f, 2, 2), new Vector(0, 0, 1), Action.idle()));
 		characters2.add(getCharacterSource(cc2.getId(), new Vector(5.1f, 4, 4), new Vector(0, 0, 1), Action.idle()));
-		UpdateCharactersResponse handle2 = (UpdateCharactersResponse) handler.handle(new UpdateCharactersRequest(clientID2, characters2, cc1));
-		
+
+		Set<LostVictoryMessage> results2 = handler.handle(new UpdateCharactersRequest(clientID2, characters2, cc1));
+		CharacterStatusResponse handle2 = (CharacterStatusResponse) results2.stream().filter(s->s instanceof  CharacterStatusResponse).findFirst().get();
+
 		assertEquals(2, handle2.getCharacters().size());
 		Map<UUID, CharacterMessage> ret = handle2.getCharacters().stream().collect(Collectors.toMap(CharacterMessage::getId, Function.identity()));
 		CharacterMessage first = ret.get(cc1.getId());

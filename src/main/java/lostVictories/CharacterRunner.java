@@ -17,9 +17,6 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.jme3.lostVictories.network.messages.CharacterMessage;
 import com.jme3.lostVictories.network.messages.CharacterType;
-import com.jme3.lostVictories.network.messages.LostVictoryMessage;
-import com.jme3.lostVictories.network.messages.UnClaimedEquipmentMessage;
-import com.jme3.lostVictories.network.messages.Vector;
 import com.jme3.lostVictories.objectives.Objective;
 
 import lostVictories.dao.CharacterDAO;
@@ -137,19 +134,9 @@ public class CharacterRunner implements Runnable{
 			}
 		}
 	}
-	
-	public static Objective fromStringToObjective(String jsonString){
-		JsonNode jsonNodeSafe = toJsonNodeSafe(jsonString);
-		try {
-			Class objectiveClass = Class.forName(jsonNodeSafe.get("class").asText());
-			return (Objective) MAPPER.treeToValue(jsonNodeSafe, objectiveClass);
-		} catch (ClassNotFoundException | IOException e) {
-			throw new RuntimeException(e);
-		}
-		
-	}
 
-	private static JsonNode toJsonNodeSafe(String s) {
+
+	public static JsonNode toJsonNodeSafe(String s) {
 		try {
 			return MAPPER.readTree(s);
 		} catch (JsonProcessingException e) {

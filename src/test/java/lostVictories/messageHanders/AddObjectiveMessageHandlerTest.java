@@ -13,7 +13,7 @@ import org.junit.Test;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.jme3.lostVictories.network.messages.AddObjectiveRequest;
+import com.jme3.lostVictories.network.messages.wrapper.AddObjectiveRequest;
 import com.jme3.lostVictories.network.messages.CharacterMessage;
 import com.jme3.lostVictories.network.messages.CharacterType;
 import com.jme3.lostVictories.network.messages.Country;

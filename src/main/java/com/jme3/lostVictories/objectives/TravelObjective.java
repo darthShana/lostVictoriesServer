@@ -18,7 +18,7 @@ import com.jme3.lostVictories.network.messages.CharacterType;
 import com.jme3.lostVictories.network.messages.Vector;
 import com.jme3.math.Vector3f;
 
-public class TravelObjective extends Objective{
+public class TravelObjective extends Objective implements CleanupBeforeTransmitting{
 	@JsonIgnore
 	private static Logger log = Logger.getLogger(TravelObjective.class);
 	
@@ -74,4 +74,8 @@ public class TravelObjective extends Objective{
 		return newObjective.isAssignableFrom(FollowCommander.class);
 	}
 
+	@Override
+	public void cleanupBeforeTransmitting() {
+		path = null;
+	}
 }

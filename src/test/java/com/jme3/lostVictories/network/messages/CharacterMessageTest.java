@@ -258,7 +258,7 @@ public class CharacterMessageTest {
 		
 		HashMap<UUID, CharacterMessage> toSave = new HashMap<UUID, CharacterMessage>();
 		vehicle1.replaceMe(new CharacterCatch(characterDAO), toSave);
-		assertTrue(toSave.get(oldPassenger1.getId()).isDead);
+		assertTrue(toSave.get(oldPassenger1.getId()).dead);
 		assertFalse(toSave.get(oldCo1.getId()).unitsUnderCommand.contains(vehicle1.getId()));
 		assertFalse(toSave.get(oldCo1.getId()).unitsUnderCommand.contains(oldPassenger1.getId()));
 

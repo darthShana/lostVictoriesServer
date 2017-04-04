@@ -24,6 +24,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lostVictories.VehicleFactory;
 import lostVictories.WeaponsFactory;
 import lostVictories.dao.CharacterDAO;
@@ -46,7 +47,6 @@ import com.jme3.lostVictories.objectives.PassiveObjective;
 
 public class CharacterMessage implements Serializable{
 
-	private static final long serialVersionUID = 2491659254334134796L;
 	private static Logger log = Logger.getLogger(CharacterMessage.class);
 	public static final long CHECKOUT_TIMEOUT = 2*1000;
 
@@ -67,7 +67,7 @@ public class CharacterMessage implements Serializable{
 	Set<Action> actions = new HashSet<Action>();
 	Map<String, String> objectives = new HashMap<String, String>();
 	Set<String> completedObjectives;
-	boolean isDead;
+	boolean dead;
 	boolean engineDamaged;
 	Long timeOfDeath;
 	long version;
@@ -153,9 +153,9 @@ public class CharacterMessage implements Serializable{
 
 		unitsUnderCommand = ((Collection<String>)source.get("unitsUnderCommand")).stream().map(s -> UUID.fromString(s)).collect(Collectors.toSet());
 		passengers = ((Collection<String>)source.get("passengers")).stream().map(s -> UUID.fromString(s)).collect(Collectors.toSet());
-		isDead = (boolean) source.get("isDead");
+		dead = (boolean) source.get("dead");
 		engineDamaged = (boolean) source.get("engineDamaged");
-		if(isDead){
+		if(dead){
 			this.checkoutTime = (Long) source.get("checkoutTime");
 		}
 		this.version = version;
@@ -231,18 +231,18 @@ public class CharacterMessage implements Serializable{
 				.field("squadType", squadType)
 				.field("checkoutClient", checkoutClient)
 				.field("checkoutTime", checkoutTime)
-				.field("isDead", isDead)
+				.field("dead", dead)
 				.field("engineDamaged", engineDamaged)
 				.field("timeOfDeath", timeOfDeath)
 				.endObject();
 	}
 
-	public XContentBuilder getCommandStructureUpdate() throws IOException {	
+	public XContentBuilder getCommandStructureUpdate() throws IOException {
 		return jsonBuilder()
 				.startObject()
 				.field("unitsUnderCommand", unitsUnderCommand)
 				.field("commandingOfficer", commandingOfficer)
-				.field("isDead", isDead)
+				.field("dead", dead)
 				.field("passengers", passengers)
 				.field("rank", rank)
 				.field("objectives", CharacterDAO.MAPPER.writeValueAsString(objectives))
@@ -292,10 +292,12 @@ public class CharacterMessage implements Serializable{
 		return this.id.equals(clientID) || this.checkoutClient==null || clientID.equals(this.checkoutClient) || checkoutTime==null ||System.currentTimeMillis()-checkoutTime>CHECKOUT_TIMEOUT;
 	}
 
+	@JsonIgnore
 	public boolean isAvailableForCheckout() {
 		return this.checkoutClient==null || checkoutTime==null || (System.currentTimeMillis()-checkoutTime)>CHECKOUT_TIMEOUT;
 	}
 
+	@JsonIgnore
 	public boolean isBusy() {
 		return isDead() || getObjectives().values().stream()
 				.map(s->toJsonNodeSafe(s))
@@ -358,14 +360,16 @@ public class CharacterMessage implements Serializable{
 	}
 
 	public void kill() {
-		isDead = true;
+		dead = true;
 		timeOfDeath = System.currentTimeMillis();
 	}
 
+
 	public boolean isDead() {
-		return isDead;
+		return dead;
 	}
 
+	@JsonIgnore
 	public boolean isFullStrength() {
 		return unitsUnderCommand.size()>=rank.getFullStrengthPopulation();
 	}
@@ -460,7 +464,7 @@ public class CharacterMessage implements Serializable{
 		return version;
 	}
 
-	public long getTimeOfDeath(){
+	public Long getTimeOfDeath(){
 		return timeOfDeath;
 	}
 
@@ -722,6 +726,7 @@ public class CharacterMessage implements Serializable{
 		toSave.put(getId(), this);
 	}
 
+	@JsonIgnore
 	public boolean isAbandoned() {
 		return passengers.isEmpty();
 	}
@@ -791,4 +796,12 @@ public class CharacterMessage implements Serializable{
 		
 	}
 
+    public Objective getObjectiveSafe(UUID value) {
+		if(objectives.get(value.toString())!=null) {
+			try {
+				return MAPPER.readValue(objectives.get(value.toString()), Objective.class);
+			} catch (IOException e) {}
+		}
+		return null;
+    }
 }

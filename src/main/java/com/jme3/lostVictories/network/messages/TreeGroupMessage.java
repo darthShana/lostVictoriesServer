@@ -40,8 +40,6 @@ public class TreeGroupMessage implements Serializable{
 			throw new RuntimeException(e);
 		}
 	}
-	
-
 
 	public XContentBuilder getJSONRepresentation() throws IOException {
 		return jsonBuilder()

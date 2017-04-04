@@ -1,15 +1,16 @@
 package lostVictories.messageHanders;
 
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
+import com.jme3.lostVictories.network.messages.wrapper.GenericLostVictoryResponse;
 import org.apache.log4j.Logger;
 
-import com.jme3.lostVictories.network.messages.AddObjectiveRequest;
+import com.jme3.lostVictories.network.messages.wrapper.AddObjectiveRequest;
 import com.jme3.lostVictories.network.messages.CharacterMessage;
-import com.jme3.lostVictories.network.messages.Country;
-import com.jme3.lostVictories.network.messages.LostVictoryMessage;
-import com.jme3.lostVictories.network.messages.RankMessage;
+import com.jme3.lostVictories.network.messages.wrapper.LostVictoryMessage;
 
 import lostVictories.dao.CharacterDAO;
 
@@ -23,11 +24,14 @@ public class AddObjectiveMessageHandler {
 		this.characterDAO = characterDAO;
 	}
 
-	public LostVictoryMessage handle(AddObjectiveRequest msg) {
+	public Set<LostVictoryMessage> handle(AddObjectiveRequest msg) {
+		Set<LostVictoryMessage> ret = new HashSet<>();
+
 		CharacterMessage character = characterDAO.getCharacter(msg.getCharacter());
 		character.addObjective(msg.getIdentity(), msg.getObjective());
 		characterDAO.putCharacter(character.getId(), character);
-		return new LostVictoryMessage(UUID.randomUUID());
+		ret.add(new GenericLostVictoryResponse());
+		return ret;
 	}
 
 

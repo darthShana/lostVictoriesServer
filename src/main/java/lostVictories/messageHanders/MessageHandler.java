@@ -1,8 +1,19 @@
 package lostVictories.messageHanders;
 
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
+import java.util.zip.Deflater;
+import java.util.zip.GZIPOutputStream;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -17,20 +28,31 @@ import lostVictories.dao.TreeDAO;
 
 import org.apache.log4j.Logger;
 
-import com.jme3.lostVictories.network.messages.AddObjectiveRequest;
-import com.jme3.lostVictories.network.messages.BoardVehicleRequest;
-import com.jme3.lostVictories.network.messages.CheckoutScreenRequest;
-import com.jme3.lostVictories.network.messages.DeathNotificationRequest;
-import com.jme3.lostVictories.network.messages.DisembarkPassengersRequest;
-import com.jme3.lostVictories.network.messages.EquipmentCollectionRequest;
-import com.jme3.lostVictories.network.messages.PassengerDeathNotificationRequest;
-import com.jme3.lostVictories.network.messages.LostVictoryMessage;
-import com.jme3.lostVictories.network.messages.UpdateCharactersRequest;
+import com.jme3.lostVictories.network.messages.wrapper.AddObjectiveRequest;
+import com.jme3.lostVictories.network.messages.wrapper.BoardVehicleRequest;
+import com.jme3.lostVictories.network.messages.wrapper.CheckoutScreenRequest;
+import com.jme3.lostVictories.network.messages.wrapper.DeathNotificationRequest;
+import com.jme3.lostVictories.network.messages.wrapper.DisembarkPassengersRequest;
+import com.jme3.lostVictories.network.messages.wrapper.EquipmentCollectionRequest;
+import com.jme3.lostVictories.network.messages.wrapper.PassengerDeathNotificationRequest;
+import com.jme3.lostVictories.network.messages.wrapper.LostVictoryMessage;
+import com.jme3.lostVictories.network.messages.wrapper.UpdateCharactersRequest;
 
 
 public class MessageHandler extends SimpleChannelInboundHandler<DatagramPacket> {
 
 	private static Logger log = Logger.getLogger(MessageHandler.class);
+
+	public static ObjectMapper objectMapper = new ObjectMapper();
+	static {
+		objectMapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+		objectMapper.setVisibility(PropertyAccessor.GETTER, JsonAutoDetect.Visibility.NONE);
+		objectMapper.setVisibility(PropertyAccessor.SETTER, JsonAutoDetect.Visibility.NONE);
+
+		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+	}
+
 	
 	private UpdateCharactersMessageHandler updateCharactersMessageHandler;
 	private CheckoutScreenMessageHandler checkoutScreenMessageHandler;
@@ -56,40 +78,77 @@ public class MessageHandler extends SimpleChannelInboundHandler<DatagramPacket> 
 	public void messageReceived(ChannelHandlerContext ctx, DatagramPacket packet) throws Exception {
 
 		LostVictoryMessage msg = CharacterDAO.MAPPER.readValue(packet.content().toString(CharsetUtil.UTF_8), LostVictoryMessage.class);
-		LostVictoryMessage lostVictoryMessage;
+		Set<LostVictoryMessage> lostVictoryMessages = new HashSet<>();
 		
 		if(msg instanceof CheckoutScreenRequest){
-			lostVictoryMessage = checkoutScreenMessageHandler.handle((CheckoutScreenRequest) msg);
+			lostVictoryMessages.addAll(checkoutScreenMessageHandler.handle((CheckoutScreenRequest) msg));
 			log.info("returning scene");
 		} else if(msg instanceof UpdateCharactersRequest){
-			lostVictoryMessage = updateCharactersMessageHandler.handle((UpdateCharactersRequest)msg);
+			lostVictoryMessages.addAll(updateCharactersMessageHandler.handle((UpdateCharactersRequest)msg));
 		} else if(msg instanceof DeathNotificationRequest) {
-			lostVictoryMessage = deathNotificationMessageHandler.handle((DeathNotificationRequest)msg);
+			lostVictoryMessages.addAll(deathNotificationMessageHandler.handle((DeathNotificationRequest)msg));
 		} else if(msg instanceof PassengerDeathNotificationRequest) {
-			lostVictoryMessage = gunnerDeathNotificationMessageHandler.handle((PassengerDeathNotificationRequest)msg);
+			lostVictoryMessages.addAll(gunnerDeathNotificationMessageHandler.handle((PassengerDeathNotificationRequest)msg));
 		}else if(msg instanceof EquipmentCollectionRequest) {
-			lostVictoryMessage = collectEquipmentMessageHandler.handle((EquipmentCollectionRequest)msg);
+			lostVictoryMessages.addAll(collectEquipmentMessageHandler.handle((EquipmentCollectionRequest)msg));
 		} else if(msg instanceof BoardVehicleRequest){
-			lostVictoryMessage = boardingVehicleMessageHandler.handle((BoardVehicleRequest)msg);
+			lostVictoryMessages.addAll(boardingVehicleMessageHandler.handle((BoardVehicleRequest)msg));
 		} else if(msg instanceof DisembarkPassengersRequest){
-			lostVictoryMessage = disembarkPassengersMessageHandler.handle((DisembarkPassengersRequest)msg);
+			lostVictoryMessages.addAll(disembarkPassengersMessageHandler.handle((DisembarkPassengersRequest)msg));
 		} else if(msg instanceof AddObjectiveRequest){
-			lostVictoryMessage = addObjectiveMessageHandler.handle((AddObjectiveRequest)msg);
-		} 
-		else{
-			lostVictoryMessage = new LostVictoryMessage(UUID.randomUUID());
-			System.out.println("Hey Guys !  I got a date ! [" + msg.getClientID() + "] and I modified it to []");
+			lostVictoryMessages.addAll(addObjectiveMessageHandler.handle((AddObjectiveRequest)msg));
+		} else{
+			throw new RuntimeException("unknown request:"+msg);
 		}
-		
-//		Channel channel = e.getChannel();
-//		ChannelFuture channelFuture = Channels.future(e.getChannel());
-//		ChannelEvent responseEvent = new DownstreamMessageEvent(channel, channelFuture, lostVictoryMessage, channel.getRemoteAddress());
-//		ctx.sendDownstream(responseEvent);
+
+		System.out.println("sending messageCount:"+lostVictoryMessages.size());
+		lostVictoryMessages.forEach(m->{
+			try {
+
+//				byte[] data = SerializationUtils.serialize(m);
+				byte[] data = objectMapper.writeValueAsBytes(m);
+
+				ByteArrayOutputStream bos = new ByteArrayOutputStream(data.length);
+				GZIPOutputStream gzip = new GZIPOutputStream(bos);
+				gzip.write(data);
+				gzip.close();
+				byte[] compressed = bos.toByteArray();
+				bos.close();
+
+
+//				Deflater deflater = new Deflater();
+//				deflater.setLevel(Deflater.BEST_COMPRESSION);
+//				deflater.setInput(data);
+//				ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
+//				deflater.finish();
+//				byte[] buffer = new byte[2048];
+//				while (!deflater.finished()) {
+//					int count = deflater.deflate(buffer); // returns the generated code... index
+//					outputStream.write(buffer, 0, count);
+//				}
 //
-//		super.messageReceived(ctx, e);
+//				outputStream.close();
+//				byte[] output = outputStream.toByteArray();
+				ctx.write(new DatagramPacket(Unpooled.copiedBuffer(compressed), packet.sender()));
+				System.out.println("send back response:"+m.getClass()+" size"+data.length+"/"+compressed.length);
 
-		ctx.write(new DatagramPacket(Unpooled.copiedBuffer(CharacterDAO.MAPPER.writeValueAsString(lostVictoryMessage), CharsetUtil.UTF_8), packet.sender()));
 
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
+
+
+
+
+
+
+
+	}
+
+	@Override
+	public void channelReadComplete(ChannelHandlerContext ctx) {
+		ctx.flush();
 	}
 
 

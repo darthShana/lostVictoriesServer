@@ -7,10 +7,10 @@ import java.util.Map;
 
 public class Quaternion implements Serializable{
 
-	private float x;
-	private float y;
-	private float z;
-	private float w;
+	float x;
+	float y;
+	float z;
+	float w;
 
 	public Quaternion(float x, float y, float z, float w) {
 		this.x = x;
