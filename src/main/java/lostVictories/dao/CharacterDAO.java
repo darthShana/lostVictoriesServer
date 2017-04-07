@@ -12,17 +12,20 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import org.apache.log4j.Logger;
+import org.elasticsearch.action.ActionFuture;
 import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.update.UpdateRequest;
+import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.geo.GeoDistance;
 import org.elasticsearch.common.unit.DistanceUnit;
@@ -168,23 +171,25 @@ public class CharacterDAO {
 		bulkRequest.execute().actionGet();
 	}
 	
-	public void updateCharacterState(Map<UUID, CharacterMessage> map) throws IOException{
-		if(map.isEmpty()){
-			log.trace("nothing to save");
-			return;
-		}
-		
-		for(CharacterMessage v: map.values()){
-			try{
-				UpdateRequest updateRequest = new UpdateRequest(indexName, "unitStatus", v.getId().toString());
-				updateRequest.doc(v.getStateUpdate()).version(v.getVersion());
-				esClient.update(updateRequest);
-			} catch (VersionConflictEngineException ee){
-				log.info("Discarding update to character:"+v.getId()+", character has been updated since been loaded");
-			}
-		}
+	public CharacterMessage updateCharacterState(CharacterMessage msg) {
 
-		refresh();
+		try {
+            UpdateRequest updateRequest = new UpdateRequest(indexName, "unitStatus", msg.getId().toString());
+            updateRequest.doc(msg.getStateUpdate()).version(msg.getVersion());
+            ActionFuture<UpdateResponse> update = esClient.update(updateRequest);
+//            if ("2fbe421f-f701-49c9-a0d4-abb0fa904204".equals(msg.getId().toString())) {
+//                System.out.println("in here updating avatar version:" + msg.getVersion() + "to location:" + msg.getLocation() + " version:" + update.get().getVersion());
+//            }
+            msg.setVersion(update.get().getVersion());
+            return msg;
+        } catch (IOException e){
+			throw new RuntimeException(e);
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		} catch (ExecutionException e) {
+            log.info("Discarding update to character:"+msg.getId()+", character has been updated since been loaded");
+		}
+		return null;
 	}
 
 	public void updateCharacterStateNoCheckout(Map<UUID, CharacterMessage> map) throws IOException{

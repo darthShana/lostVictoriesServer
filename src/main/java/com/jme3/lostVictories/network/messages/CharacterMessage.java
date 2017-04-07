@@ -25,6 +25,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lostVictories.CharacterRunner;
 import lostVictories.VehicleFactory;
 import lostVictories.WeaponsFactory;
 import lostVictories.dao.CharacterDAO;
@@ -73,7 +74,10 @@ public class CharacterMessage implements Serializable{
 	long version;
 	Set<UUID> kills = new HashSet<UUID>();
 	SquadType squadType = SquadType.RIFLE_TEAM;
+	long creationTime;
 
+
+	private CharacterMessage(){}
 
 	public CharacterMessage(UUID identity, CharacterType type, Vector location, Country country, Weapon weapon, RankMessage rank, UUID commandingOfficer) {
 		this(identity, null, type, location, country, weapon, rank, commandingOfficer);

@@ -11,18 +11,13 @@ import java.util.UUID;
 
 public class UpdateCharactersRequest extends LostVictoryMessage {
 
-	private static final long serialVersionUID = 1L;
-	
+
 	private Set<CharacterMessage> characters;
-	private CharacterMessage avatar;
+	private UUID avatar;
 
 	private UpdateCharactersRequest(){}
 
-	public UpdateCharactersRequest(UUID clientID) {
-		super(clientID);
-	}
-	
-	public UpdateCharactersRequest(UUID clientID, Set<CharacterMessage> characters, CharacterMessage avatar) {
+	public UpdateCharactersRequest(UUID clientID, Set<CharacterMessage> characters, UUID avatar) {
 		super(clientID);
 		this.characters = characters;
 		this.avatar = avatar;
@@ -32,7 +27,7 @@ public class UpdateCharactersRequest extends LostVictoryMessage {
 		return characters;
 	}
 	
-	public CharacterMessage getAvatar(){
+	public UUID getAvatar(){
 		return avatar;
 	}
 

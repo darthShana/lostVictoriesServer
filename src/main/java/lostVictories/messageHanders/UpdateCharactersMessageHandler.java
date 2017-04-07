@@ -1,12 +1,7 @@
 package lostVictories.messageHanders;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -45,6 +40,48 @@ public class UpdateCharactersMessageHandler {
 	}
 
 	public Set<LostVictoryMessage> handle(UpdateCharactersRequest msg) throws IOException {
+
+		Set<CharacterMessage> allCharacter = msg.getCharacters();
+		log.trace("client sending "+allCharacter.size()+" characters to update");
+
+		Map<UUID, CharacterMessage> sentFromClient = allCharacter.stream().collect(Collectors.toMap(CharacterMessage::getId, Function.identity()));
+		Map<UUID, CharacterMessage> existingInServer = characterDAO.getAllCharacters(allCharacter.stream().filter(c->!c.isDead()).map(c->c.getId()).collect(Collectors.toSet()));
+
+		Map<UUID, CharacterMessage> toSave = existingInServer.values().stream()
+				.filter(c->c.isAvailableForUpdate(msg.getClientID(), sentFromClient.get(c.getId())))
+				.collect(Collectors.toMap(c->c.getId(), Function.identity()));
+
+
+//        CharacterMessage next = allCharacter.iterator().next();
+//        if("2fbe421f-f701-49c9-a0d4-abb0fa904204".equals(next.getId().toString())){
+//            System.out.println("in here updating avatar version:"+next.getVersion()+" location:"+next.getLocation());
+//        }
+
+		toSave.values().stream().forEach(c->c.updateState(sentFromClient.get(c.getId()), msg.getClientID(), System.currentTimeMillis()));
+
+        Map<UUID, CharacterMessage> toReturn = toSave.values().stream()
+                .map(v->characterDAO.updateCharacterState(v))
+                .filter(u->u!=null)
+                .collect(Collectors.toMap(c->c.getId(), Function.identity()));
+
+        existingInServer.values().forEach(c->{
+            if(!toReturn.containsKey(c.getId())){
+                toReturn.put(c.getId(), c);
+            }
+        });
+
+        Set<LostVictoryMessage> ret = toReturn.values().stream().map(c->new CharacterStatusResponse(c)).collect(Collectors.toSet());
+        //add new charaters in range if they are not checkout out by anyone
+
+//        next = ((CharacterStatusResponse)ret.iterator().next()).getCharacters().iterator().next();
+//        if("2fbe421f-f701-49c9-a0d4-abb0fa904204".equals(next.getId().toString())){
+//            System.out.println("in here sending avatar version:"+next.getVersion());
+//        }
+
+		return ret;
+	}
+
+	public Set<LostVictoryMessage> handleOld(UpdateCharactersRequest msg) throws IOException {
 		Set<LostVictoryMessage> ret = new HashSet<>();
 		Set<CharacterMessage> allCharacter = ((UpdateCharactersRequest) msg).getCharacters();
 		log.trace("client sending "+allCharacter.size()+" characters to update");
@@ -57,13 +94,13 @@ public class UpdateCharactersMessageHandler {
 			.collect(Collectors.toMap(c->c.getId(), Function.identity()));
 		
 		toSave.values().stream().forEach(c->c.updateState(sentFromClient.get(c.getId()), msg.getClientID(), System.currentTimeMillis()));
-		characterDAO.updateCharacterState(toSave);
+		//characterDAO.updateCharacterState(toSave);
 		characterDAO.refresh();
 		
 		Map<UUID, CharacterMessage> toReturn;                    
 		Set<HouseMessage> allHouses = houseDAO.getAllHouses();
 		if(msg.getAvatar()!=null){
-			CharacterMessage storedAvatar = characterDAO.getCharacter(msg.getAvatar().getId());
+			CharacterMessage storedAvatar = characterDAO.getCharacter(msg.getAvatar());
 			Vector v = storedAvatar.getLocation();
 			toReturn = characterDAO.getAllCharacters(v.x, v.y, v.z, CheckoutScreenMessageHandler.CLIENT_RANGE).stream().collect(Collectors.toMap(CharacterMessage::getId, Function.identity()));
 			

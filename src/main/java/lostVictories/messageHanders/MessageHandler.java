@@ -1,12 +1,10 @@
 package lostVictories.messageHanders;
 
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
-import java.util.zip.Deflater;
+import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
@@ -18,7 +16,6 @@ import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.socket.DatagramPacket;
-import io.netty.util.CharsetUtil;
 import lostVictories.WorldRunner;
 import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.EquipmentDAO;
@@ -77,7 +74,7 @@ public class MessageHandler extends SimpleChannelInboundHandler<DatagramPacket> 
 	@Override
 	public void messageReceived(ChannelHandlerContext ctx, DatagramPacket packet) throws Exception {
 
-		LostVictoryMessage msg = CharacterDAO.MAPPER.readValue(packet.content().toString(CharsetUtil.UTF_8), LostVictoryMessage.class);
+		LostVictoryMessage msg = CharacterDAO.MAPPER.readValue(extractMessage(packet), LostVictoryMessage.class);
 		Set<LostVictoryMessage> lostVictoryMessages = new HashSet<>();
 		
 		if(msg instanceof CheckoutScreenRequest){
@@ -101,19 +98,9 @@ public class MessageHandler extends SimpleChannelInboundHandler<DatagramPacket> 
 			throw new RuntimeException("unknown request:"+msg);
 		}
 
-		System.out.println("sending messageCount:"+lostVictoryMessages.size());
 		lostVictoryMessages.forEach(m->{
 			try {
-
-//				byte[] data = SerializationUtils.serialize(m);
-				byte[] data = objectMapper.writeValueAsBytes(m);
-
-				ByteArrayOutputStream bos = new ByteArrayOutputStream(data.length);
-				GZIPOutputStream gzip = new GZIPOutputStream(bos);
-				gzip.write(data);
-				gzip.close();
-				byte[] compressed = bos.toByteArray();
-				bos.close();
+				byte[] compressed = packMessage(m);
 
 
 //				Deflater deflater = new Deflater();
@@ -130,7 +117,7 @@ public class MessageHandler extends SimpleChannelInboundHandler<DatagramPacket> 
 //				outputStream.close();
 //				byte[] output = outputStream.toByteArray();
 				ctx.write(new DatagramPacket(Unpooled.copiedBuffer(compressed), packet.sender()));
-				System.out.println("send back response:"+m.getClass()+" size"+data.length+"/"+compressed.length);
+//				System.out.println("send back response:"+m.getClass()+" size"+data.length+"/"+compressed.length);
 
 
 			} catch (IOException e) {
@@ -144,6 +131,40 @@ public class MessageHandler extends SimpleChannelInboundHandler<DatagramPacket> 
 
 
 
+	}
+
+	private byte[] packMessage(LostVictoryMessage m) throws IOException {
+		//				byte[] data = SerializationUtils.serialize(m);
+		byte[] data = objectMapper.writeValueAsBytes(m);
+
+		ByteArrayOutputStream bos = new ByteArrayOutputStream(data.length);
+		GZIPOutputStream gzip = new GZIPOutputStream(bos);
+		gzip.write(data);
+		gzip.close();
+		byte[] compressed = bos.toByteArray();
+		bos.close();
+		return compressed;
+	}
+
+	private String extractMessage(DatagramPacket packet) throws IOException {
+		int i = 0;
+		byte[] incomming = new byte[packet.content().capacity()];
+		while (packet.content().isReadable()) {
+			incomming[i++] = packet.content().readByte();
+		}
+
+		ByteArrayInputStream bis = new ByteArrayInputStream(incomming);
+		GZIPInputStream gis = new GZIPInputStream(bis);
+		BufferedReader br = new BufferedReader(new InputStreamReader(gis, "UTF-8"));
+		StringBuilder sb = new StringBuilder();
+		String line;
+		while((line = br.readLine()) != null) {
+			sb.append(line);
+		}
+		br.close();
+		gis.close();
+		bis.close();
+		return sb.toString();
 	}
 
 	@Override

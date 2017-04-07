@@ -47,35 +47,89 @@ public class UpdateCharactersMessageHandlerTest {
 	         return ((Set) set).size() == size;
 	     }
 	 }
-	
+
 	@Test
-	public void testUpdateAllVacantCharacter() throws IOException {
+	public void testSimpleUpdateCharacter() throws IOException {
 		UUID clientID = UUID.randomUUID();
-		
+
 		HashMap<UUID, CharacterMessage> storedValues = new HashMap<UUID, CharacterMessage>();
 		HashSet<CharacterMessage> inRange = new HashSet<>();
 		CharacterMessage c1 = putCharacter(storedValues, inRange, new Vector(2, 2, 2), new Vector(1, 0, 0), Action.idle());
-		CharacterMessage c2 = putCharacter(storedValues, inRange, new Vector(3, 3, 3), new Vector(1, 0, 0), Action.idle());
 		when(characterDAO.getCharacter(c1.getId())).thenReturn(c1);
-		when(characterDAO.getAllCharacters(argThat(new IsSetOfElements(2)))).thenReturn(storedValues);
-		when(characterDAO.getAllCharacters(2.1f, 2, 2, CheckoutScreenMessageHandler.CLIENT_RANGE)).thenReturn(inRange);
-		
+		when(characterDAO.getAllCharacters(argThat(new IsSetOfElements(1)))).thenReturn(storedValues);
+		when(characterDAO.getAllCharacters(2, 2, 2, CheckoutScreenMessageHandler.CLIENT_RANGE)).thenReturn(inRange);
+		CharacterMessage updatedCharacter = getCharacterSource(c1.getId(), new Vector(2.1f, 2, 2), new Vector(0, 0, 1), Action.idle());
+		updatedCharacter.setVersion(5);
+		when(characterDAO.updateCharacterState(c1)).thenReturn(updatedCharacter);
+
 		HashSet<CharacterMessage> characters = new HashSet<CharacterMessage>();
 		CharacterMessage cc3 = getCharacterSource(c1.getId(), new Vector(2.1f, 2, 2), new Vector(0, 0, 1), Action.move());
 		characters.add(cc3);
-		characters.add(getCharacterSource(c2.getId(), new Vector(3.1f, 3, 3), new Vector(0, 0, 1), Action.move()));
+		Set<LostVictoryMessage> results = handler.handle(new UpdateCharactersRequest(clientID, characters, cc3.getId()));
 
-		Set<LostVictoryMessage> results = handler.handle(new UpdateCharactersRequest(clientID, characters, cc3));
-		CharacterStatusResponse handle = (CharacterStatusResponse) results.stream().filter(s->s instanceof  CharacterStatusResponse).findFirst().get();
-
-		assertEquals(2, handle.getCharacters().size());
-		Map<UUID, CharacterMessage> ret = handle.getCharacters().stream().collect(Collectors.toMap(CharacterMessage::getId, Function.identity()));
-		CharacterMessage first = ret.get(c1.getId());
-		assertEquals(new Vector(2.1f, 2, 2), first.getLocation());
-		assertEquals(new Vector(0, 0, 1), first.getOrientation());
-		assertEquals(Action.move(), first.getActions().iterator().next());
-		assertEquals(clientID, first.getCheckoutClient());
+		verify(characterDAO, times(1)).updateCharacterState(anyObject());
+		CharacterStatusResponse next = (CharacterStatusResponse) results.iterator().next();
+		assertEquals(next.getCharacters().size(), 1);
+		CharacterMessage next1 = next.getCharacters().iterator().next();
+		assertEquals(next1.getLocation(), new Vector(2.1f, 2, 2));
+		assertEquals(next1.getVersion(), 5);
 	}
+
+	@Test
+	public void testDoesNotUpdateOODCharacterButReturnsNewVersion() throws IOException {
+		UUID clientID = UUID.randomUUID();
+
+		HashMap<UUID, CharacterMessage> storedValues = new HashMap<UUID, CharacterMessage>();
+		HashSet<CharacterMessage> inRange = new HashSet<>();
+		CharacterMessage c1 = putCharacter(storedValues, inRange, new Vector(2, 2, 2), new Vector(1, 0, 0), Action.idle());
+		c1.setVersion(7);
+		when(characterDAO.getCharacter(c1.getId())).thenReturn(c1);
+		when(characterDAO.getAllCharacters(argThat(new IsSetOfElements(1)))).thenReturn(storedValues);
+		when(characterDAO.getAllCharacters(2, 2, 2, CheckoutScreenMessageHandler.CLIENT_RANGE)).thenReturn(inRange);
+
+		HashSet<CharacterMessage> characters = new HashSet<CharacterMessage>();
+		CharacterMessage cc3 = getCharacterSource(c1.getId(), new Vector(2.1f, 2, 2), new Vector(0, 0, 1), Action.move());
+		cc3.setVersion(5);
+		characters.add(cc3);
+		Set<LostVictoryMessage> results = handler.handle(new UpdateCharactersRequest(clientID, characters, cc3.getId()));
+
+		verify(characterDAO, times(0)).updateCharacterState(anyObject());
+		CharacterStatusResponse next = (CharacterStatusResponse) results.iterator().next();
+		assertEquals(next.getCharacters().size(), 1);
+		assertEquals(next.getCharacters().iterator().next(), c1);
+		assertEquals(c1.getLocation(), new Vector(2, 2, 2));
+	}
+
+
+
+//	@Test
+//	public void testUpdateAllVacantCharacter() throws IOException {
+//		UUID clientID = UUID.randomUUID();
+//
+//		HashMap<UUID, CharacterMessage> storedValues = new HashMap<UUID, CharacterMessage>();
+//		HashSet<CharacterMessage> inRange = new HashSet<>();
+//		CharacterMessage c1 = putCharacter(storedValues, inRange, new Vector(2, 2, 2), new Vector(1, 0, 0), Action.idle());
+//		CharacterMessage c2 = putCharacter(storedValues, inRange, new Vector(3, 3, 3), new Vector(1, 0, 0), Action.idle());
+//		when(characterDAO.getCharacter(c1.getId())).thenReturn(c1);
+//		when(characterDAO.getAllCharacters(argThat(new IsSetOfElements(2)))).thenReturn(storedValues);
+//		when(characterDAO.getAllCharacters(2.1f, 2, 2, CheckoutScreenMessageHandler.CLIENT_RANGE)).thenReturn(inRange);
+//
+//		HashSet<CharacterMessage> characters = new HashSet<CharacterMessage>();
+//		CharacterMessage cc3 = getCharacterSource(c1.getId(), new Vector(2.1f, 2, 2), new Vector(0, 0, 1), Action.move());
+//		characters.add(cc3);
+//		characters.add(getCharacterSource(c2.getId(), new Vector(3.1f, 3, 3), new Vector(0, 0, 1), Action.move()));
+//
+//		Set<LostVictoryMessage> results = handler.handle(new UpdateCharactersRequest(clientID, characters, cc3.getId()));
+//		CharacterStatusResponse handle = (CharacterStatusResponse) results.stream().filter(s->s instanceof  CharacterStatusResponse).findFirst().get();
+//
+//		assertEquals(2, handle.getCharacters().size());
+//		Map<UUID, CharacterMessage> ret = handle.getCharacters().stream().collect(Collectors.toMap(CharacterMessage::getId, Function.identity()));
+//		CharacterMessage first = ret.get(c1.getId());
+//		assertEquals(new Vector(2.1f, 2, 2), first.getLocation());
+//		assertEquals(new Vector(0, 0, 1), first.getOrientation());
+//		assertEquals(Action.move(), first.getActions().iterator().next());
+//		assertEquals(clientID, first.getCheckoutClient());
+//	}
 
 	private CharacterMessage putCharacter(HashMap<UUID, CharacterMessage> storedValues, HashSet<CharacterMessage> inRange, Vector location, Vector orientation, Action action) {
 		UUID c1 = UUID.randomUUID();
@@ -99,226 +153,226 @@ public class UpdateCharactersMessageHandlerTest {
 		return c;
 	}
 	
-	@Test
-	public void testDoesNotOverideCheckedOutCharacters() throws IOException{
-		UUID clientID = UUID.randomUUID();
-		UUID clientID2 = UUID.randomUUID();
-		
-		HashMap<UUID, CharacterMessage> storedValues = new HashMap<UUID, CharacterMessage>();
-		HashSet<CharacterMessage> inRange = new HashSet<>();
-		
-		CharacterMessage d1 = putCharacter(storedValues, inRange, new Vector(2, 2, 2), new Vector(1, 0, 0), Action.idle());
-		CharacterMessage d2 = putCharacter(storedValues, inRange, new Vector(3, 3, 3), new Vector(1, 0, 0), Action.idle());
-		d2.setCheckoutClient(clientID2);
-		d2.setCheckoutTime(System.currentTimeMillis());
-		when(characterDAO.getCharacter(d1.getId())).thenReturn(d1);
-		when(characterDAO.getAllCharacters(argThat(new IsSetOfElements(2)))).thenReturn(storedValues);
-		when(characterDAO.getAllCharacters(2.2f, 2, 2, CheckoutScreenMessageHandler.CLIENT_RANGE)).thenReturn(inRange);
-		
-		HashSet<CharacterMessage> characters = new HashSet<CharacterMessage>();
-		characters.add(getCharacterSource(d1.getId(), new Vector(2.2f, 2, 2), new Vector(0, 0, 1), Action.move()));
-		characters.add(getCharacterSource(d2.getId(), new Vector(3.1f, 3, 3), new Vector(0, 0, 1), Action.move()));
-
-		Set<LostVictoryMessage> results = handler.handle(new UpdateCharactersRequest(clientID, characters, d1));
-		CharacterStatusResponse handle = (CharacterStatusResponse) results.stream().filter(s->s instanceof  CharacterStatusResponse).findFirst().get();
-		
-		assertEquals(2, handle.getCharacters().size());
-		Map<UUID, CharacterMessage> ret = handle.getCharacters().stream().collect(Collectors.toMap(CharacterMessage::getId, Function.identity()));
-		CharacterMessage first = ret.get(d1.getId());
-		assertEquals(new Vector(2.2f, 2, 2), first.getLocation());
-		assertEquals(new Vector(0, 0, 1), first.getOrientation());
-		assertEquals(Action.move(), first.getActions().iterator().next());
-		assertEquals(clientID, first.getCheckoutClient());
-		
-		CharacterMessage second = ret.get(d2.getId());
-		assertEquals(new Vector(3, 3, 3), second.getLocation());
-		assertEquals(new Vector(1, 0, 0), second.getOrientation());
-		assertEquals(Action.idle(), second.getActions().iterator().next());
-		assertEquals(clientID2, second.getCheckoutClient());
-	}
-	
-	@Test 
-	public void testOveridesStaleCheckedoutCharacters() throws IOException{
-		UUID clientID = UUID.randomUUID();
-		UUID clientID2 = UUID.randomUUID();
-		
-		HashMap<UUID, CharacterMessage> storedValues = new HashMap<UUID, CharacterMessage>();
-		HashSet<CharacterMessage> inRange = new HashSet<>();
-		CharacterMessage cc1 = putCharacter(storedValues, inRange, new Vector(2, 2, 2), new Vector(1, 0, 0), Action.idle());
-		CharacterMessage cc2 = putCharacter(storedValues, inRange, new Vector(4, 4, 4), new Vector(1, 0, 0), Action.idle());
-		cc2.setCheckoutClient(clientID2);
-		cc2.setCheckoutTime(System.currentTimeMillis()-(CharacterMessage.CHECKOUT_TIMEOUT*2));
-		
-		when(characterDAO.getCharacter(cc1.getId())).thenReturn(cc1);
-		when(characterDAO.getAllCharacters(argThat(new IsSetOfElements(2)))).thenReturn(storedValues);
-		when(characterDAO.getAllCharacters(2.2f, 2, 2, CheckoutScreenMessageHandler.CLIENT_RANGE)).thenReturn(inRange);
-		
-		HashSet<CharacterMessage> characters = new HashSet<CharacterMessage>();
-		characters.add(getCharacterSource(cc1.getId(), new Vector(2.2f, 2, 2), new Vector(0, 0, 1), Action.move()));
-		characters.add(getCharacterSource(cc2.getId(), new Vector(4.1f, 4, 4), new Vector(0, 0, 1), Action.move()));
-
-		Set<LostVictoryMessage> results = handler.handle(new UpdateCharactersRequest(clientID, characters, cc1));
-		CharacterStatusResponse handle = (CharacterStatusResponse) results.stream().filter(s->s instanceof  CharacterStatusResponse).findFirst().get();
-
-		assertEquals(2, handle.getCharacters().size());
-		Map<UUID, CharacterMessage> ret = handle.getCharacters().stream().collect(Collectors.toMap(CharacterMessage::getId, Function.identity()));
-		CharacterMessage first = ret.get(cc1.getId());
-		assertEquals(new Vector(2.2f, 2, 2), first.getLocation());
-		assertEquals(new Vector(0, 0, 1), first.getOrientation());
-		assertEquals(Action.move(), first.getActions().iterator().next());
-		assertEquals(clientID, first.getCheckoutClient());
-		
-		CharacterMessage second = ret.get(cc2.getId());
-		assertEquals(new Vector(4.1f, 4, 4), second.getLocation());
-		assertEquals(new Vector(0, 0, 1), second.getOrientation());
-		assertEquals(Action.move(), second.getActions().iterator().next());
-		assertEquals(clientID, second.getCheckoutClient());
-	}
-	
-	@Test
-	public void testPlayerWondersIntoViewPort() throws IOException{
-		UUID clientID = UUID.randomUUID();
-		UUID clientID2 = UUID.randomUUID();
-		
-		UUID c1 = UUID.randomUUID();
-		UUID c2 = UUID.randomUUID();
-		UUID c3 = UUID.randomUUID();
-		HashMap<UUID, CharacterMessage> storedValues = new HashMap<UUID, CharacterMessage>();
-		CharacterMessage cc1 = getCharacterSource(c1, new Vector(2, 2, 2), new Vector(1, 0, 0), Action.idle());
-		CharacterMessage cc2 = getCharacterSource(c2, new Vector(4, 4, 4), new Vector(1, 0, 0), Action.idle());
-		cc2.setCheckoutClient(clientID2);
-		cc2.setCheckoutTime(System.currentTimeMillis()-(CharacterMessage.CHECKOUT_TIMEOUT*2));
-		CharacterMessage cc3 = getCharacterSource(c3, new Vector(6, 6, 6), new Vector(0, 0, 1), Action.move());
-		cc3.setCheckoutClient(clientID2);
-		storedValues.put(c1, cc1);
-		storedValues.put(c2, cc2);
-		
-		when(characterDAO.getCharacter(cc1.getId())).thenReturn(cc1);
-		when(characterDAO.getAllCharacters(argThat(new IsSetOfElements(2)))).thenReturn(storedValues);
-		HashSet<CharacterMessage> inRange = new HashSet<>();
-		inRange.add(cc1);
-		inRange.add(cc2);
-		inRange.add(cc3);
-		when(characterDAO.getAllCharacters(2.2f, 2, 2, CheckoutScreenMessageHandler.CLIENT_RANGE)).thenReturn(inRange);
-		
-		HashSet<CharacterMessage> characters = new HashSet<CharacterMessage>();
-		characters.add(getCharacterSource(c1, new Vector(2.2f, 2, 2), new Vector(0, 0, 1), Action.move()));
-		characters.add(getCharacterSource(c2, new Vector(4.1f, 4, 4), new Vector(0, 0, 1), Action.move()));
-
-		Set<LostVictoryMessage> results = handler.handle(new UpdateCharactersRequest(clientID, characters, cc1));
-		CharacterStatusResponse handle = (CharacterStatusResponse) results.stream().filter(s->s instanceof  CharacterStatusResponse).findFirst().get();
-
-		assertEquals(3, handle.getCharacters().size());
-		Map<UUID, CharacterMessage> ret = handle.getCharacters().stream().collect(Collectors.toMap(CharacterMessage::getId, Function.identity()));
-		CharacterMessage first = ret.get(c1);
-		assertEquals(new Vector(2.2f, 2, 2), first.getLocation());
-		assertEquals(new Vector(0, 0, 1), first.getOrientation());
-		assertEquals(Action.move(), first.getActions().iterator().next());
-		assertEquals(clientID, first.getCheckoutClient());
-		
-		CharacterMessage second = ret.get(c2);
-		assertEquals(new Vector(4.1f, 4, 4), second.getLocation());
-		assertEquals(new Vector(0, 0, 1), second.getOrientation());
-		assertEquals(Action.move(), second.getActions().iterator().next());
-		assertEquals(clientID, second.getCheckoutClient());
-
-		CharacterMessage third = ret.get(c3);
-		assertEquals(new Vector(6, 6, 6), third.getLocation());
-		assertEquals(new Vector(0, 0, 1), third.getOrientation());
-		assertEquals(Action.move(), third.getActions().iterator().next());
-		assertEquals(clientID2, third.getCheckoutClient());
-	}
-	
-	@Test
-	public void testPlayerWondersOutOfViewPort() throws IOException{
-		UUID clientID = UUID.randomUUID();
-		UUID clientID2 = UUID.randomUUID();
-		
-		UUID c1 = UUID.randomUUID();
-		UUID c2 = UUID.randomUUID();
-		UUID c3 = UUID.randomUUID();
-		HashMap<UUID, CharacterMessage> storedValues = new HashMap<UUID, CharacterMessage>();
-		CharacterMessage cc1 = getCharacterSource(c1, new Vector(2, 2, 2), new Vector(1, 0, 0), Action.idle());
-		CharacterMessage cc2 = getCharacterSource(c2, new Vector(4, 4, 4), new Vector(1, 0, 0), Action.idle());
-		CharacterMessage cc3 = getCharacterSource(c3, new Vector(6, 6, 6), new Vector(0, 0, 1), Action.move());
-		
-		storedValues.put(c1, cc1);
-		storedValues.put(c2, cc2);
-		storedValues.put(c3, cc3);
-		when(characterDAO.getCharacter(cc1.getId())).thenReturn(cc1);
-		when(characterDAO.getAllCharacters(argThat(new IsSetOfElements(3)))).thenReturn(storedValues);
-		HashSet<CharacterMessage> inRange = new HashSet<>();
-		inRange.add(cc1);
-		inRange.add(cc2);
-		when(characterDAO.getAllCharacters(2.2f, 2, 2, CheckoutScreenMessageHandler.CLIENT_RANGE)).thenReturn(inRange);
-		
-		HashSet<CharacterMessage> characters = new HashSet<CharacterMessage>();
-		characters.add(getCharacterSource(c1, new Vector(2.2f, 2, 2), new Vector(0, 0, 1), Action.move()));
-		characters.add(getCharacterSource(c2, new Vector(4.1f, 4, 4), new Vector(0, 0, 1), Action.move()));
-		characters.add(getCharacterSource(c3, new Vector(6.1f, 6, 6), new Vector(0, 0, 1), Action.move()));
-
-		Set<LostVictoryMessage> results = handler.handle(new UpdateCharactersRequest(clientID, characters, cc1));
-		CharacterStatusResponse handle = (CharacterStatusResponse) results.stream().filter(s->s instanceof  CharacterStatusResponse).findFirst().get();
-
-		assertEquals(2, handle.getCharacters().size());
-		Map<UUID, CharacterMessage> ret = handle.getCharacters().stream().collect(Collectors.toMap(CharacterMessage::getId, Function.identity()));
-		CharacterMessage first = ret.get(c1);
-		assertEquals(new Vector(2.2f, 2, 2), first.getLocation());
-		assertEquals(new Vector(0, 0, 1), first.getOrientation());
-		assertEquals(Action.move(), first.getActions().iterator().next());
-		assertEquals(clientID, first.getCheckoutClient());
-		
-		CharacterMessage second = ret.get(c2);
-		assertEquals(new Vector(4.1f, 4, 4), second.getLocation());
-		assertEquals(new Vector(0, 0, 1), second.getOrientation());
-		assertEquals(Action.move(), second.getActions().iterator().next());
-		assertEquals(clientID, second.getCheckoutClient());
-
-	}
-	
-	@Test
-	public void testAvatarOfClientIsOveriddenInLocalCheckout() throws IOException{
-		UUID clientID1 = UUID.randomUUID();
-		UUID clientID2 = UUID.randomUUID();
-		
-		HashMap<UUID, CharacterMessage> storedValues = new HashMap<UUID, CharacterMessage>();
-		HashSet<CharacterMessage> inRange = new HashSet<>();
-		CharacterMessage cc1 = putCharacter(clientID1, storedValues, inRange, new Vector(2, 2, 2), new Vector(1, 0, 0), Action.idle());
-		CharacterMessage cc2 = putCharacter(clientID2, storedValues, inRange, new Vector(4, 4, 4), new Vector(1, 0, 0), Action.idle());
-		cc1.setCheckoutClient(clientID1);
-		cc2.setCheckoutClient(clientID1);
-		cc1.setCheckoutTime(System.currentTimeMillis());
-		cc2.setCheckoutTime(System.currentTimeMillis());
-		when(characterDAO.getCharacter(cc1.getId())).thenReturn(cc1);
-		when(characterDAO.getAllCharacters(argThat(new IsSetOfElements(2)))).thenReturn(storedValues);
-		when(characterDAO.getAllCharacters(2.2f, 2, 2, CheckoutScreenMessageHandler.CLIENT_RANGE)).thenReturn(inRange);
-		
-		HashSet<CharacterMessage> characters1 = new HashSet<CharacterMessage>();
-		characters1.add(getCharacterSource(cc1.getId(), new Vector(2.2f, 2, 2), new Vector(0, 0, 1), Action.move()));
-		characters1.add(getCharacterSource(cc2.getId(), new Vector(4.1f, 4, 4), new Vector(0, 0, 1), Action.move()));
-
-		Set<LostVictoryMessage> results = handler.handle(new UpdateCharactersRequest(clientID1, characters1, cc1));
-		CharacterStatusResponse handle = (CharacterStatusResponse) results.stream().filter(s->s instanceof  CharacterStatusResponse).findFirst().get();
-
-		HashSet<CharacterMessage> characters2 = new HashSet<CharacterMessage>();
-		characters2.add(getCharacterSource(cc1.getId(), new Vector(3.2f, 2, 2), new Vector(0, 0, 1), Action.idle()));
-		characters2.add(getCharacterSource(cc2.getId(), new Vector(5.1f, 4, 4), new Vector(0, 0, 1), Action.idle()));
-
-		Set<LostVictoryMessage> results2 = handler.handle(new UpdateCharactersRequest(clientID2, characters2, cc1));
-		CharacterStatusResponse handle2 = (CharacterStatusResponse) results2.stream().filter(s->s instanceof  CharacterStatusResponse).findFirst().get();
-
-		assertEquals(2, handle2.getCharacters().size());
-		Map<UUID, CharacterMessage> ret = handle2.getCharacters().stream().collect(Collectors.toMap(CharacterMessage::getId, Function.identity()));
-		CharacterMessage first = ret.get(cc1.getId());
-		assertEquals(new Vector(2.2f, 2, 2), first.getLocation());
-		assertEquals(Action.move(), first.getActions().iterator().next());
-		assertEquals(clientID1, first.getCheckoutClient());
-		
-		CharacterMessage second = ret.get(cc2.getId());
-		assertEquals(new Vector(5.1f, 4, 4), second.getLocation());
-		assertEquals(Action.idle(), second.getActions().iterator().next());
-		assertEquals(clientID2, second.getCheckoutClient());
-	}
+//	@Test
+//	public void testDoesNotOverideCheckedOutCharacters() throws IOException{
+//		UUID clientID = UUID.randomUUID();
+//		UUID clientID2 = UUID.randomUUID();
+//
+//		HashMap<UUID, CharacterMessage> storedValues = new HashMap<UUID, CharacterMessage>();
+//		HashSet<CharacterMessage> inRange = new HashSet<>();
+//
+//		CharacterMessage d1 = putCharacter(storedValues, inRange, new Vector(2, 2, 2), new Vector(1, 0, 0), Action.idle());
+//		CharacterMessage d2 = putCharacter(storedValues, inRange, new Vector(3, 3, 3), new Vector(1, 0, 0), Action.idle());
+//		d2.setCheckoutClient(clientID2);
+//		d2.setCheckoutTime(System.currentTimeMillis());
+//		when(characterDAO.getCharacter(d1.getId())).thenReturn(d1);
+//		when(characterDAO.getAllCharacters(argThat(new IsSetOfElements(2)))).thenReturn(storedValues);
+//		when(characterDAO.getAllCharacters(2.2f, 2, 2, CheckoutScreenMessageHandler.CLIENT_RANGE)).thenReturn(inRange);
+//
+//		HashSet<CharacterMessage> characters = new HashSet<CharacterMessage>();
+//		characters.add(getCharacterSource(d1.getId(), new Vector(2.2f, 2, 2), new Vector(0, 0, 1), Action.move()));
+//		characters.add(getCharacterSource(d2.getId(), new Vector(3.1f, 3, 3), new Vector(0, 0, 1), Action.move()));
+//
+//		Set<LostVictoryMessage> results = handler.handle(new UpdateCharactersRequest(clientID, characters, d1.getId()));
+//		CharacterStatusResponse handle = (CharacterStatusResponse) results.stream().filter(s->s instanceof  CharacterStatusResponse).findFirst().get();
+//
+//		assertEquals(2, handle.getCharacters().size());
+//		Map<UUID, CharacterMessage> ret = handle.getCharacters().stream().collect(Collectors.toMap(CharacterMessage::getId, Function.identity()));
+//		CharacterMessage first = ret.get(d1.getId());
+//		assertEquals(new Vector(2.2f, 2, 2), first.getLocation());
+//		assertEquals(new Vector(0, 0, 1), first.getOrientation());
+//		assertEquals(Action.move(), first.getActions().iterator().next());
+//		assertEquals(clientID, first.getCheckoutClient());
+//
+//		CharacterMessage second = ret.get(d2.getId());
+//		assertEquals(new Vector(3, 3, 3), second.getLocation());
+//		assertEquals(new Vector(1, 0, 0), second.getOrientation());
+//		assertEquals(Action.idle(), second.getActions().iterator().next());
+//		assertEquals(clientID2, second.getCheckoutClient());
+//	}
+//
+//	@Test
+//	public void testOveridesStaleCheckedoutCharacters() throws IOException{
+//		UUID clientID = UUID.randomUUID();
+//		UUID clientID2 = UUID.randomUUID();
+//
+//		HashMap<UUID, CharacterMessage> storedValues = new HashMap<UUID, CharacterMessage>();
+//		HashSet<CharacterMessage> inRange = new HashSet<>();
+//		CharacterMessage cc1 = putCharacter(storedValues, inRange, new Vector(2, 2, 2), new Vector(1, 0, 0), Action.idle());
+//		CharacterMessage cc2 = putCharacter(storedValues, inRange, new Vector(4, 4, 4), new Vector(1, 0, 0), Action.idle());
+//		cc2.setCheckoutClient(clientID2);
+//		cc2.setCheckoutTime(System.currentTimeMillis()-(CharacterMessage.CHECKOUT_TIMEOUT*2));
+//
+//		when(characterDAO.getCharacter(cc1.getId())).thenReturn(cc1);
+//		when(characterDAO.getAllCharacters(argThat(new IsSetOfElements(2)))).thenReturn(storedValues);
+//		when(characterDAO.getAllCharacters(2.2f, 2, 2, CheckoutScreenMessageHandler.CLIENT_RANGE)).thenReturn(inRange);
+//
+//		HashSet<CharacterMessage> characters = new HashSet<CharacterMessage>();
+//		characters.add(getCharacterSource(cc1.getId(), new Vector(2.2f, 2, 2), new Vector(0, 0, 1), Action.move()));
+//		characters.add(getCharacterSource(cc2.getId(), new Vector(4.1f, 4, 4), new Vector(0, 0, 1), Action.move()));
+//
+//		Set<LostVictoryMessage> results = handler.handle(new UpdateCharactersRequest(clientID, characters, cc1.getId()));
+//		CharacterStatusResponse handle = (CharacterStatusResponse) results.stream().filter(s->s instanceof  CharacterStatusResponse).findFirst().get();
+//
+//		assertEquals(2, handle.getCharacters().size());
+//		Map<UUID, CharacterMessage> ret = handle.getCharacters().stream().collect(Collectors.toMap(CharacterMessage::getId, Function.identity()));
+//		CharacterMessage first = ret.get(cc1.getId());
+//		assertEquals(new Vector(2.2f, 2, 2), first.getLocation());
+//		assertEquals(new Vector(0, 0, 1), first.getOrientation());
+//		assertEquals(Action.move(), first.getActions().iterator().next());
+//		assertEquals(clientID, first.getCheckoutClient());
+//
+//		CharacterMessage second = ret.get(cc2.getId());
+//		assertEquals(new Vector(4.1f, 4, 4), second.getLocation());
+//		assertEquals(new Vector(0, 0, 1), second.getOrientation());
+//		assertEquals(Action.move(), second.getActions().iterator().next());
+//		assertEquals(clientID, second.getCheckoutClient());
+//	}
+//
+//	@Test
+//	public void testPlayerWondersIntoViewPort() throws IOException{
+//		UUID clientID = UUID.randomUUID();
+//		UUID clientID2 = UUID.randomUUID();
+//
+//		UUID c1 = UUID.randomUUID();
+//		UUID c2 = UUID.randomUUID();
+//		UUID c3 = UUID.randomUUID();
+//		HashMap<UUID, CharacterMessage> storedValues = new HashMap<UUID, CharacterMessage>();
+//		CharacterMessage cc1 = getCharacterSource(c1, new Vector(2, 2, 2), new Vector(1, 0, 0), Action.idle());
+//		CharacterMessage cc2 = getCharacterSource(c2, new Vector(4, 4, 4), new Vector(1, 0, 0), Action.idle());
+//		cc2.setCheckoutClient(clientID2);
+//		cc2.setCheckoutTime(System.currentTimeMillis()-(CharacterMessage.CHECKOUT_TIMEOUT*2));
+//		CharacterMessage cc3 = getCharacterSource(c3, new Vector(6, 6, 6), new Vector(0, 0, 1), Action.move());
+//		cc3.setCheckoutClient(clientID2);
+//		storedValues.put(c1, cc1);
+//		storedValues.put(c2, cc2);
+//
+//		when(characterDAO.getCharacter(cc1.getId())).thenReturn(cc1);
+//		when(characterDAO.getAllCharacters(argThat(new IsSetOfElements(2)))).thenReturn(storedValues);
+//		HashSet<CharacterMessage> inRange = new HashSet<>();
+//		inRange.add(cc1);
+//		inRange.add(cc2);
+//		inRange.add(cc3);
+//		when(characterDAO.getAllCharacters(2.2f, 2, 2, CheckoutScreenMessageHandler.CLIENT_RANGE)).thenReturn(inRange);
+//
+//		HashSet<CharacterMessage> characters = new HashSet<CharacterMessage>();
+//		characters.add(getCharacterSource(c1, new Vector(2.2f, 2, 2), new Vector(0, 0, 1), Action.move()));
+//		characters.add(getCharacterSource(c2, new Vector(4.1f, 4, 4), new Vector(0, 0, 1), Action.move()));
+//
+//		Set<LostVictoryMessage> results = handler.handle(new UpdateCharactersRequest(clientID, characters, cc1.getId()));
+//		CharacterStatusResponse handle = (CharacterStatusResponse) results.stream().filter(s->s instanceof  CharacterStatusResponse).findFirst().get();
+//
+//		assertEquals(3, handle.getCharacters().size());
+//		Map<UUID, CharacterMessage> ret = handle.getCharacters().stream().collect(Collectors.toMap(CharacterMessage::getId, Function.identity()));
+//		CharacterMessage first = ret.get(c1);
+//		assertEquals(new Vector(2.2f, 2, 2), first.getLocation());
+//		assertEquals(new Vector(0, 0, 1), first.getOrientation());
+//		assertEquals(Action.move(), first.getActions().iterator().next());
+//		assertEquals(clientID, first.getCheckoutClient());
+//
+//		CharacterMessage second = ret.get(c2);
+//		assertEquals(new Vector(4.1f, 4, 4), second.getLocation());
+//		assertEquals(new Vector(0, 0, 1), second.getOrientation());
+//		assertEquals(Action.move(), second.getActions().iterator().next());
+//		assertEquals(clientID, second.getCheckoutClient());
+//
+//		CharacterMessage third = ret.get(c3);
+//		assertEquals(new Vector(6, 6, 6), third.getLocation());
+//		assertEquals(new Vector(0, 0, 1), third.getOrientation());
+//		assertEquals(Action.move(), third.getActions().iterator().next());
+//		assertEquals(clientID2, third.getCheckoutClient());
+//	}
+//
+//	@Test
+//	public void testPlayerWondersOutOfViewPort() throws IOException{
+//		UUID clientID = UUID.randomUUID();
+//		UUID clientID2 = UUID.randomUUID();
+//
+//		UUID c1 = UUID.randomUUID();
+//		UUID c2 = UUID.randomUUID();
+//		UUID c3 = UUID.randomUUID();
+//		HashMap<UUID, CharacterMessage> storedValues = new HashMap<UUID, CharacterMessage>();
+//		CharacterMessage cc1 = getCharacterSource(c1, new Vector(2, 2, 2), new Vector(1, 0, 0), Action.idle());
+//		CharacterMessage cc2 = getCharacterSource(c2, new Vector(4, 4, 4), new Vector(1, 0, 0), Action.idle());
+//		CharacterMessage cc3 = getCharacterSource(c3, new Vector(6, 6, 6), new Vector(0, 0, 1), Action.move());
+//
+//		storedValues.put(c1, cc1);
+//		storedValues.put(c2, cc2);
+//		storedValues.put(c3, cc3);
+//		when(characterDAO.getCharacter(cc1.getId())).thenReturn(cc1);
+//		when(characterDAO.getAllCharacters(argThat(new IsSetOfElements(3)))).thenReturn(storedValues);
+//		HashSet<CharacterMessage> inRange = new HashSet<>();
+//		inRange.add(cc1);
+//		inRange.add(cc2);
+//		when(characterDAO.getAllCharacters(2.2f, 2, 2, CheckoutScreenMessageHandler.CLIENT_RANGE)).thenReturn(inRange);
+//
+//		HashSet<CharacterMessage> characters = new HashSet<CharacterMessage>();
+//		characters.add(getCharacterSource(c1, new Vector(2.2f, 2, 2), new Vector(0, 0, 1), Action.move()));
+//		characters.add(getCharacterSource(c2, new Vector(4.1f, 4, 4), new Vector(0, 0, 1), Action.move()));
+//		characters.add(getCharacterSource(c3, new Vector(6.1f, 6, 6), new Vector(0, 0, 1), Action.move()));
+//
+//		Set<LostVictoryMessage> results = handler.handle(new UpdateCharactersRequest(clientID, characters, cc1.getId()));
+//		CharacterStatusResponse handle = (CharacterStatusResponse) results.stream().filter(s->s instanceof  CharacterStatusResponse).findFirst().get();
+//
+//		assertEquals(2, handle.getCharacters().size());
+//		Map<UUID, CharacterMessage> ret = handle.getCharacters().stream().collect(Collectors.toMap(CharacterMessage::getId, Function.identity()));
+//		CharacterMessage first = ret.get(c1);
+//		assertEquals(new Vector(2.2f, 2, 2), first.getLocation());
+//		assertEquals(new Vector(0, 0, 1), first.getOrientation());
+//		assertEquals(Action.move(), first.getActions().iterator().next());
+//		assertEquals(clientID, first.getCheckoutClient());
+//
+//		CharacterMessage second = ret.get(c2);
+//		assertEquals(new Vector(4.1f, 4, 4), second.getLocation());
+//		assertEquals(new Vector(0, 0, 1), second.getOrientation());
+//		assertEquals(Action.move(), second.getActions().iterator().next());
+//		assertEquals(clientID, second.getCheckoutClient());
+//
+//	}
+//
+//	@Test
+//	public void testAvatarOfClientIsOveriddenInLocalCheckout() throws IOException{
+//		UUID clientID1 = UUID.randomUUID();
+//		UUID clientID2 = UUID.randomUUID();
+//
+//		HashMap<UUID, CharacterMessage> storedValues = new HashMap<UUID, CharacterMessage>();
+//		HashSet<CharacterMessage> inRange = new HashSet<>();
+//		CharacterMessage cc1 = putCharacter(clientID1, storedValues, inRange, new Vector(2, 2, 2), new Vector(1, 0, 0), Action.idle());
+//		CharacterMessage cc2 = putCharacter(clientID2, storedValues, inRange, new Vector(4, 4, 4), new Vector(1, 0, 0), Action.idle());
+//		cc1.setCheckoutClient(clientID1);
+//		cc2.setCheckoutClient(clientID1);
+//		cc1.setCheckoutTime(System.currentTimeMillis());
+//		cc2.setCheckoutTime(System.currentTimeMillis());
+//		when(characterDAO.getCharacter(cc1.getId())).thenReturn(cc1);
+//		when(characterDAO.getAllCharacters(argThat(new IsSetOfElements(2)))).thenReturn(storedValues);
+//		when(characterDAO.getAllCharacters(2.2f, 2, 2, CheckoutScreenMessageHandler.CLIENT_RANGE)).thenReturn(inRange);
+//
+//		HashSet<CharacterMessage> characters1 = new HashSet<CharacterMessage>();
+//		characters1.add(getCharacterSource(cc1.getId(), new Vector(2.2f, 2, 2), new Vector(0, 0, 1), Action.move()));
+//		characters1.add(getCharacterSource(cc2.getId(), new Vector(4.1f, 4, 4), new Vector(0, 0, 1), Action.move()));
+//
+//		Set<LostVictoryMessage> results = handler.handle(new UpdateCharactersRequest(clientID1, characters1, cc1.getId()));
+//		CharacterStatusResponse handle = (CharacterStatusResponse) results.stream().filter(s->s instanceof  CharacterStatusResponse).findFirst().get();
+//
+//		HashSet<CharacterMessage> characters2 = new HashSet<CharacterMessage>();
+//		characters2.add(getCharacterSource(cc1.getId(), new Vector(3.2f, 2, 2), new Vector(0, 0, 1), Action.idle()));
+//		characters2.add(getCharacterSource(cc2.getId(), new Vector(5.1f, 4, 4), new Vector(0, 0, 1), Action.idle()));
+//
+//		Set<LostVictoryMessage> results2 = handler.handle(new UpdateCharactersRequest(clientID2, characters2, cc1.getId()));
+//		CharacterStatusResponse handle2 = (CharacterStatusResponse) results2.stream().filter(s->s instanceof  CharacterStatusResponse).findFirst().get();
+//
+//		assertEquals(2, handle2.getCharacters().size());
+//		Map<UUID, CharacterMessage> ret = handle2.getCharacters().stream().collect(Collectors.toMap(CharacterMessage::getId, Function.identity()));
+//		CharacterMessage first = ret.get(cc1.getId());
+//		assertEquals(new Vector(2.2f, 2, 2), first.getLocation());
+//		assertEquals(Action.move(), first.getActions().iterator().next());
+//		assertEquals(clientID1, first.getCheckoutClient());
+//
+//		CharacterMessage second = ret.get(cc2.getId());
+//		assertEquals(new Vector(5.1f, 4, 4), second.getLocation());
+//		assertEquals(Action.idle(), second.getActions().iterator().next());
+//		assertEquals(clientID2, second.getCheckoutClient());
+//	}
 	
 	
 
