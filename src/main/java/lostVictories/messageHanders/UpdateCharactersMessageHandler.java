@@ -80,8 +80,9 @@ public class UpdateCharactersMessageHandler {
 
         Set<CharacterMessage> relatedCharacters = new HashSet<>();
 		if(msg.getClientStartTime()>5000) {
-            inRange.values().stream().filter(c -> !toReturn.containsKey(c.getId())).filter(c -> c.isAvailableForCheckout(CHECKOUT_TIMEOUT)).forEach(c -> toReturn.put(c.getId(), c));
-
+			if(sentFromClient.containsKey(msg.getAvatar())) {
+				inRange.values().stream().filter(c -> !toReturn.containsKey(c.getId())).filter(c -> c.isAvailableForCheckout(CHECKOUT_TIMEOUT)).forEach(c -> toReturn.put(c.getId(), c));
+			}
 			relatedCharacters = toReturn.values().stream()
 					.filter(u->!u.isDead()).map(c->c.getUnitsUnderCommand()).filter(u->!toReturn.containsKey(u))
 					.map(u->characterDAO.getAllCharacters(u).values()).flatMap(l->l.stream())
@@ -95,6 +96,17 @@ public class UpdateCharactersMessageHandler {
 		}
 		Set<LostVictoryMessage> ret = toReturn.values().stream().map(c->new CharacterStatusResponse(c)).collect(Collectors.toSet());
         relatedCharacters.stream().map(c->new RelatedCharacterStatusResponse(c)).forEach(m->ret.add(m));
+
+        if(sentFromClient.containsKey(msg.getAvatar())){
+			GameStatistics statistics = worldRunner.getStatistics(storedAvatar.getCountry());
+			AchievementStatus achivementStatus = worldRunner.getAchivementStatus(storedAvatar);
+			Set<UnClaimedEquipmentMessage> unClaimedEquipment = equipmentDAO.getUnClaimedEquipment(v.x, v.y, v.z, CheckoutScreenMessageHandler.CLIENT_RANGE);
+			ret.add(new EquipmentStatusResponse(unClaimedEquipment));
+			Set<HouseMessage> allHouses = houseDAO.getAllHouses();
+			allHouses.forEach(h->h.removeFieldsNotNeededForUpdate());
+			ret.add(new HouseStatusResponse(allHouses));
+			ret.add(new GameStatsResponse(messageRepository.popMessages(msg.getClientID()), statistics, achivementStatus));
+		}
 
 
 //        next = ((CharacterStatusResponse)ret.iterator().next()).getCharacters().iterator().next();
@@ -123,7 +135,7 @@ public class UpdateCharactersMessageHandler {
 		characterDAO.refresh();
 		
 		Map<UUID, CharacterMessage> toReturn;                    
-		Set<HouseMessage> allHouses = houseDAO.getAllHouses();
+
 		if(msg.getAvatar()!=null){
 			CharacterMessage storedAvatar = characterDAO.getCharacter(msg.getAvatar());
 			Vector v = storedAvatar.getLocation();
@@ -163,16 +175,9 @@ public class UpdateCharactersMessageHandler {
 //			}
 			
 
-			GameStatistics statistics = worldRunner.getStatistics(storedAvatar.getCountry());
-			AchievementStatus achivementStatus = worldRunner.getAchivementStatus(storedAvatar);
-						
-			Set<UnClaimedEquipmentMessage> unClaimedEquipment = equipmentDAO.getUnClaimedEquipment(v.x, v.y, v.z, CheckoutScreenMessageHandler.CLIENT_RANGE);
 
 
-			ret.add(new EquipmentStatusResponse(unClaimedEquipment));
-			//houses is to big
-			ret.add(new HouseStatusResponse(allHouses));
-			ret.add(new GameStatsResponse(messageRepository.popMessages(msg.getClientID()), statistics, achivementStatus));
+
 			return ret;
 		}else{
 			toReturn = existingInServer;
@@ -180,7 +185,6 @@ public class UpdateCharactersMessageHandler {
 		}
 
 
-		ret.add(new HouseStatusResponse(allHouses));
 		return ret;
 	}
 }
