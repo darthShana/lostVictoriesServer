@@ -56,7 +56,7 @@ public class UpdateCharactersMessageHandlerTest {
 		HashSet<CharacterMessage> inRange = new HashSet<>();
 		CharacterMessage c1 = putCharacter(storedValues, inRange, new Vector(2, 2, 2), new Vector(1, 0, 0), Action.idle(), null);
 		when(characterDAO.getAllCharacters(argThat(new IsSetOfElements(1)))).thenReturn(storedValues);
-		when(characterDAO.getAllCharacters(2, 2, 2, CheckoutScreenMessageHandler.CLIENT_RANGE)).thenReturn(inRange);
+		when(characterDAO.getAllCharacters(2.1f, 2, 2, CheckoutScreenMessageHandler.CLIENT_RANGE)).thenReturn(inRange);
 		CharacterMessage updatedCharacter = getCharacterSource(c1.getId(), new Vector(2.1f, 2, 2), new Vector(0, 0, 1), Action.idle(), null);
 		updatedCharacter.setVersion(5);
 		when(characterDAO.updateCharacterState(c1)).thenReturn(updatedCharacter);
@@ -145,6 +145,28 @@ public class UpdateCharactersMessageHandlerTest {
 		assertTrue(m2.contains(c3.getId()));
 		assertTrue(m2.contains(c4.getId()));
 
+	}
+
+	@Test
+	public void testDoesNotReturnResponseIfCharacterIsOutOfRangeOfAvatar() throws IOException {
+		UUID clientID = UUID.randomUUID();
+
+		HashMap<UUID, CharacterMessage> storedValues = new HashMap<UUID, CharacterMessage>();
+		HashSet<CharacterMessage> inRange = new HashSet<>();
+		CharacterMessage c1 = putCharacter(storedValues, null, new Vector(600, 2, 2), new Vector(1, 0, 0), Action.idle(), null);
+		CharacterMessage avatar = putCharacter(storedValues, inRange, new Vector(2, 2, 2), new Vector(1, 0, 0), Action.idle(), null);
+
+		when(characterDAO.getAllCharacters(eq(setOf(c1.getId())))).thenReturn(mapOf(c1));
+		when(characterDAO.getAllCharacters(2, 2, 2, CheckoutScreenMessageHandler.CLIENT_RANGE)).thenReturn(inRange);
+		CharacterMessage updatedCharacter = getCharacterSource(c1.getId(), new Vector(2.1f, 2, 2), new Vector(0, 0, 1), Action.idle(), null);
+		updatedCharacter.setVersion(5);
+		when(characterDAO.updateCharacterState(c1)).thenReturn(updatedCharacter);
+
+		CharacterMessage cc3 = getCharacterSource(c1.getId(), new Vector(600.1f, 2, 2), new Vector(0, 0, 1), Action.move(), null);
+		Set<LostVictoryMessage> results = handler.handle(new UpdateCharactersRequest(clientID, cc3, avatar.getId(), 5000));
+
+		verify(characterDAO, times(1)).updateCharacterState(anyObject());
+		assertEquals(0, results.size());
 	}
 
     private <T> Set<T> setOf(T... c1) {

@@ -63,22 +63,23 @@ public class UpdateCharactersMessageHandler {
 
 		toSave.values().stream().forEach(c->c.updateState(sentFromClient.get(c.getId()), msg.getClientID(), System.currentTimeMillis()));
 
-        Map<UUID, CharacterMessage> toReturn = toSave.values().stream()
-                .map(v->characterDAO.updateCharacterState(v))
+		CharacterMessage storedAvatar = characterDAO.getCharacter(msg.getAvatar());
+		Vector v = storedAvatar.getLocation();
+		Map<UUID, CharacterMessage> inRange = characterDAO.getAllCharacters(v.x, v.y, v.z, CheckoutScreenMessageHandler.CLIENT_RANGE).stream().collect(Collectors.toMap(c->c.getId(), Function.identity()));
+
+		Map<UUID, CharacterMessage> toReturn = toSave.values().stream()
+                .map(s->characterDAO.updateCharacterState(s))
                 .filter(u->u!=null)
+				.filter(b->inRange.containsKey(b.getId()))
                 .collect(Collectors.toMap(c->c.getId(), Function.identity()));
 
-        serverVersion.values().forEach(c->{
-            if(!toReturn.containsKey(c.getId())){
-                toReturn.put(c.getId(), c);
-            }
+        serverVersion.values().stream()
+				.filter(b->inRange.containsKey(b.getId()) && !toReturn.containsKey(b.getId())).forEach(c->{
+                	toReturn.put(c.getId(), c);
         });
 
-		CharacterMessage storedAvatar = characterDAO.getCharacter(msg.getAvatar());
         Set<CharacterMessage> relatedCharacters = new HashSet<>();
 		if(msg.getClientStartTime()>5000) {
-            Vector v = storedAvatar.getLocation();
-            Map<UUID, CharacterMessage> inRange = characterDAO.getAllCharacters(v.x, v.y, v.z, CheckoutScreenMessageHandler.CLIENT_RANGE).stream().collect(Collectors.toMap(c->c.getId(), Function.identity()));
             inRange.values().stream().filter(c -> !toReturn.containsKey(c.getId())).filter(c -> c.isAvailableForCheckout(CHECKOUT_TIMEOUT)).forEach(c -> toReturn.put(c.getId(), c));
 
 			relatedCharacters = toReturn.values().stream()
