@@ -1,5 +1,7 @@
 package com.jme3.lostVictories.network.messages;
 
+import com.jme3.lostVictories.network.messages.wrapper.LostVictoryMessage;
+
 import java.util.UUID;
 
 public class PassengerDeathNotificationRequest extends LostVictoryMessage {

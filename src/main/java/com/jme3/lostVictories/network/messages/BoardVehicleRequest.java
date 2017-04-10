@@ -4,13 +4,15 @@
  */
 package com.jme3.lostVictories.network.messages;
 
+import com.jme3.lostVictories.network.messages.wrapper.LostVictoryMessage;
+
 import java.util.UUID;
 
 /**
  *
  * @author dharshanar
  */
-public class BoardVehicleRequest extends LostVictoryMessage{
+public class BoardVehicleRequest extends LostVictoryMessage {
     private final UUID vehicleID;
     private final UUID characterID;
 

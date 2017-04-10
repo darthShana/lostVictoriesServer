@@ -5,11 +5,11 @@ import static org.mockito.Mockito.*;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import com.jme3.lostVictories.network.messages.wrapper.CharacterStatusResponse;
 import com.jme3.lostVictories.network.messages.wrapper.LostVictoryMessage;
+import com.jme3.lostVictories.network.messages.wrapper.RelatedCharacterStatusResponse;
 import lostVictories.WorldRunner;
 import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.EquipmentDAO;
@@ -54,23 +54,19 @@ public class UpdateCharactersMessageHandlerTest {
 
 		HashMap<UUID, CharacterMessage> storedValues = new HashMap<UUID, CharacterMessage>();
 		HashSet<CharacterMessage> inRange = new HashSet<>();
-		CharacterMessage c1 = putCharacter(storedValues, inRange, new Vector(2, 2, 2), new Vector(1, 0, 0), Action.idle());
-		when(characterDAO.getCharacter(c1.getId())).thenReturn(c1);
+		CharacterMessage c1 = putCharacter(storedValues, inRange, new Vector(2, 2, 2), new Vector(1, 0, 0), Action.idle(), null);
 		when(characterDAO.getAllCharacters(argThat(new IsSetOfElements(1)))).thenReturn(storedValues);
 		when(characterDAO.getAllCharacters(2, 2, 2, CheckoutScreenMessageHandler.CLIENT_RANGE)).thenReturn(inRange);
-		CharacterMessage updatedCharacter = getCharacterSource(c1.getId(), new Vector(2.1f, 2, 2), new Vector(0, 0, 1), Action.idle());
+		CharacterMessage updatedCharacter = getCharacterSource(c1.getId(), new Vector(2.1f, 2, 2), new Vector(0, 0, 1), Action.idle(), null);
 		updatedCharacter.setVersion(5);
 		when(characterDAO.updateCharacterState(c1)).thenReturn(updatedCharacter);
 
-		HashSet<CharacterMessage> characters = new HashSet<CharacterMessage>();
-		CharacterMessage cc3 = getCharacterSource(c1.getId(), new Vector(2.1f, 2, 2), new Vector(0, 0, 1), Action.move());
-		characters.add(cc3);
-		Set<LostVictoryMessage> results = handler.handle(new UpdateCharactersRequest(clientID, characters, cc3.getId()));
+		CharacterMessage cc3 = getCharacterSource(c1.getId(), new Vector(2.1f, 2, 2), new Vector(0, 0, 1), Action.move(), null);
+		Set<LostVictoryMessage> results = handler.handle(new UpdateCharactersRequest(clientID, cc3, cc3.getId(), 5000));
 
 		verify(characterDAO, times(1)).updateCharacterState(anyObject());
 		CharacterStatusResponse next = (CharacterStatusResponse) results.iterator().next();
-		assertEquals(next.getCharacters().size(), 1);
-		CharacterMessage next1 = next.getCharacters().iterator().next();
+		CharacterMessage next1 = next.getCharacter();
 		assertEquals(next1.getLocation(), new Vector(2.1f, 2, 2));
 		assertEquals(next1.getVersion(), 5);
 	}
@@ -81,26 +77,91 @@ public class UpdateCharactersMessageHandlerTest {
 
 		HashMap<UUID, CharacterMessage> storedValues = new HashMap<UUID, CharacterMessage>();
 		HashSet<CharacterMessage> inRange = new HashSet<>();
-		CharacterMessage c1 = putCharacter(storedValues, inRange, new Vector(2, 2, 2), new Vector(1, 0, 0), Action.idle());
+		CharacterMessage c1 = putCharacter(storedValues, inRange, new Vector(2, 2, 2), new Vector(1, 0, 0), Action.idle(), null);
 		c1.setVersion(7);
-		when(characterDAO.getCharacter(c1.getId())).thenReturn(c1);
 		when(characterDAO.getAllCharacters(argThat(new IsSetOfElements(1)))).thenReturn(storedValues);
 		when(characterDAO.getAllCharacters(2, 2, 2, CheckoutScreenMessageHandler.CLIENT_RANGE)).thenReturn(inRange);
 
-		HashSet<CharacterMessage> characters = new HashSet<CharacterMessage>();
-		CharacterMessage cc3 = getCharacterSource(c1.getId(), new Vector(2.1f, 2, 2), new Vector(0, 0, 1), Action.move());
+		CharacterMessage cc3 = getCharacterSource(c1.getId(), new Vector(2.1f, 2, 2), new Vector(0, 0, 1), Action.move(), null);
 		cc3.setVersion(5);
-		characters.add(cc3);
-		Set<LostVictoryMessage> results = handler.handle(new UpdateCharactersRequest(clientID, characters, cc3.getId()));
+		Set<LostVictoryMessage> results = handler.handle(new UpdateCharactersRequest(clientID, cc3, cc3.getId(), 5000));
 
 		verify(characterDAO, times(0)).updateCharacterState(anyObject());
 		CharacterStatusResponse next = (CharacterStatusResponse) results.iterator().next();
-		assertEquals(next.getCharacters().size(), 1);
-		assertEquals(next.getCharacters().iterator().next(), c1);
+		assertEquals(next.getCharacter(), c1);
 		assertEquals(c1.getLocation(), new Vector(2, 2, 2));
 	}
 
+	@Test
+	public void testReturnsOtherCharactersNearbyIfNotCheckedOut() throws IOException {
+		UUID clientID = UUID.randomUUID();
 
+		HashMap<UUID, CharacterMessage> storedValues = new HashMap<UUID, CharacterMessage>();
+		HashSet<CharacterMessage> inRange = new HashSet<>();
+		CharacterMessage c1 = putCharacter(storedValues, inRange, new Vector(2, 2, 2), new Vector(1, 0, 0), Action.idle(), null);
+		CharacterMessage c2 = putCharacter(null, inRange, new Vector(2, 2, 2), new Vector(1, 0, 0), Action.idle(), null);
+		CharacterMessage c3 = putCharacter(null, inRange, new Vector(2, 2, 2), new Vector(1, 0, 0), Action.idle(), null);
+		c2.setCheckoutClient(UUID.randomUUID());
+		c2.setCheckoutTime(System.currentTimeMillis());
+
+		when(characterDAO.getAllCharacters(argThat(new IsSetOfElements(1)))).thenReturn(storedValues);
+		when(characterDAO.getAllCharacters(2.1f, 2, 2, CheckoutScreenMessageHandler.CLIENT_RANGE)).thenReturn(inRange);
+
+		CharacterMessage cc3 = getCharacterSource(c1.getId(), new Vector(2.1f, 2, 2), new Vector(0, 0, 1), Action.move(), null);
+		Set<LostVictoryMessage> results = handler.handle(new UpdateCharactersRequest(clientID, cc3, cc3.getId(), 5000));
+		assertEquals(1, results.size());
+
+		results = handler.handle(new UpdateCharactersRequest(clientID, cc3, cc3.getId(), 5001));
+		assertEquals(2, results.size());
+
+	}
+
+	@Test
+	public void testReturnsRelatedCharactersNotInAvatarsCheckout() throws IOException {
+		UUID clientID = UUID.randomUUID();
+
+		HashMap<UUID, CharacterMessage> storedValues = new HashMap<UUID, CharacterMessage>();
+		HashSet<CharacterMessage> inRange = new HashSet<>();
+        CharacterMessage c3 = putCharacter(null, null, new Vector(2, 2, 2), new Vector(1, 0, 0), Action.idle(), null);
+		CharacterMessage c1 = putCharacter(storedValues, inRange, new Vector(2, 2, 2), new Vector(1, 0, 0), Action.idle(), c3.getId());
+		CharacterMessage c2 = putCharacter(null, inRange, new Vector(2, 2, 2), new Vector(1, 0, 0), Action.idle(), null);
+		CharacterMessage c4 = putCharacter(null, null, new Vector(2, 2, 2), new Vector(1, 0, 0), Action.idle(), null);
+
+		c1.addCharactersUnderCommand(c4);
+		c2.setCheckoutClient(UUID.randomUUID());
+		c2.setCheckoutTime(System.currentTimeMillis());
+
+		when(characterDAO.getAllCharacters(eq(setOf(c1.getId())))).thenReturn(storedValues);
+        when(characterDAO.getAllCharacters(eq(setOf(c4.getId())))).thenReturn(mapOf(c4));
+		when(characterDAO.getAllCharacters(2.1f, 2, 2, CheckoutScreenMessageHandler.CLIENT_RANGE)).thenReturn(inRange);
+
+		CharacterMessage cc3 = getCharacterSource(c1.getId(), new Vector(2.1f, 2, 2), new Vector(0, 0, 1), Action.move(), null);
+		Set<LostVictoryMessage> results = handler.handle(new UpdateCharactersRequest(clientID, cc3, cc3.getId(), 5001));
+		assertEquals(3, results.size());
+		CharacterMessage m1 = results.stream().filter(m->m instanceof CharacterStatusResponse).map(m->(CharacterStatusResponse)m).findFirst().get().getCharacter();
+		Set<UUID> m2 = results.stream().filter(m->m instanceof RelatedCharacterStatusResponse).map(m->((RelatedCharacterStatusResponse)m).getCharacter().getId()).collect(Collectors.toSet());
+		assertEquals(m1.getId(), c1.getId());
+		assertEquals(2, m2.size());
+		assertTrue(m2.contains(c3.getId()));
+		assertTrue(m2.contains(c4.getId()));
+
+	}
+
+    private <T> Set<T> setOf(T... c1) {
+	    Set<T> ret = new HashSet<T>();
+	    for(T t:c1){
+	        ret.add(t);
+        }
+        return ret;
+    }
+
+    private Map<UUID, CharacterMessage> mapOf(CharacterMessage... c1) {
+        Map<UUID, CharacterMessage> ret = new HashMap<UUID, CharacterMessage>();
+        for(CharacterMessage t:c1){
+            ret.put(t.getId(), t);
+        }
+        return ret;
+    }
 
 //	@Test
 //	public void testUpdateAllVacantCharacter() throws IOException {
@@ -131,23 +192,28 @@ public class UpdateCharactersMessageHandlerTest {
 //		assertEquals(clientID, first.getCheckoutClient());
 //	}
 
-	private CharacterMessage putCharacter(HashMap<UUID, CharacterMessage> storedValues, HashSet<CharacterMessage> inRange, Vector location, Vector orientation, Action action) {
+	private CharacterMessage putCharacter(HashMap<UUID, CharacterMessage> storedValues, HashSet<CharacterMessage> inRange, Vector location, Vector orientation, Action action, UUID commandingOfficer) {
 		UUID c1 = UUID.randomUUID();
-		CharacterMessage cc1 = getCharacterSource(c1, location, orientation, action);
-		storedValues.put(c1, cc1);
-		inRange.add(cc1);
+		CharacterMessage cc1 = getCharacterSource(c1, location, orientation, action, commandingOfficer);
+		if(storedValues!=null) {
+			storedValues.put(c1, cc1);
+		}
+		if(inRange!=null) {
+			inRange.add(cc1);
+		}
+		when(characterDAO.getCharacter(cc1.getId())).thenReturn(cc1);
 		return cc1;
 	}
 
-	private CharacterMessage putCharacter(UUID id, HashMap<UUID, CharacterMessage> storedValues, HashSet<CharacterMessage> inRange, Vector location, Vector orientation, Action action) {
-		CharacterMessage cc1 = getCharacterSource(id, location, orientation, action);
-		storedValues.put(id, cc1);
-		inRange.add(cc1);
-		return cc1;
-	}
+//	private CharacterMessage putCharacter(UUID id, HashMap<UUID, CharacterMessage> storedValues, HashSet<CharacterMessage> inRange, Vector location, Vector orientation, Action action) {
+//		CharacterMessage cc1 = getCharacterSource(id, location, orientation, action);
+//		storedValues.put(id, cc1);
+//		inRange.add(cc1);
+//		return cc1;
+//	}
 
-	private CharacterMessage getCharacterSource(UUID id, Vector location, Vector orientation, Action action) {
-		CharacterMessage c = new CharacterMessage(id, null, location, null, null, RankMessage.CADET_CORPORAL, null);
+	private CharacterMessage getCharacterSource(UUID id, Vector location, Vector orientation, Action action, UUID commandingOfficer) {
+		CharacterMessage c = new CharacterMessage(id, null, location, null, null, RankMessage.CADET_CORPORAL, commandingOfficer);
 		c.setOrientation(orientation);
 		c.setActions(ImmutableSet.of(action));
 		return c;

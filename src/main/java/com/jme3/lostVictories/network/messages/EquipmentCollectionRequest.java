@@ -1,8 +1,10 @@
 package com.jme3.lostVictories.network.messages;
 
+import com.jme3.lostVictories.network.messages.wrapper.LostVictoryMessage;
+
 import java.util.UUID;
 
-public class EquipmentCollectionRequest extends LostVictoryMessage{
+public class EquipmentCollectionRequest extends LostVictoryMessage {
 
     private final UUID equipmentID;
     private final UUID characterID;

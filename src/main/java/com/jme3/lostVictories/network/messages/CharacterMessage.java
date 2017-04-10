@@ -49,7 +49,6 @@ import com.jme3.lostVictories.objectives.PassiveObjective;
 public class CharacterMessage implements Serializable{
 
 	private static Logger log = Logger.getLogger(CharacterMessage.class);
-	public static final long CHECKOUT_TIMEOUT = 2*1000;
 
 	UUID id;
 	UUID userID;
@@ -289,16 +288,16 @@ public class CharacterMessage implements Serializable{
 		return location.z/LostVictoryScene.SCENE_HEIGHT*80;
 	}
 
-	public boolean isAvailableForUpdate(UUID clientID, CharacterMessage msg) {
+	public boolean isAvailableForUpdate(UUID clientID, CharacterMessage msg, long duration) {
 		if(msg.version<version){
 			return false;
 		}
-		return this.id.equals(clientID) || this.checkoutClient==null || clientID.equals(this.checkoutClient) || checkoutTime==null ||System.currentTimeMillis()-checkoutTime>CHECKOUT_TIMEOUT;
+		return this.id.equals(clientID) || this.checkoutClient==null || clientID.equals(this.checkoutClient) || checkoutTime==null ||System.currentTimeMillis()-checkoutTime>duration;
 	}
 
 	@JsonIgnore
-	public boolean isAvailableForCheckout() {
-		return this.checkoutClient==null || checkoutTime==null || (System.currentTimeMillis()-checkoutTime)>CHECKOUT_TIMEOUT;
+	public boolean isAvailableForCheckout(long duration) {
+		return this.checkoutClient==null || checkoutTime==null || (System.currentTimeMillis()-checkoutTime)>duration;
 	}
 
 	@JsonIgnore
@@ -808,4 +807,8 @@ public class CharacterMessage implements Serializable{
 		}
 		return null;
     }
+
+	public long getCreationTime() {
+		return creationTime;
+	}
 }

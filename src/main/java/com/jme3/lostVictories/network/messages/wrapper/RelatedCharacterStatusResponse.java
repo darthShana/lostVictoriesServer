@@ -8,22 +8,21 @@ import com.jme3.lostVictories.objectives.CleanupBeforeTransmitting;
 import com.jme3.lostVictories.objectives.Objective;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Map;
 import java.util.stream.Collectors;
 
-import static lostVictories.dao.CharacterDAO.MAPPER;
 import static lostVictories.CharacterRunner.toJsonNodeSafe;
+import static lostVictories.dao.CharacterDAO.MAPPER;
 
 /**
- * Created by dharshanar on 1/04/17.
+ * Created by dharshanar on 11/04/17.
  */
-
-public class CharacterStatusResponse extends LostVictoryMessage {
+public class RelatedCharacterStatusResponse extends LostVictoryMessage{
 
     private CharacterMessage unit;
 
 
-    public CharacterStatusResponse(CharacterMessage next) {
+    public RelatedCharacterStatusResponse(CharacterMessage next) {
 
         Map<String, JsonNode> objectives = next.getObjectives().entrySet().stream().collect(Collectors.toMap(e->e.getKey(), e->toJsonNodeSafe(e.getValue())));
 
@@ -52,5 +51,4 @@ public class CharacterStatusResponse extends LostVictoryMessage {
     public CharacterMessage getCharacter() {
         return unit;
     }
-
 }

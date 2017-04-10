@@ -117,7 +117,7 @@ public class MessageHandler extends SimpleChannelInboundHandler<DatagramPacket> 
 //				outputStream.close();
 //				byte[] output = outputStream.toByteArray();
 				ctx.write(new DatagramPacket(Unpooled.copiedBuffer(compressed), packet.sender()));
-//				System.out.println("send back response:"+m.getClass()+" size"+data.length+"/"+compressed.length);
+
 
 
 			} catch (IOException e) {
@@ -143,6 +143,10 @@ public class MessageHandler extends SimpleChannelInboundHandler<DatagramPacket> 
 		gzip.close();
 		byte[] compressed = bos.toByteArray();
 		bos.close();
+		if(compressed.length>1024) {
+			System.out.println("send back response:" + m.getClass() + " size" + data.length + "/" + compressed.length);
+			System.out.println(objectMapper.writeValueAsString(m));
+		}
 		return compressed;
 	}
 

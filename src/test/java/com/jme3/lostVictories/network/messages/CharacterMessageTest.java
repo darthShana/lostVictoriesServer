@@ -56,7 +56,7 @@ public class CharacterMessageTest {
 	public void testIsAvailableForUpdate(){
 		myUnit.setVersion(3);
 		CharacterMessage myUnitUpdated = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.PRIVATE, avatar.getId());
-		assertFalse(myUnit.isAvailableForUpdate(avatar.getCheckoutClient(), myUnitUpdated));
+		assertFalse(myUnit.isAvailableForUpdate(avatar.getCheckoutClient(), myUnitUpdated, 2000));
 	}
 
 	@Test
