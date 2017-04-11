@@ -45,7 +45,7 @@ public class EquipmentDAO {
 			        .actionGet();
 
 		} catch (VersionConflictEngineException ee){
-			log.info("Discarding update to character:"+equipment.getId()+", character has been updated since been loaded");
+			log.info("Discarding put to equipment:"+equipment.getId()+", equipment has been updated since been loaded");
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}

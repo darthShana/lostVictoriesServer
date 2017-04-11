@@ -342,6 +342,10 @@ public class CharacterMessage implements Serializable{
 		return checkoutClient;
 	}
 
+	public Long getCheckoutTime(){
+		return checkoutTime;
+	}
+
 	public void setCheckoutClient(UUID checkoutClient) {
 		this.checkoutClient = checkoutClient;
 	}

@@ -53,7 +53,7 @@ public class CheckoutScreenMessageHandler{
 				ret.add(new HouseStatusResponse(subList));
 			});
 
-			Lists.partition(new ArrayList<>(treeDAO.getAllTrees()), 5).forEach(subList -> {
+			Lists.partition(new ArrayList<>(treeDAO.getAllTrees()), 10).forEach(subList -> {
 				ret.add(new TreeStatusResponse(subList));
 			});
 			playerUsageDAO.registerStartGame(avatar.getUserID(), System.currentTimeMillis());

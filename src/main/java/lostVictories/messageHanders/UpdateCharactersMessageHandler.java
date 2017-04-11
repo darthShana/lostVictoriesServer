@@ -46,19 +46,24 @@ public class UpdateCharactersMessageHandler {
 
 		Set<CharacterMessage> allCharacter = new HashSet<>();
 		allCharacter.add(msg.getCharacter());
-		log.trace("client sending "+allCharacter.size()+" characters to update");
+		log.trace("client sending "+allCharacter.iterator().next().getId()+" characters to update version:"+allCharacter.iterator().next().getVersion());
 
 		Map<UUID, CharacterMessage> sentFromClient = allCharacter.stream().collect(Collectors.toMap(CharacterMessage::getId, Function.identity()));
 		Map<UUID, CharacterMessage> serverVersion = characterDAO.getAllCharacters(allCharacter.stream().filter(c->!c.isDead()).map(c->c.getId()).collect(Collectors.toSet()));
+
+//        Map.Entry<UUID, CharacterMessage> cc = sentFromClient.entrySet().iterator().next();
+//        Map.Entry<UUID, CharacterMessage> ss = serverVersion.entrySet().iterator().next();
+//
+//        System.out.println("updating:"+ cc.getKey()+" client version:"+cc.getValue().getVersion()+" server version:"+ss.getValue().getVersion());
 
 		Map<UUID, CharacterMessage> toSave = serverVersion.values().stream()
 				.filter(c->c.isAvailableForUpdate(msg.getClientID(), sentFromClient.get(c.getId()), CHECKOUT_TIMEOUT))
 				.collect(Collectors.toMap(c->c.getId(), Function.identity()));
 
 
-//        CharacterMessage next = allCharacter.iterator().next();
-//        if("2fbe421f-f701-49c9-a0d4-abb0fa904204".equals(next.getId().toString())){
-//            System.out.println("in here updating avatar version:"+next.getVersion()+" location:"+next.getLocation());
+        CharacterMessage next = allCharacter.iterator().next();
+//        if("1c2831d4-4019-437a-bb40-7a30f9db6da3".equals(next.getId().toString())){
+//            System.out.println("in here updating version:"+next.getVersion()+" location:"+next.getLocation());
 //        }
 
 		toSave.values().stream().forEach(c->c.updateState(sentFromClient.get(c.getId()), msg.getClientID(), System.currentTimeMillis()));
@@ -104,7 +109,10 @@ public class UpdateCharactersMessageHandler {
 			ret.add(new EquipmentStatusResponse(unClaimedEquipment));
 			Set<HouseMessage> allHouses = houseDAO.getAllHouses();
 			allHouses.forEach(h->h.removeFieldsNotNeededForUpdate());
-			ret.add(new HouseStatusResponse(allHouses));
+            Lists.partition(new ArrayList<>(allHouses), 20).forEach(subList -> {
+                ret.add(new HouseStatusResponse(subList));
+            });
+
 			ret.add(new GameStatsResponse(messageRepository.popMessages(msg.getClientID()), statistics, achivementStatus));
 		}
 

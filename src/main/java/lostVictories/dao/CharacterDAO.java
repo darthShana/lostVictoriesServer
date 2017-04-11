@@ -75,7 +75,7 @@ public class CharacterDAO {
 			        .actionGet();
 
 		} catch (VersionConflictEngineException ee){
-			log.info("Discarding update to character:"+uuid+", character has been updated since been loaded");
+			log.info("Discarding put to character:"+uuid+", character has been updated since been loaded version:"+character.getVersion());
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
