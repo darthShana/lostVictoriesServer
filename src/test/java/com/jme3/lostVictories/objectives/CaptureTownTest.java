@@ -29,6 +29,21 @@ public class CaptureTownTest {
 		
 		Set<GameSector> calculateGameSector = captureTown.calculateGameSectors(houseDAO);		
 		assertEquals(5, calculateGameSector.size());
+
+		calculateGameSector.forEach(sector->{
+            float totalX = 0, totalY = 0,totalZ = 0;
+            for(HouseMessage h:sector.getHouses()){
+                totalX+=h.getLocation().x;
+                totalY+=h.getLocation().y;
+                totalZ+=h.getLocation().z;
+            }
+            final float x = totalX/sector.getHouses().size();
+            final float y = totalY/sector.getHouses().size();
+            final float z = totalZ/sector.getHouses().size();
+            Vector centre = new Vector(x, y, z);
+            System.out.println(centre);
+            assertTrue(sector.containsPoint(centre));
+        });
 	}
 	
 	@Test

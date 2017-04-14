@@ -53,7 +53,7 @@ public class CharacterRunner implements Runnable{
 			Map<UUID, UUID> kills = new HashMap<>();
 			characterDAO.getAllCharacters().parallelStream()
 				.filter(c->!c.isDead())
-				.filter(c->c.isAvailableForCheckout(3000))
+				.filter(c->c.isAvailableForCheckout(5000))
 				.forEach(c->runCharacterBehavior(c, toSave, kills, characterDAO, playerUsageDAO));
 			try {
 				characterDAO.updateCharacterStateNoCheckout(toSave);

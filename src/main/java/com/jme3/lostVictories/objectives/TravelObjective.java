@@ -71,7 +71,17 @@ public class TravelObjective extends Objective implements CleanupBeforeTransmitt
 	
 	@Override
 	public boolean clashesWith(Class<? extends Objective> newObjective) {
-		return newObjective.isAssignableFrom(FollowCommander.class);
+		if(newObjective.isAssignableFrom(CaptureStructure.class)){
+			return true;
+		}
+		if(newObjective.isAssignableFrom(TransportSquad.class)){
+			return true;
+		}
+		if(newObjective.isAssignableFrom(FollowCommander.class)){
+			return true;
+		}
+
+		return false;
 	}
 
 	@Override

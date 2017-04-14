@@ -33,6 +33,7 @@ public class UpdateCharactersMessageHandler {
 	private EquipmentDAO equipmentDAO;
 	private WorldRunner worldRunner;
 	private MessageRepository messageRepository;
+	private long lastFlushTime;
 
 	public UpdateCharactersMessageHandler(CharacterDAO characterDAO, HouseDAO houseDAO, EquipmentDAO equipmentDAO, WorldRunner worldRunner, MessageRepository messageRepository) {
 		this.characterDAO = characterDAO;
@@ -46,7 +47,6 @@ public class UpdateCharactersMessageHandler {
 
 		Set<CharacterMessage> allCharacter = new HashSet<>();
 		allCharacter.add(msg.getCharacter());
-		log.trace("client sending "+allCharacter.iterator().next().getId()+" characters to update version:"+allCharacter.iterator().next().getVersion());
 
 		Map<UUID, CharacterMessage> sentFromClient = allCharacter.stream().collect(Collectors.toMap(CharacterMessage::getId, Function.identity()));
 		Map<UUID, CharacterMessage> serverVersion = characterDAO.getAllCharacters(allCharacter.stream().filter(c->!c.isDead()).map(c->c.getId()).collect(Collectors.toSet()));
@@ -61,12 +61,14 @@ public class UpdateCharactersMessageHandler {
 				.collect(Collectors.toMap(c->c.getId(), Function.identity()));
 
 
-        CharacterMessage next = allCharacter.iterator().next();
+//        CharacterMessage next = allCharacter.iterator().next();
 //        if("1c2831d4-4019-437a-bb40-7a30f9db6da3".equals(next.getId().toString())){
 //            System.out.println("in here updating version:"+next.getVersion()+" location:"+next.getLocation());
 //        }
 
 		toSave.values().stream().forEach(c->c.updateState(sentFromClient.get(c.getId()), msg.getClientID(), System.currentTimeMillis()));
+
+
 
 		CharacterMessage storedAvatar = characterDAO.getCharacter(msg.getAvatar());
 		Vector v = storedAvatar.getLocation();
@@ -83,7 +85,15 @@ public class UpdateCharactersMessageHandler {
                 	toReturn.put(c.getId(), c);
         });
 
-        Set<CharacterMessage> relatedCharacters = new HashSet<>();
+        if(System.currentTimeMillis()-lastFlushTime>2000){
+        	characterDAO.refresh();
+        	lastFlushTime = System.currentTimeMillis();
+		}
+
+//		log.trace("client sending "+allCharacter.iterator().next().getId()+" characters to update version:"+allCharacter.iterator().next().getVersion()+"/"+toReturn.values().iterator().next().getVersion());
+
+
+		Set<CharacterMessage> relatedCharacters = new HashSet<>();
 		if(msg.getClientStartTime()>5000) {
 			if(sentFromClient.containsKey(msg.getAvatar())) {
 				inRange.values().stream().filter(c -> !toReturn.containsKey(c.getId())).filter(c -> c.isAvailableForCheckout(CHECKOUT_TIMEOUT)).forEach(c -> toReturn.put(c.getId(), c));
@@ -114,6 +124,20 @@ public class UpdateCharactersMessageHandler {
             });
 
 			ret.add(new GameStatsResponse(messageRepository.popMessages(msg.getClientID()), statistics, achivementStatus));
+
+			if(storedAvatar.getBoardedVehicle()!=null){
+				CharacterMessage vehicle = characterDAO.getCharacter(storedAvatar.getBoardedVehicle());
+				if(vehicle!=null && vehicle.getCheckoutClient()!=null && !vehicle.getCheckoutClient().equals(msg.getClientID())){
+					log.debug("force checkout of vehicle:"+vehicle.getId());
+					vehicle.setCheckoutClient(msg.getClientID());
+					vehicle.setCheckoutTime(System.currentTimeMillis());
+					List<CharacterMessage> values = new ArrayList<>();
+					values.add(vehicle);
+					characterDAO.save(values);
+					ret.add(new CharacterStatusResponse(vehicle));
+				}
+
+			}
 		}
 
 
@@ -125,74 +149,4 @@ public class UpdateCharactersMessageHandler {
 		return ret;
 	}
 
-	public Set<LostVictoryMessage> handleOld(UpdateCharactersRequest msg) throws IOException {
-		Set<LostVictoryMessage> ret = new HashSet<>();
-        Set<CharacterMessage> allCharacter = new HashSet<>();
-        allCharacter.add(msg.getCharacter());
-		log.trace("client sending "+allCharacter.size()+" characters to update");
-		Map<UUID, CharacterMessage> sentFromClient = allCharacter.stream().collect(Collectors.toMap(CharacterMessage::getId, Function.identity()));
-		Map<UUID, CharacterMessage> existingInServer = characterDAO.getAllCharacters(allCharacter.stream().filter(c->!c.isDead()).map(c->c.getId()).collect(Collectors.toSet()));
-		
-		
-		Map<UUID, CharacterMessage> toSave = existingInServer.values().stream()
-				.filter(c->c.isAvailableForUpdate(msg.getClientID(), sentFromClient.get(c.getId()), CHECKOUT_TIMEOUT))
-			.collect(Collectors.toMap(c->c.getId(), Function.identity()));
-		
-		toSave.values().stream().forEach(c->c.updateState(sentFromClient.get(c.getId()), msg.getClientID(), System.currentTimeMillis()));
-		//characterDAO.updateCharacterState(toSave);
-		characterDAO.refresh();
-		
-		Map<UUID, CharacterMessage> toReturn;                    
-
-		if(msg.getAvatar()!=null){
-			CharacterMessage storedAvatar = characterDAO.getCharacter(msg.getAvatar());
-			Vector v = storedAvatar.getLocation();
-			toReturn = characterDAO.getAllCharacters(v.x, v.y, v.z, CheckoutScreenMessageHandler.CLIENT_RANGE).stream().collect(Collectors.toMap(CharacterMessage::getId, Function.identity()));
-			
-			if(storedAvatar.getBoardedVehicle()!=null){
-				CharacterMessage vehicle = toReturn.get(storedAvatar.getBoardedVehicle());
-				if(vehicle!=null && vehicle.getCheckoutClient()!=null && !vehicle.getCheckoutClient().equals(msg.getClientID())){
-					log.debug("force checkout of vehicle:"+vehicle.getId());
-					vehicle.setCheckoutClient(msg.getClientID());
-					vehicle.setCheckoutTime(System.currentTimeMillis());
-					List<CharacterMessage> values = new ArrayList<>();
-					values.add(vehicle);
-					characterDAO.save(values);
-				}
-				
-			}
-			
-//			for(CharacterMessage c:toReturn.values()){
-//				if(!c.isDead()){
-//					for(UUID u:c.getUnitsUnderCommand()){
-//						CharacterMessage unit = characterDAO.getCharacter(u);
-//						if(unit==null){
-//							System.out.println("found character:"+c.getId()+" with uni unit:"+u);
-//						}						
-//					}
-//				}
-//			}
-//			
-//			for(CharacterMessage c:toReturn.values()){
-//				if(!c.isDead() && c.getCommandingOfficer()!=null){
-//					CharacterMessage co = characterDAO.getCharacter(c.getCommandingOfficer());
-//					if(co==null){
-//						System.out.println("found character:"+c.getId()+" with null CO:"+c.getCommandingOfficer());
-//					}
-//				}
-//			}
-			
-
-
-
-
-			return ret;
-		}else{
-			toReturn = existingInServer;
-			log.debug("client did not send avatar for perspective");
-		}
-
-
-		return ret;
-	}
 }

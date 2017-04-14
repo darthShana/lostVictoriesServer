@@ -75,7 +75,8 @@ public class CharacterDAO {
 			        .actionGet();
 
 		} catch (VersionConflictEngineException ee){
-			log.info("Discarding put to character:"+uuid+", character has been updated since been loaded version:"+character.getVersion());
+			String cot = (character.getCheckoutTime()!=null)?(System.currentTimeMillis()-character.getCheckoutTime())+"":"";
+			log.info("Discarding put to character:"+uuid+", character has been updated since been loaded version:"+character.getVersion()+" checkout:"+cot);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}

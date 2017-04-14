@@ -71,6 +71,7 @@ public class CharacterMessage implements Serializable{
 	boolean engineDamaged;
 	Long timeOfDeath;
 	long version;
+	@JsonIgnore
 	Set<UUID> kills = new HashSet<UUID>();
 	SquadType squadType = SquadType.RIFLE_TEAM;
 	long creationTime;
@@ -192,6 +193,8 @@ public class CharacterMessage implements Serializable{
 	public CharacterType getCharacterType(){
 		return type;
 	}
+
+	public int getKillCount(){ return kills.size();}
 
 	public void addCharactersUnderCommand(Set<CharacterMessage> cc) {
 		squadType = calculateSquadType(cc, squadType);

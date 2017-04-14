@@ -36,4 +36,5 @@ public class UpdateCharactersRequest extends LostVictoryMessage {
 	public long getClientStartTime() {
 		return clientStartTime;
 	}
+
 }

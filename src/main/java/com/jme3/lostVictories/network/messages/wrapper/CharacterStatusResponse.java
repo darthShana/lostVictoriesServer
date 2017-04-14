@@ -32,6 +32,7 @@ public class CharacterStatusResponse extends LostVictoryMessage {
             try{
                 Class objectiveClass = Class.forName(entry.getValue().get("class").asText());
                 Objective objective = (Objective) MAPPER.treeToValue(entry.getValue(), objectiveClass);
+
                 if(objective instanceof CleanupBeforeTransmitting){
                     ((CleanupBeforeTransmitting)objective).cleanupBeforeTransmitting();
                     next.getObjectives().put(entry.getKey(), MAPPER.writeValueAsString(objective));
