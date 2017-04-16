@@ -49,15 +49,16 @@ public class CheckoutScreenMessageHandler{
 			}
 
 			ret.add(new EquipmentStatusResponse(equipmentDAO.getUnClaimedEquipment(l.x, l.y, l.z, CLIENT_RANGE)));
-			Lists.partition(new ArrayList<>(houseDAO.getAllHouses()), 10).forEach(subList -> {
+			Lists.partition(new ArrayList<>(houseDAO.getAllHouses()), 5).forEach(subList -> {
 				ret.add(new HouseStatusResponse(subList));
 			});
 
-			Lists.partition(new ArrayList<>(treeDAO.getAllTrees()), 10).forEach(subList -> {
+			Lists.partition(new ArrayList<>(treeDAO.getAllTrees()), 5).forEach(subList -> {
 				ret.add(new TreeStatusResponse(subList));
 			});
 			playerUsageDAO.registerStartGame(avatar.getUserID(), System.currentTimeMillis());
 		}
+		log.info("sending initial checkout with messages:"+ret.size());
 		return ret;
 	}
 

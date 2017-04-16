@@ -303,13 +303,28 @@ public class CharacterMessage implements Serializable{
 		return this.checkoutClient==null || checkoutTime==null || (System.currentTimeMillis()-checkoutTime)>duration;
 	}
 
-	@JsonIgnore
 	public boolean isBusy() {
 		return isDead() || getObjectives().values().stream()
 				.map(s->toJsonNodeSafe(s))
 				.map(json->toObjectiveSafe(json))
 				.filter(o->o!=null)
 				.anyMatch(o->!(o instanceof PassiveObjective));
+	}
+
+	public boolean isAttacking() {
+		for(String s:getObjectives().values()){
+			if(isAttackingObjective(toJsonNodeSafe(s))){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean isAttackingObjective(JsonNode n) {
+		String s = n.get("class").asText();
+		return  "com.jme3.lostVictories.objectives.AttackBoggies".equals(s) ||
+				"com.jme3.lostVictories.objectives.AttackAndTakeCoverObjective".equals(s) ||
+				"com.jme3.lostVictories.objectives.AttackObjective".equals(s);
 	}
 
 	public void updateState(CharacterMessage other, UUID clientID, long checkoutTime) {

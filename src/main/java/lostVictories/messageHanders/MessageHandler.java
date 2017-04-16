@@ -126,11 +126,6 @@ public class MessageHandler extends SimpleChannelInboundHandler<DatagramPacket> 
 		});
 
 
-
-
-
-
-
 	}
 
 	private byte[] packMessage(LostVictoryMessage m) throws IOException {

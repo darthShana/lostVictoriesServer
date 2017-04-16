@@ -118,8 +118,7 @@ public class UpdateCharactersMessageHandler {
 			Set<UnClaimedEquipmentMessage> unClaimedEquipment = equipmentDAO.getUnClaimedEquipment(v.x, v.y, v.z, CheckoutScreenMessageHandler.CLIENT_RANGE);
 			ret.add(new EquipmentStatusResponse(unClaimedEquipment));
 			Set<HouseMessage> allHouses = houseDAO.getAllHouses();
-			allHouses.forEach(h->h.removeFieldsNotNeededForUpdate());
-            Lists.partition(new ArrayList<>(allHouses), 20).forEach(subList -> {
+            Lists.partition(new ArrayList<>(allHouses), 5).forEach(subList -> {
                 ret.add(new HouseStatusResponse(subList));
             });
 

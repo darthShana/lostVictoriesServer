@@ -166,10 +166,4 @@ public class HouseMessage implements Serializable{
 		return owner!=null;
 	}
 
-
-    public void removeFieldsNotNeededForUpdate() {
-		this.type = null;
-		this.location = null;
-		this.rotation = null;
-    }
 }

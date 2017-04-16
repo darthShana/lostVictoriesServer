@@ -24,27 +24,7 @@ public class RelatedCharacterStatusResponse extends LostVictoryMessage{
 
     public RelatedCharacterStatusResponse(CharacterMessage next) {
 
-        Map<String, JsonNode> objectives = next.getObjectives().entrySet().stream().collect(Collectors.toMap(e->e.getKey(), e->toJsonNodeSafe(e.getValue())));
-
-
-        for(Map.Entry<String, JsonNode> entry:objectives.entrySet()){
-            try{
-                Class objectiveClass = Class.forName(entry.getValue().get("class").asText());
-                Objective objective = (Objective) MAPPER.treeToValue(entry.getValue(), objectiveClass);
-                if(objective instanceof CleanupBeforeTransmitting){
-                    ((CleanupBeforeTransmitting)objective).cleanupBeforeTransmitting();
-                    next.getObjectives().put(entry.getKey(), MAPPER.writeValueAsString(objective));
-                }
-            }catch(ClassNotFoundException e){
-                //its ok we tried
-            } catch (JsonParseException e) {
-                throw new RuntimeException(e);
-            } catch (JsonMappingException e) {
-                throw new RuntimeException(e);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
+        next.getObjectives().clear();
         unit = next;
     }
 

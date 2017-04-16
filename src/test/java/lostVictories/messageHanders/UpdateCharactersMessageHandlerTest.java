@@ -65,7 +65,7 @@ public class UpdateCharactersMessageHandlerTest {
 		Set<LostVictoryMessage> results = handler.handle(new UpdateCharactersRequest(clientID, cc3, cc3.getId(), 5000));
 
 		verify(characterDAO, times(1)).updateCharacterState(anyObject());
-		CharacterStatusResponse next = (CharacterStatusResponse) results.iterator().next();
+		CharacterStatusResponse next = (CharacterStatusResponse) results.stream().filter(m->m instanceof CharacterStatusResponse).findFirst().get();
 		CharacterMessage next1 = next.getCharacter();
 		assertEquals(next1.getLocation(), new Vector(2.1f, 2, 2));
 		assertEquals(next1.getVersion(), 5);
@@ -87,7 +87,7 @@ public class UpdateCharactersMessageHandlerTest {
 		Set<LostVictoryMessage> results = handler.handle(new UpdateCharactersRequest(clientID, cc3, cc3.getId(), 5000));
 
 		verify(characterDAO, times(0)).updateCharacterState(anyObject());
-		CharacterStatusResponse next = (CharacterStatusResponse) results.iterator().next();
+		CharacterStatusResponse next = (CharacterStatusResponse) results.stream().filter(m->m instanceof CharacterStatusResponse).findFirst().get();
 		assertEquals(next.getCharacter(), c1);
 		assertEquals(c1.getLocation(), new Vector(2, 2, 2));
 	}
@@ -109,10 +109,10 @@ public class UpdateCharactersMessageHandlerTest {
 
 		CharacterMessage cc3 = getCharacterSource(c1.getId(), new Vector(2.1f, 2, 2), new Vector(0, 0, 1), Action.move(), null);
 		Set<LostVictoryMessage> results = handler.handle(new UpdateCharactersRequest(clientID, cc3, cc3.getId(), 5000));
-		assertEquals(1, results.size());
+		assertEquals(1, results.stream().filter(m->m instanceof CharacterStatusResponse).collect(Collectors.toSet()).size());
 
 		results = handler.handle(new UpdateCharactersRequest(clientID, cc3, cc3.getId(), 5001));
-		assertEquals(2, results.size());
+		assertEquals(2, results.stream().filter(m->m instanceof CharacterStatusResponse).collect(Collectors.toSet()).size());
 
 	}
 
@@ -137,7 +137,8 @@ public class UpdateCharactersMessageHandlerTest {
 
 		CharacterMessage cc3 = getCharacterSource(c1.getId(), new Vector(2.1f, 2, 2), new Vector(0, 0, 1), Action.move(), null);
 		Set<LostVictoryMessage> results = handler.handle(new UpdateCharactersRequest(clientID, cc3, cc3.getId(), 5001));
-		assertEquals(3, results.size());
+		assertEquals(1, results.stream().filter(m->m instanceof CharacterStatusResponse).collect(Collectors.toSet()).size());
+
 		CharacterMessage m1 = results.stream().filter(m->m instanceof CharacterStatusResponse).map(m->(CharacterStatusResponse)m).findFirst().get().getCharacter();
 		Set<UUID> m2 = results.stream().filter(m->m instanceof RelatedCharacterStatusResponse).map(m->((RelatedCharacterStatusResponse)m).getCharacter().getId()).collect(Collectors.toSet());
 		assertEquals(m1.getId(), c1.getId());
