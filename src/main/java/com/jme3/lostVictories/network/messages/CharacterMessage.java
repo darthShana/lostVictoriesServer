@@ -303,8 +303,12 @@ public class CharacterMessage implements Serializable{
 		return this.checkoutClient==null || checkoutTime==null || (System.currentTimeMillis()-checkoutTime)>duration;
 	}
 
+    public boolean isCheckedOutBy(UUID clientID, long duration) {
+	    return this.checkoutClient!=null && (checkoutClient.equals(clientID)) && checkoutTime!=null && (System.currentTimeMillis()-checkoutTime)<duration;
+    }
+
 	public boolean isBusy() {
-		return isDead() || getObjectives().values().stream()
+		return isDead() || objectives.values().stream()
 				.map(s->toJsonNodeSafe(s))
 				.map(json->toObjectiveSafe(json))
 				.filter(o->o!=null)
@@ -312,7 +316,7 @@ public class CharacterMessage implements Serializable{
 	}
 
 	public boolean isAttacking() {
-		for(String s:getObjectives().values()){
+		for(String s:objectives.values()){
 			if(isAttackingObjective(toJsonNodeSafe(s))){
 				return true;
 			}
@@ -380,8 +384,8 @@ public class CharacterMessage implements Serializable{
 		}
 	}
 
-	public Map<String, String> getObjectives(){
-		return objectives;
+	public Map<String, String> readObjectives(){
+		return new HashMap<>(objectives);
 	}
 
 	public void kill() {
@@ -637,12 +641,12 @@ public class CharacterMessage implements Serializable{
 		try{
 			String asText = toJsonNodeSafe(objective).get("class").asText();
 
-			Map<String, JsonNode> objectives = getObjectives().entrySet().stream().collect(Collectors.toMap(e->e.getKey(), e->toJsonNodeSafe(e.getValue())));
+			Map<String, JsonNode> objectives = this.objectives.entrySet().stream().collect(Collectors.toMap(e->e.getKey(), e->toJsonNodeSafe(e.getValue())));
 			for(Entry<String, JsonNode> entry:objectives.entrySet()){
 				String asText2 = entry.getValue().get("class").asText();
 
 				if(asText.equals(asText2)){
-					getObjectives().remove(entry.getKey());
+					this.objectives.remove(entry.getKey());
 				}
 			}
 
@@ -655,7 +659,7 @@ public class CharacterMessage implements Serializable{
 					if(objectiveClass!=null){
 						Objective obj = (Objective) MAPPER.treeToValue(entry.getValue(), objectiveClass);
 						if(obj.clashesWith(newObjective)){
-							getObjectives().remove(entry.getKey());
+							this.objectives.remove(entry.getKey());
 						}
 					}
 				}catch(ClassNotFoundException e){
@@ -671,6 +675,9 @@ public class CharacterMessage implements Serializable{
 		}catch(Throwable e){
 			log.debug("adding unknow objective type:"+objective);
 		} finally{
+            if("844fd93d-e65a-438a-82c5-dab9ad58e854".equals(id.toString())){
+                System.out.println("in here adding:"+objective);
+            }
 			objectives.put(id.toString(), objective);
 		}
 	}
@@ -833,4 +840,20 @@ public class CharacterMessage implements Serializable{
 	public long getCreationTime() {
 		return creationTime;
 	}
+
+
+    public void putObjective(String key, String s) {
+	    if("844fd93d-e65a-438a-82c5-dab9ad58e854".equals(id.toString()) && !objectives.containsKey(key)){
+	        System.out.println("in here adding:"+s);
+        }
+	    objectives.put(key, s);
+    }
+
+    public void removeObjective(String key) {
+	    objectives.remove(key);
+    }
+
+    public void clearObjectives() {
+	    objectives.clear();
+    }
 }

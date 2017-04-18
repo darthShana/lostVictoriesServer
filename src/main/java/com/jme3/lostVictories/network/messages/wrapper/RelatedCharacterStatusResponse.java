@@ -23,8 +23,7 @@ public class RelatedCharacterStatusResponse extends LostVictoryMessage{
 
 
     public RelatedCharacterStatusResponse(CharacterMessage next) {
-
-        next.getObjectives().clear();
+        next.clearObjectives();
         unit = next;
     }
 

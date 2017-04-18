@@ -133,7 +133,7 @@ public class LostVictoriesSever {
 		 }
 		 log.info("Listening on "+port);
 	}
-	
+
 	private boolean createIndices(IndicesAdminClient adminClient, CharacterDAO characterDAO, HouseDAO housesDAO, TreeDAO treeDAO) throws IOException {
 		final IndicesExistsResponse res = adminClient.prepareExists(characterIndexName).execute().actionGet();
         if (res.isExists()) {

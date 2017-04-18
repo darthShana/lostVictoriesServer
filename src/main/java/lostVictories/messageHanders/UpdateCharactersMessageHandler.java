@@ -96,7 +96,7 @@ public class UpdateCharactersMessageHandler {
 		Set<CharacterMessage> relatedCharacters = new HashSet<>();
 		if(msg.getClientStartTime()>5000) {
 			if(sentFromClient.containsKey(msg.getAvatar())) {
-				inRange.values().stream().filter(c -> !toReturn.containsKey(c.getId())).filter(c -> c.isAvailableForCheckout(CHECKOUT_TIMEOUT)).forEach(c -> toReturn.put(c.getId(), c));
+				inRange.values().stream().filter(c -> !toReturn.containsKey(c.getId())).filter(cc -> !cc.isCheckedOutBy(msg.getClientID(), CHECKOUT_TIMEOUT)).forEach(c -> toReturn.put(c.getId(), c));
 			}
 			relatedCharacters = toReturn.values().stream()
 					.filter(u->!u.isDead()).map(c->c.getUnitsUnderCommand()).filter(u->!toReturn.containsKey(u))

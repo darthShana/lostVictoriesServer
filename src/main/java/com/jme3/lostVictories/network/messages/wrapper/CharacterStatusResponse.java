@@ -25,7 +25,7 @@ public class CharacterStatusResponse extends LostVictoryMessage {
 
     public CharacterStatusResponse(CharacterMessage next) {
 
-        Map<String, JsonNode> objectives = next.getObjectives().entrySet().stream().collect(Collectors.toMap(e->e.getKey(), e->toJsonNodeSafe(e.getValue())));
+        Map<String, JsonNode> objectives = next.readObjectives().entrySet().stream().collect(Collectors.toMap(e->e.getKey(), e->toJsonNodeSafe(e.getValue())));
 
 
         for(Map.Entry<String, JsonNode> entry:objectives.entrySet()){
@@ -35,7 +35,7 @@ public class CharacterStatusResponse extends LostVictoryMessage {
 
                 if(objective instanceof CleanupBeforeTransmitting){
                     ((CleanupBeforeTransmitting)objective).cleanupBeforeTransmitting();
-                    next.getObjectives().put(entry.getKey(), MAPPER.writeValueAsString(objective));
+                    next.putObjective(entry.getKey(), MAPPER.writeValueAsString(objective));
                 }
             }catch(ClassNotFoundException e){
                 //its ok we tried

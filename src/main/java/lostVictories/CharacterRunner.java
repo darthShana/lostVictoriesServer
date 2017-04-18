@@ -96,7 +96,7 @@ public class CharacterRunner implements Runnable{
 	}
 
 	private void runCharacterBehavior(CharacterMessage c, Map<UUID, CharacterMessage> toSave, Map<UUID, UUID> kills, CharacterDAO characterDAO, PlayerUsageDAO playerUsageDAO) {
-		Map<String, JsonNode> objectives = c.getObjectives().entrySet().stream().collect(Collectors.toMap(e->e.getKey(), e->toJsonNodeSafe(e.getValue())));
+		Map<String, JsonNode> objectives = c.readObjectives().entrySet().stream().collect(Collectors.toMap(e->e.getKey(), e->toJsonNodeSafe(e.getValue())));
 		String cot = (c.getCheckoutTime()!=null)?(System.currentTimeMillis()-c.getCheckoutTime())+"":"";
 //		System.out.println("runCharacterBehavior:"+c.getId()+" version:"+c.getVersion()+" checkout client:"+c.getCheckoutClient()+"cheout time:"+cot);
 		if(c.getCheckoutClient()!=null){
@@ -119,9 +119,9 @@ public class CharacterRunner implements Runnable{
 				Objective objective = (Objective) MAPPER.treeToValue(entry.getValue(), objectiveClass);
 				objective.runObjective(c, entry.getKey(), characterDAO, houseDAO, toSave, kills);
 				//should not need to do this.....
-				c.getObjectives().put(entry.getKey(), MAPPER.writeValueAsString(objective));
+				c.putObjective(entry.getKey(), MAPPER.writeValueAsString(objective));
 				if(objective.isComplete){
-					c.getObjectives().remove(entry.getKey());
+					c.removeObjective(entry.getKey());
 					
 				}
 				toSave.put(c.getId(), c);
