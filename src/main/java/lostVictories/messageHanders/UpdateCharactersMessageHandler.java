@@ -22,6 +22,7 @@ import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.EquipmentDAO;
 import lostVictories.dao.HouseDAO;
 import org.elasticsearch.common.collect.Lists;
+import org.lwjgl.Sys;
 
 public class UpdateCharactersMessageHandler {
 
@@ -34,6 +35,7 @@ public class UpdateCharactersMessageHandler {
 	private WorldRunner worldRunner;
 	private MessageRepository messageRepository;
 	private long lastFlushTime;
+	private long lastREc;
 
 	public UpdateCharactersMessageHandler(CharacterDAO characterDAO, HouseDAO houseDAO, EquipmentDAO equipmentDAO, WorldRunner worldRunner, MessageRepository messageRepository) {
 		this.characterDAO = characterDAO;
@@ -47,7 +49,7 @@ public class UpdateCharactersMessageHandler {
 
 		Set<CharacterMessage> allCharacter = new HashSet<>();
 		allCharacter.add(msg.getCharacter());
-
+		
 		Map<UUID, CharacterMessage> sentFromClient = allCharacter.stream().collect(Collectors.toMap(CharacterMessage::getId, Function.identity()));
 		Map<UUID, CharacterMessage> serverVersion = characterDAO.getAllCharacters(allCharacter.stream().filter(c->!c.isDead()).map(c->c.getId()).collect(Collectors.toSet()));
 
@@ -56,18 +58,21 @@ public class UpdateCharactersMessageHandler {
 //
 //        System.out.println("updating:"+ cc.getKey()+" client version:"+cc.getValue().getVersion()+" server version:"+ss.getValue().getVersion());
 
+
+
 		Map<UUID, CharacterMessage> toSave = serverVersion.values().stream()
 				.filter(c->c.isAvailableForUpdate(msg.getClientID(), sentFromClient.get(c.getId()), CHECKOUT_TIMEOUT))
 				.collect(Collectors.toMap(c->c.getId(), Function.identity()));
 
-
-//        CharacterMessage next = allCharacter.iterator().next();
-//        if("1c2831d4-4019-437a-bb40-7a30f9db6da3".equals(next.getId().toString())){
-//            System.out.println("in here updating version:"+next.getVersion()+" location:"+next.getLocation());
-//        }
-
 		toSave.values().stream().forEach(c->c.updateState(sentFromClient.get(c.getId()), msg.getClientID(), System.currentTimeMillis()));
-
+		if(System.currentTimeMillis()-lastFlushTime>100) {
+//			long ll = System.currentTimeMillis();
+			characterDAO.refresh();
+//			if("d993932f-a185-4a6f-8d86-4ef6e2c5ff95".equals(msg.getAvatar().toString())){
+//				System.out.println("flushing to db since:"+(System.currentTimeMillis()-lastFlushTime)+" took:"+(System.currentTimeMillis()-ll));
+//			}
+			lastFlushTime = System.currentTimeMillis();
+		}
 
 
 		CharacterMessage storedAvatar = characterDAO.getCharacter(msg.getAvatar());
@@ -85,10 +90,7 @@ public class UpdateCharactersMessageHandler {
                 	toReturn.put(c.getId(), c);
         });
 
-        if(System.currentTimeMillis()-lastFlushTime>2000){
-        	characterDAO.refresh();
-        	lastFlushTime = System.currentTimeMillis();
-		}
+
 
 //		log.trace("client sending "+allCharacter.iterator().next().getId()+" characters to update version:"+allCharacter.iterator().next().getVersion()+"/"+toReturn.values().iterator().next().getVersion());
 
@@ -114,7 +116,7 @@ public class UpdateCharactersMessageHandler {
 
         if(sentFromClient.containsKey(msg.getAvatar())){
 			GameStatistics statistics = worldRunner.getStatistics(storedAvatar.getCountry());
-			AchievementStatus achivementStatus = worldRunner.getAchivementStatus(storedAvatar);
+			AchievementStatus achievementStatus = worldRunner.getAchivementStatus(storedAvatar);
 			Set<UnClaimedEquipmentMessage> unClaimedEquipment = equipmentDAO.getUnClaimedEquipment(v.x, v.y, v.z, CheckoutScreenMessageHandler.CLIENT_RANGE);
 			ret.add(new EquipmentStatusResponse(unClaimedEquipment));
 			Set<HouseMessage> allHouses = houseDAO.getAllHouses();
@@ -122,7 +124,7 @@ public class UpdateCharactersMessageHandler {
                 ret.add(new HouseStatusResponse(subList));
             });
 
-			ret.add(new GameStatsResponse(messageRepository.popMessages(msg.getClientID()), statistics, achivementStatus));
+			ret.add(new GameStatsResponse(messageRepository.popMessages(msg.getClientID()), statistics, achievementStatus));
 
 			if(storedAvatar.getBoardedVehicle()!=null){
 				CharacterMessage vehicle = characterDAO.getCharacter(storedAvatar.getBoardedVehicle());
@@ -138,12 +140,6 @@ public class UpdateCharactersMessageHandler {
 
 			}
 		}
-
-
-//        next = ((CharacterStatusResponse)ret.iterator().next()).getCharacters().iterator().next();
-//        if("2fbe421f-f701-49c9-a0d4-abb0fa904204".equals(next.getId().toString())){
-//            System.out.println("in here sending avatar version:"+next.getVersion());
-//        }
 
 		return ret;
 	}

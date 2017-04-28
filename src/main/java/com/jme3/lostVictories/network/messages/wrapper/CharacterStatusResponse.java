@@ -35,7 +35,7 @@ public class CharacterStatusResponse extends LostVictoryMessage {
 
                 if(objective instanceof CleanupBeforeTransmitting){
                     ((CleanupBeforeTransmitting)objective).cleanupBeforeTransmitting();
-                    next.putObjective(entry.getKey(), MAPPER.writeValueAsString(objective));
+                    next.addObjective(UUID.fromString(entry.getKey()), MAPPER.writeValueAsString(objective));
                 }
             }catch(ClassNotFoundException e){
                 //its ok we tried

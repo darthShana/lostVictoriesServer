@@ -119,7 +119,7 @@ public class CharacterRunner implements Runnable{
 				Objective objective = (Objective) MAPPER.treeToValue(entry.getValue(), objectiveClass);
 				objective.runObjective(c, entry.getKey(), characterDAO, houseDAO, toSave, kills);
 				//should not need to do this.....
-				c.putObjective(entry.getKey(), MAPPER.writeValueAsString(objective));
+				c.updateObjective(entry.getKey(), MAPPER.writeValueAsString(objective));
 				if(objective.isComplete){
 					c.removeObjective(entry.getKey());
 					

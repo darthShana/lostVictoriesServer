@@ -188,7 +188,7 @@ public class CharacterDAO {
 		} catch (InterruptedException e) {
 			throw new RuntimeException(e);
 		} catch (ExecutionException e) {
-            log.info("Discarding update to character:"+msg.getId()+", character has been updated since been loaded version:"+msg.getVersion()+" creation:"+msg.getCreationTime());
+            log.info("Discarding update to character:"+msg.getId()+", character has been updated since been loaded version:"+msg.getVersion());
 		}
 		return null;
 	}

@@ -112,7 +112,7 @@ public class UpdateCharactersMessageHandlerTest {
 		assertEquals(1, results.stream().filter(m->m instanceof CharacterStatusResponse).collect(Collectors.toSet()).size());
 
 		results = handler.handle(new UpdateCharactersRequest(clientID, cc3, cc3.getId(), 5001));
-		assertEquals(2, results.stream().filter(m->m instanceof CharacterStatusResponse).collect(Collectors.toSet()).size());
+		assertEquals(3, results.stream().filter(m->m instanceof CharacterStatusResponse).collect(Collectors.toSet()).size());
 
 	}
 
@@ -124,12 +124,9 @@ public class UpdateCharactersMessageHandlerTest {
 		HashSet<CharacterMessage> inRange = new HashSet<>();
         CharacterMessage c3 = putCharacter(null, null, new Vector(2, 2, 2), new Vector(1, 0, 0), Action.idle(), null);
 		CharacterMessage c1 = putCharacter(storedValues, inRange, new Vector(2, 2, 2), new Vector(1, 0, 0), Action.idle(), c3.getId());
-		CharacterMessage c2 = putCharacter(null, inRange, new Vector(2, 2, 2), new Vector(1, 0, 0), Action.idle(), null);
 		CharacterMessage c4 = putCharacter(null, null, new Vector(2, 2, 2), new Vector(1, 0, 0), Action.idle(), null);
 
 		c1.addCharactersUnderCommand(c4);
-		c2.setCheckoutClient(UUID.randomUUID());
-		c2.setCheckoutTime(System.currentTimeMillis());
 
 		when(characterDAO.getAllCharacters(eq(setOf(c1.getId())))).thenReturn(storedValues);
         when(characterDAO.getAllCharacters(eq(setOf(c4.getId())))).thenReturn(mapOf(c4));
@@ -137,7 +134,9 @@ public class UpdateCharactersMessageHandlerTest {
 
 		CharacterMessage cc3 = getCharacterSource(c1.getId(), new Vector(2.1f, 2, 2), new Vector(0, 0, 1), Action.move(), null);
 		Set<LostVictoryMessage> results = handler.handle(new UpdateCharactersRequest(clientID, cc3, cc3.getId(), 5001));
-		assertEquals(1, results.stream().filter(m->m instanceof CharacterStatusResponse).collect(Collectors.toSet()).size());
+		Set<UUID> collect = results.stream().filter(m -> m instanceof CharacterStatusResponse).map(msg->((CharacterStatusResponse)msg).getCharacter().getId()).collect(Collectors.toSet());
+		assertEquals(1, collect.size());
+		assertTrue(collect.contains(c1.getId()));
 
 		CharacterMessage m1 = results.stream().filter(m->m instanceof CharacterStatusResponse).map(m->(CharacterStatusResponse)m).findFirst().get().getCharacter();
 		Set<UUID> m2 = results.stream().filter(m->m instanceof RelatedCharacterStatusResponse).map(m->((RelatedCharacterStatusResponse)m).getCharacter().getId()).collect(Collectors.toSet());

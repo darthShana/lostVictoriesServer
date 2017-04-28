@@ -107,7 +107,7 @@ public class LostVictoriesSever {
 // Bind and start to accept incoming connections.
 //		bootstrap.bind(new InetSocketAddress("0.0.0.0", port));
 
-		EventLoopGroup group = new NioEventLoopGroup();
+		EventLoopGroup group = new NioEventLoopGroup(8);
 		try {
 			Bootstrap b = new Bootstrap();
 			b.group(group)

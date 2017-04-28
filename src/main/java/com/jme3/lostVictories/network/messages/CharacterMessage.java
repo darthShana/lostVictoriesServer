@@ -74,7 +74,7 @@ public class CharacterMessage implements Serializable{
 	@JsonIgnore
 	Set<UUID> kills = new HashSet<UUID>();
 	SquadType squadType = SquadType.RIFLE_TEAM;
-	long creationTime;
+//	long creationTime;
 
 
 	private CharacterMessage(){}
@@ -335,7 +335,7 @@ public class CharacterMessage implements Serializable{
 		location = other.location;
 		orientation = other.orientation;
 		actions = other.actions;
-		
+
 		other.objectives.entrySet().stream().forEach(e->objectives.putIfAbsent(e.getKey(), e.getValue()));
 		objectives = objectives.entrySet().stream().filter(e->!other.completedObjectives.contains(e.getKey())).collect(Collectors.toMap(e->e.getKey(), e->e.getValue()));
 
@@ -675,9 +675,6 @@ public class CharacterMessage implements Serializable{
 		}catch(Throwable e){
 			log.debug("adding unknow objective type:"+objective);
 		} finally{
-            if("844fd93d-e65a-438a-82c5-dab9ad58e854".equals(id.toString())){
-                System.out.println("in here adding:"+objective);
-            }
 			objectives.put(id.toString(), objective);
 		}
 	}
@@ -837,16 +834,17 @@ public class CharacterMessage implements Serializable{
 		return null;
     }
 
-	public long getCreationTime() {
-		return creationTime;
-	}
+//	public long getCreationTime() {
+//		return creationTime;
+//	}
 
 
-    public void putObjective(String key, String s) {
-	    if("844fd93d-e65a-438a-82c5-dab9ad58e854".equals(id.toString()) && !objectives.containsKey(key)){
-	        System.out.println("in here adding:"+s);
-        }
-	    objectives.put(key, s);
+    public void updateObjective(String key, String s) {
+		if(objectives.containsKey(key)) {
+			objectives.put(key, s);
+		} else{
+			throw new RuntimeException("unknown objective key:"+key+" body:"+s);
+		}
     }
 
     public void removeObjective(String key) {

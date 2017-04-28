@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jme3.lostVictories.network.messages.CustomCodec;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -59,6 +60,7 @@ public class MessageHandler extends SimpleChannelInboundHandler<DatagramPacket> 
 	private CollectEquipmentMessageHandler collectEquipmentMessageHandler;
 	private BoardingVehicleMessageHandler boardingVehicleMessageHandler;
 	private DisembarkPassengersMessageHandler disembarkPassengersMessageHandler;
+	private CustomCodec codec = new CustomCodec();
 
 	public MessageHandler(CharacterDAO characterDAO, HouseDAO houseDAO, EquipmentDAO equipmentDAO, PlayerUsageDAO playerUsageDAO, TreeDAO treeDAO, WorldRunner worldRunner, MessageRepository messageRepository) {
 		updateCharactersMessageHandler = new UpdateCharactersMessageHandler(characterDAO, houseDAO, equipmentDAO, worldRunner, messageRepository);
@@ -139,10 +141,13 @@ public class MessageHandler extends SimpleChannelInboundHandler<DatagramPacket> 
 		byte[] compressed = bos.toByteArray();
 		bos.close();
 		if(compressed.length>1024) {
-			System.out.println("send back response:" + m.getClass() + " size" + data.length + "/" + compressed.length);
-			System.out.println(objectMapper.writeValueAsString(m));
+			log.warn("send back response:" + m.getClass() + " size" + data.length + "/" + compressed.length);
+			log.warn(objectMapper.writeValueAsString(m));
 		}
 		return compressed;
+//		String uncompressed = objectMapper.writeValueAsString(m);
+//		return codec.encode(uncompressed).getBytes();
+
 	}
 
 	private String extractMessage(DatagramPacket packet) throws IOException {
