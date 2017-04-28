@@ -1,16 +1,14 @@
 package lostVictories.messageHanders;
 
-import java.util.Set;
+import static lostVictories.messageHanders.MessageHandler.objectMapper;
 
+import java.util.*;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.jme3.lostVictories.network.messages.wrapper.*;
 import org.apache.log4j.Logger;
 
 import com.jme3.lostVictories.network.messages.CharacterMessage;
-import com.jme3.lostVictories.network.messages.CheckoutScreenRequest;
-import com.jme3.lostVictories.network.messages.CheckoutScreenResponse;
-import com.jme3.lostVictories.network.messages.HouseMessage;
-import com.jme3.lostVictories.network.messages.LostVictoryMessage;
-import com.jme3.lostVictories.network.messages.TreeGroupMessage;
-import com.jme3.lostVictories.network.messages.UnClaimedEquipmentMessage;
 import com.jme3.lostVictories.network.messages.Vector;
 
 import lostVictories.dao.CharacterDAO;
@@ -18,6 +16,7 @@ import lostVictories.dao.EquipmentDAO;
 import lostVictories.dao.HouseDAO;
 import lostVictories.dao.PlayerUsageDAO;
 import lostVictories.dao.TreeDAO;
+import org.elasticsearch.common.collect.Lists;
 
 public class CheckoutScreenMessageHandler{
 	
@@ -37,19 +36,30 @@ public class CheckoutScreenMessageHandler{
 		this.playerUsageDAO = playerUsageDAO;
 	}
 
-	public LostVictoryMessage handle(CheckoutScreenRequest m) {
+	public Set<LostVictoryMessage> handle(CheckoutScreenRequest m) {
 		log.info("checking out scene for avatar:"+m.avatar);
+		Set<LostVictoryMessage> ret = new HashSet<>();
 		CharacterMessage avatar = characterDAO.getCharacter(m.avatar);
 		if(avatar!=null){
 			Vector l = avatar.getLocation();
-	       	Set<CharacterMessage> allCharacters = characterDAO.getAllCharacters(l.x, l.y, l.z, CLIENT_RANGE);
-	       	Set<UnClaimedEquipmentMessage> allEquipment = equipmentDAO.getUnClaimedEquipment(l.x, l.y, l.z, CLIENT_RANGE);
-			Set<HouseMessage> allHouses = houseDAO.getAllHouses();
-			Set<TreeGroupMessage> allTrees = treeDAO.getAllTrees();
+			Set<CharacterMessage> allCharacters = characterDAO.getAllCharacters(l.x, l.y, l.z, CLIENT_RANGE);
+
+			for(Iterator<CharacterMessage> it = allCharacters.iterator(); it.hasNext();){
+				ret.add(new CharacterStatusResponse(it.next()));
+			}
+
+			ret.add(new EquipmentStatusResponse(equipmentDAO.getUnClaimedEquipment(l.x, l.y, l.z, CLIENT_RANGE)));
+			Lists.partition(new ArrayList<>(houseDAO.getAllHouses()), 5).forEach(subList -> {
+				ret.add(new HouseStatusResponse(subList));
+			});
+
+			Lists.partition(new ArrayList<>(treeDAO.getAllTrees()), 5).forEach(subList -> {
+				ret.add(new TreeStatusResponse(subList));
+			});
 			playerUsageDAO.registerStartGame(avatar.getUserID(), System.currentTimeMillis());
-			return new CheckoutScreenResponse(allCharacters, allHouses, allEquipment, allTrees);
 		}
-		return new LostVictoryMessage(m.getClientID());
+		log.info("sending initial checkout with messages:"+ret.size());
+		return ret;
 	}
 
 }

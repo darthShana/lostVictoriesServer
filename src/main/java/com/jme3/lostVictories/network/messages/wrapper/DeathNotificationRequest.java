@@ -1,13 +1,17 @@
-package com.jme3.lostVictories.network.messages;
+package com.jme3.lostVictories.network.messages.wrapper;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.jme3.lostVictories.network.messages.wrapper.LostVictoryMessage;
 
 import java.util.UUID;
 
 public class DeathNotificationRequest extends LostVictoryMessage {
 
-	private final UUID killer;
-    private final UUID victim;
+	private UUID killer;
+    private UUID victim;
+
+    private DeathNotificationRequest(){}
 
     public DeathNotificationRequest(UUID clientID, UUID killer, UUID victim) {
         super(clientID);

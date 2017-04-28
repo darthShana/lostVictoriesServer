@@ -1,13 +1,16 @@
 package lostVictories.messageHanders;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
+import com.jme3.lostVictories.network.messages.wrapper.GenericLostVictoryResponse;
 import org.apache.log4j.Logger;
 
 import com.jme3.lostVictories.network.messages.CharacterMessage;
 import com.jme3.lostVictories.network.messages.CharacterType;
-import com.jme3.lostVictories.network.messages.EquipmentCollectionRequest;
-import com.jme3.lostVictories.network.messages.LostVictoryMessage;
+import com.jme3.lostVictories.network.messages.wrapper.EquipmentCollectionRequest;
+import com.jme3.lostVictories.network.messages.wrapper.LostVictoryMessage;
 import com.jme3.lostVictories.network.messages.UnClaimedEquipmentMessage;
 import com.jme3.lostVictories.network.messages.Vector;
 import com.jme3.lostVictories.network.messages.Weapon;
@@ -29,13 +32,14 @@ public class CollectEquipmentMessageHandler {
 		this.messageRepository = messageRepository;
 	}
 
-	public LostVictoryMessage handle(EquipmentCollectionRequest msg) {
+	public Set<LostVictoryMessage> handle(EquipmentCollectionRequest msg) {
+		Set<LostVictoryMessage> ret = new HashSet<>();
 		UnClaimedEquipmentMessage equipment = equipmentDAO.get(msg.getEquipmentId());
 		CharacterMessage character = characterDAO.getCharacter(msg.getCharacterID());
 		log.info("received equipment pickup:"+msg.getEquipmentId()+" for character "+msg.getCharacterID());
 		
 		if(equipment==null || character==null){
-			return new LostVictoryMessage(UUID.randomUUID());
+			return ret;
 		}
 		
 		Vector3f l1 = new Vector3f(equipment.getLocation().x, 0, equipment.getLocation().z);
@@ -44,7 +48,7 @@ public class CollectEquipmentMessageHandler {
 			if(CharacterType.AVATAR == character.getCharacterType()){
 				messageRepository.addMessage(msg.getClientID(), "Item is too far to collect.");
 			}
-			return new LostVictoryMessage(UUID.randomUUID());
+			return ret;
 		}
 		
 		Weapon drop = character.switchWeapon(equipment);
@@ -53,7 +57,8 @@ public class CollectEquipmentMessageHandler {
 		}
 		equipmentDAO.delete(equipment);
 		characterDAO.putCharacter(character.getId(), character);
-		return new LostVictoryMessage(UUID.randomUUID());
+		ret.add(new GenericLostVictoryResponse());
+		return ret;
 	}
 
 }

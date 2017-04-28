@@ -48,10 +48,10 @@ public class TransportSquadTest {
 		Objective o = transportSquad.issuedOrders.get(oldCo.getId());
 		assertNotNull(o);
 		assertTrue(o instanceof TravelObjective);
-		assertEquals(1, unit.getObjectives().size());
+		assertEquals(1, unit.readObjectives().size());
 
 		transportSquad.runObjective(oldCo, UUID.randomUUID().toString(), characterDAO, houseDAO, new HashMap<UUID, CharacterMessage>(), new HashMap<>());
-		assertEquals(1, unit.getObjectives().size());
+		assertEquals(1, unit.readObjectives().size());
 	}
 
 }

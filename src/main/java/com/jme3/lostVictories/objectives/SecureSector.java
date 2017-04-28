@@ -17,7 +17,7 @@ import com.jme3.lostVictories.network.messages.CharacterMessage;
 import com.jme3.lostVictories.network.messages.HouseMessage;
 import com.jme3.lostVictories.network.messages.Vector;
 
-public class SecureSector extends Objective {
+public class SecureSector extends Objective implements CleanupBeforeTransmitting{
 
 	@JsonIgnore
 	private static Logger log = Logger.getLogger(SecureSector.class);
@@ -69,5 +69,10 @@ public class SecureSector extends Objective {
 	public boolean clashesWith(Class<? extends Objective> newObjective) {
 		return true;
 	}
-	
+
+	@Override
+	public void cleanupBeforeTransmitting() {
+		houses.clear();
+		issuedOrders.clear();
+	}
 }

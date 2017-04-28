@@ -16,7 +16,7 @@ import com.jme3.lostVictories.network.messages.CharacterMessage;
 import com.jme3.lostVictories.network.messages.Vector;
 import com.jme3.math.Vector3f;
 
-public class NavigateObjective extends Objective{
+public class NavigateObjective extends Objective implements CleanupBeforeTransmitting{
 
 	private Vector target;
 	List<Vector> path;
@@ -72,4 +72,8 @@ public class NavigateObjective extends Objective{
 		return newObjective.isAssignableFrom(FollowCommander.class);
 	}
 
+	@Override
+	public void cleanupBeforeTransmitting() {
+		path = null;
+	}
 }

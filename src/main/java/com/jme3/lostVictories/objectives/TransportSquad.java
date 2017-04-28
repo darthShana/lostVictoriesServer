@@ -16,7 +16,7 @@ import com.jme3.lostVictories.network.messages.CharacterMessage;
 import com.jme3.lostVictories.network.messages.CharacterType;
 import com.jme3.lostVictories.network.messages.Vector;
 
-public class TransportSquad extends Objective{
+public class TransportSquad extends Objective implements CleanupBeforeTransmitting{
 	@JsonIgnore
 	private static Logger log = Logger.getLogger(TransportSquad.class);
 
@@ -78,4 +78,8 @@ public class TransportSquad extends Objective{
 		return false;
 	}
 
+	@Override
+	public void cleanupBeforeTransmitting() {
+		issuedOrders.clear();
+	}
 }

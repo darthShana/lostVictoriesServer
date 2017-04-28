@@ -1,15 +1,14 @@
 package lostVictories.messageHanders;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
+import com.jme3.lostVictories.network.messages.wrapper.GenericLostVictoryResponse;
 import org.apache.log4j.Logger;
 
 import com.jme3.lostVictories.network.messages.CharacterMessage;
-import com.jme3.lostVictories.network.messages.PassengerDeathNotificationRequest;
-import com.jme3.lostVictories.network.messages.LostVictoryMessage;
+import com.jme3.lostVictories.network.messages.wrapper.PassengerDeathNotificationRequest;
+import com.jme3.lostVictories.network.messages.wrapper.LostVictoryMessage;
 
 import lostVictories.dao.CharacterDAO;
 
@@ -22,13 +21,14 @@ public class PassengerDeathNotificationMessageHandler {
 		this.characterDAO = characterDAO;
 	}
 
-	public LostVictoryMessage handle(PassengerDeathNotificationRequest msg) throws IOException {
+	public Set<LostVictoryMessage> handle(PassengerDeathNotificationRequest msg) throws IOException {
+		Set<LostVictoryMessage> ret = new HashSet<>();
 		CharacterCatch catche = new CharacterCatch(characterDAO);
 		Map<UUID, CharacterMessage> toSave = new HashMap<UUID, CharacterMessage>();
 		
 		CharacterMessage vehicle = catche.getCharacter(msg.getVictim());
 		if(vehicle==null || vehicle.isDead()){
-			return new LostVictoryMessage(UUID.randomUUID());
+			return ret;
 		}
 		log.info("received gunner death notification:"+vehicle.getId());
 		
@@ -47,7 +47,8 @@ public class PassengerDeathNotificationMessageHandler {
 		
 		characterDAO.saveCommandStructure(toSave);
 		characterDAO.refresh();
-		return new LostVictoryMessage(UUID.randomUUID());
+		ret.add(new GenericLostVictoryResponse());
+		return ret;
 	}
 
 }

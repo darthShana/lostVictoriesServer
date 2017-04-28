@@ -13,7 +13,7 @@ import org.junit.Test;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.jme3.lostVictories.network.messages.AddObjectiveRequest;
+import com.jme3.lostVictories.network.messages.wrapper.AddObjectiveRequest;
 import com.jme3.lostVictories.network.messages.CharacterMessage;
 import com.jme3.lostVictories.network.messages.CharacterType;
 import com.jme3.lostVictories.network.messages.Country;
@@ -42,9 +42,9 @@ public class AddObjectiveMessageHandlerTest {
 		
 		handler.handle(new AddObjectiveRequest(characterID, characterID, travelId, MAPPER.writeValueAsString(travel)));
 		
-		assertEquals(2, characterMessage.getObjectives().size());
-		assertTrue(characterMessage.getObjectives().containsKey(travelId.toString()));
-		assertFalse(characterMessage.getObjectives().containsKey(captureStructureID.toString()));
+		assertEquals(2, characterMessage.readObjectives().size());
+		assertTrue(characterMessage.readObjectives().containsKey(travelId.toString()));
+		assertFalse(characterMessage.readObjectives().containsKey(captureStructureID.toString()));
 	}
 
 }

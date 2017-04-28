@@ -1,16 +1,15 @@
 package lostVictories.messageHanders;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
+import com.jme3.lostVictories.network.messages.wrapper.GenericLostVictoryResponse;
 import org.apache.log4j.Logger;
 
-import com.jme3.lostVictories.network.messages.BoardVehicleRequest;
+import com.jme3.lostVictories.network.messages.wrapper.BoardVehicleRequest;
 import com.jme3.lostVictories.network.messages.CharacterMessage;
 import com.jme3.lostVictories.network.messages.CharacterType;
-import com.jme3.lostVictories.network.messages.LostVictoryMessage;
+import com.jme3.lostVictories.network.messages.wrapper.LostVictoryMessage;
 
 import lostVictories.dao.CharacterDAO;
 
@@ -25,7 +24,9 @@ public class BoardingVehicleMessageHandler {
 		this.messageRepository = messageRepository;
 	}
 
-	public LostVictoryMessage handle(BoardVehicleRequest msg) throws IOException {
+	public Set<LostVictoryMessage> handle(BoardVehicleRequest msg) throws IOException {
+		Set<LostVictoryMessage> ret = new HashSet<>();
+
 		CharacterMessage vehicle = characterDAO.getCharacter(msg.getVehicleID());
 		CharacterMessage passenger = characterDAO.getCharacter(msg.getCharacterID());
 		log.debug("recived boarding request for passenger:"+passenger.getId()+" vehicle:"+msg.getVehicleID());
@@ -35,7 +36,7 @@ public class BoardingVehicleMessageHandler {
 				
 			}
 			log.debug("passenger:"+passenger.getId()+" is too far to get in");
-			return new LostVictoryMessage(UUID.randomUUID());
+			return ret;
 		}
 		if(vehicle.getPassengers().contains(msg.getCharacterID())){
 			if(CharacterType.AVATAR == passenger.getCharacterType() && passenger.getCheckoutClient().equals(passenger.getId())){
@@ -43,7 +44,7 @@ public class BoardingVehicleMessageHandler {
 				log.debug("passenger:"+passenger.getId()+" is is already onboard vehicle");
 			}
 			messageRepository.addMessage(msg.getClientID(), "Avatar already onboard vehicle.");
-			return new LostVictoryMessage(UUID.randomUUID());
+			return ret;
 		}
 		
 		log.debug("passenger:"+passenger.getId()+" checkes passed about to board vehicle:"+msg.getVehicleID());
@@ -61,7 +62,8 @@ public class BoardingVehicleMessageHandler {
 		log.debug("vehicle new passegers:"+toSave.get(msg.getVehicleID()).getPassengers());
 		characterDAO.save(toSave.values());
 		characterDAO.refresh();
-		return new LostVictoryMessage(UUID.randomUUID());
+		ret.add(new GenericLostVictoryResponse());
+		return ret;
 	}
 
 }

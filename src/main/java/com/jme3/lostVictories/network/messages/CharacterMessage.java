@@ -24,6 +24,8 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lostVictories.CharacterRunner;
 import lostVictories.VehicleFactory;
 import lostVictories.WeaponsFactory;
 import lostVictories.dao.CharacterDAO;
@@ -46,9 +48,7 @@ import com.jme3.lostVictories.objectives.PassiveObjective;
 
 public class CharacterMessage implements Serializable{
 
-	private static final long serialVersionUID = 2491659254334134796L;
 	private static Logger log = Logger.getLogger(CharacterMessage.class);
-	public static final long CHECKOUT_TIMEOUT = 2*1000;
 
 	UUID id;
 	UUID userID;
@@ -67,13 +67,17 @@ public class CharacterMessage implements Serializable{
 	Set<Action> actions = new HashSet<Action>();
 	Map<String, String> objectives = new HashMap<String, String>();
 	Set<String> completedObjectives;
-	boolean isDead;
+	boolean dead;
 	boolean engineDamaged;
 	Long timeOfDeath;
 	long version;
+	@JsonIgnore
 	Set<UUID> kills = new HashSet<UUID>();
 	SquadType squadType = SquadType.RIFLE_TEAM;
+//	long creationTime;
 
+
+	private CharacterMessage(){}
 
 	public CharacterMessage(UUID identity, CharacterType type, Vector location, Country country, Weapon weapon, RankMessage rank, UUID commandingOfficer) {
 		this(identity, null, type, location, country, weapon, rank, commandingOfficer);
@@ -153,9 +157,9 @@ public class CharacterMessage implements Serializable{
 
 		unitsUnderCommand = ((Collection<String>)source.get("unitsUnderCommand")).stream().map(s -> UUID.fromString(s)).collect(Collectors.toSet());
 		passengers = ((Collection<String>)source.get("passengers")).stream().map(s -> UUID.fromString(s)).collect(Collectors.toSet());
-		isDead = (boolean) source.get("isDead");
+		dead = (boolean) source.get("dead");
 		engineDamaged = (boolean) source.get("engineDamaged");
-		if(isDead){
+		if(dead){
 			this.checkoutTime = (Long) source.get("checkoutTime");
 		}
 		this.version = version;
@@ -189,6 +193,8 @@ public class CharacterMessage implements Serializable{
 	public CharacterType getCharacterType(){
 		return type;
 	}
+
+	public int getKillCount(){ return kills.size();}
 
 	public void addCharactersUnderCommand(Set<CharacterMessage> cc) {
 		squadType = calculateSquadType(cc, squadType);
@@ -231,18 +237,18 @@ public class CharacterMessage implements Serializable{
 				.field("squadType", squadType)
 				.field("checkoutClient", checkoutClient)
 				.field("checkoutTime", checkoutTime)
-				.field("isDead", isDead)
+				.field("dead", dead)
 				.field("engineDamaged", engineDamaged)
 				.field("timeOfDeath", timeOfDeath)
 				.endObject();
 	}
 
-	public XContentBuilder getCommandStructureUpdate() throws IOException {	
+	public XContentBuilder getCommandStructureUpdate() throws IOException {
 		return jsonBuilder()
 				.startObject()
 				.field("unitsUnderCommand", unitsUnderCommand)
 				.field("commandingOfficer", commandingOfficer)
-				.field("isDead", isDead)
+				.field("dead", dead)
 				.field("passengers", passengers)
 				.field("rank", rank)
 				.field("objectives", CharacterDAO.MAPPER.writeValueAsString(objectives))
@@ -285,30 +291,51 @@ public class CharacterMessage implements Serializable{
 		return location.z/LostVictoryScene.SCENE_HEIGHT*80;
 	}
 
-	public boolean isAvailableForUpdate(UUID clientID, CharacterMessage msg) {
+	public boolean isAvailableForUpdate(UUID clientID, CharacterMessage msg, long duration) {
 		if(msg.version<version){
 			return false;
 		}
-		return this.id.equals(clientID) || this.checkoutClient==null || clientID.equals(this.checkoutClient) || checkoutTime==null ||System.currentTimeMillis()-checkoutTime>CHECKOUT_TIMEOUT;
+		return this.id.equals(clientID) || this.checkoutClient==null || clientID.equals(this.checkoutClient) || checkoutTime==null ||System.currentTimeMillis()-checkoutTime>duration;
 	}
 
-	public boolean isAvailableForCheckout() {
-		return this.checkoutClient==null || checkoutTime==null || (System.currentTimeMillis()-checkoutTime)>CHECKOUT_TIMEOUT;
+	@JsonIgnore
+	public boolean isAvailableForCheckout(long duration) {
+		return this.checkoutClient==null || checkoutTime==null || (System.currentTimeMillis()-checkoutTime)>duration;
 	}
+
+    public boolean isCheckedOutBy(UUID clientID, long duration) {
+	    return this.checkoutClient!=null && (checkoutClient.equals(clientID)) && checkoutTime!=null && (System.currentTimeMillis()-checkoutTime)<duration;
+    }
 
 	public boolean isBusy() {
-		return isDead() || getObjectives().values().stream()
+		return isDead() || objectives.values().stream()
 				.map(s->toJsonNodeSafe(s))
 				.map(json->toObjectiveSafe(json))
 				.filter(o->o!=null)
 				.anyMatch(o->!(o instanceof PassiveObjective));
 	}
 
+	public boolean isAttacking() {
+		for(String s:objectives.values()){
+			if(isAttackingObjective(toJsonNodeSafe(s))){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean isAttackingObjective(JsonNode n) {
+		String s = n.get("class").asText();
+		return  "com.jme3.lostVictories.objectives.AttackBoggies".equals(s) ||
+				"com.jme3.lostVictories.objectives.AttackAndTakeCoverObjective".equals(s) ||
+				"com.jme3.lostVictories.objectives.AttackObjective".equals(s);
+	}
+
 	public void updateState(CharacterMessage other, UUID clientID, long checkoutTime) {
 		location = other.location;
 		orientation = other.orientation;
 		actions = other.actions;
-		
+
 		other.objectives.entrySet().stream().forEach(e->objectives.putIfAbsent(e.getKey(), e.getValue()));
 		objectives = objectives.entrySet().stream().filter(e->!other.completedObjectives.contains(e.getKey())).collect(Collectors.toMap(e->e.getKey(), e->e.getValue()));
 
@@ -337,6 +364,10 @@ public class CharacterMessage implements Serializable{
 		return checkoutClient;
 	}
 
+	public Long getCheckoutTime(){
+		return checkoutTime;
+	}
+
 	public void setCheckoutClient(UUID checkoutClient) {
 		this.checkoutClient = checkoutClient;
 	}
@@ -353,19 +384,21 @@ public class CharacterMessage implements Serializable{
 		}
 	}
 
-	public Map<String, String> getObjectives(){
-		return objectives;
+	public Map<String, String> readObjectives(){
+		return new HashMap<>(objectives);
 	}
 
 	public void kill() {
-		isDead = true;
+		dead = true;
 		timeOfDeath = System.currentTimeMillis();
 	}
 
+
 	public boolean isDead() {
-		return isDead;
+		return dead;
 	}
 
+	@JsonIgnore
 	public boolean isFullStrength() {
 		return unitsUnderCommand.size()>=rank.getFullStrengthPopulation();
 	}
@@ -460,7 +493,7 @@ public class CharacterMessage implements Serializable{
 		return version;
 	}
 
-	public long getTimeOfDeath(){
+	public Long getTimeOfDeath(){
 		return timeOfDeath;
 	}
 
@@ -608,12 +641,12 @@ public class CharacterMessage implements Serializable{
 		try{
 			String asText = toJsonNodeSafe(objective).get("class").asText();
 
-			Map<String, JsonNode> objectives = getObjectives().entrySet().stream().collect(Collectors.toMap(e->e.getKey(), e->toJsonNodeSafe(e.getValue())));
+			Map<String, JsonNode> objectives = this.objectives.entrySet().stream().collect(Collectors.toMap(e->e.getKey(), e->toJsonNodeSafe(e.getValue())));
 			for(Entry<String, JsonNode> entry:objectives.entrySet()){
 				String asText2 = entry.getValue().get("class").asText();
 
 				if(asText.equals(asText2)){
-					getObjectives().remove(entry.getKey());
+					this.objectives.remove(entry.getKey());
 				}
 			}
 
@@ -626,7 +659,7 @@ public class CharacterMessage implements Serializable{
 					if(objectiveClass!=null){
 						Objective obj = (Objective) MAPPER.treeToValue(entry.getValue(), objectiveClass);
 						if(obj.clashesWith(newObjective)){
-							getObjectives().remove(entry.getKey());
+							this.objectives.remove(entry.getKey());
 						}
 					}
 				}catch(ClassNotFoundException e){
@@ -722,6 +755,7 @@ public class CharacterMessage implements Serializable{
 		toSave.put(getId(), this);
 	}
 
+	@JsonIgnore
 	public boolean isAbandoned() {
 		return passengers.isEmpty();
 	}
@@ -791,4 +825,33 @@ public class CharacterMessage implements Serializable{
 		
 	}
 
+    public Objective getObjectiveSafe(UUID value) {
+		if(objectives.get(value.toString())!=null) {
+			try {
+				return MAPPER.readValue(objectives.get(value.toString()), Objective.class);
+			} catch (IOException e) {}
+		}
+		return null;
+    }
+
+//	public long getCreationTime() {
+//		return creationTime;
+//	}
+
+
+    public void updateObjective(String key, String s) {
+		if(objectives.containsKey(key)) {
+			objectives.put(key, s);
+		} else{
+			throw new RuntimeException("unknown objective key:"+key+" body:"+s);
+		}
+    }
+
+    public void removeObjective(String key) {
+	    objectives.remove(key);
+    }
+
+    public void clearObjectives() {
+	    objectives.clear();
+    }
 }

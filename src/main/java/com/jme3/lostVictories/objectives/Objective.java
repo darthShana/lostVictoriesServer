@@ -18,7 +18,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.jme3.lostVictories.network.messages.CharacterMessage;
 
 
-@JsonTypeInfo(use=Id.CLASS, include=As.PROPERTY, property="class")
+@JsonTypeInfo(use= Id.CLASS, include= JsonTypeInfo.As.PROPERTY, property="class")
 public abstract class Objective {
 
 	public boolean isComplete = false;
