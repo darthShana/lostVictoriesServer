@@ -33,7 +33,7 @@ public class TreeGroupMessage implements Serializable{
 		this.id = id;
 		HashMap<String, Double> loc =  (HashMap<String, Double>) source.get("location");
 		float altitude = ((Double)source.get("altitude")).floatValue();
-		this.location = latLongToVector(loc, altitude);
+		this.location = latLongToVector(altitude, loc.get("lon").floatValue(), loc.get("lat").floatValue());
 		try {
 			this.trees = CharacterDAO.MAPPER.readValue((String)source.get("trees"), new TypeReference<Set<TreeMessage>>() {});
 		} catch (IOException e) {

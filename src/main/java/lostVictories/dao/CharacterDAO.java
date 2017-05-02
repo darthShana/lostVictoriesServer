@@ -1,38 +1,20 @@
 package lostVictories.dao;
 
-import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
-import static org.elasticsearch.index.query.FilterBuilders.geoBoundingBoxFilter;
-import static org.elasticsearch.index.query.QueryBuilders.*;
 import static com.jme3.lostVictories.network.messages.CharacterMessage.toLatitute;
 import static com.jme3.lostVictories.network.messages.CharacterMessage.toLongitude;
 
+import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
+import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.apache.log4j.Logger;
-import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
-import org.elasticsearch.action.bulk.BulkRequestBuilder;
-import org.elasticsearch.action.delete.DeleteResponse;
-import org.elasticsearch.action.get.GetResponse;
-import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.action.update.UpdateRequest;
-import org.elasticsearch.client.Client;
-import org.elasticsearch.common.geo.GeoDistance;
-import org.elasticsearch.common.unit.DistanceUnit;
-import org.elasticsearch.index.engine.VersionConflictEngineException;
-import org.elasticsearch.index.query.FilterBuilders;
-import org.elasticsearch.index.query.QueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.search.SearchHit;
-import org.elasticsearch.search.sort.GeoDistanceSortBuilder;
-import org.elasticsearch.search.sort.SortBuilders;
+
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -42,9 +24,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jme3.lostVictories.network.messages.CharacterMessage;
 import com.jme3.lostVictories.network.messages.RankMessage;
 import com.jme3.lostVictories.network.messages.Vector;
+import redis.clients.jedis.*;
+import redis.clients.jedis.params.geo.GeoRadiusParam;
 
 public class CharacterDAO {
-	private static Logger log = Logger.getLogger(CharacterDAO.class); 
+	public static final double ZERO_LAT = toLatitute(new Vector(0, 0, 0));
+	public static final double ZERO_LONG = toLongitude(new Vector(0, 0, 0));
+	private static Logger log = Logger.getLogger(CharacterDAO.class);
 	public static ObjectMapper MAPPER;
 	
     static{
@@ -55,76 +41,101 @@ public class CharacterDAO {
 
     }
 	
-	private Client esClient;
-	private String indexName;
+	Jedis jedis;
+	private String characterStatus = "characterStatus";
 
-	public CharacterDAO(Client esClient, String indexName) {
-		this.esClient = esClient;
-		this.indexName = indexName;
+	public CharacterDAO(JedisPool pool) {
+		jedis = pool.getResource();
 	}
 	  
 	public void putCharacter(UUID uuid, CharacterMessage character) {
+		Transaction transaction = jedis.multi();
 		try {
-			esClient.prepareIndex(indexName, "unitStatus", uuid.toString())
-			        .setSource(character.getJSONRepresentation())
-			        .setVersion(character.getVersion())
-			        .execute()
-			        .actionGet();
-
-		} catch (VersionConflictEngineException ee){
-			log.info("Discarding update to character:"+uuid+", character has been updated since been loaded");
+			transaction.del(characterStatus+"."+character.getId().toString());
+			transaction.zrem("characterLocation", character.getId().toString());
+			character.getMapRepresentation().entrySet().forEach(e->{
+				transaction.hset(characterStatus+"."+character.getId().toString(), e.getKey(), e.getValue());
+			});
+			transaction.geoadd("characterLocation", toLongitude(character.getLocation()), toLatitute(character.getLocation()), character.getId().toString());
 		} catch (IOException e) {
 			throw new RuntimeException(e);
+		} finally {
+			transaction.exec();
 		}
+
+	}
+
+	public CharacterMessage getCharacter(UUID id) {
+		jedis.watch(characterStatus + "." + id.toString());
+		Map<String, String> mapResponse = jedis.hgetAll(characterStatus + "." + id.toString());
+		List<GeoCoordinate> characterLocation = jedis.geopos("characterLocation", id.toString());
+
+		if(mapResponse !=null){
+			try {
+				return new CharacterMessage(mapResponse, characterLocation.get(0));
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+		}else{
+			return null;
+		}
+
 	}
 
 	
 
 	public Set<CharacterMessage> getAllCharacters(float x, float y, float z, float range) {
-		
-		Vector topLeft = new Vector(x-range, y, z+range);
-		Vector bottomRight = new Vector(x+range, y, z-range);
-		
-		double tl_latitute = toLatitute(topLeft);
-		double tl_longitude = toLongitude(topLeft);
-		double br_latitute = toLatitute(bottomRight);
-		double br_longitude = toLongitude(bottomRight);
-		
-		tl_latitute = tl_latitute > 80 ? 80 : tl_latitute;
-		tl_longitude = tl_longitude < -180 ? -180 : tl_longitude;
-		br_latitute = br_latitute < -80 ? -80 : br_latitute;
-		br_longitude = br_longitude > 180 ? 180 : br_longitude;
-		
-		SearchResponse searchResponse = esClient.prepareSearch(indexName)
-                .setQuery(filteredQuery(matchAllQuery(), geoBoundingBoxFilter("location").topLeft(tl_latitute, tl_longitude).bottomRight(br_latitute, br_longitude))).setSize(10000)
-                .setVersion(true)
-                .execute().actionGet();
-		
-		log.trace("retrived :"+searchResponse.getHits().hits().length+" from elasticsearch");
-		Iterator<SearchHit> iterator = searchResponse.getHits().iterator();
-		Iterable<SearchHit> iterable = () -> iterator;
-		return StreamSupport.stream(iterable.spliterator(), true).map(hit -> fromFields(UUID.fromString(hit.getId()), hit.getVersion(), hit.getSource())).collect(Collectors.toSet());
+		Vector v1 = new Vector(range, 0, range);
+		double lat = toLatitute(v1);
+		double lon = toLongitude(v1);
+		double inKM = haversineInKM(ZERO_LAT, ZERO_LONG, lat, lon);
+
+		Vector v2 = new Vector(x, y, z);
+		double lat1 = toLatitute(v2);
+		double lon1 = toLongitude(v2);
+
+		Rectangle.Float boundingBox = new Rectangle2D.Float(x-range, z-range, range*2, range*2);
+
+		List<GeoRadiusResponse> characterLocation = jedis.georadius("characterLocation", lon1, lat1, inKM, GeoUnit.KM);
+		return characterLocation.stream()
+				.map(r->getCharacter(UUID.fromString(r.getMemberByString())))
+				.filter(c->boundingBox.contains(c.getLocation().x, c.getLocation().z))
+				.collect(Collectors.toSet());
+	}
+
+	static final double _eQuatorialEarthRadius = 6378.1370D;
+	static final double _d2r = (Math.PI / 180D);
+
+	public static int haversineInM(double lat1, double long1, double lat2, double long2) {
+		return (int) (1000D * haversineInKM(lat1, long1, lat2, long2));
+	}
+
+	public static double haversineInKM(double lat1, double long1, double lat2, double long2) {
+		double dlong = (long2 - long1) * _d2r;
+		double dlat = (lat2 - lat1) * _d2r;
+		double a = Math.pow(Math.sin(dlat / 2D), 2D) + Math.cos(lat1 * _d2r) * Math.cos(lat2 * _d2r)
+				* Math.pow(Math.sin(dlong / 2D), 2D);
+		double c = 2D * Math.atan2(Math.sqrt(a), Math.sqrt(1D - a));
+		double d = _eQuatorialEarthRadius * c;
+
+		return d;
 	}
 	
 	public CharacterMessage findClosestCharacter(CharacterMessage c, RankMessage rank) {
-		double tl_latitute = toLatitute(c.getLocation());
-		double tl_longitude = toLongitude(c.getLocation());
-		
-		GeoDistanceSortBuilder geoDistanceSort = SortBuilders.geoDistanceSort("location").point(tl_latitute, tl_longitude)
-	            .unit(DistanceUnit.METERS)
-	            .geoDistance(GeoDistance.PLANE);
+		double lat1 = toLatitute(c.getLocation());
+		double lon1 = toLongitude(c.getLocation());
 
-	    SearchResponse searchResponse = esClient.prepareSearch(indexName)
-	    		.setQuery(QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery(), FilterBuilders.termFilter("rank",rank.name()))).setSize(100)
-	    		.addSort(geoDistanceSort)
-	            .setVersion(true)
-                .execute().actionGet();
+		List<GeoRadiusResponse> characterLocation = jedis.georadius("characterLocation", lon1, lat1, 9000, GeoUnit.KM, GeoRadiusParam.geoRadiusParam().sortAscending());
+		Optional<CharacterMessage> first = characterLocation.stream()
+				.map(r -> getCharacter(UUID.fromString(r.getMemberByString())))
+				.filter(cc -> rank == cc.getRank())
+				.filter(i->!i.getId().equals(c.getId()))
+				.findFirst();
 
-	    if(searchResponse.getHits().getTotalHits()==0){
-	    	return null;
-	    }
-	    SearchHit closest = searchResponse.getHits().iterator().next();
-		return fromFields(UUID.fromString(closest.getId()), closest.getVersion(), closest.getSource());
+		if(first.isPresent()){
+			return first.get();
+		}
+		return null;
 	}
 
 	private CharacterMessage fromFields(UUID id, long version, Map<String, Object> source) {
@@ -132,124 +143,104 @@ public class CharacterDAO {
 	}	
 
 	public Map<UUID, CharacterMessage> getAllCharacters(Set<UUID> ids) {
-		String[] i = ids.stream().map(UUID::toString).toArray(size->new String[size]);
-		QueryBuilder qb = idsQuery().ids(i);
-		SearchResponse searchResponse = esClient.prepareSearch(indexName)
-                .setQuery(qb).setSize(10000)
-                .setVersion(true)
-                .execute().actionGet();
-		
-		log.trace("retrived :"+searchResponse.getHits().hits().length+" from elasticsearch");
-		Iterator<SearchHit> iterator = searchResponse.getHits().iterator();
-		Iterable<SearchHit> iterable = () -> iterator;
-		return StreamSupport.stream(iterable.spliterator(), true).map(hit -> fromFields(UUID.fromString(hit.getId()), hit.getVersion(), hit.getSource())).collect(Collectors.toMap(CharacterMessage::getId, Function.identity()));
+		return ids.stream().map(id->getCharacter(id)).collect(Collectors.toMap(c->c.getId(), Function.identity()));
 	}
-	
+
 	public Set<CharacterMessage> getAllCharacters() {
-		SearchResponse searchResponse = esClient.prepareSearch(indexName)
-				.setTypes("unitStatus")
-				.setQuery(matchAllQuery()).setSize(10000)
-				.setVersion(true)
-				.execute().actionGet();
-		
-		Iterator<SearchHit> iterator = searchResponse.getHits().iterator();
-		Iterable<SearchHit> iterable = () -> iterator;
-		return StreamSupport.stream(iterable.spliterator(), true).map(hit -> fromFields(UUID.fromString(hit.getId()), hit.version(), hit.getSource())).collect(Collectors.toSet());
+		List<GeoRadiusResponse> mapResponse = jedis.georadius("characterLocation", 0, 0, 1000000, GeoUnit.KM);
+		return mapResponse.stream().map(r->getCharacter(UUID.fromString(r.getMemberByString()))).collect(Collectors.toSet());
 	}
-	
-	public void save(Collection<CharacterMessage> values) throws IOException {		
-		BulkRequestBuilder bulkRequest = esClient.prepareBulk();
-		for(CharacterMessage v: values){
-			bulkRequest.add(
-					new UpdateRequest(indexName, "unitStatus", v.getId().toString()).doc(v.getJSONRepresentation())
-					);
+
+	public void save(Collection<CharacterMessage> values) throws IOException {
+		Transaction transaction = jedis.multi();
+		try {
+			values.forEach(character -> {
+				try {
+					transaction.del(characterStatus + "." + character.getId().toString());
+					transaction.zrem("characterLocation", character.getId().toString());
+					character.getMapRepresentation().entrySet().forEach(e -> {
+						transaction.hset(characterStatus + "." + character.getId().toString(), e.getKey(), e.getValue());
+					});
+					transaction.hincrBy(characterStatus + "." + character.getId().toString(), "version", 1);
+					transaction.geoadd("characterLocation", toLongitude(character.getLocation()), toLatitute(character.getLocation()), character.getId().toString());
+				}catch (IOException e){
+					throw new RuntimeException(e);
+				}
+			});
+		} catch (Throwable e) {
+			throw new RuntimeException(e);
+		} finally {
+			transaction.exec();
 		}
-		
-		bulkRequest.execute().actionGet();
 	}
-	
+
 	public void updateCharacterState(Map<UUID, CharacterMessage> map) throws IOException{
-		if(map.isEmpty()){
-			log.trace("nothing to save");
-			return;
-		}
-		
-		for(CharacterMessage v: map.values()){
-			try{
-				UpdateRequest updateRequest = new UpdateRequest(indexName, "unitStatus", v.getId().toString());
-				updateRequest.doc(v.getStateUpdate()).version(v.getVersion());
-				esClient.update(updateRequest);
-			} catch (VersionConflictEngineException ee){
-				log.info("Discarding update to character:"+v.getId()+", character has been updated since been loaded");
-			}
-		}
-
-		refresh();
+		updateCharacter(map, CharacterMessage::getStateUpdate);
 	}
 
-	public void updateCharacterStateNoCheckout(Map<UUID, CharacterMessage> map) throws IOException{
-		if(map.isEmpty()){
-			log.trace("nothing to save");
-			return;
-		}
-		
-		BulkRequestBuilder bulkRequest = esClient.prepareBulk();
-		for(CharacterMessage v: map.values()){
-			bulkRequest.add(
-					new UpdateRequest(indexName, "unitStatus", v.getId().toString()).doc(v.getStateUpdateNoCheckout()).version(v.getVersion())
-					);
-		}
-		
-		bulkRequest.execute().actionGet();
+	public void updateCharacterStateNoCheckout(Map<UUID, CharacterMessage> map) {
+		updateCharacter(map, CharacterMessage::getStateUpdateNoCheckout);
 	}
-	
-	public void saveCommandStructure(Map<UUID, CharacterMessage> map) throws IOException {
-		if(map.isEmpty()){
-			log.trace("nothing to save");
-			return;
+
+	private void updateCharacter(Map<UUID, CharacterMessage> map, Function<CharacterMessage, Map<String, String>> updateFunction) {
+		Transaction transaction = jedis.multi();
+		try {
+			map.values().forEach(character -> {
+				transaction.zrem("characterLocation", character.getId().toString());
+				updateFunction.apply(character).entrySet().forEach(e -> {
+					transaction.hdel(characterStatus + "." + character.getId().toString(), e.getKey());
+					if(e.getValue()!=null) {
+						transaction.hset(characterStatus + "." + character.getId().toString(), e.getKey(), e.getValue());
+					}
+				});
+				transaction.hincrBy(characterStatus + "." + character.getId().toString(), "version", 1);
+				transaction.geoadd("characterLocation", toLongitude(character.getLocation()), toLatitute(character.getLocation()), character.getId().toString());
+			});
+		} catch (Throwable e) {
+			throw new RuntimeException(e);
+		} finally {
+			transaction.exec();
 		}
-		
-		BulkRequestBuilder bulkRequest = esClient.prepareBulk();
-		for(CharacterMessage v: map.values()){
-			bulkRequest.add(
-				new UpdateRequest(indexName, "unitStatus", v.getId().toString()).doc(v.getCommandStructureUpdate())
-			);
-		}
-				
-		bulkRequest.execute().actionGet();
-		
 	}
+
+
 	
+	public void saveCommandStructure(Map<UUID, CharacterMessage> map) {
+		updateCharacter(map, CharacterMessage::getCommandStructureUpdate);
+
+	}
+
 	public void updateCharactersUnderCommand(CharacterMessage c) throws IOException {
-		esClient.prepareUpdate(indexName, "unitStatus", c.getId().toString())
-        .setDoc(jsonBuilder()               
-            .startObject()
-                .field("unitsUnderCommand", c.getUnitsUnderCommand())
-            .endObject())
-        .get();
-	}
+		Map<UUID, CharacterMessage> map = new HashMap<>();
+		map.put(c.getId(), c);
+		updateCharacter(map, cc->{
+			HashMap<String, String> ret = new HashMap<>();
 
-	public CharacterMessage getCharacter(UUID id) {
-		GetResponse response = esClient.prepareGet(indexName, "unitStatus", id.toString())
-		        .execute()
-		        .actionGet();
-		if(!response.isExists()){
-			return null;
-		}
-		return fromFields(UUID.fromString(response.getId()), response.getVersion(), response.getSource());
+			try {
+				ret.put("unitsUnderCommand", CharacterDAO.MAPPER.writeValueAsString(cc.getUnitsUnderCommand()));
+			} catch (JsonProcessingException e) {
+				throw new RuntimeException(e);
+			}
+			return ret;
+		});
 	}
 
 	public boolean delete(CharacterMessage c) {
-		DeleteResponse response = esClient.prepareDelete(indexName, "unitStatus", c.getId().toString())
-		        .execute()
-		        .actionGet();
-		return response.isFound();
+		jedis.del(characterStatus+"."+c.getId().toString());
+		jedis.zrem("characterLocation", c.getId().toString());
+		return true;
 	}
 
 	public void refresh() {
-		esClient.admin().indices().refresh(new RefreshRequest(indexName)).actionGet();
+//		esClient.admin().indices().refresh(new RefreshRequest(indexName)).actionGet();
 	}
 
 
-
+	public void deleteAllCharacters() {
+		List<GeoRadiusResponse> mapResponse = jedis.georadius("characterLocation", 0, 0, 1000000, GeoUnit.KM);
+		mapResponse.forEach(r->{
+			jedis.del(characterStatus+"."+r.getMemberByString());
+		});
+		jedis.del("characterLocation");
+	}
 }

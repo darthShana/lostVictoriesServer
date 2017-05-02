@@ -16,7 +16,6 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import lostVictories.dao.CharacterDAO;
-import lostVictories.dao.HouseDAO;
 
 import org.apache.log4j.Logger;
 import org.elasticsearch.common.geo.GeoPoint;
@@ -51,7 +50,7 @@ public class HouseMessage implements Serializable{
 		HashMap<String, Double> loc =  (HashMap<String, Double>) source.get("location");
 		HashMap<String, Double> rot =  (HashMap<String, Double>) source.get("rotation");
 		float altitude = ((Double)source.get("altitude")).floatValue();
-		this.location = latLongToVector(loc, altitude);
+		this.location = latLongToVector(altitude, loc.get("lon").floatValue(), loc.get("lat").floatValue());
 		this.rotation = toQuaternion(rot);
 		
 		if(source.get("owner")!=null){

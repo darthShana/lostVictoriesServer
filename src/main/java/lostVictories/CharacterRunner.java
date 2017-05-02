@@ -58,12 +58,8 @@ public class CharacterRunner implements Runnable{
 				.filter(c->!c.isDead())
 				.filter(c->c.isAvailableForCheckout())
 				.forEach(c->runCharacterBehavior(c, toSave, kills, characterDAO, playerUsageDAO));
-			try {
-				characterDAO.updateCharacterStateNoCheckout(toSave);
-				characterDAO.refresh();
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
+			characterDAO.updateCharacterStateNoCheckout(toSave);
+			characterDAO.refresh();
 			
 			kills.entrySet().stream().forEach(entry->doKill(entry.getKey(), entry.getValue()));
 		}catch(Throwable e){
@@ -89,12 +85,9 @@ public class CharacterRunner implements Runnable{
 		
 		victim.replaceMe(catche, toSave);
 		
-		try {
-			characterDAO.saveCommandStructure(toSave);
-			characterDAO.refresh();
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
+		characterDAO.saveCommandStructure(toSave);
+		characterDAO.refresh();
+
 		
 	}
 

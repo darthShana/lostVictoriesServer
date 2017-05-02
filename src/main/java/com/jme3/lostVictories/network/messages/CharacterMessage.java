@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -24,6 +23,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.databind.JavaType;
 import lostVictories.VehicleFactory;
 import lostVictories.WeaponsFactory;
 import lostVictories.dao.CharacterDAO;
@@ -43,10 +43,10 @@ import com.jme3.lostVictories.network.messages.actions.Action;
 import com.jme3.lostVictories.objectives.FollowCommander;
 import com.jme3.lostVictories.objectives.Objective;
 import com.jme3.lostVictories.objectives.PassiveObjective;
+import redis.clients.jedis.GeoCoordinate;
 
 public class CharacterMessage implements Serializable{
 
-	private static final long serialVersionUID = 2491659254334134796L;
 	private static Logger log = Logger.getLogger(CharacterMessage.class);
 	public static final long CHECKOUT_TIMEOUT = 2*1000;
 
@@ -92,6 +92,65 @@ public class CharacterMessage implements Serializable{
 		}
 	}
 
+	public CharacterMessage(Map<String, String> source, GeoCoordinate geoCoordinate) throws IOException {
+		this.id = UUID.fromString(source.get("id"));
+		this.type = CharacterType.valueOf((String) source.get("type"));
+		if(source.containsKey("userID")){
+			this.userID = UUID.fromString(source.get("userID"));
+		}
+
+		this.country = Country.valueOf(source.get("country"));
+		this.weapon = Weapon.valueOf(source.get("weapon"));
+		this.rank = RankMessage.valueOf(source.get("rank"));
+		if(source.containsKey("commandingOfficer")){
+			this.commandingOfficer = UUID.fromString(source.get("commandingOfficer"));
+		}
+		if(source.containsKey("boardedVehicle")){
+			this.boardedVehicle = UUID.fromString(source.get("boardedVehicle"));
+		}
+		if(source.containsKey("unitsUnderCommand")){
+			JavaType type = MAPPER.getTypeFactory().constructCollectionType(Set.class, UUID.class);
+			unitsUnderCommand = MAPPER.readValue(source.get("unitsUnderCommand"), type);
+		}
+		if(source.containsKey("passengers")){
+			JavaType type = MAPPER.getTypeFactory().constructCollectionType(Set.class, UUID.class);
+			passengers = MAPPER.readValue(source.get("passengers"), type);
+		}
+		if(source.containsKey("boardedVehicle")){
+			this.boardedVehicle = UUID.fromString(source.get("boardedVehicle"));
+		}
+		if(source.containsKey("checkoutClient")){
+			this.checkoutClient = UUID.fromString(source.get("checkoutClient"));
+		}
+		if(source.containsKey("checkoutTime")){
+			this.checkoutTime = Long.parseLong(source.get("checkoutTime"));
+		}
+		this.orientation = MAPPER.readValue(source.get("orientation"), Vector.class);
+
+		if(source.containsKey("actions")){
+			JavaType type = MAPPER.getTypeFactory().constructCollectionType(Set.class, Action.class);
+			actions = MAPPER.readValue(source.get("actions"), type);
+		}
+		String o = source.get("objectives");
+		if(!"[{}]".equals(o)){
+			this.objectives = CharacterDAO.MAPPER.readValue(o, new TypeReference<Map<String, String>>() {});
+		}
+		isDead = Boolean.parseBoolean(source.get("isDead"));
+		engineDamaged = Boolean.parseBoolean(source.get("engineDamaged"));
+		if(source.containsKey("timeOfDeath")){
+			this.timeOfDeath = Long.parseLong(source.get("timeOfDeath"));
+		}
+		this.version = Long.parseLong(source.get("version"));
+		if(source.containsKey("kills")){
+			JavaType type = MAPPER.getTypeFactory().constructCollectionType(Set.class, UUID.class);
+			kills = MAPPER.readValue(source.get("kills"), type);
+		}
+		squadType = SquadType.valueOf(source.get("squadType"));
+		float altitude = Float.parseFloat(source.get("altitude"));
+
+		this.location = latLongToVector(altitude, (float) geoCoordinate.getLongitude(), (float) geoCoordinate.getLatitude());
+	}
+
 	public CharacterMessage(UUID id, long version, Map<String, Object> source) {
 		this.id = id;
 		HashMap<String, Double> location =  (HashMap<String, Double>) source.get("location");
@@ -101,7 +160,7 @@ public class CharacterMessage implements Serializable{
 		if(source.get("squadType")!=null){
 			this.squadType = SquadType.valueOf((String) source.get("squadType"));
 		}
-		this.location = latLongToVector(location, altitude);
+		this.location = latLongToVector(altitude, location.get("lon").floatValue(), location.get("lat").floatValue());
 		this.country = Country.valueOf((String)source.get("country"));
 		this.weapon = Weapon.valueOf((String) source.get("weapon"));
 		this.rank = RankMessage.valueOf((String) source.get("rank"));
@@ -209,72 +268,97 @@ public class CharacterMessage implements Serializable{
 		return userID;
 	}
 
-	public XContentBuilder getJSONRepresentation() throws IOException {
-		return jsonBuilder()
-				.startObject()
-				.field("userID", userID)
-				.field("boardedVehicle", boardedVehicle)
-				.field("date", new Date())
-				.field("location", new GeoPoint(toLatitute(getLocation()), toLongitude(getLocation())))
-				.field("altitude", getLocation().y)
-				.field("orientation", orientation.toMap())
-				.field("country", getCountry())
-				.field("weapon", getWeapon())
-				.field("rank", getRank())
-				.field("kills", kills)
-				.field("actions", MAPPER.writerFor(new TypeReference<Set<Action>>() {}).writeValueAsString(actions))
-				.field("objectives", CharacterDAO.MAPPER.writeValueAsString(objectives))
-				.field("commandingOfficer", commandingOfficer)
-				.field("unitsUnderCommand", unitsUnderCommand)
-				.field("passengers", passengers)
-				.field("type", type)
-				.field("squadType", squadType)
-				.field("checkoutClient", checkoutClient)
-				.field("checkoutTime", checkoutTime)
-				.field("isDead", isDead)
-				.field("engineDamaged", engineDamaged)
-				.field("timeOfDeath", timeOfDeath)
-				.endObject();
+	public Map<String, String> getMapRepresentation() throws IOException {
+		Map<String, String> ret = new HashMap<>();
+		ret.put("id", id.toString());
+		if(userID!=null) {
+			ret.put("userID",userID.toString());
+		}
+		if(boardedVehicle!=null){
+			ret.put("boardedVehicle", boardedVehicle.toString());
+		}
+
+		ret.put("altitude", getLocation().y+"");
+		ret.put("orientation", CharacterDAO.MAPPER.writeValueAsString(orientation));
+		ret.put("country", getCountry().toString());
+		ret.put("weapon", getWeapon().toString());
+		ret.put("rank", getRank().toString());
+		ret.put("kills", CharacterDAO.MAPPER.writeValueAsString(kills));
+		ret.put("actions", MAPPER.writerFor(new TypeReference<Set<Action>>() {}).writeValueAsString(actions));
+		ret.put("objectives", CharacterDAO.MAPPER.writeValueAsString(objectives));
+		if(commandingOfficer!=null){
+			ret.put("commandingOfficer", commandingOfficer.toString());
+		}
+
+		ret.put("unitsUnderCommand", CharacterDAO.MAPPER.writeValueAsString(unitsUnderCommand));
+		ret.put("passengers", CharacterDAO.MAPPER.writeValueAsString(passengers));
+		ret.put("type", type.toString());
+		ret.put("squadType", squadType.toString());
+		if(checkoutClient!=null){
+			ret.put("checkoutClient", checkoutClient.toString());
+		}
+
+		if(checkoutTime!=null){
+			ret.put("checkoutTime", checkoutTime.toString());
+		}
+
+		ret.put("isDead", isDead+"");
+		ret.put("engineDamaged", engineDamaged+"");
+		if(timeOfDeath!=null){
+			ret.put("timeOfDeath", timeOfDeath.toString());
+		}
+		ret.put("version", version+"");
+		return ret;
 	}
 
-	public XContentBuilder getCommandStructureUpdate() throws IOException {	
-		return jsonBuilder()
-				.startObject()
-				.field("unitsUnderCommand", unitsUnderCommand)
-				.field("commandingOfficer", commandingOfficer)
-				.field("isDead", isDead)
-				.field("passengers", passengers)
-				.field("rank", rank)
-				.field("objectives", CharacterDAO.MAPPER.writeValueAsString(objectives))
-				.field("timeOfDeath", timeOfDeath)
-				.field("kills", kills)				
-				.endObject();
+	public Map<String, String> getCommandStructureUpdate() {
+		Map<String, String> ret = new HashMap<>();
+
+		try{
+			ret.put("unitsUnderCommand", CharacterDAO.MAPPER.writeValueAsString(unitsUnderCommand));
+			ret.put("commandingOfficer", (commandingOfficer!=null)?commandingOfficer.toString():null);
+			ret.put("isDead", isDead+"");
+			ret.put("passengers", CharacterDAO.MAPPER.writeValueAsString(passengers));
+			ret.put("rank", getRank().toString());
+			ret.put("objectives", CharacterDAO.MAPPER.writeValueAsString(objectives));
+			ret.put("timeOfDeath", (timeOfDeath!=null)?timeOfDeath.toString():null);
+			ret.put("kills", CharacterDAO.MAPPER.writeValueAsString(kills));
+		} catch (JsonProcessingException e) {
+			throw new RuntimeException(e);
+		}
+		return ret;
 	}
 
-	public XContentBuilder getStateUpdate() throws IOException{
+	public Map<String, String> getStateUpdate() {
+		Map<String, String> ret = new HashMap<>();
 
-		return jsonBuilder()
-				.startObject()
-				.field("location", new GeoPoint(toLatitute(getLocation()), toLongitude(getLocation())))
-				.field("altitude", getLocation().y)
-				.field("orientation", orientation.toMap())
-				.field("actions", MAPPER.writerFor(new TypeReference<Set<Action>>() {}).writeValueAsString(actions))
-				.field("objectives", CharacterDAO.MAPPER.writeValueAsString(objectives))	
-				.field("checkoutClient", checkoutClient)
-				.field("checkoutTime", checkoutTime)
-				.endObject();
+		try{
+			ret.put("altitude", getLocation().y+"");
+			ret.put("orientation", CharacterDAO.MAPPER.writeValueAsString(orientation));
+			ret.put("actions", MAPPER.writerFor(new TypeReference<Set<Action>>() {}).writeValueAsString(actions));
+			ret.put("objectives", CharacterDAO.MAPPER.writeValueAsString(objectives));
+			ret.put("checkoutClient", (checkoutClient!=null)?checkoutClient.toString():null);
+			ret.put("checkoutTime", (checkoutTime!=null)?checkoutTime.toString():null);
+		} catch (JsonProcessingException e) {
+			throw new RuntimeException(e);
+		}
+		return ret;
 	}
 
-	public XContentBuilder getStateUpdateNoCheckout() throws IOException{
+	public Map<String, String> getStateUpdateNoCheckout() {
+		Map<String, String> ret = new HashMap<>();
 
-		return jsonBuilder()
-				.startObject()
-				.field("location", new GeoPoint(toLatitute(getLocation()), toLongitude(getLocation())))
-				.field("altitude", getLocation().y)
-				.field("orientation", orientation.toMap())
-				.field("objectives", CharacterDAO.MAPPER.writeValueAsString(objectives))	
-				.field("engineDamaged", engineDamaged)
-				.endObject();
+		try {
+			ret.put("altitude", getLocation().y+"");
+			ret.put("orientation", CharacterDAO.MAPPER.writeValueAsString(orientation));
+			ret.put("objectives", CharacterDAO.MAPPER.writeValueAsString(objectives));
+			ret.put("engineDamaged", engineDamaged+"");
+		} catch (JsonProcessingException e) {
+			throw new RuntimeException(e);
+		}
+
+
+		return ret;
 	}
 
 	public static double toLongitude(Vector location) {
@@ -346,11 +430,12 @@ public class CharacterMessage implements Serializable{
 	}
 
 	public XContentBuilder getJSONRepresentationUnChecked() {
-		try {
-			return getJSONRepresentation();
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
+//		try {
+			//return getJSONRepresentation();
+			return null;
+//		} catch (IOException e) {
+//			throw new RuntimeException(e);
+//		}
 	}
 
 	public Map<String, String> getObjectives(){
@@ -460,7 +545,7 @@ public class CharacterMessage implements Serializable{
 		return version;
 	}
 
-	public long getTimeOfDeath(){
+	public Long getTimeOfDeath(){
 		return timeOfDeath;
 	}
 
@@ -670,13 +755,13 @@ public class CharacterMessage implements Serializable{
 	}
 
 	private SquadType getSquadType(SquadType squadType) {
-		if(type==CharacterType.ANTI_TANK_GUN){
+		if (type == CharacterType.ANTI_TANK_GUN) {
 			squadType = SquadType.ANTI_TANK_GUN;
-		}else if(type==CharacterType.ARMORED_CAR && squadType!=SquadType.ANTI_TANK_GUN){
+		} else if (type == CharacterType.ARMORED_CAR && squadType != SquadType.ANTI_TANK_GUN) {
 			squadType = SquadType.ARMORED_VEHICLE;
-		}else if(weapon==Weapon.MORTAR && squadType!=SquadType.ARMORED_VEHICLE && squadType!=SquadType.ANTI_TANK_GUN){
+		} else if (weapon == Weapon.MORTAR && squadType != SquadType.ARMORED_VEHICLE && squadType != SquadType.ANTI_TANK_GUN) {
 			squadType = SquadType.MORTAR_TEAM;
-		}else if(weapon==Weapon.MG42 && squadType!=SquadType.ARMORED_VEHICLE && squadType!=SquadType.ANTI_TANK_GUN){
+		} else if (weapon == Weapon.MG42 && squadType != SquadType.ARMORED_VEHICLE && squadType != SquadType.ANTI_TANK_GUN) {
 			squadType = SquadType.MG42_TEAM;
 		}
 		return squadType;
@@ -791,4 +876,19 @@ public class CharacterMessage implements Serializable{
 		
 	}
 
+	public Long getCheckoutTime() {
+		return checkoutTime;
+	}
+
+	public Set<String> getCompletedObjectives() {
+		return completedObjectives;
+	}
+
+	public Set<UUID> getKills() {
+		return kills;
+	}
+
+	public boolean hasEngineDamage() {
+		return engineDamaged;
+	}
 }

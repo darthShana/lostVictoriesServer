@@ -65,8 +65,8 @@ public class Vector implements Serializable{
 		return hashMap;
 	}
 	
-	public static Vector latLongToVector(HashMap<String, Double> location, float altitude){
-		return new Vector(location.get("lon").floatValue()/180*LostVictoryScene.SCENE_WIDTH, altitude, location.get("lat").floatValue()/80*LostVictoryScene.SCENE_HEIGHT);
+	public static Vector latLongToVector(float altitude, float lon, float lat){
+		return new Vector(lon /180*LostVictoryScene.SCENE_WIDTH, altitude, lat /80*LostVictoryScene.SCENE_HEIGHT);
 	}
 
 
