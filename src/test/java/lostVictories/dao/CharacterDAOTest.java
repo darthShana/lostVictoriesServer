@@ -31,7 +31,7 @@ public class CharacterDAOTest {
     @Test
     public void testPutAndGet() throws JsonProcessingException {
 
-        CharacterMessage s1 = CharacterMessageTest.createCharacter(UUID.randomUUID(), UUID.randomUUID(), new Vector(100, 90.5f, 50), RankMessage.CADET_CORPORAL);
+        CharacterMessage s1 = CharacterMessageTest.createCharacter(UUID.randomUUID(), UUID.randomUUID(), new Vector(100, 90.5f, 50), RankMessage.CADET_CORPORAL, true);
         dao.putCharacter(s1.getId(), s1);
         CharacterMessage s2 = dao.getCharacter(s1.getId());
 
@@ -63,9 +63,9 @@ public class CharacterDAOTest {
     @Test
     public void testPutOveridesOldProperties() throws JsonProcessingException {
         UUID randomID = UUID.randomUUID();
-        CharacterMessage s1 = CharacterMessageTest.createCharacter(randomID, UUID.randomUUID(), new Vector(100, 90.5f, 50), RankMessage.CADET_CORPORAL);
+        CharacterMessage s1 = CharacterMessageTest.createCharacter(randomID, UUID.randomUUID(), new Vector(100, 90.5f, 50), RankMessage.CADET_CORPORAL, true);
         dao.putCharacter(s1.getId(), s1);
-        CharacterMessage s2 = CharacterMessageTest.createCharacter(randomID, null, new Vector(100, 90.5f, 50), RankMessage.CADET_CORPORAL);
+        CharacterMessage s2 = CharacterMessageTest.createCharacter(randomID, null, new Vector(100, 90.5f, 50), RankMessage.CADET_CORPORAL, true);
         dao.putCharacter(s2.getId(), s2);
 
         CharacterMessage s3 = dao.getCharacter(randomID);
@@ -74,15 +74,15 @@ public class CharacterDAOTest {
 
     @Test
     public void testGetAllCharactersInRange() throws JsonProcessingException {
-        CharacterMessage s1 = CharacterMessageTest.createCharacter(UUID.randomUUID(), UUID.randomUUID(), new Vector(100, 90.5f, 50), RankMessage.CADET_CORPORAL);
+        CharacterMessage s1 = CharacterMessageTest.createCharacter(UUID.randomUUID(), UUID.randomUUID(), new Vector(100, 90.5f, 50), RankMessage.CADET_CORPORAL, true);
         dao.putCharacter(s1.getId(), s1);
-        CharacterMessage s2 = CharacterMessageTest.createCharacter(UUID.randomUUID(), UUID.randomUUID(), new Vector(110, 90.5f, 50), RankMessage.CADET_CORPORAL);
+        CharacterMessage s2 = CharacterMessageTest.createCharacter(UUID.randomUUID(), UUID.randomUUID(), new Vector(110, 90.5f, 50), RankMessage.CADET_CORPORAL, true);
         dao.putCharacter(s2.getId(), s2);
-        CharacterMessage s3 = CharacterMessageTest.createCharacter(UUID.randomUUID(), UUID.randomUUID(), new Vector(300, 90.5f, 50), RankMessage.CADET_CORPORAL);
+        CharacterMessage s3 = CharacterMessageTest.createCharacter(UUID.randomUUID(), UUID.randomUUID(), new Vector(300, 90.5f, 50), RankMessage.CADET_CORPORAL, true);
         dao.putCharacter(s3.getId(), s3);
-        CharacterMessage s4 = CharacterMessageTest.createCharacter(UUID.randomUUID(), UUID.randomUUID(), new Vector(351, 90.5f, 50), RankMessage.CADET_CORPORAL);
+        CharacterMessage s4 = CharacterMessageTest.createCharacter(UUID.randomUUID(), UUID.randomUUID(), new Vector(351, 90.5f, 50), RankMessage.CADET_CORPORAL, true);
         dao.putCharacter(s4.getId(), s4);
-        CharacterMessage s5 = CharacterMessageTest.createCharacter(UUID.randomUUID(), UUID.randomUUID(), new Vector(-400, 90.5f, -400), RankMessage.CADET_CORPORAL);
+        CharacterMessage s5 = CharacterMessageTest.createCharacter(UUID.randomUUID(), UUID.randomUUID(), new Vector(-400, 90.5f, -400), RankMessage.CADET_CORPORAL, true);
         dao.putCharacter(s5.getId(), s5);
 
 
@@ -102,13 +102,13 @@ public class CharacterDAOTest {
     @Test
     public void testFindClosestCharacter() throws JsonProcessingException {
 
-        CharacterMessage s1 = CharacterMessageTest.createCharacter(UUID.randomUUID(), UUID.randomUUID(), new Vector(100, 90.5f, 50), RankMessage.CADET_CORPORAL);
+        CharacterMessage s1 = CharacterMessageTest.createCharacter(UUID.randomUUID(), UUID.randomUUID(), new Vector(100, 90.5f, 50), RankMessage.CADET_CORPORAL, true);
         dao.putCharacter(s1.getId(), s1);
-        CharacterMessage s2 = CharacterMessageTest.createCharacter(UUID.randomUUID(), UUID.randomUUID(), new Vector(110, 90.5f, 50), RankMessage.LIEUTENANT);
+        CharacterMessage s2 = CharacterMessageTest.createCharacter(UUID.randomUUID(), UUID.randomUUID(), new Vector(110, 90.5f, 50), RankMessage.LIEUTENANT, true);
         dao.putCharacter(s2.getId(), s2);
-        CharacterMessage s3 = CharacterMessageTest.createCharacter(UUID.randomUUID(), UUID.randomUUID(), new Vector(120, 90.5f, 50), RankMessage.CADET_CORPORAL);
+        CharacterMessage s3 = CharacterMessageTest.createCharacter(UUID.randomUUID(), UUID.randomUUID(), new Vector(120, 90.5f, 50), RankMessage.CADET_CORPORAL, true);
         dao.putCharacter(s3.getId(), s3);
-        CharacterMessage s4 = CharacterMessageTest.createCharacter(UUID.randomUUID(), UUID.randomUUID(), new Vector(130, 90.5f, 50), RankMessage.CADET_CORPORAL);
+        CharacterMessage s4 = CharacterMessageTest.createCharacter(UUID.randomUUID(), UUID.randomUUID(), new Vector(130, 90.5f, 50), RankMessage.CADET_CORPORAL, true);
         dao.putCharacter(s4.getId(), s4);
 
         CharacterMessage closestCharacter = dao.findClosestCharacter(s1, RankMessage.CADET_CORPORAL);
@@ -118,13 +118,13 @@ public class CharacterDAOTest {
 
     @Test
     public void testGetAllCharactersInIdSet() throws JsonProcessingException {
-        CharacterMessage s1 = CharacterMessageTest.createCharacter(UUID.randomUUID(), UUID.randomUUID(), new Vector(100, 90.5f, 50), RankMessage.CADET_CORPORAL);
+        CharacterMessage s1 = CharacterMessageTest.createCharacter(UUID.randomUUID(), UUID.randomUUID(), new Vector(100, 90.5f, 50), RankMessage.CADET_CORPORAL, true);
         dao.putCharacter(s1.getId(), s1);
-        CharacterMessage s2 = CharacterMessageTest.createCharacter(UUID.randomUUID(), UUID.randomUUID(), new Vector(110, 90.5f, 50), RankMessage.LIEUTENANT);
+        CharacterMessage s2 = CharacterMessageTest.createCharacter(UUID.randomUUID(), UUID.randomUUID(), new Vector(110, 90.5f, 50), RankMessage.LIEUTENANT, true);
         dao.putCharacter(s2.getId(), s2);
-        CharacterMessage s3 = CharacterMessageTest.createCharacter(UUID.randomUUID(), UUID.randomUUID(), new Vector(120, 90.5f, 50), RankMessage.CADET_CORPORAL);
+        CharacterMessage s3 = CharacterMessageTest.createCharacter(UUID.randomUUID(), UUID.randomUUID(), new Vector(120, 90.5f, 50), RankMessage.CADET_CORPORAL, true);
         dao.putCharacter(s3.getId(), s3);
-        CharacterMessage s4 = CharacterMessageTest.createCharacter(UUID.randomUUID(), UUID.randomUUID(), new Vector(130, 90.5f, 50), RankMessage.CADET_CORPORAL);
+        CharacterMessage s4 = CharacterMessageTest.createCharacter(UUID.randomUUID(), UUID.randomUUID(), new Vector(130, 90.5f, 50), RankMessage.CADET_CORPORAL, true);
         dao.putCharacter(s4.getId(), s4);
 
         Set<UUID> ids = new HashSet<>();
@@ -139,7 +139,7 @@ public class CharacterDAOTest {
 
     @Test
     public void testSave() throws IOException {
-        CharacterMessage s1 = CharacterMessageTest.createCharacter(UUID.randomUUID(), UUID.randomUUID(), new Vector(100, 90.5f, 50), RankMessage.CADET_CORPORAL);
+        CharacterMessage s1 = CharacterMessageTest.createCharacter(UUID.randomUUID(), UUID.randomUUID(), new Vector(100, 90.5f, 50), RankMessage.CADET_CORPORAL, true);
         dao.putCharacter(s1.getId(), s1);
         CharacterMessage ss1 = dao.getCharacter(s1.getId());
         ss1.setOrientation(new Vector(1, 2, 5));
@@ -154,7 +154,7 @@ public class CharacterDAOTest {
 
     @Test
     public void testUpdateCharacterState() throws IOException {
-        CharacterMessage s1 = CharacterMessageTest.createCharacter(UUID.randomUUID(), UUID.randomUUID(), new Vector(100, 90.5f, 50), RankMessage.CADET_CORPORAL);
+        CharacterMessage s1 = CharacterMessageTest.createCharacter(UUID.randomUUID(), UUID.randomUUID(), new Vector(100, 90.5f, 50), RankMessage.CADET_CORPORAL, true);
         dao.putCharacter(s1.getId(), s1);
         s1.setLocation(new Vector(34, 35, 36));
         s1.setOrientation(new Vector(37, 38, 39));
@@ -174,7 +174,7 @@ public class CharacterDAOTest {
 
     @Test
     public void testUpdateCharacterStateNoCheckout() throws IOException {
-        CharacterMessage s1 = CharacterMessageTest.createCharacter(UUID.randomUUID(), UUID.randomUUID(), new Vector(100, 90.5f, 50), RankMessage.CADET_CORPORAL);
+        CharacterMessage s1 = CharacterMessageTest.createCharacter(UUID.randomUUID(), UUID.randomUUID(), new Vector(100, 90.5f, 50), RankMessage.CADET_CORPORAL, true);
         UUID originalCheckoutClient = s1.getCheckoutClient();
         dao.putCharacter(s1.getId(), s1);
         s1.setLocation(new Vector(34, 35, 36));
@@ -194,9 +194,9 @@ public class CharacterDAOTest {
 
     @Test
     public void testSaveCommandStructure() throws IOException {
-        CharacterMessage s1 = CharacterMessageTest.createCharacter(UUID.randomUUID(), UUID.randomUUID(), new Vector(100, 90.5f, 50), RankMessage.CADET_CORPORAL);
+        CharacterMessage s1 = CharacterMessageTest.createCharacter(UUID.randomUUID(), UUID.randomUUID(), new Vector(100, 90.5f, 50), RankMessage.CADET_CORPORAL, true);
         dao.putCharacter(s1.getId(), s1);
-        CharacterMessage s2 = CharacterMessageTest.createCharacter(UUID.randomUUID(), UUID.randomUUID(), new Vector(110, 90.5f, 50), RankMessage.LIEUTENANT);
+        CharacterMessage s2 = CharacterMessageTest.createCharacter(UUID.randomUUID(), UUID.randomUUID(), new Vector(110, 90.5f, 50), RankMessage.LIEUTENANT, true);
         dao.putCharacter(s2.getId(), s2);
 
         s1.addCharactersUnderCommand(s2);
@@ -210,9 +210,9 @@ public class CharacterDAOTest {
 
     @Test
     public void testUpdateCharactersUnderCommand() throws IOException {
-        CharacterMessage s1 = CharacterMessageTest.createCharacter(UUID.randomUUID(), UUID.randomUUID(), new Vector(100, 90.5f, 50), RankMessage.CADET_CORPORAL);
+        CharacterMessage s1 = CharacterMessageTest.createCharacter(UUID.randomUUID(), UUID.randomUUID(), new Vector(100, 90.5f, 50), RankMessage.CADET_CORPORAL, true);
         dao.putCharacter(s1.getId(), s1);
-        CharacterMessage s2 = CharacterMessageTest.createCharacter(UUID.randomUUID(), UUID.randomUUID(), new Vector(110, 90.5f, 50), RankMessage.LIEUTENANT);
+        CharacterMessage s2 = CharacterMessageTest.createCharacter(UUID.randomUUID(), UUID.randomUUID(), new Vector(110, 90.5f, 50), RankMessage.LIEUTENANT, true);
         dao.putCharacter(s2.getId(), s2);
 
         s1.addCharactersUnderCommand(s2);
@@ -223,9 +223,33 @@ public class CharacterDAOTest {
     }
 
     @Test
-    public void testVersionControleOnUpdate(){
+    public void testVersionControleOnUpdate() throws IOException {
+        UUID identity = UUID.randomUUID();
+        CharacterMessage s1 = CharacterMessageTest.createCharacter(identity, UUID.randomUUID(), new Vector(100, 90.5f, 50), RankMessage.CADET_CORPORAL, false);
+        dao.putCharacter(s1.getId(), s1);
 
-        fail();
+        CharacterDAO dao1 = new CharacterDAO(new JedisPool("localhost"));
+        HashSet<UUID> ids = new HashSet<>();
+        ids.add(s1.getId());
+        Map<UUID, CharacterMessage> allCharacters = dao1.getAllCharacters(ids);
+        assertFalse(allCharacters.get(identity).isDead());
+
+        CharacterDAO dao2 = new CharacterDAO(new JedisPool("localhost"));
+        HashMap<UUID, CharacterMessage> toSave = new HashMap<>();
+        s1.kill();
+        toSave.put(s1.getId(), s1);
+        dao2.saveCommandStructure(toSave);
+
+        //this should fail as the key has been updated
+        CharacterMessage newS1 = CharacterMessageTest.createCharacter(identity, UUID.randomUUID(), new Vector(3, 4f, 5), RankMessage.CADET_CORPORAL, false);
+        Map<UUID, CharacterMessage> toSave2 = new HashMap<>();
+        toSave2.put(newS1.getId(), newS1);
+        dao1.updateCharacterState(toSave2);
+
+        CharacterMessage finalS1 = dao.getCharacter(identity);
+        assertTrue(finalS1.isDead());
+        assertEquals(new Vector(100, 90.5f, 50), finalS1.getLocation());
+
     }
 
 }
