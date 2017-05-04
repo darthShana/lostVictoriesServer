@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -49,6 +48,7 @@ import redis.clients.jedis.GeoCoordinate;
 public class CharacterMessage implements Serializable{
 
 	private static Logger log = Logger.getLogger(CharacterMessage.class);
+	public static final long CHECKOUT_TIMEOUT = 2*1000;
 
 	UUID id;
 	UUID userID;
@@ -67,16 +67,13 @@ public class CharacterMessage implements Serializable{
 	Set<Action> actions = new HashSet<Action>();
 	Map<String, String> objectives = new HashMap<String, String>();
 	Set<String> completedObjectives;
-	boolean dead;
+	boolean isDead;
 	boolean engineDamaged;
 	Long timeOfDeath;
 	long version;
-	@JsonIgnore
 	Set<UUID> kills = new HashSet<UUID>();
 	SquadType squadType = SquadType.RIFLE_TEAM;
 
-
-	private CharacterMessage(){}
 
 	public CharacterMessage(UUID identity, CharacterType type, Vector location, Country country, Weapon weapon, RankMessage rank, UUID commandingOfficer) {
 		this(identity, null, type, location, country, weapon, rank, commandingOfficer);
@@ -95,6 +92,65 @@ public class CharacterMessage implements Serializable{
 		}
 	}
 
+	public CharacterMessage(Map<String, String> source, GeoCoordinate geoCoordinate) throws IOException {
+		this.id = UUID.fromString(source.get("id"));
+		this.type = CharacterType.valueOf((String) source.get("type"));
+		if(source.containsKey("userID")){
+			this.userID = UUID.fromString(source.get("userID"));
+		}
+
+		this.country = Country.valueOf(source.get("country"));
+		this.weapon = Weapon.valueOf(source.get("weapon"));
+		this.rank = RankMessage.valueOf(source.get("rank"));
+		if(source.containsKey("commandingOfficer")){
+			this.commandingOfficer = UUID.fromString(source.get("commandingOfficer"));
+		}
+		if(source.containsKey("boardedVehicle")){
+			this.boardedVehicle = UUID.fromString(source.get("boardedVehicle"));
+		}
+		if(source.containsKey("unitsUnderCommand")){
+			JavaType type = MAPPER.getTypeFactory().constructCollectionType(Set.class, UUID.class);
+			unitsUnderCommand = MAPPER.readValue(source.get("unitsUnderCommand"), type);
+		}
+		if(source.containsKey("passengers")){
+			JavaType type = MAPPER.getTypeFactory().constructCollectionType(Set.class, UUID.class);
+			passengers = MAPPER.readValue(source.get("passengers"), type);
+		}
+		if(source.containsKey("boardedVehicle")){
+			this.boardedVehicle = UUID.fromString(source.get("boardedVehicle"));
+		}
+		if(source.containsKey("checkoutClient")){
+			this.checkoutClient = UUID.fromString(source.get("checkoutClient"));
+		}
+		if(source.containsKey("checkoutTime")){
+			this.checkoutTime = Long.parseLong(source.get("checkoutTime"));
+		}
+		this.orientation = MAPPER.readValue(source.get("orientation"), Vector.class);
+
+		if(source.containsKey("actions")){
+			JavaType type = MAPPER.getTypeFactory().constructCollectionType(Set.class, Action.class);
+			actions = MAPPER.readValue(source.get("actions"), type);
+		}
+		String o = source.get("objectives");
+		if(!"[{}]".equals(o)){
+			this.objectives = CharacterDAO.MAPPER.readValue(o, new TypeReference<Map<String, String>>() {});
+		}
+		isDead = Boolean.parseBoolean(source.get("isDead"));
+		engineDamaged = Boolean.parseBoolean(source.get("engineDamaged"));
+		if(source.containsKey("timeOfDeath")){
+			this.timeOfDeath = Long.parseLong(source.get("timeOfDeath"));
+		}
+		this.version = Long.parseLong(source.get("version"));
+		if(source.containsKey("kills")){
+			JavaType type = MAPPER.getTypeFactory().constructCollectionType(Set.class, UUID.class);
+			kills = MAPPER.readValue(source.get("kills"), type);
+		}
+		squadType = SquadType.valueOf(source.get("squadType"));
+		float altitude = Float.parseFloat(source.get("altitude"));
+
+		this.location = latLongToVector(altitude, (float) geoCoordinate.getLongitude(), (float) geoCoordinate.getLatitude());
+	}
+
 	public CharacterMessage(UUID id, long version, Map<String, Object> source) {
 		this.id = id;
 		HashMap<String, Double> location =  (HashMap<String, Double>) source.get("location");
@@ -104,7 +160,7 @@ public class CharacterMessage implements Serializable{
 		if(source.get("squadType")!=null){
 			this.squadType = SquadType.valueOf((String) source.get("squadType"));
 		}
-		this.location = latLongToVector(location, altitude);
+		this.location = latLongToVector(altitude, location.get("lon").floatValue(), location.get("lat").floatValue());
 		this.country = Country.valueOf((String)source.get("country"));
 		this.weapon = Weapon.valueOf((String) source.get("weapon"));
 		this.rank = RankMessage.valueOf((String) source.get("rank"));
@@ -156,9 +212,9 @@ public class CharacterMessage implements Serializable{
 
 		unitsUnderCommand = ((Collection<String>)source.get("unitsUnderCommand")).stream().map(s -> UUID.fromString(s)).collect(Collectors.toSet());
 		passengers = ((Collection<String>)source.get("passengers")).stream().map(s -> UUID.fromString(s)).collect(Collectors.toSet());
-		dead = (boolean) source.get("dead");
+		isDead = (boolean) source.get("isDead");
 		engineDamaged = (boolean) source.get("engineDamaged");
-		if(dead){
+		if(isDead){
 			this.checkoutTime = (Long) source.get("checkoutTime");
 		}
 		this.version = version;
@@ -193,8 +249,6 @@ public class CharacterMessage implements Serializable{
 		return type;
 	}
 
-	public int getKillCount(){ return kills.size();}
-
 	public void addCharactersUnderCommand(Set<CharacterMessage> cc) {
 		squadType = calculateSquadType(cc, squadType);
 		unitsUnderCommand.addAll(cc.stream().map(c -> c.id).collect(Collectors.toList()));
@@ -214,72 +268,97 @@ public class CharacterMessage implements Serializable{
 		return userID;
 	}
 
-	public XContentBuilder getJSONRepresentation() throws IOException {
-		return jsonBuilder()
-				.startObject()
-				.field("userID", userID)
-				.field("boardedVehicle", boardedVehicle)
-				.field("date", new Date())
-				.field("location", new GeoPoint(toLatitute(getLocation()), toLongitude(getLocation())))
-				.field("altitude", getLocation().y)
-				.field("orientation", orientation.toMap())
-				.field("country", getCountry())
-				.field("weapon", getWeapon())
-				.field("rank", getRank())
-				.field("kills", kills)
-				.field("actions", MAPPER.writerFor(new TypeReference<Set<Action>>() {}).writeValueAsString(actions))
-				.field("objectives", CharacterDAO.MAPPER.writeValueAsString(objectives))
-				.field("commandingOfficer", commandingOfficer)
-				.field("unitsUnderCommand", unitsUnderCommand)
-				.field("passengers", passengers)
-				.field("type", type)
-				.field("squadType", squadType)
-				.field("checkoutClient", checkoutClient)
-				.field("checkoutTime", checkoutTime)
-				.field("isDead", isDead)
-				.field("engineDamaged", engineDamaged)
-				.field("timeOfDeath", timeOfDeath)
-				.endObject();
+	public Map<String, String> getMapRepresentation() throws IOException {
+		Map<String, String> ret = new HashMap<>();
+		ret.put("id", id.toString());
+		if(userID!=null) {
+			ret.put("userID",userID.toString());
+		}
+		if(boardedVehicle!=null){
+			ret.put("boardedVehicle", boardedVehicle.toString());
+		}
+
+		ret.put("altitude", getLocation().y+"");
+		ret.put("orientation", CharacterDAO.MAPPER.writeValueAsString(orientation));
+		ret.put("country", getCountry().toString());
+		ret.put("weapon", getWeapon().toString());
+		ret.put("rank", getRank().toString());
+		ret.put("kills", CharacterDAO.MAPPER.writeValueAsString(kills));
+		ret.put("actions", MAPPER.writerFor(new TypeReference<Set<Action>>() {}).writeValueAsString(actions));
+		ret.put("objectives", CharacterDAO.MAPPER.writeValueAsString(objectives));
+		if(commandingOfficer!=null){
+			ret.put("commandingOfficer", commandingOfficer.toString());
+		}
+
+		ret.put("unitsUnderCommand", CharacterDAO.MAPPER.writeValueAsString(unitsUnderCommand));
+		ret.put("passengers", CharacterDAO.MAPPER.writeValueAsString(passengers));
+		ret.put("type", type.toString());
+		ret.put("squadType", squadType.toString());
+		if(checkoutClient!=null){
+			ret.put("checkoutClient", checkoutClient.toString());
+		}
+
+		if(checkoutTime!=null){
+			ret.put("checkoutTime", checkoutTime.toString());
+		}
+
+		ret.put("isDead", isDead+"");
+		ret.put("engineDamaged", engineDamaged+"");
+		if(timeOfDeath!=null){
+			ret.put("timeOfDeath", timeOfDeath.toString());
+		}
+		ret.put("version", version+"");
+		return ret;
 	}
 
-	public XContentBuilder getCommandStructureUpdate() throws IOException {	
-		return jsonBuilder()
-				.startObject()
-				.field("unitsUnderCommand", unitsUnderCommand)
-				.field("commandingOfficer", commandingOfficer)
-				.field("isDead", isDead)
-				.field("passengers", passengers)
-				.field("rank", rank)
-				.field("objectives", CharacterDAO.MAPPER.writeValueAsString(objectives))
-				.field("timeOfDeath", timeOfDeath)
-				.field("kills", kills)				
-				.endObject();
+	public Map<String, String> getCommandStructureUpdate() {
+		Map<String, String> ret = new HashMap<>();
+
+		try{
+			ret.put("unitsUnderCommand", CharacterDAO.MAPPER.writeValueAsString(unitsUnderCommand));
+			ret.put("commandingOfficer", (commandingOfficer!=null)?commandingOfficer.toString():null);
+			ret.put("isDead", isDead+"");
+			ret.put("passengers", CharacterDAO.MAPPER.writeValueAsString(passengers));
+			ret.put("rank", getRank().toString());
+			ret.put("objectives", CharacterDAO.MAPPER.writeValueAsString(objectives));
+			ret.put("timeOfDeath", (timeOfDeath!=null)?timeOfDeath.toString():null);
+			ret.put("kills", CharacterDAO.MAPPER.writeValueAsString(kills));
+		} catch (JsonProcessingException e) {
+			throw new RuntimeException(e);
+		}
+		return ret;
 	}
 
-	public XContentBuilder getStateUpdate() throws IOException{
+	public Map<String, String> getStateUpdate() {
+		Map<String, String> ret = new HashMap<>();
 
-		return jsonBuilder()
-				.startObject()
-				.field("location", new GeoPoint(toLatitute(getLocation()), toLongitude(getLocation())))
-				.field("altitude", getLocation().y)
-				.field("orientation", orientation.toMap())
-				.field("actions", MAPPER.writerFor(new TypeReference<Set<Action>>() {}).writeValueAsString(actions))
-				.field("objectives", CharacterDAO.MAPPER.writeValueAsString(objectives))	
-				.field("checkoutClient", checkoutClient)
-				.field("checkoutTime", checkoutTime)
-				.endObject();
+		try{
+			ret.put("altitude", getLocation().y+"");
+			ret.put("orientation", CharacterDAO.MAPPER.writeValueAsString(orientation));
+			ret.put("actions", MAPPER.writerFor(new TypeReference<Set<Action>>() {}).writeValueAsString(actions));
+			ret.put("objectives", CharacterDAO.MAPPER.writeValueAsString(objectives));
+			ret.put("checkoutClient", (checkoutClient!=null)?checkoutClient.toString():null);
+			ret.put("checkoutTime", (checkoutTime!=null)?checkoutTime.toString():null);
+		} catch (JsonProcessingException e) {
+			throw new RuntimeException(e);
+		}
+		return ret;
 	}
 
-	public XContentBuilder getStateUpdateNoCheckout() throws IOException{
+	public Map<String, String> getStateUpdateNoCheckout() {
+		Map<String, String> ret = new HashMap<>();
 
-		return jsonBuilder()
-				.startObject()
-				.field("location", new GeoPoint(toLatitute(getLocation()), toLongitude(getLocation())))
-				.field("altitude", getLocation().y)
-				.field("orientation", orientation.toMap())
-				.field("objectives", CharacterDAO.MAPPER.writeValueAsString(objectives))	
-				.field("engineDamaged", engineDamaged)
-				.endObject();
+		try {
+			ret.put("altitude", getLocation().y+"");
+			ret.put("orientation", CharacterDAO.MAPPER.writeValueAsString(orientation));
+			ret.put("objectives", CharacterDAO.MAPPER.writeValueAsString(objectives));
+			ret.put("engineDamaged", engineDamaged+"");
+		} catch (JsonProcessingException e) {
+			throw new RuntimeException(e);
+		}
+
+
+		return ret;
 	}
 
 	public static double toLongitude(Vector location) {
@@ -290,51 +369,30 @@ public class CharacterMessage implements Serializable{
 		return location.z/LostVictoryScene.SCENE_HEIGHT*80;
 	}
 
-	public boolean isAvailableForUpdate(UUID clientID, CharacterMessage msg, long duration) {
+	public boolean isAvailableForUpdate(UUID clientID, CharacterMessage msg) {
 		if(msg.version<version){
 			return false;
 		}
-		return this.id.equals(clientID) || this.checkoutClient==null || clientID.equals(this.checkoutClient) || checkoutTime==null ||System.currentTimeMillis()-checkoutTime>duration;
+		return this.id.equals(clientID) || this.checkoutClient==null || clientID.equals(this.checkoutClient) || checkoutTime==null ||System.currentTimeMillis()-checkoutTime>CHECKOUT_TIMEOUT;
 	}
 
-	@JsonIgnore
-	public boolean isAvailableForCheckout(long duration) {
-		return this.checkoutClient==null || checkoutTime==null || (System.currentTimeMillis()-checkoutTime)>duration;
+	public boolean isAvailableForCheckout() {
+		return this.checkoutClient==null || checkoutTime==null || (System.currentTimeMillis()-checkoutTime)>CHECKOUT_TIMEOUT;
 	}
-
-    public boolean isCheckedOutBy(UUID clientID, long duration) {
-	    return this.checkoutClient!=null && (checkoutClient.equals(clientID)) && checkoutTime!=null && (System.currentTimeMillis()-checkoutTime)<duration;
-    }
 
 	public boolean isBusy() {
-		return isDead() || objectives.values().stream()
+		return isDead() || getObjectives().values().stream()
 				.map(s->toJsonNodeSafe(s))
 				.map(json->toObjectiveSafe(json))
 				.filter(o->o!=null)
 				.anyMatch(o->!(o instanceof PassiveObjective));
 	}
 
-	public boolean isAttacking() {
-		for(String s:objectives.values()){
-			if(isAttackingObjective(toJsonNodeSafe(s))){
-				return true;
-			}
-		}
-		return false;
-	}
-
-	private boolean isAttackingObjective(JsonNode n) {
-		String s = n.get("class").asText();
-		return  "com.jme3.lostVictories.objectives.AttackBoggies".equals(s) ||
-				"com.jme3.lostVictories.objectives.AttackAndTakeCoverObjective".equals(s) ||
-				"com.jme3.lostVictories.objectives.AttackObjective".equals(s);
-	}
-
 	public void updateState(CharacterMessage other, UUID clientID, long checkoutTime) {
 		location = other.location;
 		orientation = other.orientation;
 		actions = other.actions;
-
+		
 		other.objectives.entrySet().stream().forEach(e->objectives.putIfAbsent(e.getKey(), e.getValue()));
 		objectives = objectives.entrySet().stream().filter(e->!other.completedObjectives.contains(e.getKey())).collect(Collectors.toMap(e->e.getKey(), e->e.getValue()));
 
@@ -363,10 +421,6 @@ public class CharacterMessage implements Serializable{
 		return checkoutClient;
 	}
 
-	public Long getCheckoutTime(){
-		return checkoutTime;
-	}
-
 	public void setCheckoutClient(UUID checkoutClient) {
 		this.checkoutClient = checkoutClient;
 	}
@@ -376,28 +430,27 @@ public class CharacterMessage implements Serializable{
 	}
 
 	public XContentBuilder getJSONRepresentationUnChecked() {
-		try {
-			return getJSONRepresentation();
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
+//		try {
+			//return getJSONRepresentation();
+			return null;
+//		} catch (IOException e) {
+//			throw new RuntimeException(e);
+//		}
 	}
 
-	public Map<String, String> readObjectives(){
-		return new HashMap<>(objectives);
+	public Map<String, String> getObjectives(){
+		return objectives;
 	}
 
 	public void kill() {
-		dead = true;
+		isDead = true;
 		timeOfDeath = System.currentTimeMillis();
 	}
 
-
 	public boolean isDead() {
-		return dead;
+		return isDead;
 	}
 
-	@JsonIgnore
 	public boolean isFullStrength() {
 		return unitsUnderCommand.size()>=rank.getFullStrengthPopulation();
 	}
@@ -640,12 +693,12 @@ public class CharacterMessage implements Serializable{
 		try{
 			String asText = toJsonNodeSafe(objective).get("class").asText();
 
-			Map<String, JsonNode> objectives = this.objectives.entrySet().stream().collect(Collectors.toMap(e->e.getKey(), e->toJsonNodeSafe(e.getValue())));
+			Map<String, JsonNode> objectives = getObjectives().entrySet().stream().collect(Collectors.toMap(e->e.getKey(), e->toJsonNodeSafe(e.getValue())));
 			for(Entry<String, JsonNode> entry:objectives.entrySet()){
 				String asText2 = entry.getValue().get("class").asText();
 
 				if(asText.equals(asText2)){
-					this.objectives.remove(entry.getKey());
+					getObjectives().remove(entry.getKey());
 				}
 			}
 
@@ -754,7 +807,6 @@ public class CharacterMessage implements Serializable{
 		toSave.put(getId(), this);
 	}
 
-	@JsonIgnore
 	public boolean isAbandoned() {
 		return passengers.isEmpty();
 	}
@@ -824,33 +876,19 @@ public class CharacterMessage implements Serializable{
 		
 	}
 
-    public Objective getObjectiveSafe(UUID value) {
-		if(objectives.get(value.toString())!=null) {
-			try {
-				return MAPPER.readValue(objectives.get(value.toString()), Objective.class);
-			} catch (IOException e) {}
-		}
-		return null;
-    }
+	public Long getCheckoutTime() {
+		return checkoutTime;
+	}
 
-//	public long getCreationTime() {
-//		return creationTime;
-//	}
+	public Set<String> getCompletedObjectives() {
+		return completedObjectives;
+	}
 
+	public Set<UUID> getKills() {
+		return kills;
+	}
 
-    public void updateObjective(String key, String s) {
-		if(objectives.containsKey(key)) {
-			objectives.put(key, s);
-		} else{
-			throw new RuntimeException("unknown objective key:"+key+" body:"+s);
-		}
-    }
-
-    public void removeObjective(String key) {
-	    objectives.remove(key);
-    }
-
-    public void clearObjectives() {
-	    objectives.clear();
-    }
+	public boolean hasEngineDamage() {
+		return engineDamaged;
+	}
 }
