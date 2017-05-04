@@ -2,13 +2,11 @@ package com.jme3.lostVictories.objectives;
 
 import java.awt.Rectangle;
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
+import com.jme3.lostVictories.network.messages.*;
+import com.jme3.lostVictories.network.messages.Vector;
 import org.apache.log4j.Logger;
 
 import lostVictories.dao.CharacterDAO;
@@ -17,10 +15,6 @@ import lostVictories.dao.HouseDAO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.jme3.lostVictories.network.messages.CharacterMessage;
-import com.jme3.lostVictories.network.messages.Country;
-import com.jme3.lostVictories.network.messages.HouseMessage;
-import com.jme3.lostVictories.network.messages.RankMessage;
 import com.jme3.math.Vector3f;
 
 public class CaptureTown extends Objective {
@@ -169,6 +163,21 @@ public class CaptureTown extends Objective {
             return rects.stream().filter(r->r.contains(house.getLocation().x, house.getLocation().z)).findAny().isPresent();
         }
 
+		public boolean containsPoint(Vector centre) {
+        	if(rects.isEmpty()){
+        		return false;
+			}
+			Rectangle union = null;
+        	for(Iterator<Rectangle> it = rects.iterator();it.hasNext();){
+        		if(union == null){
+        			union = it.next();
+				}else{
+					union.add(it.next());
+				}
+			}
+			return union.contains(centre.x, centre.z);
+		}
+
         void add(HouseMessage house) {
             houses.add(house);
         }
@@ -190,7 +199,8 @@ public class CaptureTown extends Objective {
         Set<HouseMessage> getHouses(){
             return houses;
         }
-    }
+
+	}
 	
 	@Override
 	public boolean clashesWith(Class<? extends Objective> newObjective) {

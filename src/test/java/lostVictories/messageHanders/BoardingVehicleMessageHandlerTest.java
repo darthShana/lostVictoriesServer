@@ -8,17 +8,14 @@ import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.UUID;
 
 import lostVictories.dao.CharacterDAO;
 
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 
-import com.jme3.lostVictories.network.messages.BoardVehicleRequest;
+import com.jme3.lostVictories.network.messages.wrapper.BoardVehicleRequest;
 import com.jme3.lostVictories.network.messages.CharacterMessage;
 import com.jme3.lostVictories.network.messages.CharacterType;
 import com.jme3.lostVictories.network.messages.Country;

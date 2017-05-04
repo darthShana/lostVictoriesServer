@@ -15,6 +15,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lostVictories.dao.CharacterDAO;
 
 import org.apache.log4j.Logger;
@@ -128,8 +129,8 @@ public class HouseMessage implements Serializable{
 
 	public boolean chechOwnership(CharacterDAO characterDAO) {
 		Set<CharacterMessage> allCharacters = characterDAO.getAllCharacters(location.x, location.y, location.z, CAPTURE_RANGE*SCENE_SCALE);
-		allCharacters = allCharacters.stream().filter(c->c.type==CharacterType.SOLDIER || c.type==CharacterType.AVATAR).filter(c->!c.isDead).collect(Collectors.toSet());
-		
+		allCharacters = allCharacters.stream().filter(c->c.type==CharacterType.SOLDIER || c.type==CharacterType.AVATAR).filter(c->!c.dead).collect(Collectors.toSet());
+
 		if(!allCharacters.isEmpty()){
 			log.trace("looking ofr characters near:"+location+" found chata:"+allCharacters.size());
 		}
@@ -159,11 +160,9 @@ public class HouseMessage implements Serializable{
 		}
 	}
 
+	@JsonIgnore
 	public boolean isOwned() {
 		return owner!=null;
 	}
-
-
-
 
 }

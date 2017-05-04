@@ -37,7 +37,9 @@ public class CharacterCatch {
 		Map<UUID, CharacterMessage> ret = new HashMap<>();
 		for(UUID id:unitsUnderCommand){
 			CharacterMessage character = getCharacter(id);
-			ret.put(character.getId(), character);
+			if(character!=null) {
+				ret.put(character.getId(), character);
+			}
 		}
 		return ret;
 	}

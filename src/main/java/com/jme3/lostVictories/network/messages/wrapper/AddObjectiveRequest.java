@@ -1,5 +1,7 @@
-package com.jme3.lostVictories.network.messages;
+package com.jme3.lostVictories.network.messages.wrapper;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.jme3.lostVictories.network.messages.wrapper.LostVictoryMessage;
 
 import java.util.UUID;
@@ -13,6 +15,8 @@ public class AddObjectiveRequest extends LostVictoryMessage {
     UUID characterId;
     UUID identity;
     String objectives;
+
+    private  AddObjectiveRequest(){}
 
     public AddObjectiveRequest(UUID clientID, UUID characterId, UUID identity, String toJson) {
     	super(clientID);

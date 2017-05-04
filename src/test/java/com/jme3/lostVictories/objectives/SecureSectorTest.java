@@ -3,6 +3,7 @@ package com.jme3.lostVictories.objectives;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.UUID;
@@ -69,9 +70,9 @@ public class SecureSectorTest {
 		oldCo.setLocation(new Vector(100, 1, 100));
 		objective.state = SecureSectorState.DEPLOY_TO_SECTOR;
 		objective.runObjective(oldCo, UUID.randomUUID().toString(), characterDAO, houseDAO, toSave, kills);
-		assertEquals(1, unit1.getObjectives().size());
+		assertEquals(1, unit1.readObjectives().size());
 		objective.runObjective(oldCo, UUID.randomUUID().toString(), characterDAO, houseDAO, toSave, kills);
-		assertEquals(1, unit1.getObjectives().size());
+		assertEquals(1, unit1.readObjectives().size());
 	}
 	
 	@Test
@@ -156,7 +157,5 @@ public class SecureSectorTest {
 		objective.runObjective(oldCo, UUID.randomUUID().toString(), characterDAO, houseDAO, toSave, kills);
 		assertEquals(SecureSectorState.WAIT_FOR_REENFORCEMENTS, objective.state);
 	}
-	
-	
 
 }

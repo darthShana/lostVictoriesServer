@@ -17,7 +17,7 @@ import org.mockito.stubbing.Answer;
 import com.jme3.lostVictories.network.messages.CharacterMessage;
 import com.jme3.lostVictories.network.messages.CharacterType;
 import com.jme3.lostVictories.network.messages.Country;
-import com.jme3.lostVictories.network.messages.PassengerDeathNotificationRequest;
+import com.jme3.lostVictories.network.messages.wrapper.PassengerDeathNotificationRequest;
 import com.jme3.lostVictories.network.messages.RankMessage;
 import com.jme3.lostVictories.network.messages.Vector;
 import com.jme3.lostVictories.network.messages.Weapon;

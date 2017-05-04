@@ -1,10 +1,11 @@
 package com.jme3.lostVictories.network.messages;
 
+import com.jme3.lostVictories.network.messages.wrapper.LostVictoryMessage;
+
 import java.util.Set;
 
-public class CheckoutScreenResponse extends LostVictoryMessage{
+public class CheckoutScreenResponse extends LostVictoryMessage {
 
-	private static final long serialVersionUID = 1L;
 	private Set<CharacterMessage> allCharacters;
 	private Set<HouseMessage> allHouses;
 	private Set<UnClaimedEquipmentMessage> allEquipment;

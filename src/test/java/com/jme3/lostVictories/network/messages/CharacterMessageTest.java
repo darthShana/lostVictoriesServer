@@ -52,7 +52,7 @@ public class CharacterMessageTest {
 	public void testIsAvailableForUpdate(){
 		myUnit.setVersion(3);
 		CharacterMessage myUnitUpdated = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.PRIVATE, avatar.getId());
-		assertFalse(myUnit.isAvailableForUpdate(avatar.getCheckoutClient(), myUnitUpdated));
+		assertFalse(myUnit.isAvailableForUpdate(avatar.getCheckoutClient(), myUnitUpdated, 2000));
 	}
 
 	@Test
@@ -254,7 +254,7 @@ public class CharacterMessageTest {
 		
 		HashMap<UUID, CharacterMessage> toSave = new HashMap<UUID, CharacterMessage>();
 		vehicle1.replaceMe(new CharacterCatch(characterDAO), toSave);
-		assertTrue(toSave.get(oldPassenger1.getId()).isDead);
+		assertTrue(toSave.get(oldPassenger1.getId()).dead);
 		assertFalse(toSave.get(oldCo1.getId()).unitsUnderCommand.contains(vehicle1.getId()));
 		assertFalse(toSave.get(oldCo1.getId()).unitsUnderCommand.contains(oldPassenger1.getId()));
 

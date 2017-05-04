@@ -17,9 +17,6 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.jme3.lostVictories.network.messages.CharacterMessage;
 import com.jme3.lostVictories.network.messages.CharacterType;
-import com.jme3.lostVictories.network.messages.LostVictoryMessage;
-import com.jme3.lostVictories.network.messages.UnClaimedEquipmentMessage;
-import com.jme3.lostVictories.network.messages.Vector;
 import com.jme3.lostVictories.objectives.Objective;
 
 import lostVictories.dao.CharacterDAO;
@@ -56,7 +53,7 @@ public class CharacterRunner implements Runnable{
 			Map<UUID, UUID> kills = new HashMap<>();
 			characterDAO.getAllCharacters().parallelStream()
 				.filter(c->!c.isDead())
-				.filter(c->c.isAvailableForCheckout())
+				.filter(c->c.isAvailableForCheckout(5000))
 				.forEach(c->runCharacterBehavior(c, toSave, kills, characterDAO, playerUsageDAO));
 			characterDAO.updateCharacterStateNoCheckout(toSave);
 			characterDAO.refresh();
@@ -92,7 +89,9 @@ public class CharacterRunner implements Runnable{
 	}
 
 	private void runCharacterBehavior(CharacterMessage c, Map<UUID, CharacterMessage> toSave, Map<UUID, UUID> kills, CharacterDAO characterDAO, PlayerUsageDAO playerUsageDAO) {
-		Map<String, JsonNode> objectives = c.getObjectives().entrySet().stream().collect(Collectors.toMap(e->e.getKey(), e->toJsonNodeSafe(e.getValue())));
+		Map<String, JsonNode> objectives = c.readObjectives().entrySet().stream().collect(Collectors.toMap(e->e.getKey(), e->toJsonNodeSafe(e.getValue())));
+		String cot = (c.getCheckoutTime()!=null)?(System.currentTimeMillis()-c.getCheckoutTime())+"":"";
+//		System.out.println("runCharacterBehavior:"+c.getId()+" version:"+c.getVersion()+" checkout client:"+c.getCheckoutClient()+"cheout time:"+cot);
 		if(c.getCheckoutClient()!=null){
 			if(CharacterType.AVATAR==c.getCharacterType() && c.getUserID()!=null){
 				playerUsageDAO.registerStopGame(c.getUserID(), System.currentTimeMillis());
@@ -113,9 +112,9 @@ public class CharacterRunner implements Runnable{
 				Objective objective = (Objective) MAPPER.treeToValue(entry.getValue(), objectiveClass);
 				objective.runObjective(c, entry.getKey(), characterDAO, houseDAO, toSave, kills);
 				//should not need to do this.....
-				c.getObjectives().put(entry.getKey(), MAPPER.writeValueAsString(objective));
+				c.updateObjective(entry.getKey(), MAPPER.writeValueAsString(objective));
 				if(objective.isComplete){
-					c.getObjectives().remove(entry.getKey());
+					c.removeObjective(entry.getKey());
 					
 				}
 				toSave.put(c.getId(), c);
@@ -130,19 +129,9 @@ public class CharacterRunner implements Runnable{
 			}
 		}
 	}
-	
-	public static Objective fromStringToObjective(String jsonString){
-		JsonNode jsonNodeSafe = toJsonNodeSafe(jsonString);
-		try {
-			Class objectiveClass = Class.forName(jsonNodeSafe.get("class").asText());
-			return (Objective) MAPPER.treeToValue(jsonNodeSafe, objectiveClass);
-		} catch (ClassNotFoundException | IOException e) {
-			throw new RuntimeException(e);
-		}
-		
-	}
 
-	private static JsonNode toJsonNodeSafe(String s) {
+
+	public static JsonNode toJsonNodeSafe(String s) {
 		try {
 			return MAPPER.readTree(s);
 		} catch (JsonProcessingException e) {
