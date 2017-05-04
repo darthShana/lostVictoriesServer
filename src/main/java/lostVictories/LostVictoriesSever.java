@@ -71,7 +71,7 @@ public class LostVictoriesSever {
 	private void run() throws InterruptedException, IOException {
 		Client esClient = getESClient();
 		IndicesAdminClient adminClient = esClient.admin().indices();
-		CharacterDAO characterDAO = new CharacterDAO(esClient, characterIndexName);
+		CharacterDAO characterDAO = new CharacterDAO(null);
 		HouseDAO houseDAO = new HouseDAO(esClient, houseIndexName);
 		TreeDAO treeDAO = new TreeDAO(esClient, treeIndexName);
 		EquipmentDAO equipmentDAO = new EquipmentDAO(esClient, equipmentIndexName);

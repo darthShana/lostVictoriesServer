@@ -38,7 +38,7 @@ public class UnClaimedEquipmentMessage implements Serializable{
 		HashMap<String, Double> ori =  (HashMap<String, Double>) source.get("rotation");
 		this.weapon = Weapon.valueOf((String) source.get("weapon"));
 		float altitude = ((Double)source.get("altitude")).floatValue();
-		this.location = latLongToVector(location, altitude);
+		this.location = latLongToVector(altitude, location.get("lon").floatValue(), location.get("lat").floatValue());
 		this.rotation = new Vector(ori.get("x").floatValue(), ori.get("y").floatValue(), ori.get("z").floatValue());
 		
 	}
