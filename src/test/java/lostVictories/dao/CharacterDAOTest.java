@@ -49,7 +49,7 @@ public class CharacterDAOTest {
         assertEquals(s1.getCheckoutTime(), s2.getCheckoutTime());
         assertEquals(s1.getOrientation(), s2.getOrientation());
         assertEquals(s1.getActions(), s2.getActions());
-        assertEquals(s1.getObjectives(), s2.getObjectives());
+        assertEquals(s1.readObjectives(), s2.readObjectives());
         assertEquals(s1.isDead(), s2.isDead());
         assertEquals(s1.hasEngineDamage(), s2.hasEngineDamage());
         assertEquals(s1.getTimeOfDeath(), s2.getTimeOfDeath());
@@ -159,16 +159,14 @@ public class CharacterDAOTest {
         s1.setLocation(new Vector(34, 35, 36));
         s1.setOrientation(new Vector(37, 38, 39));
         s1.setCheckoutClient(null);
-
-        HashMap<UUID, CharacterMessage> map = new HashMap<>();
-        map.put(s1.getId(), s1);
-        dao.updateCharacterState(map);
+        long originalVersion = s1.getVersion();
+        dao.updateCharacterState(s1);
 
         CharacterMessage s2 = dao.getCharacter(s1.getId());
         assertEquals(new Vector(34, 35, 36), s2.getLocation());
         assertEquals(new Vector(37, 38, 39), s2.getOrientation());
         assertNull(s2.getCheckoutClient());
-        assertEquals(s1.getVersion()+1, s2.getVersion());
+        assertEquals(originalVersion+1, s2.getVersion());
 
     }
 
@@ -242,9 +240,7 @@ public class CharacterDAOTest {
 
         //this should fail as the key has been updated
         CharacterMessage newS1 = CharacterMessageTest.createCharacter(identity, UUID.randomUUID(), new Vector(3, 4f, 5), RankMessage.CADET_CORPORAL, false);
-        Map<UUID, CharacterMessage> toSave2 = new HashMap<>();
-        toSave2.put(newS1.getId(), newS1);
-        dao1.updateCharacterState(toSave2);
+        dao1.updateCharacterState(newS1);
 
         CharacterMessage finalS1 = dao.getCharacter(identity);
         assertTrue(finalS1.isDead());

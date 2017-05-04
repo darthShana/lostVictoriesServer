@@ -177,8 +177,31 @@ public class CharacterDAO {
 		}
 	}
 
-	public void updateCharacterState(Map<UUID, CharacterMessage> map) throws IOException{
-		updateCharacter(map, CharacterMessage::getStateUpdate);
+	public CharacterMessage updateCharacterState(CharacterMessage character) {
+		Response<Long> version;
+		List<Object> exec = new ArrayList<>();
+		Transaction transaction = jedis.multi();
+		try {
+			transaction.zrem("characterLocation", character.getId().toString());
+			character.getStateUpdate().entrySet().forEach(e -> {
+				transaction.hdel(characterStatus + "." + character.getId().toString(), e.getKey());
+				if(e.getValue()!=null) {
+					transaction.hset(characterStatus + "." + character.getId().toString(), e.getKey(), e.getValue());
+				}
+			});
+			version = transaction.hincrBy(characterStatus + "." + character.getId().toString(), "version", 1);
+			transaction.geoadd("characterLocation", toLongitude(character.getLocation()), toLatitute(character.getLocation()), character.getId().toString());
+
+		} catch (Throwable e) {
+			throw new RuntimeException(e);
+		} finally {
+			exec = transaction.exec();
+		}
+		if(!exec.isEmpty() && version!=null && version.get()!=null){
+			character.setVersion(version.get());
+			return character;
+		}
+		return null;
 	}
 
 	public void updateCharacterStateNoCheckout(Map<UUID, CharacterMessage> map) {

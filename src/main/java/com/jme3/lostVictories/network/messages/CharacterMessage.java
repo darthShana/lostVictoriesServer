@@ -1,6 +1,5 @@
 package com.jme3.lostVictories.network.messages;
 
-import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 import static com.jme3.lostVictories.network.messages.Vector.latLongToVector;
 import static lostVictories.dao.CharacterDAO.MAPPER;
 import static com.jme3.lostVictories.objectives.Objective.toObjectiveSafe;
@@ -10,6 +9,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -23,7 +23,9 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.JavaType;
+import lostVictories.CharacterRunner;
 import lostVictories.VehicleFactory;
 import lostVictories.WeaponsFactory;
 import lostVictories.dao.CharacterDAO;
@@ -31,8 +33,6 @@ import lostVictories.messageHanders.CharacterCatch;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.elasticsearch.common.geo.GeoPoint;
-import org.elasticsearch.common.xcontent.XContentBuilder;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -48,7 +48,6 @@ import redis.clients.jedis.GeoCoordinate;
 public class CharacterMessage implements Serializable{
 
 	private static Logger log = Logger.getLogger(CharacterMessage.class);
-	public static final long CHECKOUT_TIMEOUT = 2*1000;
 
 	UUID id;
 	UUID userID;
@@ -67,13 +66,17 @@ public class CharacterMessage implements Serializable{
 	Set<Action> actions = new HashSet<Action>();
 	Map<String, String> objectives = new HashMap<String, String>();
 	Set<String> completedObjectives;
-	boolean isDead;
+	boolean dead;
 	boolean engineDamaged;
 	Long timeOfDeath;
 	long version;
+	@JsonIgnore
 	Set<UUID> kills = new HashSet<UUID>();
 	SquadType squadType = SquadType.RIFLE_TEAM;
+//	long creationTime;
 
+
+	private CharacterMessage(){}
 
 	public CharacterMessage(UUID identity, CharacterType type, Vector location, Country country, Weapon weapon, RankMessage rank, UUID commandingOfficer) {
 		this(identity, null, type, location, country, weapon, rank, commandingOfficer);
@@ -135,7 +138,7 @@ public class CharacterMessage implements Serializable{
 		if(!"[{}]".equals(o)){
 			this.objectives = CharacterDAO.MAPPER.readValue(o, new TypeReference<Map<String, String>>() {});
 		}
-		isDead = Boolean.parseBoolean(source.get("isDead"));
+		dead = Boolean.parseBoolean(source.get("isDead"));
 		engineDamaged = Boolean.parseBoolean(source.get("engineDamaged"));
 		if(source.containsKey("timeOfDeath")){
 			this.timeOfDeath = Long.parseLong(source.get("timeOfDeath"));
@@ -212,14 +215,15 @@ public class CharacterMessage implements Serializable{
 
 		unitsUnderCommand = ((Collection<String>)source.get("unitsUnderCommand")).stream().map(s -> UUID.fromString(s)).collect(Collectors.toSet());
 		passengers = ((Collection<String>)source.get("passengers")).stream().map(s -> UUID.fromString(s)).collect(Collectors.toSet());
-		isDead = (boolean) source.get("isDead");
+		dead = (boolean) source.get("isDead");
 		engineDamaged = (boolean) source.get("engineDamaged");
-		if(isDead){
+		if(dead){
 			this.checkoutTime = (Long) source.get("checkoutTime");
 		}
 		this.version = version;
 		this.kills = ((Collection<String>)source.get("kills")).stream().map(s -> UUID.fromString(s)).collect(Collectors.toSet());
 	}
+
 
 	public Vector getLocation() {
 		return location;
@@ -236,7 +240,7 @@ public class CharacterMessage implements Serializable{
 	public RankMessage getRank() {
 		return rank;
 	}
-	
+
 	public UUID getBoardedVehicle(){
 		return boardedVehicle;
 	}
@@ -248,6 +252,8 @@ public class CharacterMessage implements Serializable{
 	public CharacterType getCharacterType(){
 		return type;
 	}
+
+	public int getKillCount(){ return kills.size();}
 
 	public void addCharactersUnderCommand(Set<CharacterMessage> cc) {
 		squadType = calculateSquadType(cc, squadType);
@@ -302,7 +308,7 @@ public class CharacterMessage implements Serializable{
 			ret.put("checkoutTime", checkoutTime.toString());
 		}
 
-		ret.put("isDead", isDead+"");
+		ret.put("isDead", dead+"");
 		ret.put("engineDamaged", engineDamaged+"");
 		if(timeOfDeath!=null){
 			ret.put("timeOfDeath", timeOfDeath.toString());
@@ -317,7 +323,7 @@ public class CharacterMessage implements Serializable{
 		try{
 			ret.put("unitsUnderCommand", CharacterDAO.MAPPER.writeValueAsString(unitsUnderCommand));
 			ret.put("commandingOfficer", (commandingOfficer!=null)?commandingOfficer.toString():null);
-			ret.put("isDead", isDead+"");
+			ret.put("isDead", dead+"");
 			ret.put("passengers", CharacterDAO.MAPPER.writeValueAsString(passengers));
 			ret.put("rank", getRank().toString());
 			ret.put("objectives", CharacterDAO.MAPPER.writeValueAsString(objectives));
@@ -361,6 +367,7 @@ public class CharacterMessage implements Serializable{
 		return ret;
 	}
 
+
 	public static double toLongitude(Vector location) {
 		return location.x/LostVictoryScene.SCENE_WIDTH*180;
 	}
@@ -369,30 +376,51 @@ public class CharacterMessage implements Serializable{
 		return location.z/LostVictoryScene.SCENE_HEIGHT*80;
 	}
 
-	public boolean isAvailableForUpdate(UUID clientID, CharacterMessage msg) {
+	public boolean isAvailableForUpdate(UUID clientID, CharacterMessage msg, long duration) {
 		if(msg.version<version){
 			return false;
 		}
-		return this.id.equals(clientID) || this.checkoutClient==null || clientID.equals(this.checkoutClient) || checkoutTime==null ||System.currentTimeMillis()-checkoutTime>CHECKOUT_TIMEOUT;
+		return this.id.equals(clientID) || this.checkoutClient==null || clientID.equals(this.checkoutClient) || checkoutTime==null ||System.currentTimeMillis()-checkoutTime>duration;
 	}
 
-	public boolean isAvailableForCheckout() {
-		return this.checkoutClient==null || checkoutTime==null || (System.currentTimeMillis()-checkoutTime)>CHECKOUT_TIMEOUT;
+	@JsonIgnore
+	public boolean isAvailableForCheckout(long duration) {
+		return this.checkoutClient==null || checkoutTime==null || (System.currentTimeMillis()-checkoutTime)>duration;
+	}
+
+	public boolean isCheckedOutBy(UUID clientID, long duration) {
+		return this.checkoutClient!=null && (checkoutClient.equals(clientID)) && checkoutTime!=null && (System.currentTimeMillis()-checkoutTime)<duration;
 	}
 
 	public boolean isBusy() {
-		return isDead() || getObjectives().values().stream()
+		return isDead() || objectives.values().stream()
 				.map(s->toJsonNodeSafe(s))
 				.map(json->toObjectiveSafe(json))
 				.filter(o->o!=null)
 				.anyMatch(o->!(o instanceof PassiveObjective));
 	}
 
+	public boolean isAttacking() {
+		for(String s:objectives.values()){
+			if(isAttackingObjective(toJsonNodeSafe(s))){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean isAttackingObjective(JsonNode n) {
+		String s = n.get("class").asText();
+		return  "com.jme3.lostVictories.objectives.AttackBoggies".equals(s) ||
+				"com.jme3.lostVictories.objectives.AttackAndTakeCoverObjective".equals(s) ||
+				"com.jme3.lostVictories.objectives.AttackObjective".equals(s);
+	}
+
 	public void updateState(CharacterMessage other, UUID clientID, long checkoutTime) {
 		location = other.location;
 		orientation = other.orientation;
 		actions = other.actions;
-		
+
 		other.objectives.entrySet().stream().forEach(e->objectives.putIfAbsent(e.getKey(), e.getValue()));
 		objectives = objectives.entrySet().stream().filter(e->!other.completedObjectives.contains(e.getKey())).collect(Collectors.toMap(e->e.getKey(), e->e.getValue()));
 
@@ -421,6 +449,10 @@ public class CharacterMessage implements Serializable{
 		return checkoutClient;
 	}
 
+	public Long getCheckoutTime(){
+		return checkoutTime;
+	}
+
 	public void setCheckoutClient(UUID checkoutClient) {
 		this.checkoutClient = checkoutClient;
 	}
@@ -429,28 +461,21 @@ public class CharacterMessage implements Serializable{
 		this.checkoutTime = checkoutTime;
 	}
 
-	public XContentBuilder getJSONRepresentationUnChecked() {
-//		try {
-			//return getJSONRepresentation();
-			return null;
-//		} catch (IOException e) {
-//			throw new RuntimeException(e);
-//		}
-	}
-
-	public Map<String, String> getObjectives(){
-		return objectives;
+	public Map<String, String> readObjectives(){
+		return new HashMap<>(objectives);
 	}
 
 	public void kill() {
-		isDead = true;
+		dead = true;
 		timeOfDeath = System.currentTimeMillis();
 	}
 
+
 	public boolean isDead() {
-		return isDead;
+		return dead;
 	}
 
+	@JsonIgnore
 	public boolean isFullStrength() {
 		return unitsUnderCommand.size()>=rank.getFullStrengthPopulation();
 	}
@@ -463,7 +488,7 @@ public class CharacterMessage implements Serializable{
 		if(type!=null){
 			weapon = type.getDefaultWeapon();
 			spawnPoint = (Country.AMERICAN==country)?LostVictoryScene.americanVehicleSpawnPoint:LostVictoryScene.germanVehicleSpawnPoint;
-		}else{        	
+		}else{
 			type = CharacterType.SOLDIER;
 		}
 
@@ -473,7 +498,7 @@ public class CharacterMessage implements Serializable{
 
 		log.debug("creating reenforcement:"+loadCharacter.getId());
 		unitsUnderCommand.add(loadCharacter.getId());
-		
+
 		if(CharacterType.ANTI_TANK_GUN==loadCharacter.type || CharacterType.ARMORED_CAR==loadCharacter.type || CharacterType.HALF_TRACK==loadCharacter.type){
 			CharacterMessage passenger = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, spawnPoint, country, Weapon.RIFLE, RankMessage.PRIVATE, id);
 			unitsUnderCommand.add(passenger.getId());
@@ -481,7 +506,7 @@ public class CharacterMessage implements Serializable{
 			passenger.boardedVehicle = loadCharacter.id;
 			characterDAO.putCharacter(passenger.getId(), passenger);
 		}
-		
+
 		characterDAO.putCharacter(loadCharacter.getId(), loadCharacter);
 		addedCharacters.add(this);
 		return addedCharacters;
@@ -536,8 +561,8 @@ public class CharacterMessage implements Serializable{
 				toUpdate.add(oldCo);
 			}
 		}
-		
-		
+
+
 		return newAvatar;
 	}
 
@@ -552,14 +577,14 @@ public class CharacterMessage implements Serializable{
 	public void replaceMe(CharacterCatch characterDAO, Map<UUID, CharacterMessage> toSave) {
 
 		Map<UUID, CharacterMessage> oldSquad = characterDAO.getAllCharacters(unitsUnderCommand);
-		
+
 		log.debug("finding field replacement for"+country+":"+id+" ->["+unitsUnderCommand+"]");
 
 		CharacterMessage co = null;
 		if(commandingOfficer!=null){
 			co = characterDAO.getCharacter(commandingOfficer);
 		}
-		
+
 		if(co!=null){
 			co.unitsUnderCommand.remove(id);
 			co.calculateSquadType(characterDAO.getAllCharacters(co.unitsUnderCommand).values(), co.squadType);
@@ -576,7 +601,7 @@ public class CharacterMessage implements Serializable{
 			toSave.put(passenger.id, passenger);
 			passenger.replaceMe(characterDAO, toSave);
 		}
-		
+
 		Optional<CharacterMessage> findReplacement = findReplacement(oldSquad);
 		if(findReplacement.isPresent()){
 			CharacterMessage cc = findReplacement.get().promoteCharacter(characterDAO, toSave, oldSquad, rank, commandingOfficer);
@@ -592,7 +617,7 @@ public class CharacterMessage implements Serializable{
 				@Override
 				public void accept(CharacterMessage t) {
 					t.commandingOfficer = null;
-					toSave.put(t.id, t);					
+					toSave.put(t.id, t);
 				}
 			});
 		}
@@ -601,12 +626,12 @@ public class CharacterMessage implements Serializable{
 
 	private CharacterMessage promoteCharacter(CharacterCatch characterDAO, Map<UUID, CharacterMessage> toSave, Map<UUID, CharacterMessage> formerSquadMates, RankMessage newRank, UUID newCO) {
 		Map<UUID, CharacterMessage> oldUnits = characterDAO.getAllCharacters(unitsUnderCommand);
-		
+
 		kills = new HashSet<UUID>();
 		objectives = new HashMap<String, String>();
 		unitsUnderCommand.clear();
 		commandingOfficer = newCO;
-		
+
 		log.info("promoting:"+getId()+" to "+newRank);
 		Map<UUID, CharacterMessage> newSquad = formerSquadMates.entrySet().stream().filter(c->!c.getValue().equals(this)).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 		newSquad.values().forEach(c->c.commandingOfficer = getId());
@@ -624,7 +649,7 @@ public class CharacterMessage implements Serializable{
 				@Override
 				public void accept(CharacterMessage t) {
 					t.commandingOfficer = null;
-					toSave.put(t.id, t);					
+					toSave.put(t.id, t);
 				}
 			});
 		}
@@ -638,7 +663,7 @@ public class CharacterMessage implements Serializable{
 	}
 
 	public void incrementKills(UUID kill) {
-		kills.add(kill);		
+		kills.add(kill);
 	}
 
 	public boolean hasAchivedRankObjectives(CharacterDAO characterDAO) {
@@ -655,8 +680,8 @@ public class CharacterMessage implements Serializable{
 
 	public Set<CharacterMessage> promoteAvatar(CharacterMessage co, CharacterDAO characterDAO) {
 		Set<CharacterMessage> ret = new HashSet<CharacterMessage>();
-		CharacterMessage replacemet = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, co.location, co.country, co.weapon, co.rank, co.id);		
-		replacemet.rank = rank;	
+		CharacterMessage replacemet = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, co.location, co.country, co.weapon, co.rank, co.id);
+		replacemet.rank = rank;
 		replacemet.unitsUnderCommand = new HashSet<UUID>(unitsUnderCommand);
 		replacemet.commandingOfficer = id;
 
@@ -693,12 +718,12 @@ public class CharacterMessage implements Serializable{
 		try{
 			String asText = toJsonNodeSafe(objective).get("class").asText();
 
-			Map<String, JsonNode> objectives = getObjectives().entrySet().stream().collect(Collectors.toMap(e->e.getKey(), e->toJsonNodeSafe(e.getValue())));
+			Map<String, JsonNode> objectives = this.objectives.entrySet().stream().collect(Collectors.toMap(e->e.getKey(), e->toJsonNodeSafe(e.getValue())));
 			for(Entry<String, JsonNode> entry:objectives.entrySet()){
 				String asText2 = entry.getValue().get("class").asText();
 
 				if(asText.equals(asText2)){
-					getObjectives().remove(entry.getKey());
+					this.objectives.remove(entry.getKey());
 				}
 			}
 
@@ -711,7 +736,7 @@ public class CharacterMessage implements Serializable{
 					if(objectiveClass!=null){
 						Objective obj = (Objective) MAPPER.treeToValue(entry.getValue(), objectiveClass);
 						if(obj.clashesWith(newObjective)){
-							getObjectives().remove(entry.getKey());
+							this.objectives.remove(entry.getKey());
 						}
 					}
 				}catch(ClassNotFoundException e){
@@ -755,13 +780,13 @@ public class CharacterMessage implements Serializable{
 	}
 
 	private SquadType getSquadType(SquadType squadType) {
-		if (type == CharacterType.ANTI_TANK_GUN) {
+		if(type==CharacterType.ANTI_TANK_GUN){
 			squadType = SquadType.ANTI_TANK_GUN;
-		} else if (type == CharacterType.ARMORED_CAR && squadType != SquadType.ANTI_TANK_GUN) {
+		}else if(type==CharacterType.ARMORED_CAR && squadType!=SquadType.ANTI_TANK_GUN){
 			squadType = SquadType.ARMORED_VEHICLE;
-		} else if (weapon == Weapon.MORTAR && squadType != SquadType.ARMORED_VEHICLE && squadType != SquadType.ANTI_TANK_GUN) {
+		}else if(weapon==Weapon.MORTAR && squadType!=SquadType.ARMORED_VEHICLE && squadType!=SquadType.ANTI_TANK_GUN){
 			squadType = SquadType.MORTAR_TEAM;
-		} else if (weapon == Weapon.MG42 && squadType != SquadType.ARMORED_VEHICLE && squadType != SquadType.ANTI_TANK_GUN) {
+		}else if(weapon==Weapon.MG42 && squadType!=SquadType.ARMORED_VEHICLE && squadType!=SquadType.ANTI_TANK_GUN){
 			squadType = SquadType.MG42_TEAM;
 		}
 		return squadType;
@@ -807,6 +832,7 @@ public class CharacterMessage implements Serializable{
 		toSave.put(getId(), this);
 	}
 
+	@JsonIgnore
 	public boolean isAbandoned() {
 		return passengers.isEmpty();
 	}
@@ -855,7 +881,7 @@ public class CharacterMessage implements Serializable{
 	public void addopt(CharacterMessage c) {
 		c.commandingOfficer = id;
 		addCharactersUnderCommand(c);
-		
+
 	}
 
 	public int getCurrentStrength(CharacterDAO characterDAO) {
@@ -873,21 +899,45 @@ public class CharacterMessage implements Serializable{
 		for(UUID p:newPAssengers){
 			passengers.add(p);
 		}
-		
+
 	}
 
-	public Long getCheckoutTime() {
-		return checkoutTime;
+	public Objective getObjectiveSafe(UUID value) {
+		if(objectives.get(value.toString())!=null) {
+			try {
+				return MAPPER.readValue(objectives.get(value.toString()), Objective.class);
+			} catch (IOException e) {}
+		}
+		return null;
 	}
 
-	public Set<String> getCompletedObjectives() {
-		return completedObjectives;
+//	public long getCreationTime() {
+//		return creationTime;
+//	}
+
+
+	public void updateObjective(String key, String s) {
+		if(objectives.containsKey(key)) {
+			objectives.put(key, s);
+		} else{
+			throw new RuntimeException("unknown objective key:"+key+" body:"+s);
+		}
 	}
 
+	public void removeObjective(String key) {
+		objectives.remove(key);
+	}
+
+	public void clearObjectives() {
+		objectives.clear();
+	}
+
+	@JsonIgnore
 	public Set<UUID> getKills() {
 		return kills;
 	}
 
+	@JsonIgnore
 	public boolean hasEngineDamage() {
 		return engineDamaged;
 	}

@@ -505,7 +505,7 @@ public class CharacterMessageTest {
 		s1.orientation = new Vector(1, 2, 3);
 		s1.actions.add(new Idle());
 		s1.objectives.put(UUID.randomUUID().toString(), MAPPER.writeValueAsString(new TravelObjective(s1, new Vector(0, 0, 0), null)));
-		s1.isDead = isDead;
+		s1.dead = isDead;
 		s1.engineDamaged = true;
 		s1.timeOfDeath = 123l;
 		s1.version = 456l;
