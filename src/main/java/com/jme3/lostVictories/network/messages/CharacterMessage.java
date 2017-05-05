@@ -911,10 +911,6 @@ public class CharacterMessage implements Serializable{
 		return null;
 	}
 
-//	public long getCreationTime() {
-//		return creationTime;
-//	}
-
 
 	public void updateObjective(String key, String s) {
 		if(objectives.containsKey(key)) {

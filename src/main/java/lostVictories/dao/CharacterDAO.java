@@ -43,23 +43,29 @@ public class CharacterDAO {
             MAPPER.setSerializationInclusion(Include.NON_NULL);
 
     }
-	
-	Jedis jedis;
-	private String characterStatus = "characterStatus";
 
-	public CharacterDAO(JedisPool pool) {
+	private final String characterLocation;
+	private final String characterStatus;
+
+	Jedis jedis;
+	private String nameSpace;
+
+	public CharacterDAO(JedisPool pool, String nameSpace) {
 		jedis = pool.getResource();
+		this.nameSpace = nameSpace;
+		this.characterStatus = nameSpace+".characterStatus";
+		this.characterLocation = nameSpace+".characterLocation";
 	}
 	  
 	public void putCharacter(UUID uuid, CharacterMessage character) {
 		Transaction transaction = jedis.multi();
 		try {
 			transaction.del(characterStatus+"."+character.getId().toString());
-			transaction.zrem("characterLocation", character.getId().toString());
+			transaction.zrem(characterLocation, character.getId().toString());
 			character.getMapRepresentation().entrySet().forEach(e->{
 				transaction.hset(characterStatus+"."+character.getId().toString(), e.getKey(), e.getValue());
 			});
-			transaction.geoadd("characterLocation", toLongitude(character.getLocation()), toLatitute(character.getLocation()), character.getId().toString());
+			transaction.geoadd(characterLocation, toLongitude(character.getLocation()), toLatitute(character.getLocation()), character.getId().toString());
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		} finally {
@@ -71,11 +77,11 @@ public class CharacterDAO {
 	public CharacterMessage getCharacter(UUID id) {
 		jedis.watch(characterStatus + "." + id.toString());
 		Map<String, String> mapResponse = jedis.hgetAll(characterStatus + "." + id.toString());
-		List<GeoCoordinate> characterLocation = jedis.geopos("characterLocation", id.toString());
+		List<GeoCoordinate> geoLocation = jedis.geopos(characterLocation, id.toString());
 
 		if(mapResponse !=null){
 			try {
-				return new CharacterMessage(mapResponse, characterLocation.get(0));
+				return new CharacterMessage(mapResponse, geoLocation.get(0));
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
@@ -99,8 +105,8 @@ public class CharacterDAO {
 
 		Rectangle.Float boundingBox = new Rectangle2D.Float(x-range, z-range, range*2, range*2);
 
-		List<GeoRadiusResponse> characterLocation = jedis.georadius("characterLocation", lon1, lat1, inKM, GeoUnit.KM);
-		return characterLocation.stream()
+		List<GeoRadiusResponse> geoLocation = jedis.georadius(characterLocation, lon1, lat1, inKM, GeoUnit.KM);
+		return geoLocation.stream()
 				.map(r->getCharacter(UUID.fromString(r.getMemberByString())))
 				.filter(c->boundingBox.contains(c.getLocation().x, c.getLocation().z))
 				.collect(Collectors.toSet());
