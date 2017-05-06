@@ -21,6 +21,9 @@ public enum CharacterType {
 		public Weapon getDefaultWeapon() {
 			return Weapon.MG42;
 		}
+	}, PANZER4 {
+    	@Override
+		public Weapon getDefaultWeapon(){ return Weapon.CANNON; }
 	}, AVATAR {
 		@Override
 		public Weapon getDefaultWeapon() {
