@@ -21,10 +21,11 @@ import java.util.stream.Collectors;
 public class CharacterDAOTest {
 
     private CharacterDAO dao;
+    JedisPool pool = new JedisPool("localhost");
 
     @Before
     public void setUp(){
-        dao = new CharacterDAO(new JedisPool("localhost"), "characterStatus");
+        dao = new CharacterDAO(pool.getResource(), "characterStatus");
         dao.deleteAllCharacters();
     }
 
@@ -226,13 +227,13 @@ public class CharacterDAOTest {
         CharacterMessage s1 = CharacterMessageTest.createCharacter(identity, UUID.randomUUID(), new Vector(100, 90.5f, 50), RankMessage.CADET_CORPORAL, false);
         dao.putCharacter(s1.getId(), s1);
 
-        CharacterDAO dao1 = new CharacterDAO(new JedisPool("localhost"), "characterStatus");
+        CharacterDAO dao1 = new CharacterDAO(pool.getResource(), "characterStatus");
         HashSet<UUID> ids = new HashSet<>();
         ids.add(s1.getId());
         Map<UUID, CharacterMessage> allCharacters = dao1.getAllCharacters(ids);
         assertFalse(allCharacters.get(identity).isDead());
 
-        CharacterDAO dao2 = new CharacterDAO(new JedisPool("localhost"), "characterStatus");
+        CharacterDAO dao2 = new CharacterDAO(pool.getResource(), "characterStatus");
         HashMap<UUID, CharacterMessage> toSave = new HashMap<>();
         s1.kill();
         toSave.put(s1.getId(), s1);

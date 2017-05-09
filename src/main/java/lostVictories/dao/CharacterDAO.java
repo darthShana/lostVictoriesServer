@@ -50,8 +50,8 @@ public class CharacterDAO {
 	Jedis jedis;
 	private String nameSpace;
 
-	public CharacterDAO(JedisPool pool, String nameSpace) {
-		jedis = pool.getResource();
+	public CharacterDAO(Jedis jedis, String nameSpace) {
+		this.jedis = jedis;
 		this.nameSpace = nameSpace;
 		this.characterStatus = nameSpace+".characterStatus";
 		this.characterLocation = nameSpace+".characterLocation";
@@ -75,7 +75,7 @@ public class CharacterDAO {
 	}
 
 	public CharacterMessage getCharacter(UUID id) {
-		jedis.watch(characterStatus + "." + id.toString());
+		//jedis.watch(characterStatus + "." + id.toString());
 		Map<String, String> mapResponse = jedis.hgetAll(characterStatus + "." + id.toString());
 		List<GeoCoordinate> geoLocation = jedis.geopos(characterLocation, id.toString());
 
@@ -134,7 +134,7 @@ public class CharacterDAO {
 		double lat1 = toLatitute(c.getLocation());
 		double lon1 = toLongitude(c.getLocation());
 
-		List<GeoRadiusResponse> characterLocation = jedis.georadius("characterLocation", lon1, lat1, 9000, GeoUnit.KM, GeoRadiusParam.geoRadiusParam().sortAscending());
+		List<GeoRadiusResponse> characterLocation = jedis.georadius(this.characterLocation, lon1, lat1, 9000, GeoUnit.KM, GeoRadiusParam.geoRadiusParam().sortAscending());
 		Optional<CharacterMessage> first = characterLocation.stream()
 				.map(r -> getCharacter(UUID.fromString(r.getMemberByString())))
 				.filter(cc -> rank == cc.getRank())
@@ -156,7 +156,7 @@ public class CharacterDAO {
 	}
 
 	public Set<CharacterMessage> getAllCharacters() {
-		List<GeoRadiusResponse> mapResponse = jedis.georadius("characterLocation", 0, 0, 1000000, GeoUnit.KM);
+		List<GeoRadiusResponse> mapResponse = jedis.georadius(this.characterLocation, 0, 0, 1000000, GeoUnit.KM);
 		return mapResponse.stream().map(r->getCharacter(UUID.fromString(r.getMemberByString()))).collect(Collectors.toSet());
 	}
 
@@ -166,12 +166,12 @@ public class CharacterDAO {
 			values.forEach(character -> {
 				try {
 					transaction.del(characterStatus + "." + character.getId().toString());
-					transaction.zrem("characterLocation", character.getId().toString());
+					transaction.zrem(this.characterLocation, character.getId().toString());
 					character.getMapRepresentation().entrySet().forEach(e -> {
 						transaction.hset(characterStatus + "." + character.getId().toString(), e.getKey(), e.getValue());
 					});
 					transaction.hincrBy(characterStatus + "." + character.getId().toString(), "version", 1);
-					transaction.geoadd("characterLocation", toLongitude(character.getLocation()), toLatitute(character.getLocation()), character.getId().toString());
+					transaction.geoadd(this.characterLocation, toLongitude(character.getLocation()), toLatitute(character.getLocation()), character.getId().toString());
 				}catch (IOException e){
 					throw new RuntimeException(e);
 				}
@@ -188,7 +188,7 @@ public class CharacterDAO {
 		List<Object> exec = new ArrayList<>();
 		Transaction transaction = jedis.multi();
 		try {
-			transaction.zrem("characterLocation", character.getId().toString());
+			transaction.zrem(this.characterLocation, character.getId().toString());
 			character.getStateUpdate().entrySet().forEach(e -> {
 				transaction.hdel(characterStatus + "." + character.getId().toString(), e.getKey());
 				if(e.getValue()!=null) {
@@ -196,7 +196,7 @@ public class CharacterDAO {
 				}
 			});
 			version = transaction.hincrBy(characterStatus + "." + character.getId().toString(), "version", 1);
-			transaction.geoadd("characterLocation", toLongitude(character.getLocation()), toLatitute(character.getLocation()), character.getId().toString());
+			transaction.geoadd(this.characterLocation, toLongitude(character.getLocation()), toLatitute(character.getLocation()), character.getId().toString());
 
 		} catch (Throwable e) {
 			throw new RuntimeException(e);
@@ -218,7 +218,7 @@ public class CharacterDAO {
 		Transaction transaction = jedis.multi();
 		try {
 			map.values().forEach(character -> {
-				transaction.zrem("characterLocation", character.getId().toString());
+				transaction.zrem(this.characterLocation, character.getId().toString());
 				updateFunction.apply(character).entrySet().forEach(e -> {
 					transaction.hdel(characterStatus + "." + character.getId().toString(), e.getKey());
 					if(e.getValue()!=null) {
@@ -226,7 +226,7 @@ public class CharacterDAO {
 					}
 				});
 				transaction.hincrBy(characterStatus + "." + character.getId().toString(), "version", 1);
-				transaction.geoadd("characterLocation", toLongitude(character.getLocation()), toLatitute(character.getLocation()), character.getId().toString());
+				transaction.geoadd(this.characterLocation, toLongitude(character.getLocation()), toLatitute(character.getLocation()), character.getId().toString());
 			});
 		} catch (Throwable e) {
 			throw new RuntimeException(e);
@@ -259,7 +259,7 @@ public class CharacterDAO {
 
 	public boolean delete(CharacterMessage c) {
 		jedis.del(characterStatus+"."+c.getId().toString());
-		jedis.zrem("characterLocation", c.getId().toString());
+		jedis.zrem(this.characterLocation, c.getId().toString());
 		return true;
 	}
 
@@ -269,10 +269,10 @@ public class CharacterDAO {
 
 
 	public void deleteAllCharacters() {
-		List<GeoRadiusResponse> mapResponse = jedis.georadius("characterLocation", 0, 0, 1000000, GeoUnit.KM);
+		List<GeoRadiusResponse> mapResponse = jedis.georadius(this.characterLocation, 0, 0, 1000000, GeoUnit.KM);
 		mapResponse.forEach(r->{
 			jedis.del(characterStatus+"."+r.getMemberByString());
 		});
-		jedis.del("characterLocation");
+		jedis.del(this.characterLocation);
 	}
 }

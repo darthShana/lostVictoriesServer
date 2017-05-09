@@ -73,7 +73,7 @@ public class CharacterMessage implements Serializable{
 	@JsonIgnore
 	Set<UUID> kills = new HashSet<UUID>();
 	SquadType squadType = SquadType.RIFLE_TEAM;
-//	long creationTime;
+	long creationTime;
 
 
 	private CharacterMessage(){}
@@ -936,5 +936,9 @@ public class CharacterMessage implements Serializable{
 	@JsonIgnore
 	public boolean hasEngineDamage() {
 		return engineDamaged;
+	}
+
+	public long getCreationTime() {
+		return creationTime;
 	}
 }

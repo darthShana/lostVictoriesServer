@@ -73,7 +73,7 @@ public class WorldRunnerTest {
         GameStatusDAO gameStatusDAO = mock(GameStatusDAO.class);
         when(houseDAO.getAllHouses()).thenReturn(ImmutableSet.of(s1, s2, s3, s4, s5));
         when(characterDAO.getAllCharacters()).thenReturn(new HashSet<CharacterMessage>());
-        instance = WorldRunner.instance("test34", characterDAO, houseDAO, gameStatusDAO, mock(GameRequestDAO.class), mock(PlayerUsageDAO.class), mock(MessageRepository.class));
+        instance = WorldRunner.instance("test34");
         
     }
     
