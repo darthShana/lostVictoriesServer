@@ -86,9 +86,8 @@ public class LostVictoriesSever {
 		WorldRunner worldRunner = WorldRunner.instance(gameName);
 
 		JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
-//		jedisPoolConfig.setTestWhileIdle(false);
-//		jedisPoolConfig.setMaxTotal(1024);
-//		jedisPoolConfig.setMinIdle(1024);
+		jedisPoolConfig.setMaxTotal(1024);
+		jedisPoolConfig.setMinIdle(1024);
 		JedisPool jedisPool = new JedisPool(jedisPoolConfig, "localhost" );
 		service = new LostVictoryService(jedisPool, instance, houseDAO, treeDAO, equipmentDAO, gameStatusDAO, gameRequestDAO, playerUsageDAO, messageRepository, worldRunner);
 
@@ -120,7 +119,7 @@ public class LostVictoriesSever {
 // Bind and start to accept incoming connections.
 //		bootstrap.bind(new InetSocketAddress("0.0.0.0", port));
 
-		EventLoopGroup group = new NioEventLoopGroup(8);
+		EventLoopGroup group = new NioEventLoopGroup(128);
 		try {
 			Bootstrap b = new Bootstrap();
 			b.group(group)

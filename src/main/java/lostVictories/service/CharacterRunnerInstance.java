@@ -37,7 +37,6 @@ public class CharacterRunnerInstance {
                 .filter(c->c.isAvailableForCheckout(5000))
                 .forEach(c->runCharacterBehavior(c, toSave, kills, characterDAO, playerUsageDAO, houseDAO));
         characterDAO.updateCharacterStateNoCheckout(toSave);
-        characterDAO.refresh();
 
         kills.entrySet().stream().forEach(entry->doKill(entry.getKey(), entry.getValue(), characterDAO));
 
@@ -61,7 +60,6 @@ public class CharacterRunnerInstance {
         victim.replaceMe(catche, toSave);
 
         characterDAO.saveCommandStructure(toSave);
-        characterDAO.refresh();
 
 
     }

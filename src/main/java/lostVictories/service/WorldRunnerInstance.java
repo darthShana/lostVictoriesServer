@@ -88,7 +88,6 @@ public class WorldRunnerInstance {
                                 characterDAO.updateCharactersUnderCommand(c);
                             }
                         }
-                        characterDAO.refresh();
                         reduceManPower(c.getCountry(), manPower);
 
                     }
@@ -115,7 +114,6 @@ public class WorldRunnerInstance {
                         if(CharacterType.AVATAR != co.getCharacterType()){
                             Set<CharacterMessage> promotions = avatar.promoteAvatar(co, characterDAO);
                             characterDAO.saveCommandStructure(promotions.stream().collect(Collectors.toMap(CharacterMessage::getId, Function.identity())));
-                            characterDAO.refresh();
                         }
                     }
                     if(avatar.getCheckoutClient()!=null && avatar.getCheckoutClient().equals(avatar.getId())){

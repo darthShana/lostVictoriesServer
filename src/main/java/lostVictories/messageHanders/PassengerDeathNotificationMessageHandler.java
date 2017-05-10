@@ -46,7 +46,6 @@ public class PassengerDeathNotificationMessageHandler {
 		}
 		
 		characterDAO.saveCommandStructure(toSave);
-		characterDAO.refresh();
 		ret.add(new GenericLostVictoryResponse());
 		return ret;
 	}

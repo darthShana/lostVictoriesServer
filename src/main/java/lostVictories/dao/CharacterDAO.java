@@ -75,7 +75,14 @@ public class CharacterDAO {
 	}
 
 	public CharacterMessage getCharacter(UUID id) {
-		//jedis.watch(characterStatus + "." + id.toString());
+		return getCharacter(id, false);
+	}
+
+	private CharacterMessage getCharacter(UUID id, boolean watch) {
+		if (watch) {
+			jedis.watch(characterStatus + "." + id.toString());
+		}
+
 		Map<String, String> mapResponse = jedis.hgetAll(characterStatus + "." + id.toString());
 		List<GeoCoordinate> geoLocation = jedis.geopos(characterLocation, id.toString());
 
@@ -88,6 +95,7 @@ public class CharacterDAO {
 		}else{
 			return null;
 		}
+
 
 	}
 
@@ -152,7 +160,7 @@ public class CharacterDAO {
 	}	
 
 	public Map<UUID, CharacterMessage> getAllCharacters(Set<UUID> ids) {
-		return ids.stream().map(id->getCharacter(id)).collect(Collectors.toMap(c->c.getId(), Function.identity()));
+		return ids.stream().map(id->getCharacter(id, true)).collect(Collectors.toMap(c->c.getId(), Function.identity()));
 	}
 
 	public Set<CharacterMessage> getAllCharacters() {
@@ -261,10 +269,6 @@ public class CharacterDAO {
 		jedis.del(characterStatus+"."+c.getId().toString());
 		jedis.zrem(this.characterLocation, c.getId().toString());
 		return true;
-	}
-
-	public void refresh() {
-//		esClient.admin().indices().refresh(new RefreshRequest(indexName)).actionGet();
 	}
 
 

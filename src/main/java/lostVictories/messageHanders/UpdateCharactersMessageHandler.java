@@ -51,34 +51,13 @@ public class UpdateCharactersMessageHandler {
 		allCharacter.add(msg.getCharacter());
 		
 		Map<UUID, CharacterMessage> sentFromClient = allCharacter.stream().collect(Collectors.toMap(CharacterMessage::getId, Function.identity()));
-        for(CharacterMessage characterMessage:sentFromClient.values()){
-            System.out.println("server received:"+characterMessage.getId()+"version:"+ characterMessage.getVersion()+" sig:"+characterMessage.getCreationTime()+" at time:"+System.currentTimeMillis());
-        }
-		Map<UUID, CharacterMessage> serverVersion = characterDAO.getAllCharacters(allCharacter.stream().filter(c->!c.isDead()).map(c->c.getId()).collect(Collectors.toSet()));
-
-//        Map.Entry<UUID, CharacterMessage> cc = sentFromClient.entrySet().iterator().next();
-//        Map.Entry<UUID, CharacterMessage> ss = serverVersion.entrySet().iterator().next();
-//
-//        System.out.println("updating:"+ cc.getKey()+" client version:"+cc.getValue().getVersion()+" server version:"+ss.getValue().getVersion());
-
-
-//		if(sentFromClient.containsKey(UUID.fromString("2fbe421f-f701-49c9-a0d4-abb0fa904204"))){
-//            CharacterMessage characterMessage = sentFromClient.get(UUID.fromString("2fbe421f-f701-49c9-a0d4-abb0fa904204"));
-
+        Map<UUID, CharacterMessage> serverVersion = characterDAO.getAllCharacters(allCharacter.stream().filter(c->!c.isDead()).map(c->c.getId()).collect(Collectors.toSet()));
 
 		Map<UUID, CharacterMessage> toSave = serverVersion.values().stream()
 				.filter(c->c.isAvailableForUpdate(msg.getClientID(), sentFromClient.get(c.getId()), CHECKOUT_TIMEOUT))
 				.collect(Collectors.toMap(c->c.getId(), Function.identity()));
 
 		toSave.values().stream().forEach(c->c.updateState(sentFromClient.get(c.getId()), msg.getClientID(), System.currentTimeMillis()));
-		if(System.currentTimeMillis()-lastFlushTime>100) {
-//			long ll = System.currentTimeMillis();
-			characterDAO.refresh();
-//			if("d993932f-a185-4a6f-8d86-4ef6e2c5ff95".equals(msg.getAvatar().toString())){
-//				System.out.println("flushing to db since:"+(System.currentTimeMillis()-lastFlushTime)+" took:"+(System.currentTimeMillis()-ll));
-//			}
-			lastFlushTime = System.currentTimeMillis();
-		}
 
 
 		CharacterMessage storedAvatar = characterDAO.getCharacter(msg.getAvatar());
@@ -97,12 +76,6 @@ public class UpdateCharactersMessageHandler {
         });
 
 
-
-
-
-//		log.trace("client sending "+allCharacter.iterator().next().getId()+" characters to update version:"+allCharacter.iterator().next().getVersion()+"/"+toReturn.values().iterator().next().getVersion());
-
-
 		Set<CharacterMessage> relatedCharacters = new HashSet<>();
 		if(msg.getClientStartTime()>5000) {
 			if(sentFromClient.containsKey(msg.getAvatar())) {
@@ -116,7 +89,6 @@ public class UpdateCharactersMessageHandler {
 					.filter(c->!c.isDead()).map(c->c.getCommandingOfficer()).filter(u->u!=null && !toReturn.containsKey(u))
 					.map(u->characterDAO.getCharacter(u)).filter(u->u!=null && !inRange.containsKey(u.getId())).collect(Collectors.toSet());
 			relatedCharacters.addAll(relatedCharacters2);
-
 
 		}
 
@@ -149,10 +121,6 @@ public class UpdateCharactersMessageHandler {
 
 			}
 		}
-
-        for(CharacterMessage characterMessage:sentFromClient.values()){
-            System.out.println("server sending:"+characterMessage.getId()+"version:"+ characterMessage.getVersion()+" sig:"+characterMessage.getCreationTime()+" at time:"+System.currentTimeMillis());
-        }
 
 		return ret;
 	}
