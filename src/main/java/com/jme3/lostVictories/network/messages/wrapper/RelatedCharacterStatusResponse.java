@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static lostVictories.CharacterRunner.toJsonNodeSafe;
 import static lostVictories.dao.CharacterDAO.MAPPER;
 
 /**

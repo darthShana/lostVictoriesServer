@@ -1,6 +1,5 @@
 package com.jme3.lostVictories.network.messages;
 
-import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 import static com.jme3.lostVictories.network.messages.Vector.latLongToVector;
 import static lostVictories.dao.CharacterDAO.MAPPER;
 import static com.jme3.lostVictories.objectives.Objective.toObjectiveSafe;
@@ -25,6 +24,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.JavaType;
 import lostVictories.CharacterRunner;
 import lostVictories.VehicleFactory;
 import lostVictories.WeaponsFactory;
@@ -33,8 +33,6 @@ import lostVictories.messageHanders.CharacterCatch;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.elasticsearch.common.geo.GeoPoint;
-import org.elasticsearch.common.xcontent.XContentBuilder;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -45,6 +43,7 @@ import com.jme3.lostVictories.network.messages.actions.Action;
 import com.jme3.lostVictories.objectives.FollowCommander;
 import com.jme3.lostVictories.objectives.Objective;
 import com.jme3.lostVictories.objectives.PassiveObjective;
+import redis.clients.jedis.GeoCoordinate;
 
 public class CharacterMessage implements Serializable{
 
@@ -74,7 +73,7 @@ public class CharacterMessage implements Serializable{
 	@JsonIgnore
 	Set<UUID> kills = new HashSet<UUID>();
 	SquadType squadType = SquadType.RIFLE_TEAM;
-//	long creationTime;
+	long creationTime;
 
 
 	private CharacterMessage(){}
@@ -96,6 +95,65 @@ public class CharacterMessage implements Serializable{
 		}
 	}
 
+	public CharacterMessage(Map<String, String> source, GeoCoordinate geoCoordinate) throws IOException {
+		this.id = UUID.fromString(source.get("id"));
+		this.type = CharacterType.valueOf((String) source.get("type"));
+		if(source.containsKey("userID")){
+			this.userID = UUID.fromString(source.get("userID"));
+		}
+
+		this.country = Country.valueOf(source.get("country"));
+		this.weapon = Weapon.valueOf(source.get("weapon"));
+		this.rank = RankMessage.valueOf(source.get("rank"));
+		if(source.containsKey("commandingOfficer")){
+			this.commandingOfficer = UUID.fromString(source.get("commandingOfficer"));
+		}
+		if(source.containsKey("boardedVehicle")){
+			this.boardedVehicle = UUID.fromString(source.get("boardedVehicle"));
+		}
+		if(source.containsKey("unitsUnderCommand")){
+			JavaType type = MAPPER.getTypeFactory().constructCollectionType(Set.class, UUID.class);
+			unitsUnderCommand = MAPPER.readValue(source.get("unitsUnderCommand"), type);
+		}
+		if(source.containsKey("passengers")){
+			JavaType type = MAPPER.getTypeFactory().constructCollectionType(Set.class, UUID.class);
+			passengers = MAPPER.readValue(source.get("passengers"), type);
+		}
+		if(source.containsKey("boardedVehicle")){
+			this.boardedVehicle = UUID.fromString(source.get("boardedVehicle"));
+		}
+		if(source.containsKey("checkoutClient")){
+			this.checkoutClient = UUID.fromString(source.get("checkoutClient"));
+		}
+		if(source.containsKey("checkoutTime")){
+			this.checkoutTime = Long.parseLong(source.get("checkoutTime"));
+		}
+		this.orientation = MAPPER.readValue(source.get("orientation"), Vector.class);
+
+		if(source.containsKey("actions")){
+			JavaType type = MAPPER.getTypeFactory().constructCollectionType(Set.class, Action.class);
+			actions = MAPPER.readValue(source.get("actions"), type);
+		}
+		String o = source.get("objectives");
+		if(!"[{}]".equals(o)){
+			this.objectives = CharacterDAO.MAPPER.readValue(o, new TypeReference<Map<String, String>>() {});
+		}
+		dead = Boolean.parseBoolean(source.get("isDead"));
+		engineDamaged = Boolean.parseBoolean(source.get("engineDamaged"));
+		if(source.containsKey("timeOfDeath")){
+			this.timeOfDeath = Long.parseLong(source.get("timeOfDeath"));
+		}
+		this.version = Long.parseLong(source.get("version"));
+		if(source.containsKey("kills")){
+			JavaType type = MAPPER.getTypeFactory().constructCollectionType(Set.class, UUID.class);
+			kills = MAPPER.readValue(source.get("kills"), type);
+		}
+		squadType = SquadType.valueOf(source.get("squadType"));
+		float altitude = Float.parseFloat(source.get("altitude"));
+
+		this.location = latLongToVector(altitude, (float) geoCoordinate.getLongitude(), (float) geoCoordinate.getLatitude());
+	}
+
 	public CharacterMessage(UUID id, long version, Map<String, Object> source) {
 		this.id = id;
 		HashMap<String, Double> location =  (HashMap<String, Double>) source.get("location");
@@ -105,7 +163,7 @@ public class CharacterMessage implements Serializable{
 		if(source.get("squadType")!=null){
 			this.squadType = SquadType.valueOf((String) source.get("squadType"));
 		}
-		this.location = latLongToVector(location, altitude);
+		this.location = latLongToVector(altitude, location.get("lon").floatValue(), location.get("lat").floatValue());
 		this.country = Country.valueOf((String)source.get("country"));
 		this.weapon = Weapon.valueOf((String) source.get("weapon"));
 		this.rank = RankMessage.valueOf((String) source.get("rank"));
@@ -157,7 +215,7 @@ public class CharacterMessage implements Serializable{
 
 		unitsUnderCommand = ((Collection<String>)source.get("unitsUnderCommand")).stream().map(s -> UUID.fromString(s)).collect(Collectors.toSet());
 		passengers = ((Collection<String>)source.get("passengers")).stream().map(s -> UUID.fromString(s)).collect(Collectors.toSet());
-		dead = (boolean) source.get("dead");
+		dead = (boolean) source.get("isDead");
 		engineDamaged = (boolean) source.get("engineDamaged");
 		if(dead){
 			this.checkoutTime = (Long) source.get("checkoutTime");
@@ -165,6 +223,7 @@ public class CharacterMessage implements Serializable{
 		this.version = version;
 		this.kills = ((Collection<String>)source.get("kills")).stream().map(s -> UUID.fromString(s)).collect(Collectors.toSet());
 	}
+
 
 	public Vector getLocation() {
 		return location;
@@ -181,7 +240,7 @@ public class CharacterMessage implements Serializable{
 	public RankMessage getRank() {
 		return rank;
 	}
-	
+
 	public UUID getBoardedVehicle(){
 		return boardedVehicle;
 	}
@@ -215,73 +274,99 @@ public class CharacterMessage implements Serializable{
 		return userID;
 	}
 
-	public XContentBuilder getJSONRepresentation() throws IOException {
-		return jsonBuilder()
-				.startObject()
-				.field("userID", userID)
-				.field("boardedVehicle", boardedVehicle)
-				.field("date", new Date())
-				.field("location", new GeoPoint(toLatitute(getLocation()), toLongitude(getLocation())))
-				.field("altitude", getLocation().y)
-				.field("orientation", orientation.toMap())
-				.field("country", getCountry())
-				.field("weapon", getWeapon())
-				.field("rank", getRank())
-				.field("kills", kills)
-				.field("actions", MAPPER.writerFor(new TypeReference<Set<Action>>() {}).writeValueAsString(actions))
-				.field("objectives", CharacterDAO.MAPPER.writeValueAsString(objectives))
-				.field("commandingOfficer", commandingOfficer)
-				.field("unitsUnderCommand", unitsUnderCommand)
-				.field("passengers", passengers)
-				.field("type", type)
-				.field("squadType", squadType)
-				.field("checkoutClient", checkoutClient)
-				.field("checkoutTime", checkoutTime)
-				.field("dead", dead)
-				.field("engineDamaged", engineDamaged)
-				.field("timeOfDeath", timeOfDeath)
-				.endObject();
+	public Map<String, String> getMapRepresentation() throws IOException {
+		Map<String, String> ret = new HashMap<>();
+		ret.put("id", id.toString());
+		if(userID!=null) {
+			ret.put("userID",userID.toString());
+		}
+		if(boardedVehicle!=null){
+			ret.put("boardedVehicle", boardedVehicle.toString());
+		}
+
+		ret.put("altitude", getLocation().y+"");
+		ret.put("orientation", CharacterDAO.MAPPER.writeValueAsString(orientation));
+		ret.put("country", getCountry().toString());
+		ret.put("weapon", getWeapon().toString());
+		ret.put("rank", getRank().toString());
+		ret.put("kills", CharacterDAO.MAPPER.writeValueAsString(kills));
+		ret.put("actions", MAPPER.writerFor(new TypeReference<Set<Action>>() {}).writeValueAsString(actions));
+		ret.put("objectives", CharacterDAO.MAPPER.writeValueAsString(objectives));
+		if(commandingOfficer!=null){
+			ret.put("commandingOfficer", commandingOfficer.toString());
+		}
+
+		ret.put("unitsUnderCommand", CharacterDAO.MAPPER.writeValueAsString(unitsUnderCommand));
+		ret.put("passengers", CharacterDAO.MAPPER.writeValueAsString(passengers));
+		ret.put("type", type.toString());
+		ret.put("squadType", squadType.toString());
+		if(checkoutClient!=null){
+			ret.put("checkoutClient", checkoutClient.toString());
+		}
+
+		if(checkoutTime!=null){
+			ret.put("checkoutTime", checkoutTime.toString());
+		}
+
+		ret.put("isDead", dead+"");
+		ret.put("engineDamaged", engineDamaged+"");
+		if(timeOfDeath!=null){
+			ret.put("timeOfDeath", timeOfDeath.toString());
+		}
+		ret.put("version", version+"");
+		return ret;
 	}
 
-	public XContentBuilder getCommandStructureUpdate() throws IOException {
-		return jsonBuilder()
-				.startObject()
-				.field("unitsUnderCommand", unitsUnderCommand)
-				.field("commandingOfficer", commandingOfficer)
-				.field("dead", dead)
-				.field("passengers", passengers)
-				.field("rank", rank)
-				.field("objectives", CharacterDAO.MAPPER.writeValueAsString(objectives))
-				.field("timeOfDeath", timeOfDeath)
-				.field("kills", kills)				
-				.endObject();
+	public Map<String, String> getCommandStructureUpdate() {
+		Map<String, String> ret = new HashMap<>();
+
+		try{
+			ret.put("unitsUnderCommand", CharacterDAO.MAPPER.writeValueAsString(unitsUnderCommand));
+			ret.put("commandingOfficer", (commandingOfficer!=null)?commandingOfficer.toString():null);
+			ret.put("isDead", dead+"");
+			ret.put("passengers", CharacterDAO.MAPPER.writeValueAsString(passengers));
+			ret.put("rank", getRank().toString());
+			ret.put("objectives", CharacterDAO.MAPPER.writeValueAsString(objectives));
+			ret.put("timeOfDeath", (timeOfDeath!=null)?timeOfDeath.toString():null);
+			ret.put("kills", CharacterDAO.MAPPER.writeValueAsString(kills));
+		} catch (JsonProcessingException e) {
+			throw new RuntimeException(e);
+		}
+		return ret;
 	}
 
-	public XContentBuilder getStateUpdate() throws IOException{
+	public Map<String, String> getStateUpdate() {
+		Map<String, String> ret = new HashMap<>();
 
-		return jsonBuilder()
-				.startObject()
-				.field("location", new GeoPoint(toLatitute(getLocation()), toLongitude(getLocation())))
-				.field("altitude", getLocation().y)
-				.field("orientation", orientation.toMap())
-				.field("actions", MAPPER.writerFor(new TypeReference<Set<Action>>() {}).writeValueAsString(actions))
-				.field("objectives", CharacterDAO.MAPPER.writeValueAsString(objectives))	
-				.field("checkoutClient", checkoutClient)
-				.field("checkoutTime", checkoutTime)
-				.endObject();
+		try{
+			ret.put("altitude", getLocation().y+"");
+			ret.put("orientation", CharacterDAO.MAPPER.writeValueAsString(orientation));
+			ret.put("actions", MAPPER.writerFor(new TypeReference<Set<Action>>() {}).writeValueAsString(actions));
+			ret.put("objectives", CharacterDAO.MAPPER.writeValueAsString(objectives));
+			ret.put("checkoutClient", (checkoutClient!=null)?checkoutClient.toString():null);
+			ret.put("checkoutTime", (checkoutTime!=null)?checkoutTime.toString():null);
+		} catch (JsonProcessingException e) {
+			throw new RuntimeException(e);
+		}
+		return ret;
 	}
 
-	public XContentBuilder getStateUpdateNoCheckout() throws IOException{
+	public Map<String, String> getStateUpdateNoCheckout() {
+		Map<String, String> ret = new HashMap<>();
 
-		return jsonBuilder()
-				.startObject()
-				.field("location", new GeoPoint(toLatitute(getLocation()), toLongitude(getLocation())))
-				.field("altitude", getLocation().y)
-				.field("orientation", orientation.toMap())
-				.field("objectives", CharacterDAO.MAPPER.writeValueAsString(objectives))	
-				.field("engineDamaged", engineDamaged)
-				.endObject();
+		try {
+			ret.put("altitude", getLocation().y+"");
+			ret.put("orientation", CharacterDAO.MAPPER.writeValueAsString(orientation));
+			ret.put("objectives", CharacterDAO.MAPPER.writeValueAsString(objectives));
+			ret.put("engineDamaged", engineDamaged+"");
+		} catch (JsonProcessingException e) {
+			throw new RuntimeException(e);
+		}
+
+
+		return ret;
 	}
+
 
 	public static double toLongitude(Vector location) {
 		return location.x/LostVictoryScene.SCENE_WIDTH*180;
@@ -303,9 +388,9 @@ public class CharacterMessage implements Serializable{
 		return this.checkoutClient==null || checkoutTime==null || (System.currentTimeMillis()-checkoutTime)>duration;
 	}
 
-    public boolean isCheckedOutBy(UUID clientID, long duration) {
-	    return this.checkoutClient!=null && (checkoutClient.equals(clientID)) && checkoutTime!=null && (System.currentTimeMillis()-checkoutTime)<duration;
-    }
+	public boolean isCheckedOutBy(UUID clientID, long duration) {
+		return this.checkoutClient!=null && (checkoutClient.equals(clientID)) && checkoutTime!=null && (System.currentTimeMillis()-checkoutTime)<duration;
+	}
 
 	public boolean isBusy() {
 		return isDead() || objectives.values().stream()
@@ -376,14 +461,6 @@ public class CharacterMessage implements Serializable{
 		this.checkoutTime = checkoutTime;
 	}
 
-	public XContentBuilder getJSONRepresentationUnChecked() {
-		try {
-			return getJSONRepresentation();
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-	}
-
 	public Map<String, String> readObjectives(){
 		return new HashMap<>(objectives);
 	}
@@ -411,7 +488,7 @@ public class CharacterMessage implements Serializable{
 		if(type!=null){
 			weapon = type.getDefaultWeapon();
 			spawnPoint = (Country.AMERICAN==country)?LostVictoryScene.americanVehicleSpawnPoint:LostVictoryScene.germanVehicleSpawnPoint;
-		}else{        	
+		}else{
 			type = CharacterType.SOLDIER;
 		}
 
@@ -421,7 +498,7 @@ public class CharacterMessage implements Serializable{
 
 		log.debug("creating reenforcement:"+loadCharacter.getId());
 		unitsUnderCommand.add(loadCharacter.getId());
-		
+
 		if(CharacterType.ANTI_TANK_GUN==loadCharacter.type || CharacterType.ARMORED_CAR==loadCharacter.type || CharacterType.HALF_TRACK==loadCharacter.type){
 			CharacterMessage passenger = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, spawnPoint, country, Weapon.RIFLE, RankMessage.PRIVATE, id);
 			unitsUnderCommand.add(passenger.getId());
@@ -429,7 +506,7 @@ public class CharacterMessage implements Serializable{
 			passenger.boardedVehicle = loadCharacter.id;
 			characterDAO.putCharacter(passenger.getId(), passenger);
 		}
-		
+
 		characterDAO.putCharacter(loadCharacter.getId(), loadCharacter);
 		addedCharacters.add(this);
 		return addedCharacters;
@@ -484,8 +561,8 @@ public class CharacterMessage implements Serializable{
 				toUpdate.add(oldCo);
 			}
 		}
-		
-		
+
+
 		return newAvatar;
 	}
 
@@ -500,14 +577,14 @@ public class CharacterMessage implements Serializable{
 	public void replaceMe(CharacterCatch characterDAO, Map<UUID, CharacterMessage> toSave) {
 
 		Map<UUID, CharacterMessage> oldSquad = characterDAO.getAllCharacters(unitsUnderCommand);
-		
+
 		log.debug("finding field replacement for"+country+":"+id+" ->["+unitsUnderCommand+"]");
 
 		CharacterMessage co = null;
 		if(commandingOfficer!=null){
 			co = characterDAO.getCharacter(commandingOfficer);
 		}
-		
+
 		if(co!=null){
 			co.unitsUnderCommand.remove(id);
 			co.calculateSquadType(characterDAO.getAllCharacters(co.unitsUnderCommand).values(), co.squadType);
@@ -524,7 +601,7 @@ public class CharacterMessage implements Serializable{
 			toSave.put(passenger.id, passenger);
 			passenger.replaceMe(characterDAO, toSave);
 		}
-		
+
 		Optional<CharacterMessage> findReplacement = findReplacement(oldSquad);
 		if(findReplacement.isPresent()){
 			CharacterMessage cc = findReplacement.get().promoteCharacter(characterDAO, toSave, oldSquad, rank, commandingOfficer);
@@ -540,7 +617,7 @@ public class CharacterMessage implements Serializable{
 				@Override
 				public void accept(CharacterMessage t) {
 					t.commandingOfficer = null;
-					toSave.put(t.id, t);					
+					toSave.put(t.id, t);
 				}
 			});
 		}
@@ -549,12 +626,12 @@ public class CharacterMessage implements Serializable{
 
 	private CharacterMessage promoteCharacter(CharacterCatch characterDAO, Map<UUID, CharacterMessage> toSave, Map<UUID, CharacterMessage> formerSquadMates, RankMessage newRank, UUID newCO) {
 		Map<UUID, CharacterMessage> oldUnits = characterDAO.getAllCharacters(unitsUnderCommand);
-		
+
 		kills = new HashSet<UUID>();
 		objectives = new HashMap<String, String>();
 		unitsUnderCommand.clear();
 		commandingOfficer = newCO;
-		
+
 		log.info("promoting:"+getId()+" to "+newRank);
 		Map<UUID, CharacterMessage> newSquad = formerSquadMates.entrySet().stream().filter(c->!c.getValue().equals(this)).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 		newSquad.values().forEach(c->c.commandingOfficer = getId());
@@ -572,7 +649,7 @@ public class CharacterMessage implements Serializable{
 				@Override
 				public void accept(CharacterMessage t) {
 					t.commandingOfficer = null;
-					toSave.put(t.id, t);					
+					toSave.put(t.id, t);
 				}
 			});
 		}
@@ -586,7 +663,7 @@ public class CharacterMessage implements Serializable{
 	}
 
 	public void incrementKills(UUID kill) {
-		kills.add(kill);		
+		kills.add(kill);
 	}
 
 	public boolean hasAchivedRankObjectives(CharacterDAO characterDAO) {
@@ -603,8 +680,8 @@ public class CharacterMessage implements Serializable{
 
 	public Set<CharacterMessage> promoteAvatar(CharacterMessage co, CharacterDAO characterDAO) {
 		Set<CharacterMessage> ret = new HashSet<CharacterMessage>();
-		CharacterMessage replacemet = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, co.location, co.country, co.weapon, co.rank, co.id);		
-		replacemet.rank = rank;	
+		CharacterMessage replacemet = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, co.location, co.country, co.weapon, co.rank, co.id);
+		replacemet.rank = rank;
 		replacemet.unitsUnderCommand = new HashSet<UUID>(unitsUnderCommand);
 		replacemet.commandingOfficer = id;
 
@@ -804,7 +881,7 @@ public class CharacterMessage implements Serializable{
 	public void addopt(CharacterMessage c) {
 		c.commandingOfficer = id;
 		addCharactersUnderCommand(c);
-		
+
 	}
 
 	public int getCurrentStrength(CharacterDAO characterDAO) {
@@ -822,36 +899,46 @@ public class CharacterMessage implements Serializable{
 		for(UUID p:newPAssengers){
 			passengers.add(p);
 		}
-		
+
 	}
 
-    public Objective getObjectiveSafe(UUID value) {
+	public Objective getObjectiveSafe(UUID value) {
 		if(objectives.get(value.toString())!=null) {
 			try {
 				return MAPPER.readValue(objectives.get(value.toString()), Objective.class);
 			} catch (IOException e) {}
 		}
 		return null;
-    }
-
-//	public long getCreationTime() {
-//		return creationTime;
-//	}
+	}
 
 
-    public void updateObjective(String key, String s) {
+	public void updateObjective(String key, String s) {
 		if(objectives.containsKey(key)) {
 			objectives.put(key, s);
 		} else{
 			throw new RuntimeException("unknown objective key:"+key+" body:"+s);
 		}
-    }
+	}
 
-    public void removeObjective(String key) {
-	    objectives.remove(key);
-    }
+	public void removeObjective(String key) {
+		objectives.remove(key);
+	}
 
-    public void clearObjectives() {
-	    objectives.clear();
-    }
+	public void clearObjectives() {
+		objectives.clear();
+	}
+
+	@JsonIgnore
+	public Set<UUID> getKills() {
+		return kills;
+	}
+
+	@JsonIgnore
+	public boolean hasEngineDamage() {
+		return engineDamaged;
+	}
+
+	public long getCreationTime() {
+		return creationTime;
+	}
 }

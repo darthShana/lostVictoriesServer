@@ -61,7 +61,6 @@ public class BoardingVehicleMessageHandler {
 		
 		log.debug("vehicle new passegers:"+toSave.get(msg.getVehicleID()).getPassengers());
 		characterDAO.save(toSave.values());
-		characterDAO.refresh();
 		ret.add(new GenericLostVictoryResponse());
 		return ret;
 	}

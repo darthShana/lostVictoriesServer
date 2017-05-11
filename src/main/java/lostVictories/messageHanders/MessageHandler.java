@@ -24,6 +24,7 @@ import lostVictories.dao.HouseDAO;
 import lostVictories.dao.PlayerUsageDAO;
 import lostVictories.dao.TreeDAO;
 
+import lostVictories.service.LostVictoryService;
 import org.apache.log4j.Logger;
 
 import com.jme3.lostVictories.network.messages.wrapper.AddObjectiveRequest;
@@ -51,26 +52,13 @@ public class MessageHandler extends SimpleChannelInboundHandler<DatagramPacket> 
 		objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 	}
 
-	
-	private UpdateCharactersMessageHandler updateCharactersMessageHandler;
-	private CheckoutScreenMessageHandler checkoutScreenMessageHandler;
-	private DeathNotificationMessageHandler deathNotificationMessageHandler;
-	private PassengerDeathNotificationMessageHandler gunnerDeathNotificationMessageHandler;
-	private AddObjectiveMessageHandler addObjectiveMessageHandler;
-	private CollectEquipmentMessageHandler collectEquipmentMessageHandler;
-	private BoardingVehicleMessageHandler boardingVehicleMessageHandler;
-	private DisembarkPassengersMessageHandler disembarkPassengersMessageHandler;
+	private final LostVictoryService service;
+
+
 	private CustomCodec codec = new CustomCodec();
 
-	public MessageHandler(CharacterDAO characterDAO, HouseDAO houseDAO, EquipmentDAO equipmentDAO, PlayerUsageDAO playerUsageDAO, TreeDAO treeDAO, WorldRunner worldRunner, MessageRepository messageRepository) {
-		updateCharactersMessageHandler = new UpdateCharactersMessageHandler(characterDAO, houseDAO, equipmentDAO, worldRunner, messageRepository);
-		checkoutScreenMessageHandler = new CheckoutScreenMessageHandler(characterDAO, houseDAO, equipmentDAO, treeDAO, playerUsageDAO);
-		deathNotificationMessageHandler = new DeathNotificationMessageHandler(characterDAO, equipmentDAO);
-		gunnerDeathNotificationMessageHandler = new PassengerDeathNotificationMessageHandler(characterDAO);
-		addObjectiveMessageHandler = new AddObjectiveMessageHandler(characterDAO);
-		collectEquipmentMessageHandler = new CollectEquipmentMessageHandler(characterDAO, equipmentDAO, messageRepository);
-		boardingVehicleMessageHandler = new BoardingVehicleMessageHandler(characterDAO, messageRepository);
-		disembarkPassengersMessageHandler = new DisembarkPassengersMessageHandler(characterDAO);
+	public MessageHandler(LostVictoryService service, HouseDAO houseDAO, EquipmentDAO equipmentDAO, PlayerUsageDAO playerUsageDAO, TreeDAO treeDAO, WorldRunner worldRunner, MessageRepository messageRepository) {
+		this.service = service;
 	}
 
 	@Override
@@ -78,27 +66,8 @@ public class MessageHandler extends SimpleChannelInboundHandler<DatagramPacket> 
 
 		LostVictoryMessage msg = CharacterDAO.MAPPER.readValue(extractMessage(packet), LostVictoryMessage.class);
 		Set<LostVictoryMessage> lostVictoryMessages = new HashSet<>();
-		
-		if(msg instanceof CheckoutScreenRequest){
-			lostVictoryMessages.addAll(checkoutScreenMessageHandler.handle((CheckoutScreenRequest) msg));
-			log.info("returning scene");
-		} else if(msg instanceof UpdateCharactersRequest){
-			lostVictoryMessages.addAll(updateCharactersMessageHandler.handle((UpdateCharactersRequest)msg));
-		} else if(msg instanceof DeathNotificationRequest) {
-			lostVictoryMessages.addAll(deathNotificationMessageHandler.handle((DeathNotificationRequest)msg));
-		} else if(msg instanceof PassengerDeathNotificationRequest) {
-			lostVictoryMessages.addAll(gunnerDeathNotificationMessageHandler.handle((PassengerDeathNotificationRequest)msg));
-		}else if(msg instanceof EquipmentCollectionRequest) {
-			lostVictoryMessages.addAll(collectEquipmentMessageHandler.handle((EquipmentCollectionRequest)msg));
-		} else if(msg instanceof BoardVehicleRequest){
-			lostVictoryMessages.addAll(boardingVehicleMessageHandler.handle((BoardVehicleRequest)msg));
-		} else if(msg instanceof DisembarkPassengersRequest){
-			lostVictoryMessages.addAll(disembarkPassengersMessageHandler.handle((DisembarkPassengersRequest)msg));
-		} else if(msg instanceof AddObjectiveRequest){
-			lostVictoryMessages.addAll(addObjectiveMessageHandler.handle((AddObjectiveRequest)msg));
-		} else{
-			throw new RuntimeException("unknown request:"+msg);
-		}
+
+		service.doHandleMessage(msg, lostVictoryMessages);
 
 		lostVictoryMessages.forEach(m->{
 			try {
@@ -129,6 +98,8 @@ public class MessageHandler extends SimpleChannelInboundHandler<DatagramPacket> 
 
 
 	}
+
+
 
 	private byte[] packMessage(LostVictoryMessage m) throws IOException {
 		//				byte[] data = SerializationUtils.serialize(m);

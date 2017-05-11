@@ -12,7 +12,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static lostVictories.dao.CharacterDAO.MAPPER;
-import static lostVictories.CharacterRunner.toJsonNodeSafe;
+import static lostVictories.service.CharacterRunnerInstance.toJsonNodeSafe;
 
 /**
  * Created by dharshanar on 1/04/17.

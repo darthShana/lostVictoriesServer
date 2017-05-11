@@ -5,14 +5,10 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
+import com.jme3.lostVictories.network.messages.actions.Idle;
 import lostVictories.VehicleFactory;
 import lostVictories.WeaponsFactory;
 import lostVictories.dao.CharacterDAO;
@@ -370,7 +366,7 @@ public class CharacterMessageTest {
 		latlong.put("lat", latitute);
 		latlong.put("lon", longitude);
 		
-		Vector latLongToVector = Vector.latLongToVector(latlong, 97.52623f);
+		Vector latLongToVector = Vector.latLongToVector(97.52623f, latlong.get("lon").floatValue(), latlong.get("lat").floatValue());
 		
 		assertEquals(new Vector(177.0471f, 97.52623f, -14.900481f), latLongToVector);
 		
@@ -381,12 +377,12 @@ public class CharacterMessageTest {
 		HashMap<String, Double> latlong = new HashMap<String, Double>();
 		latlong.put("lat", -24.09786033630371);
 		latlong.put("lon", 44.689910888671875);
-		Vector other = Vector.latLongToVector(latlong, 100.49753f);
+		Vector other = Vector.latLongToVector(100.49753f, latlong.get("lon").floatValue(), latlong.get("lat").floatValue());
 		System.out.println("other:"+other);
 		
 		latlong.put("lat", -57.450252532958984);
 		latlong.put("lon", 29.49251937866211);
-		Vector ava = Vector.latLongToVector(latlong, 100.72956f);
+		Vector ava = Vector.latLongToVector(100.72956f, latlong.get("lon").floatValue(), latlong.get("lat").floatValue());
 		System.out.println("avatar:"+ava);
 		System.out.println("distance:"+ava.distance(other));
 	}
@@ -496,6 +492,26 @@ public class CharacterMessageTest {
 		
 		assertTrue(oldCo1.objectives.containsKey(objectiveID));
 
+	}
+
+	public static CharacterMessage createCharacter(UUID identity, UUID commandingOfficer, Vector location, RankMessage rank, boolean isDead) throws JsonProcessingException {
+		CharacterMessage s1 = new CharacterMessage(identity, CharacterType.SOLDIER, location, Country.GERMAN, Weapon.RIFLE, rank, commandingOfficer);
+		s1.userID = UUID.randomUUID();
+		s1.boardedVehicle = UUID.randomUUID();
+		s1.unitsUnderCommand.add(UUID.randomUUID());
+		s1.passengers.add(UUID.randomUUID());
+		s1.checkoutClient = UUID.randomUUID();
+		s1.checkoutTime = 123l;
+		s1.orientation = new Vector(1, 2, 3);
+		s1.actions.add(new Idle());
+		s1.objectives.put(UUID.randomUUID().toString(), MAPPER.writeValueAsString(new TravelObjective(s1, new Vector(0, 0, 0), null)));
+		s1.dead = isDead;
+		s1.engineDamaged = true;
+		s1.timeOfDeath = 123l;
+		s1.version = 456l;
+		s1.kills.add(UUID.randomUUID());
+		s1.squadType = SquadType.ANTI_TANK_GUN;
+		return s1;
 	}
 	
 
