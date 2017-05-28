@@ -75,7 +75,7 @@ public class LostVictoryScene {
 		CharacterMessage a1 = new CharacterMessage(UUID.fromString("2fbe421f-f701-49c9-a0d4-abb0fa904204"), CharacterType.AVATAR, germanBase.add(22, 0, 13), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, gl1.getId());
 		a1.userID = UUID.fromString("2fbe421f-f701-49c9-a0d4-abb0fa904204");
 		loadSquad(characters, a1, germanBase.add(-10, 0, 15), Country.GERMAN, true, Weapon.RIFLE, Weapon.RIFLE, Weapon.RIFLE   );
-		CharacterMessage panzer4 = loadPanzer4(UUID.randomUUID(), germanBase.add(-12, 0, 15), Country.GERMAN, a1, characters);
+		CharacterMessage panzer4 = loadPanzer4(UUID.fromString("ce0e6166-7299-4222-9f1a-938cdc9b24cb"), germanBase.add(-12, 0, 15), Country.GERMAN, a1, characters);
         characters.put(panzer4.getId(), panzer4);
 //		characters.add(loadAntiTankGun1(UUID.fromString("2d420131-2f1f-4901-b61a-248c2243848c"), germanBase.add(25, 0, 15), Country.GERMAN, a1));
 		CharacterMessage hf2 = loadHalfTrack1(UUID.fromString("9740bc8a-835d-4fa2-ab2b-6ed8d914e6ef"), germanBase.add(25, 0, 15), Country.GERMAN, a1, characters);
@@ -269,7 +269,7 @@ public class LostVictoryScene {
         InputStream is = classloader.getResourceAsStream("treeMap.json");
         JsonNode readTree = CharacterDAO.MAPPER.readTree(is);
 		JsonNode jsonNode = readTree.get("trees");
-		jsonNode.spliterator().forEachRemaining(treeGroup->trees.add(toObjectFromSource(treeGroup)));		
+		jsonNode.spliterator().forEachRemaining(treeGroup->trees.add(toObjectFromSource(treeGroup)));
         trees.forEach(t->treeDAO.putTree(t.getId(), t));
         	
         log.debug("scene loaded....");
@@ -281,6 +281,7 @@ public class LostVictoryScene {
 		try {
 			TreeGroupMessage treeToValue = CharacterDAO.MAPPER.treeToValue(treeGroup, TreeGroupMessage.class);
 			treeToValue.setId(UUID.randomUUID());
+			treeToValue.getTrees().stream().forEach(t->t.setId(UUID.randomUUID()));
 			return treeToValue;
 		} catch (JsonProcessingException e) {
 			throw new RuntimeException(e);

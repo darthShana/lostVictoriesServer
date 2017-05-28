@@ -36,10 +36,10 @@ public class WorldRunner implements Runnable{
 
 	private static WorldRunner instance;
 	private Map<Country, Integer> victoryPoints = new EnumMap<Country, Integer>(Country.class);
-	private Map<Country, Long> manPower = new EnumMap<Country, Long>(Country.class);
+	private Map<Country, Integer> manPower = new EnumMap<Country, Integer>(Country.class);
 
-	private Map<Country, Long> structureOwnership = new EnumMap<Country, Long>(Country.class);
-	private Map<Country, Long> nextRespawnTime = new EnumMap<Country, Long>(Country.class);
+	private Map<Country, Integer> structureOwnership = new EnumMap<>(Country.class);
+	private Map<Country, Integer> nextRespawnTime = new EnumMap<>(Country.class);
 	private Map<Country, WeaponsFactory> weaponsFactory = new HashMap<Country, WeaponsFactory>();
 	private Map<Country, VehicleFactory> vehicleFactory = new HashMap<Country, VehicleFactory>();
 

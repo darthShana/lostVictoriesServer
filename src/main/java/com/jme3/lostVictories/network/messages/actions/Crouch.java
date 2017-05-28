@@ -10,5 +10,11 @@ public class Crouch extends Action {
     public Crouch() {
     	super("crouch");
     }
-    
+
+    @Override
+    public com.lostVictories.api.Action toMessage() {
+        com.lostVictories.api.Action.Builder builder = com.lostVictories.api.Action.newBuilder();
+        builder.setActionType(com.lostVictories.api.Action.ActionType.CROUCH);
+        return builder.build();
+    }
 }

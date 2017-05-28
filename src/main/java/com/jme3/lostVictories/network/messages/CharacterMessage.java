@@ -1,6 +1,7 @@
 package com.jme3.lostVictories.network.messages;
 
 import static com.jme3.lostVictories.network.messages.Vector.latLongToVector;
+import static com.lostVictories.service.LostVictoriesService.uuid;
 import static lostVictories.dao.CharacterDAO.MAPPER;
 import static com.jme3.lostVictories.objectives.Objective.toObjectiveSafe;
 import static com.jme3.lostVictories.objectives.Objective.toJsonNodeSafe;
@@ -9,7 +10,6 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -25,7 +25,6 @@ import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.JavaType;
-import lostVictories.CharacterRunner;
 import lostVictories.VehicleFactory;
 import lostVictories.WeaponsFactory;
 import lostVictories.dao.CharacterDAO;
@@ -65,7 +64,7 @@ public class CharacterMessage implements Serializable{
 	Vector orientation = new Vector(0, 0, 1);
 	Set<Action> actions = new HashSet<Action>();
 	Map<String, String> objectives = new HashMap<String, String>();
-	Set<String> completedObjectives;
+	Set<String> completedObjectives = new HashSet<>();
 	boolean dead;
 	boolean engineDamaged;
 	Long timeOfDeath;
@@ -376,10 +375,13 @@ public class CharacterMessage implements Serializable{
 		return location.z/LostVictoryScene.SCENE_HEIGHT*80;
 	}
 
-	public boolean isAvailableForUpdate(UUID clientID, CharacterMessage msg, long duration) {
-		if(msg.version<version){
+	public boolean isAvailableForUpdate(UUID clientID, com.lostVictories.api.CharacterMessage msg, long duration) {
+		if(msg.getVersion()<version){
 			return false;
 		}
+		if(dead){
+		    return false;
+        }
 		return this.id.equals(clientID) || this.checkoutClient==null || clientID.equals(this.checkoutClient) || checkoutTime==null ||System.currentTimeMillis()-checkoutTime>duration;
 	}
 
@@ -416,17 +418,18 @@ public class CharacterMessage implements Serializable{
 				"com.jme3.lostVictories.objectives.AttackObjective".equals(s);
 	}
 
-	public void updateState(CharacterMessage other, UUID clientID, long checkoutTime) {
-		location = other.location;
-		orientation = other.orientation;
-		actions = other.actions;
+	public void updateState(com.lostVictories.api.CharacterMessage other, UUID clientID, long checkoutTime) {
+		location = new Vector(other.getLocation());
+		orientation = new Vector(other.getOrientation());
+		actions = other.getActionsList().stream().map(action -> Action.fromMessage(action)).collect(Collectors.toSet());
 
-		other.objectives.entrySet().stream().forEach(e->objectives.putIfAbsent(e.getKey(), e.getValue()));
-		objectives = objectives.entrySet().stream().filter(e->!other.completedObjectives.contains(e.getKey())).collect(Collectors.toMap(e->e.getKey(), e->e.getValue()));
+		other.getObjectivesMap().entrySet().stream().forEach(e->objectives.putIfAbsent(e.getKey(), e.getValue()));
+		Set<String> completed = other.getCompletedObjectivesList().stream().map(co->uuid(co).toString()).collect(Collectors.toSet());
+		objectives = objectives.entrySet().stream().filter(e->!completed.contains(e.getKey())).collect(Collectors.toMap(e->e.getKey(), e->e.getValue()));
 
 		this.checkoutClient = clientID;
 		this.checkoutTime = checkoutTime;
-		this.version = other.version;
+		this.version = other.getVersion();
 	}
 
 	public void setActions(Set<Action> actions) {
@@ -779,7 +782,7 @@ public class CharacterMessage implements Serializable{
 		return squadType;
 	}
 
-	private SquadType getSquadType(SquadType squadType) {
+	public SquadType getSquadType(SquadType squadType) {
 		if(type==CharacterType.ANTI_TANK_GUN){
 			squadType = SquadType.ANTI_TANK_GUN;
 		}else if(type==CharacterType.ARMORED_CAR && squadType!=SquadType.ANTI_TANK_GUN){
@@ -940,5 +943,9 @@ public class CharacterMessage implements Serializable{
 
 	public long getCreationTime() {
 		return creationTime;
+	}
+
+	public Set<String> getAllCompletedObjectives() {
+		return completedObjectives;
 	}
 }

@@ -32,4 +32,9 @@ public class Quaternion implements Serializable{
 		return new Quaternion(q.get("x").floatValue(), q.get("y").floatValue(), q.get("z").floatValue(), q.get("w").floatValue());
 	}
 
+	public com.lostVictories.api.Quaternion toMessage() {
+		return com.lostVictories.api.Quaternion.newBuilder()
+				.setX(x).setY(y).setZ(z).setW(w)
+				.build();
+	}
 }

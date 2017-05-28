@@ -10,6 +10,13 @@ public class Idle extends Action {
 	public Idle() {
 		super("idle"); 
 	}
+
+	@Override
+	public com.lostVictories.api.Action toMessage() {
+		com.lostVictories.api.Action.Builder builder = com.lostVictories.api.Action.newBuilder();
+		builder.setActionType(com.lostVictories.api.Action.ActionType.IDLE);
+		return builder.build();
+	}
 	
 	@Override
 	public boolean equals(Object obj) {

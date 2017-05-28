@@ -147,41 +147,7 @@ public class LostVictoriesSever {
 	}
 
 	private boolean createIndices(IndicesAdminClient adminClient, LostVictoryService service, HouseDAO housesDAO, TreeDAO treeDAO) throws IOException {
-		deleteIndex(adminClient, houseIndexName);
-	    deleteIndex(adminClient, equipmentIndexName);
-		deleteIndex(adminClient, treeIndexName);
-
-
-		final CreateIndexRequestBuilder houseIndexRequestBuilder = adminClient.prepareCreate(houseIndexName);
-		XContentBuilder builder = XContentFactory.jsonBuilder().startObject().startObject("houseStatus").startObject("properties");
-	    builder.startObject("location")
-        	.field("type", "geo_point")
-        	.field("store", "yes")
-        	.endObject();
-	    houseIndexRequestBuilder.addMapping("houseStatus", builder);
-	    houseIndexRequestBuilder.execute().actionGet();
-	    
-	    final CreateIndexRequestBuilder treeIndexRequestBuilder = adminClient.prepareCreate(treeIndexName);
-	    builder = XContentFactory.jsonBuilder().startObject().startObject("treeStatus").startObject("properties");
-	    builder.startObject("location")
-        	.field("type", "geo_point")
-        	.field("store", "yes")
-        	.endObject();
-	    treeIndexRequestBuilder.addMapping("treeStatus", builder);
-	    treeIndexRequestBuilder.execute().actionGet();
-	    
-	    final CreateIndexRequestBuilder equipmentIndexRequestBuilder = adminClient.prepareCreate(equipmentIndexName);
-	    builder = XContentFactory.jsonBuilder().startObject().startObject("equipmentStatus").startObject("properties");
-	    builder.startObject("location")
-        	.field("type", "geo_point")
-        	.field("store", "yes")
-        	.endObject();
-	    
-	    equipmentIndexRequestBuilder.addMapping("equipmentStatus", builder);
-	    equipmentIndexRequestBuilder.execute().actionGet();
-	    
-	    service.loadScene();
-	    return false;
+		return false;
 	}
 
 	private void deleteIndex(IndicesAdminClient adminClient, String indexName) {

@@ -165,4 +165,15 @@ public class HouseMessage implements Serializable{
 		return owner!=null;
 	}
 
+	public Quaternion getRotation() {
+		return rotation;
+	}
+
+	public Country getContestingOwner() {
+		return contestingOwner;
+	}
+
+	public CaptureStatus getCaptureStatus() {
+		return captureStatus;
+	}
 }

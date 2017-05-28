@@ -5,13 +5,13 @@ import java.io.Serializable;
 public class GameStatistics implements Serializable{
 
 	
-	private Long blueHouses;
-	private Long redHouses;
+	private Integer blueHouses;
+	private Integer redHouses;
 	private Integer blueVictoryPoints;
 	private Integer redVictoryPoints;
-	private Long avatarRespawnEstimate;
+	private Integer avatarRespawnEstimate;
 
-	public void setHousesCaptured(Long blue, Long red){
+	public void setHousesCaptured(Integer blue, Integer red){
 		this.blueHouses = blue;
 		this.redHouses = red;
 	}
@@ -21,7 +21,27 @@ public class GameStatistics implements Serializable{
 		this.redVictoryPoints = red;
 	}
 	
-	public void setAvatarRespawnEstimate(Long time){
+	public void setAvatarRespawnEstimate(Integer time){
 		this.avatarRespawnEstimate = time;
+	}
+
+    public Integer getBlueHouses() {
+        return blueHouses;
+    }
+
+	public Integer getRedHouses() {
+		return redHouses;
+	}
+
+	public Integer getBlueVictoryPoints() {
+		return blueVictoryPoints;
+	}
+
+	public Integer getRedVictoryPoints() {
+		return redVictoryPoints;
+	}
+
+	public Integer getAvatarRespawnEstimate() {
+		return avatarRespawnEstimate;
 	}
 }

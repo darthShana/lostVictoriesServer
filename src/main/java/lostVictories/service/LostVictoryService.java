@@ -99,7 +99,7 @@ public class LostVictoryService {
         }
     }
 
-    public void runWorld(Map<Country, Integer> victoryPoints, Map<Country, Long> manPower, Map<Country, WeaponsFactory> weaponsFactory, Map<Country, VehicleFactory> vehicleFactory, Map<Country, Long> nextRespawnTime, String gameName) {
+    public void runWorld(Map<Country, Integer> victoryPoints, Map<Country, Integer> manPower, Map<Country, WeaponsFactory> weaponsFactory, Map<Country, VehicleFactory> vehicleFactory, Map<Country, Integer> nextRespawnTime, String gameName) {
 
         try (Jedis jedis = jedisPool.getResource()){
             CharacterDAO characterDAO = new CharacterDAO(jedis, nameSpace);
