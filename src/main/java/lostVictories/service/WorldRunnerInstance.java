@@ -23,7 +23,7 @@ public class WorldRunnerInstance {
     private static final int COST_OF_UNIT = 500;
 
 
-    public Map<Country, Long> runWorld(CharacterDAO characterDAO, HouseDAO houseDAO, Map<Country, Integer> victoryPoints, Map<Country, Long> manPower, Map<Country, WeaponsFactory> weaponsFactory, Map<Country, VehicleFactory> vehicleFactory, Map<Country, Long> nextRespawnTime, MessageRepository messageRepository, GameStatusDAO gameStatusDAO, PlayerUsageDAO playerUsageDAO, GameRequestDAO gameRequestDAO, String gameName) throws IOException {
+    public Map<Country, Long> runWorld(CharacterDAO characterDAO, HouseDAO houseDAO, Map<Country, Integer> victoryPoints, Map<Country, Integer> manPower, Map<Country, WeaponsFactory> weaponsFactory, Map<Country, VehicleFactory> vehicleFactory, Map<Country, Integer> nextRespawnTime, MessageRepository messageRepository, GameStatusDAO gameStatusDAO, PlayerUsageDAO playerUsageDAO, GameRequestDAO gameRequestDAO, String gameName) throws IOException {
             Set<HouseMessage> allHouses = houseDAO.getAllHouses();
             Set<HouseMessage> dchanged = allHouses.stream().filter(h->h.chechOwnership(characterDAO)).collect(Collectors.toSet());
             houseDAO.save(dchanged);
@@ -42,15 +42,15 @@ public class WorldRunnerInstance {
             for(Country c:structureOwnership.keySet()){
 
                 if(!manPower.containsKey(c)){
-                    manPower.put(c, 0l);
+                    manPower.put(c, 0);
                 }
-                manPower.put(c, manPower.get(c)+structureOwnership.get(c));
+                manPower.put(c, (int) (manPower.get(c)+structureOwnership.get(c)));
                 if(manPower.get(c)>(structureOwnership.get(c)*COST_OF_UNIT)){
-                    manPower.put(c, structureOwnership.get(c)*COST_OF_UNIT);
+                    manPower.put(c, (int) (structureOwnership.get(c)*COST_OF_UNIT));
                 }
 
                 if(structureOwnership.get(c)>0){
-                    nextRespawnTime.put(c, (COST_OF_UNIT-manPower.get(c))/structureOwnership.get(c)*2);
+                    nextRespawnTime.put(c, (int) ((COST_OF_UNIT-manPower.get(c))/structureOwnership.get(c)*2));
                 }
             }
 
@@ -142,14 +142,14 @@ public class WorldRunnerInstance {
 
     }
 
-    void reduceManPower(Country country, Map<Country, Long> manPower) {
+    void reduceManPower(Country country, Map<Country, Integer> manPower) {
         if(manPower.get(country)==null){
-            manPower.put(country, 0l);
+            manPower.put(country, 0);
         }
         manPower.put(country, manPower.get(country)-COST_OF_UNIT);
     }
 
-    private boolean hasManPowerToReenforce(Country country, Map<Country, Long> manPower) {
+    private boolean hasManPowerToReenforce(Country country, Map<Country, Integer> manPower) {
         return manPower.get(country)!=null && manPower.get(country)>=COST_OF_UNIT;
 
     }

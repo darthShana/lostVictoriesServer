@@ -18,5 +18,14 @@ public class ManualControl extends Action{
 		this.steering = steering;
 		this.gear = gear;		
 	}
+
+	@Override
+	public com.lostVictories.api.Action toMessage() {
+		com.lostVictories.api.Action.Builder builder = com.lostVictories.api.Action.newBuilder();
+		builder.setActionType(com.lostVictories.api.Action.ActionType.MANUAL_CONTROL);
+		builder.setGear(gear);
+		builder.setSteering(steering);
+		return builder.build();
+	}
 	
 }

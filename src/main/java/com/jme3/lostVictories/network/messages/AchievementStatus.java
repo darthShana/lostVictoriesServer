@@ -15,8 +15,20 @@ public class AchievementStatus implements Serializable{
 		this.achivementTotal = achivementTotal;
 		this.sentTime = sentTime;
 	}
-    
-    public long getSentTime() {
+
+	public String getAchivementStatusText() {
+		return achivementStatusText;
+	}
+
+	public int getAchivementTotal() {
+		return achivementTotal;
+	}
+
+	public int getAchivementCurrent() {
+		return achivementCurrent;
+	}
+
+	public long getSentTime() {
 		return sentTime;
 	}
 }

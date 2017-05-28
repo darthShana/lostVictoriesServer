@@ -1,5 +1,6 @@
 package com.jme3.lostVictories.network.messages;
 
+import static com.lostVictories.service.LostVictoriesService.bytes;
 import static lostVictories.dao.CharacterDAO.MAPPER;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -51,8 +52,24 @@ public class CharacterMessageTest {
 	@Test
 	public void testIsAvailableForUpdate(){
 		myUnit.setVersion(3);
-		CharacterMessage myUnitUpdated = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.PRIVATE, avatar.getId());
+		com.lostVictories.api.CharacterMessage myUnitUpdated = getCharacterMessage(avatar.getId()).build();
 		assertFalse(myUnit.isAvailableForUpdate(avatar.getCheckoutClient(), myUnitUpdated, 2000));
+	}
+
+	private com.lostVictories.api.CharacterMessage.Builder getCharacterMessage(UUID commandingOfficer) {
+
+		return  com.lostVictories.api.CharacterMessage.newBuilder()
+				.setId(bytes(UUID.randomUUID()))
+				.setType(com.lostVictories.api.CharacterType.SOLDIER)
+				.setLocation(com.lostVictories.api.Vector.newBuilder()
+						.setX(0).setY(0).setZ(0)
+						.build())
+				.setCountry(com.lostVictories.api.Country.GERMAN)
+				.setWeapon(com.lostVictories.api.Weapon.RIFLE)
+				.setRank(com.lostVictories.api.RankMessage.PRIVATE)
+				.setCommandingOfficer(bytes(commandingOfficer));
+
+
 	}
 
 	@Test
@@ -484,11 +501,18 @@ public class CharacterMessageTest {
 	@Test 
 	public void testUpdateState() throws JsonProcessingException{
 		CharacterMessage oldCo1 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.LIEUTENANT, null);
-		CharacterMessage other = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.LIEUTENANT, null);
+
 		String objectiveID = UUID.randomUUID().toString();
-		other.objectives.put(objectiveID, MAPPER.writeValueAsString(new TravelObjective(other, new Vector(0, 0, 0), null)));
-		other.completedObjectives = new HashSet<>();
-		oldCo1.updateState(other, UUID.randomUUID(), System.currentTimeMillis());
+		Map<String, String> objectives = new HashMap<>();
+		objectives.put(objectiveID, MAPPER.writeValueAsString(new TravelObjective(oldCo1, new Vector(0, 0, 0), null)));
+
+		com.lostVictories.api.CharacterMessage.Builder characterMessage = getCharacterMessage(avatar.getId());
+		characterMessage.setCommandingOfficer(null);
+		characterMessage.setRank(com.lostVictories.api.RankMessage.LIEUTENANT);
+		characterMessage.putAllObjectives(objectives);
+
+
+		oldCo1.updateState(characterMessage.build(), UUID.randomUUID(), System.currentTimeMillis());
 		
 		assertTrue(oldCo1.objectives.containsKey(objectiveID));
 

@@ -17,7 +17,6 @@ import org.elasticsearch.common.xcontent.XContentBuilder;
 
 public class UnClaimedEquipmentMessage implements Serializable{
 
-	private static final long serialVersionUID = 399807775735308779L;
 	private UUID id;
 	long version;
 	private Weapon weapon;
@@ -43,7 +42,7 @@ public class UnClaimedEquipmentMessage implements Serializable{
 		
 	}
 
-	public Object getId() {
+	public UUID getId() {
 		return id;
 	}
 
@@ -70,4 +69,7 @@ public class UnClaimedEquipmentMessage implements Serializable{
 		
 	}
 
+	public Vector getRotation() {
+		return rotation;
+	}
 }

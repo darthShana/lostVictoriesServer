@@ -27,8 +27,14 @@ public class Vector implements Serializable{
 		this.z = v.z;
 	}
 
+	public Vector(com.lostVictories.api.Vector v) {
+		this.x = v.getX();
+		this.y = v.getY();
+		this.z = v.getZ();
+	}
 
-	@Override
+
+    @Override
 	public String toString() {
 		return x+","+y+","+z;
 	}
@@ -78,5 +84,9 @@ public class Vector implements Serializable{
 	public float distance(Vector other) {
 		Vector2f me = new Vector2f(x, z);
 		return me.distance(new Vector2f(other.x, other.z));
+	}
+
+	public com.lostVictories.api.Vector toMessage() {
+		return com.lostVictories.api.Vector.newBuilder().setX(x).setY(y).setZ(z).build();
 	}
 }

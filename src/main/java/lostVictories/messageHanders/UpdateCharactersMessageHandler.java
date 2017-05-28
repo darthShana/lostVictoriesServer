@@ -54,10 +54,10 @@ public class UpdateCharactersMessageHandler {
         Map<UUID, CharacterMessage> serverVersion = characterDAO.getAllCharacters(allCharacter.stream().filter(c->!c.isDead()).map(c->c.getId()).collect(Collectors.toSet()));
 
 		Map<UUID, CharacterMessage> toSave = serverVersion.values().stream()
-				.filter(c->c.isAvailableForUpdate(msg.getClientID(), sentFromClient.get(c.getId()), CHECKOUT_TIMEOUT))
+				//.filter(c->c.isAvailableForUpdate(msg.getClientID(), sentFromClient.get(c.getId()), CHECKOUT_TIMEOUT))
 				.collect(Collectors.toMap(c->c.getId(), Function.identity()));
 
-		toSave.values().stream().forEach(c->c.updateState(sentFromClient.get(c.getId()), msg.getClientID(), System.currentTimeMillis()));
+		//toSave.values().stream().forEach(c->c.updateState(sentFromClient.get(c.getId()), msg.getClientID(), System.currentTimeMillis()));
 
 
 		CharacterMessage storedAvatar = characterDAO.getCharacter(msg.getAvatar());

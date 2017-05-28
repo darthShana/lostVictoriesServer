@@ -61,7 +61,6 @@ public class MessageHandler extends SimpleChannelInboundHandler<DatagramPacket> 
 		this.service = service;
 	}
 
-	@Override
 	public void messageReceived(ChannelHandlerContext ctx, DatagramPacket packet) throws Exception {
 
 		LostVictoryMessage msg = CharacterDAO.MAPPER.readValue(extractMessage(packet), LostVictoryMessage.class);
@@ -148,5 +147,8 @@ public class MessageHandler extends SimpleChannelInboundHandler<DatagramPacket> 
 	}
 
 
-	
+	@Override
+	protected void channelRead0(ChannelHandlerContext channelHandlerContext, DatagramPacket datagramPacket) throws Exception {
+
+	}
 }

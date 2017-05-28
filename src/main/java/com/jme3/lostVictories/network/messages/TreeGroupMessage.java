@@ -58,4 +58,11 @@ public class TreeGroupMessage implements Serializable{
 		this.id = id;
 	}
 
+	public Vector getLocation() {
+		return location;
+	}
+
+	public Set<TreeMessage> getTrees() {
+		return trees;
+	}
 }
