@@ -58,8 +58,14 @@ public class UpdateCharactersMessageHandler {
         Map<UUID, com.lostVictories.api.CharacterMessage> sentFromClient = new HashMap<>();
         sentFromClient.put(uuid(msg.getCharacter().getId()), msg.getCharacter());
 
-        Map<UUID, CharacterMessage> serverVersion = characterDAO.getAllCharacters(sentFromClient.keySet());
+        CharacterMessage ss = characterDAO.getCharacter(uuid(msg.getCharacter().getId()), true);
+        if(ss==null){
+            log.info("unknown character id:"+uuid(msg.getCharacter().getId()));
+            return;
+        }
 
+        Map<UUID, CharacterMessage> serverVersion = new HashMap<>();
+        serverVersion.put(ss.getId(), ss);
 
         UUID clientID = uuid(msg.getClientID());
         Map<UUID, CharacterMessage> toSave = serverVersion.values().stream()

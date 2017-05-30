@@ -682,20 +682,22 @@ public class CharacterMessage implements Serializable{
 	}
 
 	public Set<CharacterMessage> promoteAvatar(CharacterMessage co, CharacterDAO characterDAO) {
+		log.info("replacing co:"+co.getId()+" with avatar:"+id);
 		Set<CharacterMessage> ret = new HashSet<CharacterMessage>();
 		CharacterMessage replacemet = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, co.location, co.country, co.weapon, co.rank, co.id);
 		replacemet.rank = rank;
 		replacemet.unitsUnderCommand = new HashSet<UUID>(unitsUnderCommand);
-		replacemet.commandingOfficer = id;
 
 		rank = co.getRank();
 		objectives = new HashMap<String, String>();
 		unitsUnderCommand = co.unitsUnderCommand.stream().filter(c->!c.equals(id)).collect(Collectors.toSet());
-		unitsUnderCommand.add(replacemet.id);
 		commandingOfficer = co.commandingOfficer;
 		kills = new HashSet<UUID>();
 
 		Map<UUID, CharacterMessage> myNewUnits = characterDAO.getAllCharacters(unitsUnderCommand);
+		unitsUnderCommand.add(replacemet.id);
+		myNewUnits.put(replacemet.getId(), replacemet);
+
 		myNewUnits.entrySet().stream().forEach(u->u.getValue().commandingOfficer=id);
 		myNewUnits.entrySet().stream().forEach(u->u.getValue().kills = new HashSet<UUID>());
 		ret.addAll(myNewUnits.values());

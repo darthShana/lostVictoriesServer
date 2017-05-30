@@ -78,7 +78,7 @@ public class CharacterDAO {
 		return getCharacter(id, false);
 	}
 
-	private CharacterMessage getCharacter(UUID id, boolean watch) {
+	public CharacterMessage getCharacter(UUID id, boolean watch) {
 		if (watch) {
 			jedis.watch(characterStatus + "." + id.toString());
 		}
@@ -86,13 +86,14 @@ public class CharacterDAO {
 		Map<String, String> mapResponse = jedis.hgetAll(characterStatus + "." + id.toString());
 		List<GeoCoordinate> geoLocation = jedis.geopos(characterLocation, id.toString());
 
-		if(mapResponse !=null){
+		if(mapResponse !=null && mapResponse.containsKey("id") && geoLocation.get(0)!=null){
 			try {
 				return new CharacterMessage(mapResponse, geoLocation.get(0));
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
 		}else{
+			log.info("unknow character id:"+id+" but did have:"+mapResponse.keySet());
 			return null;
 		}
 
@@ -116,7 +117,7 @@ public class CharacterDAO {
 		List<GeoRadiusResponse> geoLocation = jedis.georadius(characterLocation, lon1, lat1, inKM, GeoUnit.KM);
 		return geoLocation.stream()
 				.map(r->getCharacter(UUID.fromString(r.getMemberByString())))
-				.filter(c->boundingBox.contains(c.getLocation().x, c.getLocation().z))
+				.filter(c->c!=null && boundingBox.contains(c.getLocation().x, c.getLocation().z))
 				.collect(Collectors.toSet());
 	}
 
@@ -154,10 +155,6 @@ public class CharacterDAO {
 		}
 		return null;
 	}
-
-	private CharacterMessage fromFields(UUID id, long version, Map<String, Object> source) {
-		return new CharacterMessage(id, version, source);
-	}	
 
 	public Map<UUID, CharacterMessage> getAllCharacters(Set<UUID> ids) {
 		return ids.stream().map(id->getCharacter(id, true)).collect(Collectors.toMap(c->c.getId(), Function.identity()));
@@ -266,8 +263,8 @@ public class CharacterDAO {
 	}
 
 	public boolean delete(CharacterMessage c) {
-		jedis.del(characterStatus+"."+c.getId().toString());
 		jedis.zrem(this.characterLocation, c.getId().toString());
+		jedis.del(characterStatus+"."+c.getId().toString());
 		return true;
 	}
 

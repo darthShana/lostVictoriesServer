@@ -93,7 +93,7 @@
           <archive>
             <manifest>
               <addClasspath>true</addClasspath>
-              <mainClass>lostVictories.LostVictoriesSever</mainClass>
+              <mainClass>com.lostVictories.server.LostVictoriesServerGRPC</mainClass>
             </manifest>
           </archive>
         </configuration>
@@ -103,7 +103,7 @@
 	      <configuration>
 	        <archive>
 	          <manifest>
-	            <mainClass>lostVictories.LostVictoriesSever</mainClass>
+	            <mainClass>com.lostVictories.server.LostVictoriesServerGRPC</mainClass>
 	          </manifest>
 	        </archive>
 	        <descriptorRefs>
