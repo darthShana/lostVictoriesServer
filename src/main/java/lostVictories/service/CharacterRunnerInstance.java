@@ -29,17 +29,16 @@ public class CharacterRunnerInstance {
     private static Logger log = Logger.getLogger(CharacterRunnerInstance.class);
 
 
-    public void doRunCharacters(CharacterDAO characterDAO, HouseDAO houseDAO, PlayerUsageDAO playerUsageDAO) {
+    public void doRunCharacters(CharacterMessage _character, CharacterDAO characterDAO, HouseDAO houseDAO, PlayerUsageDAO playerUsageDAO) {
         Map<UUID, CharacterMessage> toSave = new HashMap<UUID, CharacterMessage>();
         Map<UUID, UUID> kills = new HashMap<>();
-        characterDAO.getAllCharacters().stream()
-                .filter(c->!c.isDead())
-                .filter(c->c.isAvailableForCheckout(5000))
-                .forEach(c->runCharacterBehavior(c, toSave, kills, characterDAO, playerUsageDAO, houseDAO));
+
+        CharacterMessage character = characterDAO.getCharacter(_character.getId(), true);
+        if(character!=null && !character.isDead() && character.isAvailableForCheckout(5000)){
+            runCharacterBehavior(character, toSave, kills, characterDAO, playerUsageDAO, houseDAO);
+        }
         characterDAO.updateCharacterStateNoCheckout(toSave);
-
         kills.entrySet().stream().forEach(entry->doKill(entry.getKey(), entry.getValue(), characterDAO));
-
     }
 
     private void doKill(UUID _killer, UUID _victim, CharacterDAO characterDAO) {

@@ -228,10 +228,8 @@ public class CharacterDAOTest {
         dao.putCharacter(s1.getId(), s1);
 
         CharacterDAO dao1 = new CharacterDAO(pool.getResource(), "test");
-        HashSet<UUID> ids = new HashSet<>();
-        ids.add(s1.getId());
-        Map<UUID, CharacterMessage> allCharacters = dao1.getAllCharacters(ids);
-        assertFalse(allCharacters.get(identity).isDead());
+        CharacterMessage c = dao1.getCharacter(s1.getId(), true);
+        assertFalse(c.isDead());
 
         CharacterDAO dao2 = new CharacterDAO(pool.getResource(), "test");
         HashMap<UUID, CharacterMessage> toSave = new HashMap<>();

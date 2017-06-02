@@ -3,7 +3,7 @@
   <groupId>lostVictoriesServer</groupId>
   <artifactId>lostVictoriesServer</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-	<packaging>pom</packaging>
+	<packaging>jar</packaging>
   
   <repositories>
     <repository>
@@ -84,18 +84,6 @@
         <configuration>
           <source>1.8</source>
           <target>1.8</target>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <configuration>
-          <archive>
-            <manifest>
-              <addClasspath>true</addClasspath>
-              <mainClass>com.lostVictories.server.LostVictoriesServerGRPC</mainClass>
-            </manifest>
-          </archive>
         </configuration>
       </plugin>
       <plugin>

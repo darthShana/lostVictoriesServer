@@ -507,7 +507,6 @@ public class CharacterMessageTest {
 		objectives.put(objectiveID, MAPPER.writeValueAsString(new TravelObjective(oldCo1, new Vector(0, 0, 0), null)));
 
 		com.lostVictories.api.CharacterMessage.Builder characterMessage = getCharacterMessage(avatar.getId());
-		characterMessage.setCommandingOfficer(null);
 		characterMessage.setRank(com.lostVictories.api.RankMessage.LIEUTENANT);
 		characterMessage.putAllObjectives(objectives);
 
@@ -517,6 +516,8 @@ public class CharacterMessageTest {
 		assertTrue(oldCo1.objectives.containsKey(objectiveID));
 
 	}
+
+
 
 	public static CharacterMessage createCharacter(UUID identity, UUID commandingOfficer, Vector location, RankMessage rank, boolean isDead) throws JsonProcessingException {
 		CharacterMessage s1 = new CharacterMessage(identity, CharacterType.SOLDIER, location, Country.GERMAN, Weapon.RIFLE, rank, commandingOfficer);

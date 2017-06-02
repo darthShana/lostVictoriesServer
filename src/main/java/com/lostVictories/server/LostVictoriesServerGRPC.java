@@ -4,7 +4,6 @@ import com.lostVictories.service.LostVictoriesServiceImpl;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import lostVictories.CharacterRunner;
-import lostVictories.LostVictoriesSever;
 import lostVictories.WorldRunner;
 import lostVictories.dao.*;
 import lostVictories.messageHanders.MessageRepository;
@@ -86,7 +85,7 @@ public class LostVictoriesServerGRPC {
 
         ScheduledExecutorService worldRunnerService = Executors.newScheduledThreadPool(2);
         worldRunnerService.scheduleAtFixedRate(worldRunner, 0, 2, TimeUnit.SECONDS);
-        CharacterRunner characterRunner = CharacterRunner.instance(service);
+        CharacterRunner characterRunner = CharacterRunner.instance(service, jedisPool, gameName);
         worldRunnerService.scheduleAtFixedRate(characterRunner, 0, 2, TimeUnit.SECONDS);
 
 

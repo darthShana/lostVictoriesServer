@@ -1,5 +1,6 @@
 package lostVictories.service;
 
+import com.jme3.lostVictories.network.messages.CharacterMessage;
 import com.jme3.lostVictories.network.messages.Country;
 import com.jme3.lostVictories.network.messages.LostVictoryScene;
 import com.jme3.lostVictories.network.messages.wrapper.*;
@@ -60,45 +61,6 @@ public class LostVictoryService {
 
     }
 
-    public void doHandleMessage(LostVictoryMessage msg, Set<LostVictoryMessage> lostVictoryMessages) throws IOException {
-
-        try (Jedis jedis = jedisPool.getResource()){
-            CharacterDAO characterDAO = new CharacterDAO(jedis, nameSpace);
-            if(msg instanceof CheckoutScreenRequest){
-                CheckoutScreenMessageHandler checkoutScreenMessageHandler = new CheckoutScreenMessageHandler(characterDAO, houseDAO, equipmentDAO, treeDAO, playerUsageDAO);
-                lostVictoryMessages.addAll(checkoutScreenMessageHandler.handle((CheckoutScreenRequest) msg));
-                log.info("returning scene");
-            } else if(msg instanceof UpdateCharactersRequest){
-                UpdateCharactersMessageHandler updateCharactersMessageHandler = new UpdateCharactersMessageHandler(characterDAO, houseDAO, equipmentDAO, worldRunner, messageRepository);
-                lostVictoryMessages.addAll(updateCharactersMessageHandler.handle((UpdateCharactersRequest)msg));
-            } else if(msg instanceof DeathNotificationRequest) {
-                DeathNotificationMessageHandler deathNotificationMessageHandler = new DeathNotificationMessageHandler(characterDAO, equipmentDAO);
-                lostVictoryMessages.addAll(deathNotificationMessageHandler.handle((DeathNotificationRequest)msg));
-            } else if(msg instanceof PassengerDeathNotificationRequest) {
-                PassengerDeathNotificationMessageHandler gunnerDeathNotificationMessageHandler = new PassengerDeathNotificationMessageHandler(characterDAO);
-                lostVictoryMessages.addAll(gunnerDeathNotificationMessageHandler.handle((PassengerDeathNotificationRequest)msg));
-            }else if(msg instanceof EquipmentCollectionRequest) {
-                CollectEquipmentMessageHandler collectEquipmentMessageHandler = new CollectEquipmentMessageHandler(characterDAO, equipmentDAO, messageRepository);
-                lostVictoryMessages.addAll(collectEquipmentMessageHandler.handle((EquipmentCollectionRequest)msg));
-            } else if(msg instanceof BoardVehicleRequest){
-                BoardingVehicleMessageHandler boardingVehicleMessageHandler = new BoardingVehicleMessageHandler(characterDAO, messageRepository);
-                lostVictoryMessages.addAll(boardingVehicleMessageHandler.handle((BoardVehicleRequest)msg));
-            } else if(msg instanceof DisembarkPassengersRequest){
-                DisembarkPassengersMessageHandler disembarkPassengersMessageHandler = new DisembarkPassengersMessageHandler(characterDAO);
-
-                lostVictoryMessages.addAll(disembarkPassengersMessageHandler.handle((DisembarkPassengersRequest)msg));
-            } else if(msg instanceof AddObjectiveRequest){
-                AddObjectiveMessageHandler addObjectiveMessageHandler = new AddObjectiveMessageHandler(characterDAO);
-
-                lostVictoryMessages.addAll(addObjectiveMessageHandler.handle((AddObjectiveRequest)msg));
-            } else{
-                throw new RuntimeException("unknown request:"+msg);
-            }
-        } catch(Throwable e){
-            e.printStackTrace();
-        }
-    }
-
     public void runWorld(Map<Country, Integer> victoryPoints, Map<Country, Integer> manPower, Map<Country, WeaponsFactory> weaponsFactory, Map<Country, VehicleFactory> vehicleFactory, Map<Country, Integer> nextRespawnTime, String gameName) {
 
         try (Jedis jedis = jedisPool.getResource()){
@@ -109,10 +71,10 @@ public class LostVictoryService {
         }
     }
 
-    public void doRunCharacters() {;
+    public void doRunCharacters(CharacterMessage characterMessage) {
         try (Jedis jedis = jedisPool.getResource()){
             CharacterDAO characterDAO = new CharacterDAO(jedis, nameSpace);
-            new CharacterRunnerInstance().doRunCharacters(characterDAO, houseDAO, playerUsageDAO);
+            new CharacterRunnerInstance().doRunCharacters(characterMessage, characterDAO, houseDAO, playerUsageDAO);
         }catch(Throwable e){
             e.printStackTrace();
         }

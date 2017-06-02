@@ -6,6 +6,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import com.jme3.lostVictories.network.messages.wrapper.*;
+import com.lostVictories.service.CheckoutScreenMessageHandler;
 import io.netty.channel.group.ChannelMatchers;
 import org.apache.log4j.Logger;
 

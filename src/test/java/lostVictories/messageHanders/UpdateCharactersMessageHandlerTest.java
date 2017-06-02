@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import com.jme3.lostVictories.network.messages.wrapper.CharacterStatusResponse;
 import com.jme3.lostVictories.network.messages.wrapper.LostVictoryMessage;
 import com.jme3.lostVictories.network.messages.wrapper.RelatedCharacterStatusResponse;
+import com.lostVictories.service.CheckoutScreenMessageHandler;
 import lostVictories.WorldRunner;
 import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.EquipmentDAO;

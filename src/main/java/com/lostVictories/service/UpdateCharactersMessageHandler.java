@@ -7,6 +7,7 @@ import com.jme3.lostVictories.network.messages.GameStatistics;
 import com.jme3.lostVictories.network.messages.HouseMessage;
 import com.jme3.lostVictories.network.messages.UnClaimedEquipmentMessage;
 import com.jme3.lostVictories.network.messages.Vector;
+import com.jme3.lostVictories.network.messages.actions.*;
 import com.jme3.lostVictories.network.messages.wrapper.*;
 import com.jme3.lostVictories.network.messages.wrapper.CharacterStatusResponse;
 import com.jme3.lostVictories.network.messages.wrapper.EquipmentStatusResponse;
@@ -14,6 +15,7 @@ import com.jme3.lostVictories.network.messages.wrapper.GameStatsResponse;
 import com.jme3.lostVictories.network.messages.wrapper.HouseStatusResponse;
 import com.jme3.lostVictories.network.messages.wrapper.RelatedCharacterStatusResponse;
 import com.lostVictories.api.*;
+import com.lostVictories.api.Action;
 import com.lostVictories.api.LostVictoryMessage;
 import com.lostVictories.api.UpdateCharactersRequest;
 import io.grpc.stub.StreamObserver;
@@ -39,7 +41,7 @@ public class UpdateCharactersMessageHandler {
     public static final long CHECKOUT_TIMEOUT = 2*1000;
 
     private CharacterDAO characterDAO;
-    private static Logger log = Logger.getLogger(lostVictories.messageHanders.UpdateCharactersMessageHandler.class);
+    private static Logger log = Logger.getLogger(UpdateCharactersMessageHandler.class);
     private HouseDAO houseDAO;
     private EquipmentDAO equipmentDAO;
     private WorldRunner worldRunner;
@@ -56,11 +58,12 @@ public class UpdateCharactersMessageHandler {
 
     public void handle(UpdateCharactersRequest msg, StreamObserver<LostVictoryMessage> responseObserver) throws IOException {
         Map<UUID, com.lostVictories.api.CharacterMessage> sentFromClient = new HashMap<>();
-        sentFromClient.put(uuid(msg.getCharacter().getId()), msg.getCharacter());
+        UUID characterId = uuid(msg.getCharacter().getId());
+        sentFromClient.put(characterId, msg.getCharacter());
 
-        CharacterMessage ss = characterDAO.getCharacter(uuid(msg.getCharacter().getId()), true);
+        CharacterMessage ss = characterDAO.getCharacter(characterId, true);
         if(ss==null){
-            log.info("unknown character id:"+uuid(msg.getCharacter().getId()));
+            log.info("unknown character id:"+ characterId);
             return;
         }
 
@@ -77,7 +80,7 @@ public class UpdateCharactersMessageHandler {
 
         CharacterMessage storedAvatar = characterDAO.getCharacter(uuid(msg.getAvatar()));
         Vector v = storedAvatar.getLocation();
-        Map<UUID, CharacterMessage> inRange = characterDAO.getAllCharacters(v.x, v.y, v.z, lostVictories.messageHanders.CheckoutScreenMessageHandler.CLIENT_RANGE).stream().collect(Collectors.toMap(c->c.getId(), Function.identity()));
+        Map<UUID, CharacterMessage> inRange = characterDAO.getAllCharacters(v.x, v.y, v.z, CheckoutScreenMessageHandler.CLIENT_RANGE).stream().collect(Collectors.toMap(c->c.getId(), Function.identity()));
 
         Map<UUID, CharacterMessage> toReturn = toSave.values().stream()
                 .map(s->characterDAO.updateCharacterState(s))
@@ -86,7 +89,14 @@ public class UpdateCharactersMessageHandler {
                 .collect(Collectors.toMap(c->c.getId(), Function.identity()));
 
         toReturn.values().stream().forEach(c->{
-            responseObserver.onNext(mp.toMessage(c));
+            LostVictoryMessage v1 = mp.toMessage(c);
+            if(!"2fbe421f-f701-49c9-a0d4-abb0fa904204".equals(clientID.toString()) && "2fbe421f-f701-49c9-a0d4-abb0fa904204".equals(c.getId().toString())){
+                Optional<Action> action = v1.getCharacterStatusResponse().getUnit().getActionsList().stream().filter(a -> a.getActionType()== Action.ActionType.SHOOT).findAny();
+                if(action.isPresent()){
+                    System.out.println("returning remote shoot action:"+action.get());
+                }
+            }
+            responseObserver.onNext(v1);
         });
 
         serverVersion.values().stream()
@@ -115,7 +125,7 @@ public class UpdateCharactersMessageHandler {
         if(sentFromClient.containsKey(uuid(msg.getAvatar()))){
             GameStatistics statistics = worldRunner.getStatistics(storedAvatar.getCountry());
             AchievementStatus achievementStatus = worldRunner.getAchivementStatus(storedAvatar, characterDAO);
-            equipmentDAO.getUnClaimedEquipment(v.x, v.y, v.z, lostVictories.messageHanders.CheckoutScreenMessageHandler.CLIENT_RANGE).forEach(e->responseObserver.onNext(mp.toMessage(e)));
+            equipmentDAO.getUnClaimedEquipment(v.x, v.y, v.z, CheckoutScreenMessageHandler.CLIENT_RANGE).forEach(e->responseObserver.onNext(mp.toMessage(e)));
             houseDAO.getAllHouses().forEach(h->responseObserver.onNext(mp.toMessage(h)));
 
             responseObserver.onNext(mp.toMessage(new GameStatsResponse(messageRepository.popMessages(clientID), statistics, achievementStatus)));

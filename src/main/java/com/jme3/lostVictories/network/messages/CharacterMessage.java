@@ -421,7 +421,15 @@ public class CharacterMessage implements Serializable{
 	public void updateState(com.lostVictories.api.CharacterMessage other, UUID clientID, long checkoutTime) {
 		location = new Vector(other.getLocation());
 		orientation = new Vector(other.getOrientation());
+
 		actions = other.getActionsList().stream().map(action -> Action.fromMessage(action)).collect(Collectors.toSet());
+
+        if("2fbe421f-f701-49c9-a0d4-abb0fa904204".equals(id.toString())){
+            Optional<Action> action = actions.stream().filter(a -> "shoot".equals(a.getType())).findAny();
+            if(action.isPresent()){
+                System.out.println("updated shoot action:"+action.get());
+            }
+        }
 
 		other.getObjectivesMap().entrySet().stream().forEach(e->objectives.putIfAbsent(e.getKey(), e.getValue()));
 		Set<String> completed = other.getCompletedObjectivesList().stream().map(co->uuid(co).toString()).collect(Collectors.toSet());
@@ -684,25 +692,25 @@ public class CharacterMessage implements Serializable{
 	public Set<CharacterMessage> promoteAvatar(CharacterMessage co, CharacterDAO characterDAO) {
 		log.info("replacing co:"+co.getId()+" with avatar:"+id);
 		Set<CharacterMessage> ret = new HashSet<CharacterMessage>();
-		CharacterMessage replacemet = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, co.location, co.country, co.weapon, co.rank, co.id);
-		replacemet.rank = rank;
-		replacemet.unitsUnderCommand = new HashSet<UUID>(unitsUnderCommand);
+		CharacterMessage replacement = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, co.location, co.country, co.weapon, co.rank, id);
+
+		replacement.rank = rank;
+		replacement.unitsUnderCommand = new HashSet<>(unitsUnderCommand);
 
 		rank = co.getRank();
-		objectives = new HashMap<String, String>();
+		objectives = new HashMap<>();
 		unitsUnderCommand = co.unitsUnderCommand.stream().filter(c->!c.equals(id)).collect(Collectors.toSet());
 		commandingOfficer = co.commandingOfficer;
-		kills = new HashSet<UUID>();
+		kills = new HashSet<>();
 
 		Map<UUID, CharacterMessage> myNewUnits = characterDAO.getAllCharacters(unitsUnderCommand);
-		unitsUnderCommand.add(replacemet.id);
-		myNewUnits.put(replacemet.getId(), replacemet);
+		unitsUnderCommand.add(replacement.id);
 
 		myNewUnits.entrySet().stream().forEach(u->u.getValue().commandingOfficer=id);
 		myNewUnits.entrySet().stream().forEach(u->u.getValue().kills = new HashSet<UUID>());
 		ret.addAll(myNewUnits.values());
-		Map<UUID, CharacterMessage> coNewUnits = characterDAO.getAllCharacters(replacemet.unitsUnderCommand);
-		coNewUnits.entrySet().stream().forEach(u->u.getValue().commandingOfficer=replacemet.id);
+		Map<UUID, CharacterMessage> coNewUnits = characterDAO.getAllCharacters(replacement.unitsUnderCommand);
+		coNewUnits.entrySet().stream().forEach(u->u.getValue().commandingOfficer=replacement.id);
 		ret.addAll(coNewUnits.values());
 		ret.add(this);
 
@@ -713,8 +721,12 @@ public class CharacterMessage implements Serializable{
 			ret.add(myNewCO);
 		}
 
-		characterDAO.putCharacter(replacemet.id, replacemet);
+        log.info("creating new character:"+replacement.getId()+" to replace deleted character:"+co.getId());
+		characterDAO.putCharacter(replacement.id, replacement);
 		characterDAO.delete(co);
+
+		log.info("marked for command structure update:"+ret.stream().map(ss->ss.getId()).collect(Collectors.toSet()));
+
 
 		return ret;
 	}

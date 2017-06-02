@@ -24,6 +24,7 @@ import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.HouseDAO;
 import lostVictories.dao.PlayerUsageDAO;
 import lostVictories.messageHanders.CharacterCatch;
+import redis.clients.jedis.JedisPool;
 
 public class CharacterRunner implements Runnable{
 
@@ -31,25 +32,23 @@ public class CharacterRunner implements Runnable{
 
 	private static CharacterRunner instance;	
 	private CharacterDAO characterDAO;
-	private HouseDAO houseDAO;
-	private PlayerUsageDAO playerUsageDAO;
 	private LostVictoryService lostVictoryService;
 
-	private CharacterRunner(LostVictoryService lostVictoryService) {
-		this.lostVictoryService = lostVictoryService;
+	private CharacterRunner(LostVictoryService lostVictoryService, JedisPool jedisPool, String nameSpace) {
+	    this.lostVictoryService = lostVictoryService;
+	    characterDAO = new CharacterDAO(jedisPool.getResource(), nameSpace);
 	}
 
-	public static CharacterRunner instance(LostVictoryService lostVictoryService) {
+	public static CharacterRunner instance(LostVictoryService lostVictoryService, JedisPool jedisPool, String nameSpace) {
 		if(instance==null){
-			instance = new CharacterRunner(lostVictoryService);
+			instance = new CharacterRunner(lostVictoryService, jedisPool, nameSpace);
 		}
 		return instance;
 	}
 
 	@Override
 	public void run() {
-		lostVictoryService.doRunCharacters();
-
+        characterDAO.getAllCharacters().stream().forEach(c->lostVictoryService.doRunCharacters(c));
 	}
 
 
