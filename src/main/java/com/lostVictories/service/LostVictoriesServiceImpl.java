@@ -7,12 +7,19 @@ import lostVictories.dao.*;
 import lostVictories.messageHanders.MessageRepository;
 import redis.clients.jedis.JedisPool;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
+import static com.lostVictories.service.LostVictoriesService.uuid;
+
 /**
  * Created by dharshanar on 26/05/17.
  */
 public class LostVictoriesServiceImpl extends LostVictoriesServerGrpc.LostVictoriesServerImplBase {
 
     LostVictoriesService lostVictoriesSerice;
+    Map<UUID, SafeStreamObserver> clientObserverMap = new HashMap<>();
 
     public LostVictoriesServiceImpl(JedisPool jedisPool, String instance, HouseDAO houseDAO, TreeDAO treeDAO, EquipmentDAO equipmentDAO, GameStatusDAO gameStatusDAO, GameRequestDAO gameRequestDAO, PlayerUsageDAO playerUsageDAO, MessageRepository messageRepository, WorldRunner worldRunner) {
         lostVictoriesSerice = new LostVictoriesService(jedisPool, instance, houseDAO, treeDAO, equipmentDAO, gameStatusDAO, gameRequestDAO, playerUsageDAO, messageRepository, worldRunner);
@@ -25,21 +32,22 @@ public class LostVictoriesServiceImpl extends LostVictoriesServerGrpc.LostVictor
 
     @Override
     public StreamObserver<UpdateCharactersRequest> updateLocalCharacters(StreamObserver<LostVictoryMessage> responseObserver) {
+        SafeStreamObserver safeStreamObserver = new SafeStreamObserver(responseObserver);
         return new StreamObserver<UpdateCharactersRequest>() {
             @Override
             public void onNext(UpdateCharactersRequest updateCharactersRequest) {
-                lostVictoriesSerice.updateLocalCharacters(updateCharactersRequest, responseObserver);
+
+                if(!clientObserverMap.containsKey(uuid(updateCharactersRequest.getClientID()))){
+                    clientObserverMap.put(uuid(updateCharactersRequest.getClientID()), safeStreamObserver);
+                }
+                lostVictoriesSerice.updateLocalCharacters(updateCharactersRequest, safeStreamObserver, clientObserverMap);
             }
 
             @Override
-            public void onError(Throwable throwable) {
-                throwable.printStackTrace();
-            }
+            public void onError(Throwable throwable) { throwable.printStackTrace(); }
 
             @Override
-            public void onCompleted() {
-
-            }
+            public void onCompleted() {}
         };
     }
 

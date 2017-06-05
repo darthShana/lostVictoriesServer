@@ -86,7 +86,7 @@ public class CharacterDAO {
 		Map<String, String> mapResponse = jedis.hgetAll(characterStatus + "." + id.toString());
 		List<GeoCoordinate> geoLocation = jedis.geopos(characterLocation, id.toString());
 
-		if(mapResponse !=null && !mapResponse.isEmpty() && !geoLocation.isEmpty()){
+		if(mapResponse !=null && !mapResponse.isEmpty() && !geoLocation.isEmpty() && geoLocation.get(0)!=null){
 			try {
 				return new CharacterMessage(mapResponse, geoLocation.get(0));
 			} catch (IOException e) {
@@ -102,8 +102,6 @@ public class CharacterDAO {
 
 
 	}
-
-	
 
 	public Set<CharacterMessage> getAllCharacters(float x, float y, float z, float range) {
 		Vector v1 = new Vector(range, 0, range);
@@ -123,6 +121,13 @@ public class CharacterDAO {
 				.filter(c->c!=null && boundingBox.contains(c.getLocation().x, c.getLocation().z))
 				.collect(Collectors.toSet());
 	}
+
+	public boolean isInRangeOf(Vector location, UUID id, float range) {
+		CharacterMessage character = getCharacter(id, false);
+		Rectangle.Float boundingBox = new Rectangle2D.Float(character.getLocation().x-range, character.getLocation().z-range, range*2, range*2);
+		return boundingBox.contains(location.x, location.z);
+	}
+
 
 	static final double _eQuatorialEarthRadius = 6378.1370D;
 	static final double _d2r = (Math.PI / 180D);
@@ -247,10 +252,6 @@ public class CharacterDAO {
 		}
 	}
 
-
-	
-
-
 	public void updateCharactersUnderCommand(CharacterMessage c) throws IOException {
 		Map<UUID, CharacterMessage> map = new HashMap<>();
 		map.put(c.getId(), c);
@@ -282,4 +283,5 @@ public class CharacterDAO {
 	public void deleteAllCharacters() {
 		jedis.flushDB();
 	}
+
 }

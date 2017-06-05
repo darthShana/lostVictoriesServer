@@ -421,15 +421,7 @@ public class CharacterMessage implements Serializable{
 	public void updateState(com.lostVictories.api.CharacterMessage other, UUID clientID, long checkoutTime) {
 		location = new Vector(other.getLocation());
 		orientation = new Vector(other.getOrientation());
-
 		actions = other.getActionsList().stream().map(action -> Action.fromMessage(action)).collect(Collectors.toSet());
-
-        if("2fbe421f-f701-49c9-a0d4-abb0fa904204".equals(id.toString())){
-            Optional<Action> action = actions.stream().filter(a -> "shoot".equals(a.getType())).findAny();
-            if(action.isPresent()){
-                System.out.println("updated shoot action:"+action.get());
-            }
-        }
 
 		other.getObjectivesMap().entrySet().stream().forEach(e->objectives.putIfAbsent(e.getKey(), e.getValue()));
 		Set<String> completed = other.getCompletedObjectivesList().stream().map(co->uuid(co).toString()).collect(Collectors.toSet());

@@ -3,6 +3,7 @@ package com.lostVictories.service;
 import com.jme3.lostVictories.network.messages.*;
 import com.jme3.lostVictories.network.messages.AchievementStatus;
 import com.jme3.lostVictories.network.messages.CharacterMessage;
+import com.jme3.lostVictories.network.messages.Country;
 import com.jme3.lostVictories.network.messages.GameStatistics;
 import com.jme3.lostVictories.network.messages.HouseMessage;
 import com.jme3.lostVictories.network.messages.UnClaimedEquipmentMessage;
@@ -56,73 +57,97 @@ public class UpdateCharactersMessageHandler {
         this.messageRepository = messageRepository;
     }
 
-    public void handle(UpdateCharactersRequest msg, StreamObserver<LostVictoryMessage> responseObserver) throws IOException {
-        Map<UUID, com.lostVictories.api.CharacterMessage> sentFromClient = new HashMap<>();
-        UUID characterId = uuid(msg.getCharacter().getId());
-        sentFromClient.put(characterId, msg.getCharacter());
+    public void handle(UpdateCharactersRequest msg, SafeStreamObserver responseObserver, Map<UUID, SafeStreamObserver> clientObserverMap) throws IOException {
 
-        CharacterMessage ss = characterDAO.getCharacter(characterId, true);
-        if(ss==null){
+        UUID characterId = uuid(msg.getCharacter().getId());
+        UUID clientID = uuid(msg.getClientID());
+
+        com.lostVictories.api.CharacterMessage sentFromClient = msg.getCharacter();
+
+        CharacterMessage serverVersion = characterDAO.getCharacter(characterId, true);
+        if(serverVersion==null){
             log.info("unknown character id:"+ characterId);
             return;
         }
 
-        Map<UUID, CharacterMessage> serverVersion = new HashMap<>();
-        serverVersion.put(ss.getId(), ss);
-
-        UUID clientID = uuid(msg.getClientID());
-        Map<UUID, CharacterMessage> toSave = serverVersion.values().stream()
-                .filter(c->c.isAvailableForUpdate(clientID, sentFromClient.get(c.getId()), CHECKOUT_TIMEOUT))
-                .collect(Collectors.toMap(c->c.getId(), Function.identity()));
-
-        toSave.values().stream().forEach(c->c.updateState(sentFromClient.get(c.getId()), clientID, System.currentTimeMillis()));
-
+        if(serverVersion.isAvailableForUpdate(clientID, sentFromClient, CHECKOUT_TIMEOUT)){
+            serverVersion.updateState(sentFromClient, clientID, System.currentTimeMillis());
+            characterDAO.updateCharacterState(serverVersion);
+        }
 
         CharacterMessage storedAvatar = characterDAO.getCharacter(uuid(msg.getAvatar()));
         Vector v = storedAvatar.getLocation();
         Map<UUID, CharacterMessage> inRange = characterDAO.getAllCharacters(v.x, v.y, v.z, CheckoutScreenMessageHandler.CLIENT_RANGE).stream().collect(Collectors.toMap(c->c.getId(), Function.identity()));
 
-        Map<UUID, CharacterMessage> toReturn = toSave.values().stream()
-                .map(s->characterDAO.updateCharacterState(s))
-                .filter(u->u!=null)
-                .filter(b->inRange.containsKey(b.getId()))
-                .collect(Collectors.toMap(c->c.getId(), Function.identity()));
-
-        toReturn.values().stream().forEach(c->{
-            LostVictoryMessage v1 = mp.toMessage(c);
-            if(!"2fbe421f-f701-49c9-a0d4-abb0fa904204".equals(clientID.toString()) && "2fbe421f-f701-49c9-a0d4-abb0fa904204".equals(c.getId().toString())){
-                Optional<Action> action = v1.getCharacterStatusResponse().getUnit().getActionsList().stream().filter(a -> a.getActionType()== Action.ActionType.SHOOT).findAny();
-                if(action.isPresent()){
-                    System.out.println("returning remote shoot action:"+action.get());
-                }
-            }
-            responseObserver.onNext(v1);
-        });
-
-        serverVersion.values().stream()
-                .filter(b->inRange.containsKey(b.getId()) && !toReturn.containsKey(b.getId())).forEach(c->{
-            toReturn.put(c.getId(), c);
-            responseObserver.onNext(mp.toMessage(c));
-        });
-
-        if(msg.getClientStartTime()>5000) {
-
-            if(sentFromClient.containsKey(uuid(msg.getAvatar()))) {
-                inRange.values().stream().filter(c -> !toReturn.containsKey(c.getId())).filter(cc -> !cc.isCheckedOutBy(clientID, CHECKOUT_TIMEOUT)).forEach(c -> {
-                    toReturn.put(c.getId(), c);
-                    responseObserver.onNext(mp.toMessage(c));
-                });
-            }
-            toReturn.values().stream()
-                .filter(u->!u.isDead()).map(c->c.getUnitsUnderCommand()).filter(u->!toReturn.containsKey(u))
-                .map(u->characterDAO.getAllCharacters(u).values()).flatMap(l->l.stream())
-                .filter(u->u!=null && !inRange.containsKey(u.getId())).forEach(r->responseObserver.onNext(mp.toMessage(r, true)));
-            toReturn.values().stream()
-                .filter(c->!c.isDead()).map(c->c.getCommandingOfficer()).filter(u->u!=null && !toReturn.containsKey(u))
-                .map(u->characterDAO.getCharacter(u)).filter(u->u!=null && !inRange.containsKey(u.getId())).forEach(r->responseObserver.onNext(mp.toMessage(r, true)));
+        if(inRange.containsKey(serverVersion.getId())) {
+            responseObserver.onNext(mp.toMessage(serverVersion));
         }
 
-        if(sentFromClient.containsKey(uuid(msg.getAvatar()))){
+
+//        Map<UUID, CharacterMessage> toSave = serverVersion.values().stream()
+//                .filter(c->c.isAvailableForUpdate(clientID, sentFromClient.get(c.getId()), CHECKOUT_TIMEOUT))
+//                .collect(Collectors.toMap(c->c.getId(), Function.identity()));
+//
+//        toSave.values().stream().forEach(c->c.updateState(sentFromClient.get(c.getId()), clientID, System.currentTimeMillis()));
+
+
+
+
+//
+//        Map<UUID, CharacterMessage> toReturn = toSave.values().stream()
+//                .map(s->)
+//                .filter(u->u!=null)
+//                .filter(b->)
+//                .collect(Collectors.toMap(c->c.getId(), Function.identity()));
+//
+//        toReturn.values().stream().forEach(c->{
+//            responseObserver.onNext(mp.toMessage(c));
+//        });
+
+//        serverVersion.values().stream()
+//                .filter(b->inRange.containsKey(b.getId()) && !toReturn.containsKey(b.getId())).forEach(c->{
+//            toReturn.put(c.getId(), c);
+//
+//        });
+
+
+
+//        if(sentFromClient.containsKey(uuid(msg.getAvatar()))) {
+//            inRange.values().stream().filter(c -> !toReturn.containsKey(c.getId())).filter(cc -> !cc.isCheckedOutBy(clientID, CHECKOUT_TIMEOUT)).forEach(c -> {
+//                toReturn.put(c.getId(), c);
+//                responseObserver.onNext(mp.toMessage(c));
+//            });
+//        }
+
+        clientObserverMap.entrySet().stream()
+                .filter(entry->!entry.getKey().equals(clientID))
+                .filter(ee->characterDAO.isInRangeOf(serverVersion.getLocation(), ee.getKey(), CheckoutScreenMessageHandler.CLIENT_RANGE))
+                .forEach(e->{
+                    try {
+                        e.getValue().onNext(mp.toMessage(serverVersion));
+                    }catch (Exception exception){
+                        System.out.println("Error pushing:"+serverVersion.getCountry()+": "+serverVersion.getId()+" being pushed to client:"+e.getKey());
+                    }
+                });
+
+        if(msg.getClientStartTime()>5000) {
+            inRange.values().stream().filter(cc -> cc.isAvailableForCheckout(5000)).forEach(c -> responseObserver.onNext(mp.toMessage(c)));
+        }
+
+        if(!serverVersion.isDead()) {
+            characterDAO.getAllCharacters(serverVersion.getUnitsUnderCommand()).values().stream()
+                    .filter(u -> u != null && !inRange.containsKey(u.getId())).forEach(r -> responseObserver.onNext(mp.toMessage(r, true)));
+            if(serverVersion.getCommandingOfficer()!=null){
+                CharacterMessage commandingOfficer = characterDAO.getCharacter(serverVersion.getCommandingOfficer());
+                if(commandingOfficer!=null && !inRange.containsKey(commandingOfficer.getId())){
+                    responseObserver.onNext(mp.toMessage(commandingOfficer, true));
+                }
+            }
+
+        }
+
+
+        if(characterId.equals(uuid(msg.getAvatar()))){
             GameStatistics statistics = worldRunner.getStatistics(storedAvatar.getCountry());
             AchievementStatus achievementStatus = worldRunner.getAchivementStatus(storedAvatar, characterDAO);
             equipmentDAO.getUnClaimedEquipment(v.x, v.y, v.z, CheckoutScreenMessageHandler.CLIENT_RANGE).forEach(e->responseObserver.onNext(mp.toMessage(e)));

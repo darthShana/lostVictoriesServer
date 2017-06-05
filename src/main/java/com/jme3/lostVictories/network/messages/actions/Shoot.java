@@ -25,7 +25,7 @@ public class Shoot extends Action {
 	@Override
 	public com.lostVictories.api.Action toMessage() {
 		com.lostVictories.api.Action.Builder builder = com.lostVictories.api.Action.newBuilder();
-		builder.setActionType(com.lostVictories.api.Action.ActionType.MOVE);
+		builder.setActionType(com.lostVictories.api.Action.ActionType.SHOOT);
 		builder.setShootTime(shootTime);
 		for(Vector v:targets){
 			builder.addTargets(v.toMessage());

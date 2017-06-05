@@ -11,6 +11,7 @@ import redis.clients.jedis.JedisPool;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -54,12 +55,12 @@ public class LostVictoriesService {
         }
     }
 
-    public void updateLocalCharacters(UpdateCharactersRequest updateCharactersRequest, StreamObserver<LostVictoryMessage> responseObserver) {
+    public void updateLocalCharacters(UpdateCharactersRequest updateCharactersRequest, SafeStreamObserver responseObserver, Map<UUID, SafeStreamObserver> clientObserverMap) {
         Jedis jedis = jedisPool.getResource();
         try {
             CharacterDAO characterDAO = new CharacterDAO(jedis, nameSpace);
             UpdateCharactersMessageHandler checkoutScreenMessageHandler = new UpdateCharactersMessageHandler(characterDAO, houseDAO, equipmentDAO, worldRunner, messageRepository);
-            checkoutScreenMessageHandler.handle(updateCharactersRequest, responseObserver);
+            checkoutScreenMessageHandler.handle(updateCharactersRequest, responseObserver, clientObserverMap);
         }catch (IOException e){
             throw new RuntimeException(e);
         }finally {
