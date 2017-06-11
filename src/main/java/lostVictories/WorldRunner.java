@@ -12,6 +12,7 @@ import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import com.lostVictories.service.LostVictoriesServiceImpl;
 import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.GameRequestDAO;
 import lostVictories.dao.GameStatusDAO;
@@ -47,7 +48,7 @@ public class WorldRunner implements Runnable{
 
 	private String gameName;
 
-	private LostVictoryService lostVictoryService;
+	private LostVictoriesServiceImpl lostVictoryService;
 
 	public static WorldRunner instance(String gameName) {
 		if(instance==null){
@@ -103,7 +104,7 @@ public class WorldRunner implements Runnable{
 	}
 
 
-	public void setLostVictoryService(LostVictoryService lostVictoryService) {
+	public void setLostVictoryService(LostVictoriesServiceImpl lostVictoryService) {
 		this.lostVictoryService = lostVictoryService;
 	}
 }

@@ -1,5 +1,6 @@
 package lostVictories.messageHanders;
 
+import static com.lostVictories.service.LostVictoriesService.bytes;
 import static lostVictories.dao.CharacterDAO.MAPPER;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -7,6 +8,8 @@ import static org.mockito.Mockito.*;
 import java.io.IOException;
 import java.util.UUID;
 
+import com.lostVictories.service.AddObjectiveMessageHandler;
+import io.grpc.stub.StreamObserver;
 import lostVictories.dao.CharacterDAO;
 
 import org.junit.Test;
@@ -40,8 +43,13 @@ public class AddObjectiveMessageHandlerTest {
 		TravelObjective travel = new TravelObjective(characterMessage, new Vector(100, 0 , 100),  new Vector(0, 0, 0));
 		UUID travelId = UUID.randomUUID();
 		
-		handler.handle(new AddObjectiveRequest(characterID, characterID, travelId, MAPPER.writeValueAsString(travel)));
-		
+		handler.handle(com.lostVictories.api.AddObjectiveRequest.newBuilder()
+				.setClientID(bytes(characterID))
+				.setCharacterId(bytes(characterID))
+				.setIdentity(bytes(travelId))
+				.setObjective(MAPPER.writeValueAsString(travel))
+				.build(), mock(StreamObserver.class));
+
 		assertEquals(2, characterMessage.readObjectives().size());
 		assertTrue(characterMessage.readObjectives().containsKey(travelId.toString()));
 		assertFalse(characterMessage.readObjectives().containsKey(captureStructureID.toString()));

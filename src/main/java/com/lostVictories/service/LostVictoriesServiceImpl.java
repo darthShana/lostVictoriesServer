@@ -1,15 +1,25 @@
 package com.lostVictories.service;
 
+import com.jme3.lostVictories.network.messages.*;
+import com.jme3.lostVictories.network.messages.Country;
 import com.lostVictories.api.*;
+import com.lostVictories.api.AddObjectiveRequest;
+import com.lostVictories.api.BoardVehicleRequest;
+import com.lostVictories.api.CheckoutScreenRequest;
+import com.lostVictories.api.DeathNotificationRequest;
+import com.lostVictories.api.DisembarkPassengersRequest;
+import com.lostVictories.api.EquipmentCollectionRequest;
+import com.lostVictories.api.PassengerDeathNotificationRequest;
 import io.grpc.stub.StreamObserver;
+import lostVictories.VehicleFactory;
+import lostVictories.WeaponsFactory;
 import lostVictories.WorldRunner;
 import lostVictories.dao.*;
 import lostVictories.messageHanders.MessageRepository;
+import org.apache.log4j.Logger;
 import redis.clients.jedis.JedisPool;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import static com.lostVictories.service.LostVictoriesService.uuid;
 
@@ -18,8 +28,11 @@ import static com.lostVictories.service.LostVictoriesService.uuid;
  */
 public class LostVictoriesServiceImpl extends LostVictoriesServerGrpc.LostVictoriesServerImplBase {
 
+    private static Logger log = Logger.getLogger(LostVictoriesServiceImpl.class);
     LostVictoriesService lostVictoriesSerice;
-    Map<UUID, SafeStreamObserver> clientObserverMap = new HashMap<>();
+
+    Set<SafeStreamObserver> clientObserverSet = new HashSet<>();
+    Set<UUID> clientIDSet = new HashSet<>();
 
     public LostVictoriesServiceImpl(JedisPool jedisPool, String instance, HouseDAO houseDAO, TreeDAO treeDAO, EquipmentDAO equipmentDAO, GameStatusDAO gameStatusDAO, GameRequestDAO gameRequestDAO, PlayerUsageDAO playerUsageDAO, MessageRepository messageRepository, WorldRunner worldRunner) {
         lostVictoriesSerice = new LostVictoriesService(jedisPool, instance, houseDAO, treeDAO, equipmentDAO, gameStatusDAO, gameRequestDAO, playerUsageDAO, messageRepository, worldRunner);
@@ -37,17 +50,31 @@ public class LostVictoriesServiceImpl extends LostVictoriesServerGrpc.LostVictor
             @Override
             public void onNext(UpdateCharactersRequest updateCharactersRequest) {
 
-                if(!clientObserverMap.containsKey(uuid(updateCharactersRequest.getClientID()))){
-                    clientObserverMap.put(uuid(updateCharactersRequest.getClientID()), safeStreamObserver);
+                UUID uuid = uuid(updateCharactersRequest.getClientID());
+                if(!clientIDSet.contains(uuid)){
+                    log.debug("registering new client:"+uuid);
+                    safeStreamObserver.setClientID(uuid);
+                    clientIDSet.add(uuid);
+                    clientObserverSet.add(safeStreamObserver);
                 }
-                lostVictoriesSerice.updateLocalCharacters(updateCharactersRequest, safeStreamObserver, clientObserverMap);
+                lostVictoriesSerice.updateLocalCharacters(updateCharactersRequest, safeStreamObserver, clientObserverSet);
             }
 
             @Override
-            public void onError(Throwable throwable) { throwable.printStackTrace(); }
+            public void onError(Throwable throwable) {
+                if(clientObserverSet.remove(safeStreamObserver)){
+                    log.debug("de-registering client:"+safeStreamObserver.getClientID());
+                    clientIDSet.remove(safeStreamObserver.getClientID());
+                }
+            }
 
             @Override
-            public void onCompleted() {}
+            public void onCompleted() {
+                if(clientObserverSet.remove(safeStreamObserver)){
+                    log.debug("de-registering client:"+safeStreamObserver.getClientID());
+                    clientIDSet.remove(safeStreamObserver.getClientID());
+                }
+            }
         };
     }
 
@@ -79,5 +106,9 @@ public class LostVictoriesServiceImpl extends LostVictoriesServerGrpc.LostVictor
     @Override
     public void disembarkPassengers(DisembarkPassengersRequest request, StreamObserver<LostVictoryMessage> responseObserver) {
         lostVictoriesSerice.disembarkPassengers(request, responseObserver);
+    }
+
+    public void runWorld(Map<Country, Integer> victoryPoints, Map<Country, Integer> manPower, Map<Country, WeaponsFactory> weaponsFactory, Map<Country, VehicleFactory> vehicleFactory, Map<Country, Integer> nextRespawnTime, String gameName) {
+        lostVictoriesSerice.runWorld(victoryPoints, manPower, weaponsFactory, vehicleFactory, nextRespawnTime, gameName, clientObserverSet);
     }
 }

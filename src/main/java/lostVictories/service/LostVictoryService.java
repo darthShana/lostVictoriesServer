@@ -61,15 +61,7 @@ public class LostVictoryService {
 
     }
 
-    public void runWorld(Map<Country, Integer> victoryPoints, Map<Country, Integer> manPower, Map<Country, WeaponsFactory> weaponsFactory, Map<Country, VehicleFactory> vehicleFactory, Map<Country, Integer> nextRespawnTime, String gameName) {
 
-        try (Jedis jedis = jedisPool.getResource()){
-            CharacterDAO characterDAO = new CharacterDAO(jedis, nameSpace);
-            new WorldRunnerInstance().runWorld(characterDAO, houseDAO, victoryPoints, manPower, weaponsFactory, vehicleFactory, nextRespawnTime, messageRepository, gameStatusDAO, playerUsageDAO, gameRequestDAO, gameName);
-        }catch(Throwable e){
-            e.printStackTrace();
-        }
-    }
 
     public void doRunCharacters(CharacterMessage characterMessage) {
         try (Jedis jedis = jedisPool.getResource()){

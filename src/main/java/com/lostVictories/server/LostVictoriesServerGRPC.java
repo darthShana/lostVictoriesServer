@@ -76,22 +76,25 @@ public class LostVictoriesServerGRPC {
         JedisPool jedisPool = new JedisPool(jedisPoolConfig, "localhost" );
         service = new LostVictoryService(jedisPool, instance, houseDAO, treeDAO, equipmentDAO, gameStatusDAO, gameRequestDAO, playerUsageDAO, messageRepository, worldRunner);
 
-        worldRunner.setLostVictoryService(service);
+
 
         boolean existing = createIndices(adminClient, service, houseDAO, treeDAO);
         if(!existing){
             gameStatusDAO.createGameStatus(this.instance, gameName, port, characterIndexName, houseIndexName, equipmentIndexName);
         }
 
+
+        LostVictoriesServiceImpl grpcService = new LostVictoriesServiceImpl(jedisPool, instance, houseDAO, treeDAO, equipmentDAO, gameStatusDAO, gameRequestDAO, playerUsageDAO, messageRepository, worldRunner);
+        Server server = ServerBuilder.forPort(port)
+                .addService(grpcService)
+                .build();
+
+        worldRunner.setLostVictoryService(grpcService);
         ScheduledExecutorService worldRunnerService = Executors.newScheduledThreadPool(2);
         worldRunnerService.scheduleAtFixedRate(worldRunner, 0, 2, TimeUnit.SECONDS);
         CharacterRunner characterRunner = CharacterRunner.instance(service, jedisPool, gameName);
         worldRunnerService.scheduleAtFixedRate(characterRunner, 0, 2, TimeUnit.SECONDS);
 
-
-        Server server = ServerBuilder.forPort(port)
-                .addService(new LostVictoriesServiceImpl(jedisPool, instance, houseDAO, treeDAO, equipmentDAO, gameStatusDAO, gameRequestDAO, playerUsageDAO, messageRepository, worldRunner))
-                .build();
 
         System.out.println("Starting server......");
         server.start();

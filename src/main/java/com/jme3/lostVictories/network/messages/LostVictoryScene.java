@@ -78,8 +78,8 @@ public class LostVictoryScene {
 		CharacterMessage panzer4 = loadPanzer4(UUID.fromString("ce0e6166-7299-4222-9f1a-938cdc9b24cb"), germanBase.add(-12, 0, 15), Country.GERMAN, a1, characters);
         characters.put(panzer4.getId(), panzer4);
 //		characters.add(loadAntiTankGun1(UUID.fromString("2d420131-2f1f-4901-b61a-248c2243848c"), germanBase.add(25, 0, 15), Country.GERMAN, a1));
-		CharacterMessage hf2 = loadHalfTrack1(UUID.fromString("9740bc8a-835d-4fa2-ab2b-6ed8d914e6ef"), germanBase.add(25, 0, 15), Country.GERMAN, a1, characters);
-		characters.put(hf2.getId(), hf2);
+//		CharacterMessage hf2 = loadHalfTrack1(UUID.fromString("9740bc8a-835d-4fa2-ab2b-6ed8d914e6ef"), germanBase.add(25, 0, 15), Country.GERMAN, a1, characters);
+//		characters.put(hf2.getId(), hf2);
 
 //		a1.addObjective(UUID.randomUUID(), createBootCampObjective(new Vector(246.29144f, 96.77546f, 55.412266f)));
 //		a1.incrementKills(UUID.randomUUID());
@@ -123,6 +123,9 @@ public class LostVictoryScene {
         loadSquad(characters, b1, americanBase.add(-10, 0, 15), Country.AMERICAN, true, Weapon.RIFLE, Weapon.RIFLE, Weapon.RIFLE);
         CharacterMessage loadAntiTankGun = loadAntiTankGun(americanBase.add(15, 0, 15), Country.AMERICAN, b1, characters);
 		characters.put(loadAntiTankGun.getId(), loadAntiTankGun);
+//        CharacterMessage m4a2 = loadM4A2Sherman(UUID.fromString("16a67c6b-263b-4d74-a7a8-b6d28f014d28"), americanBase.add(-12, 0, 15), Country.AMERICAN, b1, characters);
+//        characters.put(m4a2.getId(), m4a2);
+
 //        CharacterMessage loadAmoredCar2 = loadAmoredCar(americanBase.add(10, 0, 15), Country.AMERICAN, b1, characters);
 //		characters.put(loadAmoredCar2.getId(), loadAmoredCar2);
 //        b1.addObjective(UUID.randomUUID(), createBootCampObjective(new Vector(-57.21826f, 96.380104f, -203.38945f)));
@@ -339,6 +342,20 @@ public class LostVictoryScene {
 
     private CharacterMessage loadPanzer4(UUID randomUUID, Vector vector, Country country, CharacterMessage gv2, Map<UUID, CharacterMessage> characters) {
         CharacterMessage tank = new CharacterMessage(randomUUID, CharacterType.PANZER4, vector, country, CharacterType.PANZER4.getDefaultWeapon(), RankMessage.PRIVATE, gv2.getId());
+        Optional<CharacterMessage> findFirst = gv2.getUnitsUnderCommand().stream().map(i->characters.get(i))
+                .filter(c->c.getCharacterType()==CharacterType.SOLDIER)
+                .filter(c->c.boardedVehicle==null)
+                .findFirst();
+        gv2.addCharactersUnderCommand(tank);
+        if(findFirst.isPresent()){
+            tank.passengers.add(findFirst.get().getId());
+            findFirst.get().boardedVehicle = tank.getId();
+        }
+        return tank;
+    }
+
+    private CharacterMessage loadM4A2Sherman(UUID randomUUID, Vector vector, Country country, CharacterMessage gv2, Map<UUID, CharacterMessage> characters) {
+        CharacterMessage tank = new CharacterMessage(randomUUID, CharacterType.M4SHERMAN, vector, country, CharacterType.PANZER4.getDefaultWeapon(), RankMessage.PRIVATE, gv2.getId());
         Optional<CharacterMessage> findFirst = gv2.getUnitsUnderCommand().stream().map(i->characters.get(i))
                 .filter(c->c.getCharacterType()==CharacterType.SOLDIER)
                 .filter(c->c.boardedVehicle==null)

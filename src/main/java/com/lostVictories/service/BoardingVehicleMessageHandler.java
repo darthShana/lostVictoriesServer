@@ -36,19 +36,23 @@ public class BoardingVehicleMessageHandler {
 
         CharacterMessage vehicle = characterDAO.getCharacter(vehicleId);
         CharacterMessage passenger = characterDAO.getCharacter(characterID);
-        log.debug("recived boarding request for passenger:"+passenger.getId()+" vehicle:"+vehicleId);
+        log.debug("received boarding request for passenger:"+passenger.getId()+" vehicle:"+vehicleId);
+        if(vehicle.isDead()){
+            if(passenger.getId().equals(clientId)){
+                messageRepository.addMessage(clientId, "Vehicle has been destroyed.");
+            }
+            log.debug("vehicle:"+vehicle.getId()+" has been destroyed");
+            return;
+        }
         if(vehicle.getLocation().distance(passenger.getLocation())>7.5f){
-            if(CharacterType.AVATAR == passenger.getCharacterType() && passenger.getCheckoutClient().equals(passenger.getId())){
-
+            if(passenger.getId().equals(clientId)){
                 messageRepository.addMessage(clientId, "Vehicle is too far to get in.");
-
             }
             log.debug("passenger:"+passenger.getId()+" is too far to get in");
             return;
         }
         if(vehicle.getPassengers().contains(characterID)){
-            if(CharacterType.AVATAR == passenger.getCharacterType() && passenger.getCheckoutClient().equals(passenger.getId())){
-
+            if(passenger.getId().equals(clientId)){
                 log.debug("passenger:"+passenger.getId()+" is is already onboard vehicle");
             }
             messageRepository.addMessage(clientId, "Avatar already onboard vehicle.");

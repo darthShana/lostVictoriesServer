@@ -127,7 +127,7 @@ public class HouseMessage implements Serializable{
 		return location;
 	}
 
-	public boolean chechOwnership(CharacterDAO characterDAO) {
+	public boolean checkOwnership(CharacterDAO characterDAO) {
 		Set<CharacterMessage> allCharacters = characterDAO.getAllCharacters(location.x, location.y, location.z, CAPTURE_RANGE*SCENE_SCALE);
 		allCharacters = allCharacters.stream().filter(c->c.type==CharacterType.SOLDIER || c.type==CharacterType.AVATAR).filter(c->!c.dead).collect(Collectors.toSet());
 

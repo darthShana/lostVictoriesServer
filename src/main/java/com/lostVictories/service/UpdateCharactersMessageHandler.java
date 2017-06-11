@@ -57,7 +57,7 @@ public class UpdateCharactersMessageHandler {
         this.messageRepository = messageRepository;
     }
 
-    public void handle(UpdateCharactersRequest msg, SafeStreamObserver responseObserver, Map<UUID, SafeStreamObserver> clientObserverMap) throws IOException {
+    public void handle(UpdateCharactersRequest msg, SafeStreamObserver responseObserver, Set<SafeStreamObserver> clientObserverMap) throws IOException {
 
         UUID characterId = uuid(msg.getCharacter().getId());
         UUID clientID = uuid(msg.getClientID());
@@ -72,7 +72,7 @@ public class UpdateCharactersMessageHandler {
 
         if(serverVersion.isAvailableForUpdate(clientID, sentFromClient, CHECKOUT_TIMEOUT)){
             serverVersion.updateState(sentFromClient, clientID, System.currentTimeMillis());
-            characterDAO.updateCharacterState(serverVersion);
+            serverVersion = characterDAO.updateCharacterState(serverVersion);
         }
 
         CharacterMessage storedAvatar = characterDAO.getCharacter(uuid(msg.getAvatar()));
@@ -83,51 +83,13 @@ public class UpdateCharactersMessageHandler {
             responseObserver.onNext(mp.toMessage(serverVersion));
         }
 
+        final CharacterMessage toSend = serverVersion;
 
-//        Map<UUID, CharacterMessage> toSave = serverVersion.values().stream()
-//                .filter(c->c.isAvailableForUpdate(clientID, sentFromClient.get(c.getId()), CHECKOUT_TIMEOUT))
-//                .collect(Collectors.toMap(c->c.getId(), Function.identity()));
-//
-//        toSave.values().stream().forEach(c->c.updateState(sentFromClient.get(c.getId()), clientID, System.currentTimeMillis()));
-
-
-
-
-//
-//        Map<UUID, CharacterMessage> toReturn = toSave.values().stream()
-//                .map(s->)
-//                .filter(u->u!=null)
-//                .filter(b->)
-//                .collect(Collectors.toMap(c->c.getId(), Function.identity()));
-//
-//        toReturn.values().stream().forEach(c->{
-//            responseObserver.onNext(mp.toMessage(c));
-//        });
-
-//        serverVersion.values().stream()
-//                .filter(b->inRange.containsKey(b.getId()) && !toReturn.containsKey(b.getId())).forEach(c->{
-//            toReturn.put(c.getId(), c);
-//
-//        });
-
-
-
-//        if(sentFromClient.containsKey(uuid(msg.getAvatar()))) {
-//            inRange.values().stream().filter(c -> !toReturn.containsKey(c.getId())).filter(cc -> !cc.isCheckedOutBy(clientID, CHECKOUT_TIMEOUT)).forEach(c -> {
-//                toReturn.put(c.getId(), c);
-//                responseObserver.onNext(mp.toMessage(c));
-//            });
-//        }
-
-        clientObserverMap.entrySet().stream()
-                .filter(entry->!entry.getKey().equals(clientID))
-                .filter(ee->characterDAO.isInRangeOf(serverVersion.getLocation(), ee.getKey(), CheckoutScreenMessageHandler.CLIENT_RANGE))
+        clientObserverMap.stream()
+                .filter(entry->!entry.getClientID().equals(clientID))
+                .filter(ee->characterDAO.isInRangeOf(toSend.getLocation(), ee.getClientID(), CheckoutScreenMessageHandler.CLIENT_RANGE))
                 .forEach(e->{
-                    try {
-                        e.getValue().onNext(mp.toMessage(serverVersion));
-                    }catch (Exception exception){
-                        System.out.println("Error pushing:"+serverVersion.getCountry()+": "+serverVersion.getId()+" being pushed to client:"+e.getKey());
-                    }
+                    e.onNext(mp.toMessage(toSend));
                 });
 
         if(msg.getClientStartTime()>5000) {
@@ -151,7 +113,6 @@ public class UpdateCharactersMessageHandler {
             GameStatistics statistics = worldRunner.getStatistics(storedAvatar.getCountry());
             AchievementStatus achievementStatus = worldRunner.getAchivementStatus(storedAvatar, characterDAO);
             equipmentDAO.getUnClaimedEquipment(v.x, v.y, v.z, CheckoutScreenMessageHandler.CLIENT_RANGE).forEach(e->responseObserver.onNext(mp.toMessage(e)));
-            houseDAO.getAllHouses().forEach(h->responseObserver.onNext(mp.toMessage(h)));
 
             responseObserver.onNext(mp.toMessage(new GameStatsResponse(messageRepository.popMessages(clientID), statistics, achievementStatus)));
 

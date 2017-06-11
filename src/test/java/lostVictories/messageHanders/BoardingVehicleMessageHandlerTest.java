@@ -1,5 +1,6 @@
 package lostVictories.messageHanders;
 
+import static com.lostVictories.service.LostVictoriesService.bytes;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -10,6 +11,8 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.UUID;
 
+import com.lostVictories.service.BoardingVehicleMessageHandler;
+import io.grpc.stub.StreamObserver;
 import lostVictories.dao.CharacterDAO;
 
 import org.junit.Test;
@@ -42,8 +45,13 @@ public class BoardingVehicleMessageHandlerTest {
 		when(characterDAO.getCharacter(vehicleID)).thenReturn(vehicle);
 		
 		BoardingVehicleMessageHandler handler = new BoardingVehicleMessageHandler(characterDAO, mock(MessageRepository.class));
-		handler.handle(new BoardVehicleRequest(client2, vehicleID, passengerID));
-		
+
+		handler.handle(com.lostVictories.api.BoardVehicleRequest.newBuilder()
+				.setClientID(bytes(client2))
+				.setVehicleID(bytes(vehicleID))
+				.setCharacterID(bytes(passengerID))
+				.build(), mock(StreamObserver.class));
+
 		ArgumentCaptor<Collection> toSave = ArgumentCaptor.forClass(Collection.class);
 		verify(characterDAO, times(1)).save(toSave.capture());
 		

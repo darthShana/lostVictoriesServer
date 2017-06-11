@@ -22,16 +22,16 @@ public class HouseMessageTest {
 		CharacterDAO characterDAO = mock(CharacterDAO.class);
 		
 		when(characterDAO.getAllCharacters(100f, 1f, 100f, HouseMessage.CAPTURE_RANGE*LostVictoryScene.SCENE_SCALE)).thenReturn(ImmutableSet.of(getCharacter(Country.AMERICAN)));
-		house.chechOwnership(characterDAO);
+		house.checkOwnership(characterDAO);
 		assertEquals(CaptureStatus.CAPTURING, house.getStatus());
 		assertNull(house.getOwner());
 		
-		house.chechOwnership(characterDAO);
+		house.checkOwnership(characterDAO);
 		assertEquals(CaptureStatus.CAPTURING, house.getStatus());
 		assertNull("capture is not instant", house.getOwner());
 		
 		house.statusChangeTime = 100l;
-		house.chechOwnership(characterDAO);
+		house.checkOwnership(characterDAO);
 		assertEquals(CaptureStatus.CAPTURED, house.getStatus());
 		assertEquals(Country.AMERICAN, house.getOwner());		
 	}
@@ -45,7 +45,7 @@ public class HouseMessageTest {
 		CharacterDAO characterDAO = mock(CharacterDAO.class);
 		
 		when(characterDAO.getAllCharacters(100f, 1f, 100f, HouseMessage.CAPTURE_RANGE)).thenReturn(ImmutableSet.of(getCharacter(Country.AMERICAN), getCharacter(Country.AMERICAN)));
-		house.chechOwnership(characterDAO);
+		house.checkOwnership(characterDAO);
 		assertEquals(CaptureStatus.CAPTURED, house.getStatus());
 		assertEquals(Country.AMERICAN, house.getOwner());
 	}
@@ -58,7 +58,7 @@ public class HouseMessageTest {
 		house.captureStatus = CaptureStatus.CAPTURING;
 		house.contestingOwner = Country.AMERICAN;
 		when(characterDAO.getAllCharacters(100f, 1f, 100f, HouseMessage.CAPTURE_RANGE)).thenReturn(ImmutableSet.of(getCharacter(Country.GERMAN)));
-		house.chechOwnership(characterDAO);
+		house.checkOwnership(characterDAO);
 		assertEquals(CaptureStatus.NONE, house.getStatus());
 		assertNull(house.getOwner());
 	}
@@ -73,7 +73,7 @@ public class HouseMessageTest {
 		CharacterDAO characterDAO = mock(CharacterDAO.class);
 		
 		when(characterDAO.getAllCharacters(100f, 1f, 100f, HouseMessage.CAPTURE_RANGE)).thenReturn(ImmutableSet.of(getCharacter(Country.GERMAN), getCharacter(Country.AMERICAN)));
-		house.chechOwnership(characterDAO);
+		house.checkOwnership(characterDAO);
 		assertEquals(CaptureStatus.NONE, house.getStatus());
 		assertNull(house.getOwner());
 		
@@ -81,7 +81,7 @@ public class HouseMessageTest {
 		house.captureStatus = CaptureStatus.CAPTURING;
 		house.contestingOwner = Country.AMERICAN;
 		when(characterDAO.getAllCharacters(100f, 1f, 100f, HouseMessage.CAPTURE_RANGE)).thenReturn(new HashSet<CharacterMessage>());
-		house.chechOwnership(characterDAO);
+		house.checkOwnership(characterDAO);
 		assertEquals(CaptureStatus.NONE, house.getStatus());
 		assertNull(house.getOwner());
 	}
@@ -95,12 +95,12 @@ public class HouseMessageTest {
 		CharacterDAO characterDAO = mock(CharacterDAO.class);
 		
 		when(characterDAO.getAllCharacters(100f, 1f, 100f, HouseMessage.CAPTURE_RANGE)).thenReturn(new HashSet<CharacterMessage>());
-		house.chechOwnership(characterDAO);
+		house.checkOwnership(characterDAO);
 		assertEquals(CaptureStatus.NONE, house.getStatus());
 		assertNull(house.getOwner());
 		
 		when(characterDAO.getAllCharacters(100f, 1f, 100f, HouseMessage.CAPTURE_RANGE)).thenReturn(ImmutableSet.of(getCharacter(Country.GERMAN), getCharacter(Country.AMERICAN)));
-		house.chechOwnership(characterDAO);
+		house.checkOwnership(characterDAO);
 		assertEquals(CaptureStatus.NONE, house.getStatus());
 		assertNull(house.getOwner());
 	}
@@ -114,17 +114,17 @@ public class HouseMessageTest {
 		CharacterDAO characterDAO = mock(CharacterDAO.class);
 		
 		when(characterDAO.getAllCharacters(100f, 1f, 100f, HouseMessage.CAPTURE_RANGE*LostVictoryScene.SCENE_SCALE)).thenReturn(ImmutableSet.of(getCharacter(Country.GERMAN), getCharacter(Country.GERMAN)));
-		house.chechOwnership(characterDAO);
+		house.checkOwnership(characterDAO);
 		assertEquals(CaptureStatus.DECAPTURING, house.getStatus());
 		assertEquals(Country.AMERICAN, house.getOwner());
 		
-		house.chechOwnership(characterDAO);
+		house.checkOwnership(characterDAO);
 		assertEquals(CaptureStatus.DECAPTURING, house.getStatus());
 		assertEquals("decapture is not instant", Country.AMERICAN, house.getOwner());
 		
 		house.statusChangeTime = 100l;
 		when(characterDAO.getAllCharacters(100f, 1f, 100f, HouseMessage.CAPTURE_RANGE*LostVictoryScene.SCENE_SCALE)).thenReturn(ImmutableSet.of(getCharacter(Country.GERMAN), getCharacter(Country.GERMAN)));
-		house.chechOwnership(characterDAO);
+		house.checkOwnership(characterDAO);
 		assertEquals(CaptureStatus.NONE, house.getStatus());
 		assertNull(house.getOwner());
 	} 
@@ -138,14 +138,14 @@ public class HouseMessageTest {
 		CharacterDAO characterDAO = mock(CharacterDAO.class);
 		
 		when(characterDAO.getAllCharacters(100f, 1f, 100f, HouseMessage.CAPTURE_RANGE*LostVictoryScene.SCENE_SCALE)).thenReturn(ImmutableSet.of(getCharacter(Country.GERMAN), getCharacter(Country.AMERICAN)));
-		house.chechOwnership(characterDAO);
+		house.checkOwnership(characterDAO);
 		assertEquals(CaptureStatus.CAPTURED, house.getStatus());
 		assertEquals(Country.AMERICAN, house.getOwner());
 		
 		house.owner = Country.AMERICAN;
 		house.captureStatus = CaptureStatus.DECAPTURING;
 		when(characterDAO.getAllCharacters(100f, 1f, 100f, HouseMessage.CAPTURE_RANGE)).thenReturn(new HashSet<CharacterMessage>());
-		house.chechOwnership(characterDAO);
+		house.checkOwnership(characterDAO);
 		assertEquals(CaptureStatus.CAPTURED, house.getStatus());
 		assertEquals(Country.AMERICAN, house.getOwner());
 	}
@@ -161,7 +161,7 @@ public class HouseMessageTest {
 		v.passengers.clear();
 		
 		when(characterDAO.getAllCharacters(100f, 1f, 100f, HouseMessage.CAPTURE_RANGE*LostVictoryScene.SCENE_SCALE)).thenReturn(ImmutableSet.of(getCharacter(Country.AMERICAN), v));
-		house.chechOwnership(characterDAO);
+		house.checkOwnership(characterDAO);
 		assertEquals(CaptureStatus.CAPTURING, house.getStatus());
 		assertNull(house.getOwner());
 				

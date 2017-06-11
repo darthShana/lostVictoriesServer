@@ -2,6 +2,8 @@ package lostVictories.service;
 
 import com.jme3.lostVictories.network.messages.*;
 import com.jme3.lostVictories.objectives.SecureSectorState;
+import com.lostVictories.service.MessageMapper;
+import com.lostVictories.service.SafeStreamObserver;
 import lostVictories.AvatarStore;
 import lostVictories.VehicleFactory;
 import lostVictories.WeaponsFactory;
@@ -21,12 +23,16 @@ public class WorldRunnerInstance {
 
     private static Logger log = Logger.getLogger(WorldRunnerInstance.class);
     private static final int COST_OF_UNIT = 500;
+    MessageMapper mp = new MessageMapper();
 
 
-    public Map<Country, Long> runWorld(CharacterDAO characterDAO, HouseDAO houseDAO, Map<Country, Integer> victoryPoints, Map<Country, Integer> manPower, Map<Country, WeaponsFactory> weaponsFactory, Map<Country, VehicleFactory> vehicleFactory, Map<Country, Integer> nextRespawnTime, MessageRepository messageRepository, GameStatusDAO gameStatusDAO, PlayerUsageDAO playerUsageDAO, GameRequestDAO gameRequestDAO, String gameName) throws IOException {
+    public Map<Country, Long> runWorld(CharacterDAO characterDAO, HouseDAO houseDAO, Map<Country, Integer> victoryPoints, Map<Country, Integer> manPower, Map<Country, WeaponsFactory> weaponsFactory, Map<Country, VehicleFactory> vehicleFactory, Map<Country, Integer> nextRespawnTime, MessageRepository messageRepository, GameStatusDAO gameStatusDAO, PlayerUsageDAO playerUsageDAO, GameRequestDAO gameRequestDAO, String gameName, Set<SafeStreamObserver> clientObserverMap) throws IOException {
             Set<HouseMessage> allHouses = houseDAO.getAllHouses();
-            Set<HouseMessage> dchanged = allHouses.stream().filter(h->h.chechOwnership(characterDAO)).collect(Collectors.toSet());
+            Set<HouseMessage> dchanged = allHouses.stream().filter(h->h.checkOwnership(characterDAO)).collect(Collectors.toSet());
             houseDAO.save(dchanged);
+            clientObserverMap.stream().forEach(client->{
+                dchanged.forEach(h->client.onNext(mp.toMessage(h)));
+            });
 
             Map<Country, Long> structureOwnership = allHouses.stream().filter(h->h.isOwned()).collect(Collectors.groupingBy(HouseMessage::getOwner, Collectors.counting()));
             long capturedStructureCount = structureOwnership.values().stream().reduce(0l, (a, b)->a+b);

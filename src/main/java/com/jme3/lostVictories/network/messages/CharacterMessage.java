@@ -593,7 +593,7 @@ public class CharacterMessage implements Serializable{
 			co.calculateSquadType(characterDAO.getAllCharacters(co.unitsUnderCommand).values(), co.squadType);
 			toSave.put(co.getId(), co);
 		}
-		if(boardedVehicle!=null){
+		if(boardedVehicle!=null && characterDAO.getCharacter(boardedVehicle)!=null){
 			CharacterMessage vehicle = characterDAO.getCharacter(boardedVehicle);
 			vehicle.passengers.remove(id);
 			toSave.put(vehicle.id, vehicle);
