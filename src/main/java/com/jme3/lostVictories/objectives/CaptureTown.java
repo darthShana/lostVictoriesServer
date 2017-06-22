@@ -70,7 +70,7 @@ public class CaptureTown extends Objective {
 		}
 	}
 	
-	private GameSector findClosestUnsecuredGameSector(CharacterMessage character, Set<GameSector> gameSectors, Set<GameSector> exclude) {
+	GameSector findClosestUnsecuredGameSector(CharacterMessage character, Set<GameSector> gameSectors, Set<GameSector> exclude) {
         GameSector closest = null;
         for(GameSector gameSector:gameSectors){
             if(gameSector.isUnsecured(character.getCountry())){

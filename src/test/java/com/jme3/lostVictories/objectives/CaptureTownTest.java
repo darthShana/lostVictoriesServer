@@ -7,15 +7,14 @@ import java.awt.Rectangle;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.UUID;
 
+import com.jme3.lostVictories.network.messages.*;
 import lostVictories.GameCharacter;
 import lostVictories.dao.HouseDAO;
 
 import org.junit.Test;
 
-import com.jme3.lostVictories.network.messages.HouseMessage;
-import com.jme3.lostVictories.network.messages.Quaternion;
-import com.jme3.lostVictories.network.messages.Vector;
 import com.jme3.lostVictories.objectives.CaptureTown.GameSector;
 
 public class CaptureTownTest {
@@ -76,10 +75,28 @@ public class CaptureTownTest {
 		GameSector neighbour = new GameSector(new Rectangle(-512+100, -512+100, 100, 100));
 		unMerged.add(neighbour);
 		assertEquals(neighbour, captureTown.findNeighbouringSector(merged, unMerged).get());
-		
-		unMerged = new HashSet<GameSector>();
-		
 	}
+
+	@Test
+    public void testFindClosestUnsecuredGameSector(){
+        CaptureTown captureTown = new CaptureTown(System.currentTimeMillis());
+        CharacterMessage oldCo = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, LostVictoryScene.americanBase, Country.AMERICAN, Weapon.RIFLE, RankMessage.COLONEL, null);
+
+
+        HouseDAO houseDAO = mock(HouseDAO.class);
+        when(houseDAO.getAllHouses()).thenReturn(getAllHouses());
+
+        Set<GameSector> calculateGameSector = captureTown.calculateGameSectors(houseDAO);
+        HashSet<GameSector> exc = new HashSet<>();
+        GameSector gameSector1 = captureTown.findClosestUnsecuredGameSector(oldCo, calculateGameSector, exc);
+        assertTrue(gameSector1.containsPoint(new Vector(87.875885f,100.49752f,-326.0263f)));
+        exc.add(gameSector1);
+
+        GameSector gameSector2 = captureTown.findClosestUnsecuredGameSector(oldCo, calculateGameSector, exc);
+        assertTrue(gameSector1.containsPoint(new Vector(-309.96945f,97.07101f,-201.0857f)));
+
+
+    }
 	
 	public Set<HouseMessage> getAllHouses(){
 		Set<HouseMessage> houses = new HashSet<HouseMessage>();

@@ -32,9 +32,9 @@ public class LostVictoryScene {
 	public static int SCENE_HEIGHT = 512;
 	public static float SCENE_SCALE = .25f;
 	public static Vector germanVehicleSpawnPoint = new Vector(257, 96, 31);
-	private static Vector germanBase = new Vector(150, 100, 20);
+    public static Vector germanBase = new Vector(150, 100, 20);
 	public static Vector americanVehicleSpawnPoint = new Vector(26, 101, -402);
-	private static Vector americanBase = new Vector(90, 100, -380);
+    public static Vector americanBase = new Vector(90, 100, -380);
 	
 	private static Logger log = Logger.getLogger(LostVictoryScene.class); 
 	

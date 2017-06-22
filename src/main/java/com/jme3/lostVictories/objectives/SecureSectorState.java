@@ -28,7 +28,7 @@ public enum SecureSectorState {
 		}
 
 		@Override
-		public SecureSectorState tansition(CharacterMessage c, String uuid, SecureSector objective, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave) {
+		public SecureSectorState transition(CharacterMessage c, String uuid, SecureSector objective, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave) {
 			if(c.getCurrentStrength(characterDAO)>=objective.deploymentStrength){
 				return DEPLOY_TO_SECTOR;
 			}
@@ -42,7 +42,7 @@ public enum SecureSectorState {
 		}
 
 		@Override
-		public SecureSectorState tansition(CharacterMessage c, String uuid, SecureSector objective, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave) {
+		public SecureSectorState transition(CharacterMessage c, String uuid, SecureSector objective, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave) {
 			if(objective.issuedOrders.get(c.getId()).isComplete){
 				return WAIT_FOR_REENFORCEMENTS;
 			}
@@ -56,7 +56,7 @@ public enum SecureSectorState {
 		}
 
 		@Override
-		public SecureSectorState tansition(CharacterMessage c, String uuid, SecureSector objective, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave) {
+		public SecureSectorState transition(CharacterMessage c, String uuid, SecureSector objective, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave) {
 			if(c.getCurrentStrength(characterDAO)<=objective.minimumFightingStrenght){
 				return RETREAT;
 			}
@@ -93,10 +93,7 @@ public enum SecureSectorState {
 			c.getUnitsUnderCommand().stream()				
 				.filter(id->!objective.issuedOrders.containsKey(id))
 				.map(id->characterDAO.getCharacter(id))
-				.forEach(new Consumer<CharacterMessage>() {
-
-				@Override
-				public void accept(CharacterMessage unit) {
+				.forEach(unit -> {
 					HouseMessage house = findClosestHouse(unit, objective.houses.stream().map(h->houseDAO.getHouse(h)).collect(Collectors.toSet()), houseToCapture);
 					if(house!=null){
 						try {
@@ -110,19 +107,33 @@ public enum SecureSectorState {
 						} catch (IOException e) {
 							throw new RuntimeException(e);
 						}
+
 					}
-				}
-			});
+				});
 		}
 
-		@Override
-		public SecureSectorState tansition(CharacterMessage c, String uuid, SecureSector objective, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave) {
+		public SecureSectorState transition(CharacterMessage c, String uuid, SecureSector objective, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave) {
 			if(c.getCurrentStrength(characterDAO)<=objective.minimumFightingStrenght){
 				return RETREAT;
 			}
-			return CAPTURE_HOUSES;
+			if(objective.issuedOrders.values().stream().anyMatch(o->!o.isComplete)){
+                return CAPTURE_HOUSES;
+            }
+			return DEFEND_SECTOR;
 		}
-	};
+	},
+
+    DEFEND_SECTOR {
+        @Override
+        public void runObjective(CharacterMessage c, String uuid, SecureSector objective, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave, Map<UUID, UUID> kills) {
+
+        }
+
+        @Override
+        public SecureSectorState transition(CharacterMessage c, String uuid, SecureSector objective, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave) {
+            return DEFEND_SECTOR;
+        }
+    };
 	
 	public static HouseMessage findClosestHouse(CharacterMessage c, Set<HouseMessage> allHouses, Predicate<HouseMessage> pred) {
 		HouseMessage closest = null;
@@ -149,10 +160,7 @@ public enum SecureSectorState {
 			.filter(id->!objective.issuedOrders.containsKey(id))
 			.map(id->characterDAO.getCharacter(id))
 			.filter(unit->unit.getRank()==RankMessage.CADET_CORPORAL)
-			.forEach(new Consumer<CharacterMessage>() {
-
-			@Override
-			public void accept(CharacterMessage unit) {
+			.forEach(unit -> {
 				try {
 					TransportSquad deployToSector = new TransportSquad(location);
 					unit.addObjective(UUID.randomUUID(), deployToSector);
@@ -161,8 +169,8 @@ public enum SecureSectorState {
 				} catch (IOException e) {
 					throw new RuntimeException(e);
 				}
-			}			
-		});
+			});
+
 		if(!objective.issuedOrders.containsKey(c.getId())){
 			Objective t = null;
 			if(CharacterType.AVATAR == c.getCharacterType() || CharacterType.SOLDIER == c.getCharacterType()){
@@ -177,8 +185,9 @@ public enum SecureSectorState {
 		fromStringToObjective.runObjective(c, uuid, characterDAO, houseDAO, toSave, kills);
 		toSave.put(c.getId(), c);
 	}
+
 	public abstract void runObjective(CharacterMessage c, String uuid, SecureSector objective, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave, Map<UUID, UUID> kills);
 
-	public abstract SecureSectorState tansition(CharacterMessage c, String uuid, SecureSector objective, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave);
+	public abstract SecureSectorState transition(CharacterMessage c, String uuid, SecureSector objective, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave);
 
 }

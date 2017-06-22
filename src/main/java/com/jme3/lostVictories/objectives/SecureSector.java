@@ -55,7 +55,7 @@ public class SecureSector extends Objective implements CleanupBeforeTransmitting
 	@Override
 	public void runObjective(CharacterMessage c, String uuid, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave, Map<UUID, UUID> kills) {
 		state.runObjective(c, uuid, this, characterDAO, houseDAO, toSave, kills);
-		SecureSectorState newState = state.tansition(c, uuid, this, characterDAO, houseDAO, toSave);
+		SecureSectorState newState = state.transition(c, uuid, this, characterDAO, houseDAO, toSave);
 		
 		if(newState!=state){
             System.out.println(c.getCountry()+" "+c.getRank()+":"+c.getId()+" new state:"+newState+" houses:"+houses.size()+" centre:"+centre+" loc:"+c.getLocation()+" home:"+homeBase);

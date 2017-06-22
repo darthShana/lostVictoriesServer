@@ -34,15 +34,18 @@ public class SecureSectorTest {
 	private CharacterDAO characterDAO;
 	HashMap<UUID, CharacterMessage> toSave;
 	HashMap<UUID, UUID> kills;
+	private HouseMessage house1;
+	private HouseMessage house2;
+	private HouseMessage house3;
 
 
 	@Before
 	public void setup(){
 		houseDAO = mock(HouseDAO.class);
-		houses = new HashSet<HouseMessage>();
-		HouseMessage house1 = new HouseMessage("type2", new Vector(100, 1, 100), new Quaternion(1, 1, 1, 1));
-		HouseMessage house2 = new HouseMessage("type2", new Vector(110, 1, 100), new Quaternion(1, 1, 1, 1));
-		HouseMessage house3 = new HouseMessage("type2", new Vector(120, 1, 100), new Quaternion(1, 1, 1, 1));
+		houses = new HashSet<>();
+		house1 = new HouseMessage("type2", new Vector(100, 1, 100), new Quaternion(1, 1, 1, 1));
+		house2 = new HouseMessage("type2", new Vector(110, 1, 100), new Quaternion(1, 1, 1, 1));
+		house3 = new HouseMessage("type2", new Vector(120, 1, 100), new Quaternion(1, 1, 1, 1));
 		houses.add(house1);
 		houses.add(house2);
 		houses.add(house3);
@@ -51,8 +54,8 @@ public class SecureSectorTest {
 		when(houseDAO.getHouse(eq(house3.getId()))).thenReturn(house3);
 		
 		oldCo = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.LIEUTENANT, null);
-		unit1 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, oldCo.getId());
-		unit2 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, oldCo.getId());
+		unit1 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(111, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, oldCo.getId());
+		unit2 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(121, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, oldCo.getId());
 
 		oldCo.addCharactersUnderCommand(unit1, unit2);
 		
@@ -96,8 +99,9 @@ public class SecureSectorTest {
 		CaptureStructure order1 = (CaptureStructure) objective.issuedOrders.get(unit1.getId());
 		CaptureStructure order2 = (CaptureStructure) objective.issuedOrders.get(unit2.getId());
 		
-		assertFalse(order1.structure.equals(order2.structure));
-		
+		assertEquals(order1.structure, house2.getId().toString());
+		assertEquals(order2.structure, house3.getId().toString());
+
 		CharacterMessage unit3 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, oldCo.getId());
 		oldCo.addCharactersUnderCommand(unit3);
 		when(characterDAO.getCharacter(eq(unit3.getId()))).thenReturn(unit3);
