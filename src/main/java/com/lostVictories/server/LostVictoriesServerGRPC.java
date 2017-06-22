@@ -83,7 +83,6 @@ public class LostVictoriesServerGRPC {
             gameStatusDAO.createGameStatus(this.instance, gameName, port, characterIndexName, houseIndexName, equipmentIndexName);
         }
 
-
         LostVictoriesServiceImpl grpcService = new LostVictoriesServiceImpl(jedisPool, instance, houseDAO, treeDAO, equipmentDAO, gameStatusDAO, gameRequestDAO, playerUsageDAO, messageRepository, worldRunner);
         Server server = ServerBuilder.forPort(port)
                 .addService(grpcService)

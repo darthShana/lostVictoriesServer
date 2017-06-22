@@ -33,7 +33,6 @@ public class LostVictoryScene {
 	public static float SCENE_SCALE = .25f;
 	public static Vector germanVehicleSpawnPoint = new Vector(257, 96, 31);
 	private static Vector germanBase = new Vector(150, 100, 20);
-	//Vector americanBase = new Vector(170, 100, 40);
 	public static Vector americanVehicleSpawnPoint = new Vector(26, 101, -402);
 	private static Vector americanBase = new Vector(90, 100, -380);
 	
@@ -75,8 +74,8 @@ public class LostVictoryScene {
 		CharacterMessage a1 = new CharacterMessage(UUID.fromString("2fbe421f-f701-49c9-a0d4-abb0fa904204"), CharacterType.AVATAR, germanBase.add(22, 0, 13), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, gl1.getId());
 		a1.userID = UUID.fromString("2fbe421f-f701-49c9-a0d4-abb0fa904204");
 		loadSquad(characters, a1, germanBase.add(-10, 0, 15), Country.GERMAN, true, Weapon.RIFLE, Weapon.RIFLE, Weapon.RIFLE   );
-		CharacterMessage panzer4 = loadPanzer4(UUID.fromString("ce0e6166-7299-4222-9f1a-938cdc9b24cb"), germanBase.add(-12, 0, 15), Country.GERMAN, a1, characters);
-        characters.put(panzer4.getId(), panzer4);
+//		CharacterMessage panzer4 = loadPanzer4(UUID.fromString("ce0e6166-7299-4222-9f1a-938cdc9b24cb"), germanBase.add(-12, 0, 15), Country.GERMAN, a1, characters);
+//        characters.put(panzer4.getId(), panzer4);
 //		characters.add(loadAntiTankGun1(UUID.fromString("2d420131-2f1f-4901-b61a-248c2243848c"), germanBase.add(25, 0, 15), Country.GERMAN, a1));
 //		CharacterMessage hf2 = loadHalfTrack1(UUID.fromString("9740bc8a-835d-4fa2-ab2b-6ed8d914e6ef"), germanBase.add(25, 0, 15), Country.GERMAN, a1, characters);
 //		characters.put(hf2.getId(), hf2);

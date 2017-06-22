@@ -26,7 +26,7 @@ public class WorldRunnerInstance {
     MessageMapper mp = new MessageMapper();
 
 
-    public Map<Country, Long> runWorld(CharacterDAO characterDAO, HouseDAO houseDAO, Map<Country, Integer> victoryPoints, Map<Country, Integer> manPower, Map<Country, WeaponsFactory> weaponsFactory, Map<Country, VehicleFactory> vehicleFactory, Map<Country, Integer> nextRespawnTime, MessageRepository messageRepository, GameStatusDAO gameStatusDAO, PlayerUsageDAO playerUsageDAO, GameRequestDAO gameRequestDAO, String gameName, Set<SafeStreamObserver> clientObserverMap) throws IOException {
+    public Map<Country, Integer> runWorld(CharacterDAO characterDAO, HouseDAO houseDAO, Map<Country, Integer> victoryPoints, Map<Country, Integer> manPower, Map<Country, WeaponsFactory> weaponsFactory, Map<Country, VehicleFactory> vehicleFactory, Map<Country, Integer> nextRespawnTime, MessageRepository messageRepository, GameStatusDAO gameStatusDAO, PlayerUsageDAO playerUsageDAO, GameRequestDAO gameRequestDAO, String gameName, Set<SafeStreamObserver> clientObserverMap) throws IOException {
             Set<HouseMessage> allHouses = houseDAO.getAllHouses();
             Set<HouseMessage> dchanged = allHouses.stream().filter(h->h.checkOwnership(characterDAO)).collect(Collectors.toSet());
             houseDAO.save(dchanged);
@@ -34,8 +34,9 @@ public class WorldRunnerInstance {
                 dchanged.forEach(h->client.onNext(mp.toMessage(h)));
             });
 
-            Map<Country, Long> structureOwnership = allHouses.stream().filter(h->h.isOwned()).collect(Collectors.groupingBy(HouseMessage::getOwner, Collectors.counting()));
-            long capturedStructureCount = structureOwnership.values().stream().reduce(0l, (a, b)->a+b);
+        Map<Country, Long> collect = allHouses.stream().filter(h -> h.isOwned()).collect(Collectors.groupingBy(HouseMessage::getOwner, Collectors.counting()));
+        Map<Country, Integer> structureOwnership = collect.entrySet().stream().collect(Collectors.toMap(e->e.getKey(), e->e.getValue().intValue()));
+        long capturedStructureCount = structureOwnership.values().stream().reduce(0, (a, b)->a+b);
 
             for(Country c: victoryPoints.keySet()){
                 long numberOfProperties = structureOwnership.get(c)!=null?structureOwnership.get(c):0;

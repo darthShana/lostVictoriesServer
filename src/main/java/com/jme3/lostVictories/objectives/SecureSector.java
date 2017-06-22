@@ -49,7 +49,7 @@ public class SecureSector extends Objective implements CleanupBeforeTransmitting
         final float y = totalY/houses.size();
         final float z = totalZ/houses.size();
         centre = new Vector(x, y, z);
-        log.trace("securing sector:"+centre);
+        log.trace("securing sector:"+centre+" with houses:"+houses.size());
 	}
 
 	@Override

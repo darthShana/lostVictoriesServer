@@ -220,6 +220,7 @@ public class CharacterDAO {
 			character.setVersion(version.get());
 			return character;
 		}
+		System.out.println("optimistic locking rejected character update to:"+character.getId());
 		return null;
 	}
 

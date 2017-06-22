@@ -75,7 +75,7 @@ public class CaptureTown extends Objective {
         for(GameSector gameSector:gameSectors){
             if(gameSector.isUnsecured(character.getCountry())){
                 if(!exclude.contains(gameSector) && 
-                		(closest==null || closest.location().distance(character.getLocation().toVector())>gameSector.location().distance(character.getLocation().toVector()))){
+                		(closest==null || closest.location().distance(character.getLocation().toVector())/closest.getHouses().size()>gameSector.location().distance(character.getLocation().toVector())/gameSector.getHouses().size())){
                     closest = gameSector;
                 }
             }

@@ -1,12 +1,10 @@
 package com.lostVictories.service;
 
 import com.google.protobuf.ByteString;
-import com.jme3.lostVictories.network.messages.*;
 import com.lostVictories.api.*;
 import com.lostVictories.api.AddObjectiveRequest;
 import com.lostVictories.api.BoardVehicleRequest;
 import com.lostVictories.api.CheckoutScreenRequest;
-import com.lostVictories.api.Country;
 import com.lostVictories.api.DeathNotificationRequest;
 import com.lostVictories.api.DisembarkPassengersRequest;
 import com.lostVictories.api.EquipmentCollectionRequest;
@@ -169,13 +167,13 @@ public class LostVictoriesService {
         }
     }
 
-    public void runWorld(Map<com.jme3.lostVictories.network.messages.Country, Integer> victoryPoints, Map<com.jme3.lostVictories.network.messages.Country, Integer> manPower, Map<com.jme3.lostVictories.network.messages.Country, WeaponsFactory> weaponsFactory, Map<com.jme3.lostVictories.network.messages.Country, VehicleFactory> vehicleFactory, Map<com.jme3.lostVictories.network.messages.Country, Integer> nextRespawnTime, String gameName, Set<SafeStreamObserver> clientObserverMap) {
+    public Map<com.jme3.lostVictories.network.messages.Country, Integer> runWorld(Map<com.jme3.lostVictories.network.messages.Country, Integer> victoryPoints, Map<com.jme3.lostVictories.network.messages.Country, Integer> manPower, Map<com.jme3.lostVictories.network.messages.Country, WeaponsFactory> weaponsFactory, Map<com.jme3.lostVictories.network.messages.Country, VehicleFactory> vehicleFactory, Map<com.jme3.lostVictories.network.messages.Country, Integer> nextRespawnTime, String gameName, Set<SafeStreamObserver> clientObserverMap) {
 
         try (Jedis jedis = jedisPool.getResource()){
             CharacterDAO characterDAO = new CharacterDAO(jedis, nameSpace);
-            new WorldRunnerInstance().runWorld(characterDAO, houseDAO, victoryPoints, manPower, weaponsFactory, vehicleFactory, nextRespawnTime, messageRepository, gameStatusDAO, playerUsageDAO, gameRequestDAO, gameName, clientObserverMap);
+            return new WorldRunnerInstance().runWorld(characterDAO, houseDAO, victoryPoints, manPower, weaponsFactory, vehicleFactory, nextRespawnTime, messageRepository, gameStatusDAO, playerUsageDAO, gameRequestDAO, gameName, clientObserverMap);
         }catch(Throwable e){
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 }

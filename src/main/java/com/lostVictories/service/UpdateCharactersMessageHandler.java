@@ -72,7 +72,10 @@ public class UpdateCharactersMessageHandler {
 
         if(serverVersion.isAvailableForUpdate(clientID, sentFromClient, CHECKOUT_TIMEOUT)){
             serverVersion.updateState(sentFromClient, clientID, System.currentTimeMillis());
-            serverVersion = characterDAO.updateCharacterState(serverVersion);
+            CharacterMessage characterMessage = characterDAO.updateCharacterState(serverVersion);
+            if(characterMessage!=null) {
+                serverVersion = characterMessage;
+            }
         }
 
         CharacterMessage storedAvatar = characterDAO.getCharacter(uuid(msg.getAvatar()));

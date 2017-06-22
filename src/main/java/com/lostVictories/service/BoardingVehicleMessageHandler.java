@@ -53,9 +53,9 @@ public class BoardingVehicleMessageHandler {
         }
         if(vehicle.getPassengers().contains(characterID)){
             if(passenger.getId().equals(clientId)){
-                log.debug("passenger:"+passenger.getId()+" is is already onboard vehicle");
+                messageRepository.addMessage(clientId, "Avatar already onboard vehicle.");
             }
-            messageRepository.addMessage(clientId, "Avatar already onboard vehicle.");
+            log.debug("passenger:"+passenger.getId()+" is is already onboard vehicle");
             return;
         }
 

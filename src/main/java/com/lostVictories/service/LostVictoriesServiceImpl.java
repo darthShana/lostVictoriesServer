@@ -108,7 +108,7 @@ public class LostVictoriesServiceImpl extends LostVictoriesServerGrpc.LostVictor
         lostVictoriesSerice.disembarkPassengers(request, responseObserver);
     }
 
-    public void runWorld(Map<Country, Integer> victoryPoints, Map<Country, Integer> manPower, Map<Country, WeaponsFactory> weaponsFactory, Map<Country, VehicleFactory> vehicleFactory, Map<Country, Integer> nextRespawnTime, String gameName) {
-        lostVictoriesSerice.runWorld(victoryPoints, manPower, weaponsFactory, vehicleFactory, nextRespawnTime, gameName, clientObserverSet);
+    public Map<Country, Integer> runWorld(Map<Country, Integer> victoryPoints, Map<Country, Integer> manPower, Map<Country, WeaponsFactory> weaponsFactory, Map<Country, VehicleFactory> vehicleFactory, Map<Country, Integer> nextRespawnTime, String gameName) {
+        return lostVictoriesSerice.runWorld(victoryPoints, manPower, weaponsFactory, vehicleFactory, nextRespawnTime, gameName, clientObserverSet);
     }
 }
