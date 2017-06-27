@@ -75,7 +75,7 @@ public class HouseMessage implements Serializable{
 	                .field("location", new GeoPoint(toLatitute(getLocation()), toLongitude(getLocation())))
 	                .field("altitude", getLocation().y)
 	                .field("rotation", rotation.toMap())
-	                .field("owner", getOwner())
+	                .field("owner", owner)
 	                .field("contestingOwner", contestingOwner)
 	                .field("captureStatus", getStatus())
 	                .field("statusChangeTime", getStatusChangeTime())	                

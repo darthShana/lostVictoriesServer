@@ -3,6 +3,7 @@ package com.jme3.lostVictories.objectives;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
+import java.awt.*;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -37,6 +38,7 @@ public class SecureSectorTest {
 	private HouseMessage house1;
 	private HouseMessage house2;
 	private HouseMessage house3;
+	private HouseMessage house4;
 
 
 	@Before
@@ -46,13 +48,16 @@ public class SecureSectorTest {
 		house1 = new HouseMessage("type2", new Vector(100, 1, 100), new Quaternion(1, 1, 1, 1));
 		house2 = new HouseMessage("type2", new Vector(110, 1, 100), new Quaternion(1, 1, 1, 1));
 		house3 = new HouseMessage("type2", new Vector(120, 1, 100), new Quaternion(1, 1, 1, 1));
+		house4 = new HouseMessage("type2", new Vector(120, 1, 110), new Quaternion(1, 1, 1, 1));
 		houses.add(house1);
 		houses.add(house2);
 		houses.add(house3);
+		houses.add(house4);
 		when(houseDAO.getHouse(eq(house1.getId()))).thenReturn(house1);
 		when(houseDAO.getHouse(eq(house2.getId()))).thenReturn(house2);
 		when(houseDAO.getHouse(eq(house3.getId()))).thenReturn(house3);
-		
+		when(houseDAO.getHouse(eq(house4.getId()))).thenReturn(house4);
+
 		oldCo = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.LIEUTENANT, null);
 		unit1 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(111, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, oldCo.getId());
 		unit2 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(121, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, oldCo.getId());
@@ -63,7 +68,7 @@ public class SecureSectorTest {
 		when(characterDAO.getCharacter(eq(unit1.getId()))).thenReturn(unit1);
 		when(characterDAO.getCharacter(eq(unit2.getId()))).thenReturn(unit2);
 		
-		toSave = new HashMap<UUID, CharacterMessage>();
+		toSave = new HashMap<>();
 		kills = new HashMap<>();
 	}
 	
@@ -111,6 +116,18 @@ public class SecureSectorTest {
 		assertFalse(order3.structure.equals(order1.structure));
 		assertFalse(order3.structure.equals(order2.structure));
 	}
+
+	@Test
+    public void testCaptureHousesWhenEnterSectorBoundary(){
+        SecureSector objective = new SecureSector(houses, 3, 1, new Vector(100, 0, 100));
+        assertEquals(new Rectangle(100, 100, 20, 10), objective.boundary);
+        objective.state = SecureSectorState.DEPLOY_TO_SECTOR;
+        objective.runObjective(oldCo, UUID.randomUUID().toString(), characterDAO, houseDAO, toSave, kills);
+
+        oldCo.setLocation(new Vector(110, 0, 100));
+        objective.runObjective(oldCo, UUID.randomUUID().toString(), characterDAO, houseDAO, toSave, kills);
+        assertEquals(SecureSectorState.CAPTURE_HOUSES, objective.state);
+    }
 	
 	@Test
     public void testWaitsForNorminalStrengthBeforeDeployment(){

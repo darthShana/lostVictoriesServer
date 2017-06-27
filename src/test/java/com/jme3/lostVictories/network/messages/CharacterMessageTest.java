@@ -38,7 +38,7 @@ public class CharacterMessageTest {
 		oldCo = new CharacterMessage(UUID.randomUUID(), CharacterType.AVATAR, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, null);
 		vehicle = new CharacterMessage(UUID.randomUUID(), CharacterType.ANTI_TANK_GUN, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.PRIVATE, oldCo.getId());
 		avatar = new CharacterMessage(UUID.randomUUID(), CharacterType.AVATAR, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, null);
-		oldPassenger = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, null);
+		oldPassenger = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.PRIVATE, oldCo.getId());
 		myUnit = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.PRIVATE, avatar.getId());
 
 		characterDAO = mock(CharacterDAO.class);
@@ -89,11 +89,9 @@ public class CharacterMessageTest {
 	
 	@Test
 	public void testNonAvatarBoardVehicle(){
-		vehicle.passengers.add(oldPassenger.id);
-		myUnit.boardVehicle(vehicle, characterDAO, new HashMap<UUID, CharacterMessage>());
-		assertTrue(vehicle.passengers.contains(myUnit.id));
-		assertFalse(vehicle.passengers.contains(oldPassenger.id));
-		assertEquals(vehicle.getCommandingOfficer(), avatar.getId());
+		oldPassenger.boardVehicle(vehicle, characterDAO, new HashMap<UUID, CharacterMessage>());
+		assertTrue(vehicle.passengers.contains(oldPassenger.id));
+		assertEquals(vehicle.getCommandingOfficer(), oldCo.getId());
 		assertFalse(vehicle.isAbandoned());
 	}
 	
@@ -151,7 +149,21 @@ public class CharacterMessageTest {
 		assertEquals(Country.AMERICAN, vehicle2.getCountry());
 		assertFalse(vehicle2.passengers.contains(avatar.id));
 	}
-	
+
+	@Test
+	public void testCantBoardVehicleWithGunnerOFDiffCO(){
+		CharacterMessage vehicle2 = new CharacterMessage(UUID.randomUUID(), CharacterType.ANTI_TANK_GUN, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.PRIVATE, avatar.getId());
+		vehicle2.passengers.add(avatar.id);
+
+		CharacterMessage otherUnit = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.PRIVATE, oldCo.getId());
+
+		otherUnit.boardVehicle(vehicle2, characterDAO, new HashMap<UUID, CharacterMessage>());
+		assertEquals(avatar.id, vehicle2.getCommandingOfficer());
+		assertEquals(1, vehicle2.passengers.size());
+		assertTrue(vehicle2.passengers.contains(avatar.id));
+
+	}
+
 	@Test
 	public void testCanBoardAbandonedVehicleOFDiffCountry(){
 		CharacterMessage vehicle2 = new CharacterMessage(UUID.randomUUID(), CharacterType.ANTI_TANK_GUN, new Vector(0, 0, 0), Country.AMERICAN, Weapon.RIFLE, RankMessage.PRIVATE, oldCo.getId());

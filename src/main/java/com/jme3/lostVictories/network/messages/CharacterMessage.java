@@ -823,6 +823,9 @@ public class CharacterMessage implements Serializable{
 			if(!vehicle.isAbandoned() && vehicle.getCountry()!=country){
 				return;
 			}
+			if(vehicle.passengers.stream().map(p->characterDAO.getCharacter(p)).anyMatch(p->p.getCharacterType()==CharacterType.AVATAR)){
+				return;
+			}
 			vehicle.disembarkPassengers(characterDAO, false).forEach(c->toSave.put(c.id, c));
 			CharacterMessage oldCo = characterDAO.getCharacter(vehicle.commandingOfficer);
 			vehicle.commandingOfficer = co.id;

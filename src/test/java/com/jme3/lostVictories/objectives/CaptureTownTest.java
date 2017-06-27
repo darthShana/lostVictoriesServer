@@ -93,7 +93,7 @@ public class CaptureTownTest {
         exc.add(gameSector1);
 
         GameSector gameSector2 = captureTown.findClosestUnsecuredGameSector(oldCo, calculateGameSector, exc);
-        assertTrue(gameSector1.containsPoint(new Vector(-309.96945f,97.07101f,-201.0857f)));
+        assertTrue(gameSector2.containsPoint(new Vector(139.33589f,96.62015f,31.722858f)));
 
 
     }

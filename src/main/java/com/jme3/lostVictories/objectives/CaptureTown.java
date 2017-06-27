@@ -55,7 +55,7 @@ public class CaptureTown extends Objective {
 				}
 				exclude.add(toSecure);
 				log.info(c.getCountry()+": assigning new sector:"+toSecure.rects.iterator().next()+" houses:"+toSecure.houses.size());
-				SecureSector i = new SecureSector(toSecure.getHouses(), 10, 5, c.getLocation());
+				SecureSector i = new SecureSector(toSecure.getHouses(), 8, 5, c.getLocation());
 				try {
 					unit.addObjective(UUID.randomUUID(), i);
 					toSave.put(unit.getId(), unit);
@@ -74,8 +74,8 @@ public class CaptureTown extends Objective {
         GameSector closest = null;
         for(GameSector gameSector:gameSectors){
             if(gameSector.isUnsecured(character.getCountry())){
-                if(!exclude.contains(gameSector) && 
-                		(closest==null || closest.location().distance(character.getLocation().toVector())/closest.getHouses().size()>gameSector.location().distance(character.getLocation().toVector())/gameSector.getHouses().size())){
+                if(!exclude.contains(gameSector) &&
+                		(closest==null || weightedDistance(character, closest) > weightedDistance(character, gameSector))){
                     closest = gameSector;
                 }
             }
@@ -83,7 +83,11 @@ public class CaptureTown extends Objective {
         
         return closest;
     }
-	
+
+	private float weightedDistance(CharacterMessage character, GameSector closest) {
+		return closest.location().distance(character.getLocation().toVector())/closest.getHouses().size();
+	}
+
 	Set<GameSector> calculateGameSectors(HouseDAO houseDAO) {
         Set<GameSector> remaining = new HashSet<GameSector>();
         

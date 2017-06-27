@@ -1,5 +1,6 @@
 package com.jme3.lostVictories.objectives;
 
+import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -63,6 +64,9 @@ public enum SecureSectorState {
 			if(objective.issuedOrders.get(c.getId()).isComplete){
 				return CAPTURE_HOUSES;
 			}
+			if(objective.boundary.contains(new Point2D.Float(c.getLocation().x, c.getLocation().z))){
+                return CAPTURE_HOUSES;
+            }
 			return DEPLOY_TO_SECTOR;
 		}
 	}, 

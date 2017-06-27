@@ -96,7 +96,6 @@ public class CharacterDAO {
                 throw e;
             }
 		}else{
-			log.info("unknown character id:"+id);
 			return null;
 		}
 
@@ -165,7 +164,7 @@ public class CharacterDAO {
 	}
 
 	public Map<UUID, CharacterMessage> getAllCharacters(Set<UUID> ids) {
-		return ids.stream().map(id->getCharacter(id, false)).collect(Collectors.toMap(c->c.getId(), Function.identity()));
+		return ids.stream().map(id->getCharacter(id, false)).filter(c->c!=null).collect(Collectors.toMap(c->c.getId(), Function.identity()));
 	}
 
 	public Set<CharacterMessage> getAllCharacters() {
