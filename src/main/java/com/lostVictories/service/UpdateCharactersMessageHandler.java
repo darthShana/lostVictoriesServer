@@ -80,7 +80,8 @@ public class UpdateCharactersMessageHandler {
 
         CharacterMessage storedAvatar = characterDAO.getCharacter(uuid(msg.getAvatar()));
         Vector v = storedAvatar.getLocation();
-        Map<UUID, CharacterMessage> inRange = characterDAO.getAllCharacters(v.x, v.y, v.z, CheckoutScreenMessageHandler.CLIENT_RANGE).stream().collect(Collectors.toMap(c->c.getId(), Function.identity()));
+        Map<UUID, CharacterMessage> inRange = characterDAO.getAllCharacters(v.x, v.y, v.z, CheckoutScreenMessageHandler.CLIENT_RANGE).stream()
+                .collect(Collectors.toMap(c->c.getId(), Function.identity()));
 
         if(inRange.containsKey(serverVersion.getId())) {
             responseObserver.onNext(mp.toMessage(serverVersion));
@@ -95,13 +96,17 @@ public class UpdateCharactersMessageHandler {
                     e.onNext(mp.toMessage(toSend));
                 });
 
-        if(msg.getClientStartTime()>5000) {
-            inRange.values().stream().filter(cc -> cc.isAvailableForCheckout(5000)).forEach(c -> responseObserver.onNext(mp.toMessage(c)));
+        if(msg.getClientStartTime()>5000 && characterId.equals(uuid(msg.getAvatar()))) {
+            inRange.values().stream()
+                    .filter(cc -> cc.isAvailableForCheckout(5000))
+                    .filter(c->!c.isDead())
+                    .forEach(c -> responseObserver.onNext(mp.toMessage(c)));
         }
 
         if(!serverVersion.isDead()) {
             characterDAO.getAllCharacters(serverVersion.getUnitsUnderCommand()).values().stream()
-                    .filter(u -> u != null && !inRange.containsKey(u.getId())).forEach(r -> responseObserver.onNext(mp.toMessage(r, true)));
+                    .filter(u -> u != null && !inRange.containsKey(u.getId()))
+                    .forEach(r -> responseObserver.onNext(mp.toMessage(r, true)));
             if(serverVersion.getCommandingOfficer()!=null){
                 CharacterMessage commandingOfficer = characterDAO.getCharacter(serverVersion.getCommandingOfficer());
                 if(commandingOfficer!=null && !inRange.containsKey(commandingOfficer.getId())){

@@ -1,23 +1,13 @@
 package lostVictories.service;
 
 import com.jme3.lostVictories.network.messages.CharacterMessage;
-import com.jme3.lostVictories.network.messages.Country;
 import com.jme3.lostVictories.network.messages.LostVictoryScene;
-import com.jme3.lostVictories.network.messages.wrapper.*;
-import lostVictories.CharacterRunner;
-import lostVictories.VehicleFactory;
-import lostVictories.WeaponsFactory;
 import lostVictories.WorldRunner;
 import lostVictories.dao.*;
 import lostVictories.messageHanders.*;
 import org.apache.log4j.Logger;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
-
-import java.io.IOException;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
 
 /**
  * Created by dharshanar on 6/05/17.
@@ -66,7 +56,7 @@ public class LostVictoryService {
     public void doRunCharacters(CharacterMessage characterMessage) {
         try (Jedis jedis = jedisPool.getResource()){
             CharacterDAO characterDAO = new CharacterDAO(jedis, nameSpace);
-            new CharacterRunnerInstance().doRunCharacters(characterMessage, characterDAO, houseDAO, playerUsageDAO);
+            new CharacterRunnerInstance().doRunCharacter(characterMessage, characterDAO, houseDAO, playerUsageDAO);
         }catch(Throwable e){
             e.printStackTrace();
         }

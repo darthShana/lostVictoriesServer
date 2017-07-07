@@ -29,7 +29,7 @@ public class CharacterRunnerInstance {
     private static Logger log = Logger.getLogger(CharacterRunnerInstance.class);
 
 
-    public void doRunCharacters(CharacterMessage _character, CharacterDAO characterDAO, HouseDAO houseDAO, PlayerUsageDAO playerUsageDAO) {
+    public void doRunCharacter(CharacterMessage _character, CharacterDAO characterDAO, HouseDAO houseDAO, PlayerUsageDAO playerUsageDAO) {
         Map<UUID, CharacterMessage> toSave = new HashMap<UUID, CharacterMessage>();
         Map<UUID, UUID> kills = new HashMap<>();
 
