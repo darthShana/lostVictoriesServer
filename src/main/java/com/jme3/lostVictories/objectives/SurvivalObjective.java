@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jme3.lostVictories.network.messages.CharacterMessage;
 import com.jme3.lostVictories.network.messages.Vector;
 
-public class SurvivalObjective extends Objective {
+public class SurvivalObjective extends Objective implements PassiveObjective{
 
 	@JsonIgnore
 	private static Logger log = Logger.getLogger(SurvivalObjective.class);

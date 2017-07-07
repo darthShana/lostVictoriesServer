@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.JavaType;
+import com.jme3.lostVictories.objectives.*;
 import lostVictories.VehicleFactory;
 import lostVictories.WeaponsFactory;
 import lostVictories.dao.CharacterDAO;
@@ -39,9 +40,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.jme3.lostVictories.network.messages.actions.Action;
-import com.jme3.lostVictories.objectives.FollowCommander;
-import com.jme3.lostVictories.objectives.Objective;
-import com.jme3.lostVictories.objectives.PassiveObjective;
 import redis.clients.jedis.GeoCoordinate;
 
 public class CharacterMessage implements Serializable{
@@ -92,7 +90,16 @@ public class CharacterMessage implements Serializable{
 		if(commandingOfficer!=null){
 			this.commandingOfficer = commandingOfficer;
 		}
-	}
+        try {
+            if(rank == RankMessage.CADET_CORPORAL){
+                addObjective(UUID.randomUUID(), new CollectUnusedEquipment());
+            }
+            addObjective(UUID.randomUUID(), new SurvivalObjective());
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
 
 	public CharacterMessage(Map<String, String> source, GeoCoordinate geoCoordinate) throws IOException {
 		this.id = UUID.fromString(source.get("id"));
@@ -153,75 +160,7 @@ public class CharacterMessage implements Serializable{
 		this.location = latLongToVector(altitude, (float) geoCoordinate.getLongitude(), (float) geoCoordinate.getLatitude());
 	}
 
-	public CharacterMessage(UUID id, long version, Map<String, Object> source) {
-		this.id = id;
-		HashMap<String, Double> location =  (HashMap<String, Double>) source.get("location");
-		HashMap<String, Double> ori =  (HashMap<String, Double>) source.get("orientation");
-		float altitude = ((Double)source.get("altitude")).floatValue();
-		this.type = CharacterType.valueOf((String) source.get("type"));
-		if(source.get("squadType")!=null){
-			this.squadType = SquadType.valueOf((String) source.get("squadType"));
-		}
-		this.location = latLongToVector(altitude, location.get("lon").floatValue(), location.get("lat").floatValue());
-		this.country = Country.valueOf((String)source.get("country"));
-		this.weapon = Weapon.valueOf((String) source.get("weapon"));
-		this.rank = RankMessage.valueOf((String) source.get("rank"));
 
-		try{
-			String o = (String)source.get("objectives");
-			if(!"[{}]".equals(o)){
-				this.objectives = CharacterDAO.MAPPER.readValue(o, new TypeReference<Map<String, String>>() {});
-			}
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-		try {
-			String a = (String)source.get("actions");
-			if(!"[]".equals(a)){
-				this.actions = CharacterDAO.MAPPER.readValue(a, new TypeReference<Set<Action>>() {});
-			}
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-
-		try{
-			this.orientation = new Vector(ori.get("x").floatValue(), ori.get("y").floatValue(), ori.get("z").floatValue());
-		}catch(Exception e){
-			this.orientation = new Vector(0, 0, 1);
-		}
-
-		Function<Object, UUID> toUUIDifPresent = new Function<Object, UUID>() {
-			@Override
-			public UUID apply(Object t) {
-				String s = (String)t;
-				if(StringUtils.isNotBlank(s)){
-					return UUID.fromString(s);
-				}
-				return null;
-			}
-		};
-
-		this.commandingOfficer = toUUIDifPresent.apply(source.get("commandingOfficer"));
-		this.userID = toUUIDifPresent.apply(source.get("userID"));
-		this.boardedVehicle = toUUIDifPresent.apply(source.get("boardedVehicle"));
-
-		String cc = (String) source.get("checkoutClient");
-		if(cc!=null && !cc.isEmpty()){
-			this.checkoutClient = UUID.fromString(cc);
-			this.checkoutTime = (Long) source.get("checkoutTime");
-		}
-		this.timeOfDeath = (Long) source.get("timeOfDeath");
-
-		unitsUnderCommand = ((Collection<String>)source.get("unitsUnderCommand")).stream().map(s -> UUID.fromString(s)).collect(Collectors.toSet());
-		passengers = ((Collection<String>)source.get("passengers")).stream().map(s -> UUID.fromString(s)).collect(Collectors.toSet());
-		dead = (boolean) source.get("isDead");
-		engineDamaged = (boolean) source.get("engineDamaged");
-		if(dead){
-			this.checkoutTime = (Long) source.get("checkoutTime");
-		}
-		this.version = version;
-		this.kills = ((Collection<String>)source.get("kills")).stream().map(s -> UUID.fromString(s)).collect(Collectors.toSet());
-	}
 
 
 	public Vector getLocation() {
