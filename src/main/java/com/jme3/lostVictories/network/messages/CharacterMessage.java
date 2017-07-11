@@ -362,7 +362,7 @@ public class CharacterMessage implements Serializable{
 		orientation = new Vector(other.getOrientation());
 		actions = other.getActionsList().stream().map(action -> Action.fromMessage(action)).collect(Collectors.toSet());
 
-		other.getObjectivesMap().entrySet().stream().forEach(e->objectives.putIfAbsent(e.getKey(), e.getValue()));
+		other.getObjectivesMap().entrySet().stream().forEach(e->objectives.put(e.getKey(), e.getValue()));
 		Set<String> completed = other.getCompletedObjectivesList().stream().map(co->uuid(co).toString()).collect(Collectors.toSet());
 		objectives = objectives.entrySet().stream().filter(e->!completed.contains(e.getKey())).collect(Collectors.toMap(e->e.getKey(), e->e.getValue()));
 

@@ -99,7 +99,6 @@ public class UpdateCharactersMessageHandler {
         if(msg.getClientStartTime()>5000 && characterId.equals(uuid(msg.getAvatar()))) {
             inRange.values().stream()
                     .filter(cc -> cc.isAvailableForCheckout(5000))
-                    .filter(c->!c.isDead())
                     .forEach(c -> responseObserver.onNext(mp.toMessage(c)));
         }
 
