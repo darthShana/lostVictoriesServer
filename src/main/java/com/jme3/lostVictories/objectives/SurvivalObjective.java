@@ -23,9 +23,14 @@ public class SurvivalObjective extends Objective implements PassiveObjective{
 	@Override
 	public void runObjective(CharacterMessage c, String uuid, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave, Map<UUID, UUID> kills) {
 		Vector v = c.getLocation();
-		Optional<CharacterMessage> victim = characterDAO.getAllCharacters(v.x, v.y, v.z, 15).stream().filter(other->other.getCountry()!=c.getCountry()).findAny();
+		Optional<CharacterMessage> victim = characterDAO.getAllCharacters(v.x, v.y, v.z, 5).stream()
+                .filter(other->!other.isDead())
+                .filter(other->other.getCountry()!=c.getCountry()).findAny();
 
-		if(victim.isPresent()){
+//		what is the victim is a vehicle..
+//		what if the person is inside a vehicle
+		if(victim.isPresent() && Math.random()>.5){
+			System.out.println(c.getCountry()+":"+c.getId()+" at loc:"+c.getLocation()+" checkout:"+c.getCheckoutClient()+" killed:"+victim.get().getId()+" at loc:"+victim.get().getLocation());
 			kills.put(c.getId(), victim.get().getId());
 		}
 

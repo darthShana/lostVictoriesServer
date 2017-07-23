@@ -318,7 +318,7 @@ public class CharacterMessage implements Serializable{
 		if(msg.getVersion()<version){
 			return false;
 		}
-		if(dead){
+		if(dead || msg.getDead()){
 		    return false;
         }
 		return this.id.equals(clientID) || this.checkoutClient==null || clientID.equals(this.checkoutClient) || checkoutTime==null ||System.currentTimeMillis()-checkoutTime>duration;
@@ -750,7 +750,7 @@ public class CharacterMessage implements Serializable{
 	}
 
 	public void boardVehicle(CharacterMessage vehicle, CharacterDAO characterDAO, Map<UUID, CharacterMessage> toSave) {
-		log.debug("now boarding pasenger:"+id+", "+isAbandoned());
+		log.debug("now boarding pasenger:"+id+", "+vehicle.isAbandoned());
 
 		CharacterMessage co;
 		if(rank==RankMessage.PRIVATE){
@@ -758,6 +758,7 @@ public class CharacterMessage implements Serializable{
 		}else{
 			co = this;
 		}
+
 		if(vehicle.commandingOfficer!=null && !vehicle.commandingOfficer.equals(co.id)){
 			if(!vehicle.isAbandoned() && vehicle.getCountry()!=country){
 				return;

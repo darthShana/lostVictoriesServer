@@ -36,7 +36,7 @@ public class DeathNotificationMessageHandler {
         if(victim==null || victim.isDead()){
             return;
         }
-        log.info("received death notification:"+victim.getId());
+        log.info("received death notification:"+victim.getId()+" loc:"+victim.getLocation());
 
         CharacterMessage killer = catche.getCharacter(uuid(request.getKiller()));
         victim.kill();

@@ -46,8 +46,9 @@ public class NavigateObjective extends Objective implements CleanupBeforeTransmi
 			isComplete = true;
 			return;
 		}
-		
-		if(!path.isEmpty() && currentLocation.distance(path.get(0).toVector())<1){
+
+		Vector3f nextWaypoint = path.get(0).toVector();
+		if(!path.isEmpty() && currentLocation.distance(nextWaypoint)<1){
 			path.remove(0);
 		}
 		if(path.isEmpty()){
@@ -55,12 +56,13 @@ public class NavigateObjective extends Objective implements CleanupBeforeTransmi
 			return;
 		}
 				
-		Vector3f newLocation = currentLocation.add(path.get(0).toVector().subtract(currentLocation).normalize().mult(10*SCENE_SCALE));
-		if(currentLocation.distance(newLocation)>currentLocation.distance(path.get(0).toVector())){
-			newLocation = path.get(0).toVector();
+		Vector3f newLocation = currentLocation.add(nextWaypoint.subtract(currentLocation).normalize().mult(20*SCENE_SCALE));
+		if(currentLocation.distance(newLocation)>currentLocation.distance(nextWaypoint)){
+			newLocation = nextWaypoint;
 		}
 		final Vector vector = new Vector(newLocation);
 		character.setLocation(vector);
+		character.setOrientation(new Vector(nextWaypoint.subtract(currentLocation).normalize()));
 		
 		Set<CharacterMessage> collect = character.getPassengers().stream().map(id->characterDAO.getCharacter(id)).filter(cc->cc!=null).collect(Collectors.toSet());
 		collect.forEach(passenger->passenger.setLocation(vector));

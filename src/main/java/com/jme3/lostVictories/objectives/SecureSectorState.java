@@ -101,7 +101,7 @@ public enum SecureSectorState {
 					HouseMessage house = findClosestHouse(unit, objective.houses.stream().map(h->houseDAO.getHouse(h)).collect(Collectors.toSet()), houseToCapture);
 					if(house!=null){
 						try {
-							System.out.println(unit.getId()+"CaptureStructure:"+house.getId().toString());
+							System.out.println(unit.getId()+"CaptureStructure:"+house.getId().toString()+" sector:"+objective.centre);
 
 							CaptureStructure captureStructure = new CaptureStructure(house.getId().toString());
 							unit.addObjective(UUID.randomUUID(), captureStructure);

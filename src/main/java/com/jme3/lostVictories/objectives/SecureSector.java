@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import com.jme3.lostVictories.network.messages.Country;
 import org.apache.log4j.Logger;
 
 import lostVictories.dao.CharacterDAO;
@@ -70,7 +71,8 @@ public class SecureSector extends Objective implements CleanupBeforeTransmitting
 
     @Override
 	public void runObjective(CharacterMessage c, String uuid, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave, Map<UUID, UUID> kills) {
-	    if(boundary == null){
+
+		if(boundary == null){
 	        calculateBoundry(houses.stream().map(h->houseDAO.getHouse(h)).collect(Collectors.toSet()));
         }
 		state.runObjective(c, uuid, this, characterDAO, houseDAO, toSave, kills);
