@@ -3,12 +3,14 @@ package lostVictories.dao;
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.UUID;
 
 import org.apache.log4j.Logger;
 import org.elasticsearch.ElasticsearchException;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
+import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHits;
 
@@ -37,14 +39,46 @@ public class GameRequestDAO {
 		}
 		return null;
 	}
-	
-	public void updateGameeRequest(UUID requestID, String status) throws ElasticsearchException, IOException{
-		log.debug("updateing game request:"+requestID);
-		esClient.prepareUpdate(indexName, "game_request", requestID.toString())
-        .setDoc(jsonBuilder()               
-            .startObject()
-                .field("status", status)
-            .endObject())
-        .get();
-	}
+
+    public void updateGameStatus(UUID requestID, String gameID, String gameName, int gamePort, String... indexes) throws IOException {
+        XContentBuilder gameDetails = jsonBuilder()
+                .startObject()
+                .field("name", gameName)
+                .field("host", "connect.lostvictories.com")
+                .field("port", gamePort)
+                .field("gameID", gameID)
+                .field("indexes", indexes)
+                .field("gameVersion", "pre_alpha")
+                .field("status", "STARTED")
+                .field("startDate", new Date().getTime())
+                .endObject();
+        esClient.prepareIndex(indexName, indexName, requestID.toString())
+                .setSource(gameDetails)
+                .execute()
+                .actionGet();
+    }
+
+    public void recordAmericanVictory(UUID requestID) throws ElasticsearchException, IOException {
+        log.debug("updating game request:"+requestID);
+        esClient.prepareUpdate(indexName, indexName, requestID.toString())
+                .setDoc(jsonBuilder()
+                        .startObject()
+                        .field("victor", "AMERICAN")
+                        .field("endDate", new Date().getTime())
+                        .field("status", "COMPLETED")
+                        .endObject())
+                .get();
+    }
+
+    public void recordGermanVictory(UUID requestID) throws ElasticsearchException, IOException {
+        log.debug("updating game request:"+requestID);
+        esClient.prepareUpdate(indexName, indexName, requestID.toString())
+                .setDoc(jsonBuilder()
+                        .startObject()
+                        .field("victor", "GERMAN")
+                        .field("endDate", new Date().getTime())
+                        .field("status", "COMPLETED")
+                        .endObject())
+                .get();
+    }
 }

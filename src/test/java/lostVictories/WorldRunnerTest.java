@@ -11,7 +11,6 @@ import java.util.UUID;
 
 import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.GameRequestDAO;
-import lostVictories.dao.GameStatusDAO;
 import lostVictories.dao.HouseDAO;
 import lostVictories.dao.PlayerUsageDAO;
 import lostVictories.messageHanders.MessageRepository;
@@ -70,7 +69,6 @@ public class WorldRunnerTest {
         s5.changeOwnership();
         HouseDAO houseDAO = mock(HouseDAO.class);
         CharacterDAO characterDAO = mock(CharacterDAO.class);
-        GameStatusDAO gameStatusDAO = mock(GameStatusDAO.class);
         when(houseDAO.getAllHouses()).thenReturn(ImmutableSet.of(s1, s2, s3, s4, s5));
         when(characterDAO.getAllCharacters()).thenReturn(new HashSet<CharacterMessage>());
         instance = WorldRunner.instance("test34");

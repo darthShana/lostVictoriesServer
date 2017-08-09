@@ -58,13 +58,13 @@ public class LostVictoriesServerGRPC {
     }
 
     public void run() throws IOException, InterruptedException {
+        System.out.println("Starting server......");
 
         Client esClient = getESClient();
         IndicesAdminClient adminClient = esClient.admin().indices();
         HouseDAO houseDAO = new HouseDAO(esClient, houseIndexName);
         TreeDAO treeDAO = new TreeDAO(esClient, treeIndexName);
         EquipmentDAO equipmentDAO = new EquipmentDAO(esClient, equipmentIndexName);
-        GameStatusDAO gameStatusDAO = new GameStatusDAO(esClient, characterIndexName);
         GameRequestDAO gameRequestDAO = new GameRequestDAO(esClient);
         PlayerUsageDAO playerUsageDAO = new PlayerUsageDAO(esClient, gameName);
         MessageRepository messageRepository = new MessageRepository();
@@ -74,16 +74,13 @@ public class LostVictoriesServerGRPC {
         jedisPoolConfig.setMaxTotal(1024);
         jedisPoolConfig.setMinIdle(1024);
         JedisPool jedisPool = new JedisPool(jedisPoolConfig, "localhost" );
-        service = new LostVictoryService(jedisPool, instance, houseDAO, treeDAO, equipmentDAO, gameStatusDAO, gameRequestDAO, playerUsageDAO, messageRepository, worldRunner);
-
+        service = new LostVictoryService(jedisPool, instance, houseDAO, treeDAO, equipmentDAO, gameRequestDAO, playerUsageDAO, messageRepository, worldRunner);
 
 
         boolean existing = createIndices(adminClient, service, houseDAO, treeDAO);
-        if(!existing){
-            gameStatusDAO.createGameStatus(this.instance, gameName, port, characterIndexName, houseIndexName, equipmentIndexName);
-        }
 
-        LostVictoriesServiceImpl grpcService = new LostVictoriesServiceImpl(jedisPool, instance, houseDAO, treeDAO, equipmentDAO, gameStatusDAO, gameRequestDAO, playerUsageDAO, messageRepository, worldRunner);
+
+        LostVictoriesServiceImpl grpcService = new LostVictoriesServiceImpl(jedisPool, instance, houseDAO, treeDAO, equipmentDAO, gameRequestDAO, playerUsageDAO, messageRepository, worldRunner);
         Server server = ServerBuilder.forPort(port)
                 .addService(grpcService)
                 .build();
@@ -95,19 +92,20 @@ public class LostVictoriesServerGRPC {
         worldRunnerService.scheduleAtFixedRate(characterRunner, 0, 2, TimeUnit.SECONDS);
 
 
-        System.out.println("Starting server......");
         server.start();
 
         UUID gameRequest = null;
         try{
             gameRequest = gameRequestDAO.getGameRequest(gameName);
-            log.info("starting game request:"+gameRequest+"for game:"+gameName);
+            log.info("starting game request:"+gameRequest+" for game:"+gameName);
         }catch(Exception e){
             log.info("cant find game request for :"+gameName);
         }
 
         if(gameRequest!=null){
-            gameRequestDAO.updateGameeRequest(gameRequest, "STARTED");
+            if(!existing){
+                gameRequestDAO.updateGameStatus(gameRequest, this.instance, gameName, port, characterIndexName, houseIndexName, equipmentIndexName);
+            }
         }
         log.info("Listening on "+port);
         System.out.println("Server started......");

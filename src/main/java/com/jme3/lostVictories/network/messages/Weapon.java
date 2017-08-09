@@ -21,6 +21,9 @@ public enum Weapon {
 		public boolean isReusable() {
 			return false;
 		}
+	}, BAZOOKA {
+		@Override
+		public boolean isReusable() { return true; }
 	};
 
 	public abstract boolean isReusable();

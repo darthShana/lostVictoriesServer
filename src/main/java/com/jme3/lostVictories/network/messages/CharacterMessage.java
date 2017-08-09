@@ -441,7 +441,7 @@ public class CharacterMessage implements Serializable{
 		log.debug("creating reenforcement:"+loadCharacter.getId());
 		unitsUnderCommand.add(loadCharacter.getId());
 
-		if(CharacterType.ANTI_TANK_GUN==loadCharacter.type || CharacterType.ARMORED_CAR==loadCharacter.type || CharacterType.HALF_TRACK==loadCharacter.type){
+		if(loadCharacter.type.requiresOperator()){
 			CharacterMessage passenger = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, spawnPoint, country, Weapon.RIFLE, RankMessage.PRIVATE, id);
 			unitsUnderCommand.add(passenger.getId());
 			loadCharacter.passengers.add(passenger.id);

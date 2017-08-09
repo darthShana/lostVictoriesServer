@@ -26,7 +26,7 @@ public class WorldRunnerInstance {
     MessageMapper mp = new MessageMapper();
 
 
-    public Map<Country, Integer> runWorld(CharacterDAO characterDAO, HouseDAO houseDAO, Map<Country, Integer> victoryPoints, Map<Country, Integer> manPower, Map<Country, WeaponsFactory> weaponsFactory, Map<Country, VehicleFactory> vehicleFactory, Map<Country, Integer> nextRespawnTime, MessageRepository messageRepository, GameStatusDAO gameStatusDAO, PlayerUsageDAO playerUsageDAO, GameRequestDAO gameRequestDAO, String gameName, Set<SafeStreamObserver> clientObserverMap) throws IOException {
+    public Map<Country, Integer> runWorld(CharacterDAO characterDAO, HouseDAO houseDAO, Map<Country, Integer> victoryPoints, Map<Country, Integer> manPower, Map<Country, WeaponsFactory> weaponsFactory, Map<Country, VehicleFactory> vehicleFactory, Map<Country, Integer> nextRespawnTime, MessageRepository messageRepository, PlayerUsageDAO playerUsageDAO, GameRequestDAO gameRequestDAO, String gameName, Set<SafeStreamObserver> clientObserverMap) throws IOException {
             Set<HouseMessage> allHouses = houseDAO.getAllHouses();
             Set<HouseMessage> dchanged = allHouses.stream().filter(h->h.checkOwnership(characterDAO)).collect(Collectors.toSet());
             houseDAO.save(dchanged);
@@ -132,17 +132,18 @@ public class WorldRunnerInstance {
             log.trace("german vp:"+victoryPoints.get(Country.GERMAN));
             log.trace("american vp:"+victoryPoints.get(Country.AMERICAN));
             if(victoryPoints.get(Country.GERMAN)<=0){
-                gameStatusDAO.recordAmericanVictory();
                 playerUsageDAO.endAllGameSessions(System.currentTimeMillis());
                 UUID gameRequest = gameRequestDAO.getGameRequest(gameName);
-                gameRequestDAO.updateGameeRequest(gameRequest, "COMPLETED");
-
+                if(gameRequest!=null) {
+                    gameRequestDAO.recordAmericanVictory(gameRequest);
+                }
             }
             if(victoryPoints.get(Country.AMERICAN)<=0){
-                gameStatusDAO.recordGermanVictory();
                 playerUsageDAO.endAllGameSessions(System.currentTimeMillis());
                 UUID gameRequest = gameRequestDAO.getGameRequest(gameName);
-                gameRequestDAO.updateGameeRequest(gameRequest, "COMPLETED");
+                if(gameRequest!=null) {
+                    gameRequestDAO.recordGermanVictory(gameRequest);
+                }
             }
             return structureOwnership;
 

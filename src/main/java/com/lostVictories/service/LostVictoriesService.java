@@ -35,19 +35,17 @@ public class LostVictoriesService {
     private final HouseDAO houseDAO;
     private final TreeDAO treeDAO;
     private final EquipmentDAO equipmentDAO;
-    private final GameStatusDAO gameStatusDAO;
     private final GameRequestDAO gameRequestDAO;
     private final PlayerUsageDAO playerUsageDAO;
     private final MessageRepository messageRepository;
     private final WorldRunner worldRunner;
 
-    public LostVictoriesService(JedisPool jedisPool, String nameSpace, HouseDAO houseDAO, TreeDAO treeDAO, EquipmentDAO equipmentDAO, GameStatusDAO gameStatusDAO, GameRequestDAO gameRequestDAO, PlayerUsageDAO playerUsageDAO, MessageRepository messageRepository, WorldRunner worldRunner) {
+    public LostVictoriesService(JedisPool jedisPool, String nameSpace, HouseDAO houseDAO, TreeDAO treeDAO, EquipmentDAO equipmentDAO, GameRequestDAO gameRequestDAO, PlayerUsageDAO playerUsageDAO, MessageRepository messageRepository, WorldRunner worldRunner) {
         this.jedisPool = jedisPool;
         this.nameSpace = nameSpace;
         this.houseDAO = houseDAO;
         this.treeDAO = treeDAO;
         this.equipmentDAO = equipmentDAO;
-        this.gameStatusDAO = gameStatusDAO;
         this.gameRequestDAO = gameRequestDAO;
         this.playerUsageDAO = playerUsageDAO;
         this.messageRepository = messageRepository;
@@ -171,7 +169,7 @@ public class LostVictoriesService {
 
         try (Jedis jedis = jedisPool.getResource()){
             CharacterDAO characterDAO = new CharacterDAO(jedis, nameSpace);
-            return new WorldRunnerInstance().runWorld(characterDAO, houseDAO, victoryPoints, manPower, weaponsFactory, vehicleFactory, nextRespawnTime, messageRepository, gameStatusDAO, playerUsageDAO, gameRequestDAO, gameName, clientObserverMap);
+            return new WorldRunnerInstance().runWorld(characterDAO, houseDAO, victoryPoints, manPower, weaponsFactory, vehicleFactory, nextRespawnTime, messageRepository, playerUsageDAO, gameRequestDAO, gameName, clientObserverMap);
         }catch(Throwable e){
             throw new RuntimeException(e);
         }
