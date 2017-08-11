@@ -11,12 +11,12 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Maven: com.jme3:jme3-core:3.0.10" level="project" />
-    <orderEntry type="library" name="Maven: com.jme3:jme3-desktop:3.0.10" level="project" />
-    <orderEntry type="library" name="Maven: com.jme3:jme3-lwjgl:3.0.10" level="project" />
     <orderEntry type="library" name="Maven: com.jme3-lib:lwjgl:2.9.0" level="project" />
     <orderEntry type="library" name="Maven: com.jme3-lib:jinput:2.0.0-b01" level="project" />
     <orderEntry type="library" name="Maven: com.jme3-lib:lwjgl-natives:2.9.0" level="project" />
+    <orderEntry type="library" name="Maven: com.jme3:jme3-core:3.0.10" level="project" />
+    <orderEntry type="library" name="Maven: com.jme3:jme3-desktop:3.0.10" level="project" />
+    <orderEntry type="library" name="Maven: com.jme3:jme3-lwjgl:3.0.10" level="project" />
     <orderEntry type="library" name="Maven: net.sf.sociaal:jME3-ai:0.1.831" level="project" />
     <orderEntry type="library" name="Maven: org.elasticsearch:elasticsearch:1.4.2" level="project" />
     <orderEntry type="library" name="Maven: org.apache.lucene:lucene-core:4.10.2" level="project" />
@@ -42,7 +42,7 @@
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.12" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.hamcrest:hamcrest-core:1.3" level="project" />
     <orderEntry type="library" name="Maven: commons-lang:commons-lang:2.6" level="project" />
-    <orderEntry type="module" module-name="lostVictoriesAPI" />
+    <orderEntry type="library" name="Maven: com.lostVictories:lostVictoriesAPI:1.0-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: io.grpc:grpc-netty:1.3.0" level="project" />
     <orderEntry type="library" name="Maven: io.grpc:grpc-core:1.3.0" level="project" />
     <orderEntry type="library" name="Maven: com.google.errorprone:error_prone_annotations:2.0.19" level="project" />

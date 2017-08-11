@@ -22,6 +22,7 @@ import redis.clients.jedis.JedisPool;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -170,6 +171,22 @@ public class LostVictoriesService {
         try (Jedis jedis = jedisPool.getResource()){
             CharacterDAO characterDAO = new CharacterDAO(jedis, nameSpace);
             return new WorldRunnerInstance().runWorld(characterDAO, houseDAO, victoryPoints, manPower, weaponsFactory, vehicleFactory, nextRespawnTime, messageRepository, playerUsageDAO, gameRequestDAO, gameName, clientObserverMap);
+        }catch(Throwable e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void getPlayerDetails(PlayerDetails request, StreamObserver<PlayerDetails> responseObserver) {
+        try (Jedis jedis = jedisPool.getResource()){
+            CharacterDAO characterDAO = new CharacterDAO(jedis, nameSpace);
+            Optional<com.jme3.lostVictories.network.messages.CharacterMessage> characterWithUserID = characterDAO.getCharacterWithUserID(UUID.fromString(request.getPlayerID()));
+            if(characterWithUserID.isPresent()){
+                responseObserver.onNext(PlayerDetails.newBuilder()
+                        .setPlayerID(characterWithUserID.get().getUserID().toString())
+                        .setCharacterID(characterWithUserID.get().getId().toString())
+                        .setCountry(Country.valueOf(characterWithUserID.get().getCountry().name()))
+                        .build());
+            }
         }catch(Throwable e){
             throw new RuntimeException(e);
         }

@@ -1,8 +1,6 @@
 package lostVictories.dao;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
-import static org.elasticsearch.index.query.FilterBuilders.geoBoundingBoxFilter;
-import static org.elasticsearch.index.query.QueryBuilders.*;
 import static com.jme3.lostVictories.network.messages.CharacterMessage.toLatitute;
 import static com.jme3.lostVictories.network.messages.CharacterMessage.toLongitude;
 
@@ -13,7 +11,6 @@ import java.util.*;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.apache.log4j.Logger;
@@ -100,6 +97,10 @@ public class CharacterDAO {
 		}
 
 
+	}
+
+	public Optional<CharacterMessage> getCharacterWithUserID(UUID uuid) {
+		return getAllCharacters().stream().filter(c->uuid.equals(c.getUserID())).findAny();
 	}
 
 	public Set<CharacterMessage> getAllCharacters(float x, float y, float z, float range) {
