@@ -99,10 +99,6 @@ public class CharacterDAO {
 
 	}
 
-	public Optional<CharacterMessage> getCharacterWithUserID(UUID uuid) {
-		return getAllCharacters().stream().filter(c->uuid.equals(c.getUserID())).findAny();
-	}
-
 	public Set<CharacterMessage> getAllCharacters(float x, float y, float z, float range) {
 		Vector v1 = new Vector(range, 0, range);
 		double lat = toLatitute(v1);
