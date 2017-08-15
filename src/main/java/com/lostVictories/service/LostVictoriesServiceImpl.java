@@ -108,6 +108,11 @@ public class LostVictoriesServiceImpl extends LostVictoriesServerGrpc.LostVictor
         lostVictoriesSerice.disembarkPassengers(request, responseObserver);
     }
 
+    @Override
+    public void joinGame(JoinRequest request, StreamObserver<JoinRequest> responseObserver) {
+        lostVictoriesSerice.joinGame(request, responseObserver);
+    }
+
     public Map<Country, Integer> runWorld(Map<Country, Integer> victoryPoints, Map<Country, Integer> manPower, Map<Country, WeaponsFactory> weaponsFactory, Map<Country, VehicleFactory> vehicleFactory, Map<Country, Integer> nextRespawnTime, String gameName) {
         return lostVictoriesSerice.runWorld(victoryPoints, manPower, weaponsFactory, vehicleFactory, nextRespawnTime, gameName, clientObserverSet);
     }

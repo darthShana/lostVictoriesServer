@@ -3,6 +3,8 @@ package lostVictories.dao;
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 import static com.jme3.lostVictories.network.messages.CharacterMessage.toLatitute;
 import static com.jme3.lostVictories.network.messages.CharacterMessage.toLongitude;
+import static org.elasticsearch.index.query.FilterBuilders.andFilter;
+import static org.elasticsearch.index.query.FilterBuilders.termFilter;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -11,8 +13,11 @@ import java.util.*;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.jme3.lostVictories.network.messages.*;
+import com.jme3.lostVictories.network.messages.Vector;
 import org.apache.log4j.Logger;
 
 
@@ -21,9 +26,12 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jme3.lostVictories.network.messages.CharacterMessage;
-import com.jme3.lostVictories.network.messages.RankMessage;
-import com.jme3.lostVictories.network.messages.Vector;
+import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
+import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.common.xcontent.XContentBuilder;
+import org.elasticsearch.index.query.FilteredQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.SearchHit;
 import redis.clients.jedis.*;
 import redis.clients.jedis.params.geo.GeoRadiusParam;
 
@@ -276,6 +284,20 @@ public class CharacterDAO {
 		}
 	}
 
+	public UUID joinGame(UUID uuid, Country country) {
+
+		Optional<CharacterMessage> available = getAllCharacters().stream()
+				.filter(c -> c.getCharacterType() == CharacterType.SOLDIER && c.getRank() == RankMessage.CADET_CORPORAL && c.getCountry() == country)
+				.findAny();
+
+		if(!available.isPresent()){
+			return null;
+		}
+
+		available.get().setType(CharacterType.AVATAR);
+        putCharacter(available.get().getId(), available.get());
+		return available.get().getId();
+	}
 
 	public void deleteAllCharacters() {
 		jedis.flushDB();

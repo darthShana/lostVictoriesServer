@@ -175,4 +175,18 @@ public class LostVictoriesService {
         }
     }
 
+    public void joinGame(JoinRequest request, StreamObserver<JoinRequest> responseObserver) {
+        try (Jedis jedis = jedisPool.getResource()){
+            CharacterDAO characterDAO = new CharacterDAO(jedis, nameSpace);
+            UUID characterID =  characterDAO.joinGame(UUID.fromString(request.getUserID()), com.jme3.lostVictories.network.messages.Country.valueOf(request.getCountry()));
+            if(characterID!=null) {
+                responseObserver.onNext(JoinRequest.newBuilder()
+                        .setCharacterID(characterID.toString())
+                        .build());
+            }
+            responseObserver.onCompleted();
+        }catch(Throwable e){
+            throw new RuntimeException(e);
+        }
+    }
 }

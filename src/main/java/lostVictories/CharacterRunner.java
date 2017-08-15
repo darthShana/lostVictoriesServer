@@ -48,7 +48,11 @@ public class CharacterRunner implements Runnable{
 
 	@Override
 	public void run() {
-        characterDAO.getAllCharacters().stream().forEach(c->lostVictoryService.doRunCharacters(c));
+        try {
+			characterDAO.getAllCharacters().stream().forEach(c -> lostVictoryService.doRunCharacters(c));
+		}catch (Exception e){
+        	e.printStackTrace();
+		}
 	}
 
 

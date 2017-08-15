@@ -897,4 +897,8 @@ public class CharacterMessage implements Serializable{
 	public Set<String> getAllCompletedObjectives() {
 		return completedObjectives;
 	}
+
+    public void setType(CharacterType characterType) {
+        this.type = characterType;
+    }
 }

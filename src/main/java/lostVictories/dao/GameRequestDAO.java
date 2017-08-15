@@ -41,21 +41,21 @@ public class GameRequestDAO {
 	}
 
     public void updateGameStatus(UUID requestID, String gameID, String gameName, int gamePort, String... indexes) throws IOException {
-        XContentBuilder gameDetails = jsonBuilder()
-                .startObject()
-                .field("name", gameName)
-                .field("host", "connect.lostvictories.com")
-                .field("port", gamePort)
-                .field("gameID", gameID)
-                .field("indexes", indexes)
-                .field("gameVersion", "pre_alpha")
-                .field("status", "STARTED")
-                .field("startDate", new Date().getTime())
-                .endObject();
-        esClient.prepareIndex(indexName, indexName, requestID.toString())
-                .setSource(gameDetails)
-                .execute()
-                .actionGet();
+
+        esClient.prepareUpdate(indexName, indexName, requestID.toString())
+                .setDoc(jsonBuilder()
+						.startObject()
+						.field("name", gameName)
+						.field("host", "connect.lostvictories.com")
+						.field("port", gamePort)
+						.field("gameID", gameID)
+						.field("indexes", indexes)
+						.field("gameVersion", "pre_alpha")
+						.field("status", "inProgress")
+						.field("startDate", new Date().getTime())
+						.endObject()
+				)
+                .get();
     }
 
     public void recordAmericanVictory(UUID requestID) throws ElasticsearchException, IOException {
