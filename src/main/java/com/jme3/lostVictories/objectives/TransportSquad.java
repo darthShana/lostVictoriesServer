@@ -42,7 +42,7 @@ public class TransportSquad extends Objective implements CleanupBeforeTransmitti
 				try {
 					Objective t = null;
 					if(CharacterType.AVATAR == c.getCharacterType() || CharacterType.SOLDIER == c.getCharacterType()){
-						t = new TravelObjective(c, destination, null);
+						t = new FollowCommander(new Vector(0, 0, 2), 5);
 					}else{
 						t = new NavigateObjective(destination, null);
 					}

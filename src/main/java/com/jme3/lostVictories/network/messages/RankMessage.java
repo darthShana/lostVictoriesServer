@@ -4,7 +4,7 @@ public enum RankMessage {
 	COLONEL{
 		@Override
         int getFullStrengthPopulation() {
-            return 4;
+            return 5;
         }
         @Override
         int getKillCountForPromotion() {

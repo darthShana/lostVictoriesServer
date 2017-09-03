@@ -6,6 +6,8 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.jme3.lostVictories.network.messages.CharacterMessage;
 import com.jme3.lostVictories.network.messages.CharacterType;
+import com.jme3.lostVictories.network.messages.Country;
+import com.jme3.lostVictories.network.messages.RankMessage;
 import com.jme3.lostVictories.objectives.Objective;
 import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.HouseDAO;
@@ -30,14 +32,16 @@ public class CharacterRunnerInstance {
 
 
     public void doRunCharacter(CharacterMessage _character, CharacterDAO characterDAO, HouseDAO houseDAO, PlayerUsageDAO playerUsageDAO) {
-        Map<UUID, CharacterMessage> toSave = new HashMap<UUID, CharacterMessage>();
-        Map<UUID, UUID> kills = new HashMap<>();
 
+        Map<UUID, UUID> kills = new HashMap<>();
         CharacterMessage character = characterDAO.getCharacter(_character.getId(), true);
+
         if(character!=null && !character.isDead() && character.isAvailableForCheckout(5000)){
+            Map<UUID, CharacterMessage> toSave = new HashMap<>();
             runCharacterBehavior(character, toSave, kills, characterDAO, playerUsageDAO, houseDAO);
+            characterDAO.updateCharacterStateNoCheckout(toSave);
         }
-        characterDAO.updateCharacterStateNoCheckout(toSave);
+
         kills.entrySet().stream().forEach(entry->doKill(entry.getKey(), entry.getValue(), characterDAO));
     }
 

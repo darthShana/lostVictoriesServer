@@ -41,13 +41,13 @@ public class LostVictoryScene {
 	public void loadScene(CharacterDAO characterDAO, HouseDAO housesDAO, TreeDAO treeDAO) throws JsonGenerationException, JsonMappingException, IOException {
 		log.debug("Loading Scene");
 		
-		Map<UUID, CharacterMessage> characters = new HashMap<UUID, CharacterMessage>();
+		Map<UUID, CharacterMessage> characters = new HashMap<>();
 		
 		
 		CharacterMessage a = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, germanBase, Country.GERMAN, Weapon.RIFLE, RankMessage.COLONEL, null);
 		a.addObjective(UUID.randomUUID(), new CaptureTown(System.currentTimeMillis()));
 		CharacterMessage b = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, americanBase, Country.AMERICAN, Weapon.RIFLE, RankMessage.COLONEL, null);
-		b.addObjective(UUID.randomUUID(), new CaptureTown(System.currentTimeMillis()));
+//		b.addObjective(UUID.randomUUID(), new CaptureTown(System.currentTimeMillis()));
 		
 		CharacterMessage gl1 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, germanBase.add(5, 0, 5), Country.GERMAN, Weapon.RIFLE, RankMessage.LIEUTENANT, a.getId());
 		CharacterMessage gl2 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, germanBase.add(10, 0, 5), Country.GERMAN, Weapon.RIFLE, RankMessage.LIEUTENANT, a.getId());
@@ -75,7 +75,7 @@ public class LostVictoryScene {
 		characters.put(al4.getId(), al4);
 		characters.put(al5.getId(), al5);
 
-		CharacterMessage a1 = new CharacterMessage(UUID.fromString("2fbe421f-f701-49c9-a0d4-abb0fa904204"), CharacterType.AVATAR, germanBase.add(22, 0, 13), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, gl1.getId());
+		CharacterMessage a1 = new CharacterMessage(UUID.fromString("2fbe421f-f701-49c9-a0d4-abb0fa904204"), CharacterType.SOLDIER, germanBase.add(22, 0, 13), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, gl1.getId());
 		a1.userID = UUID.fromString("2fbe421f-f701-49c9-a0d4-abb0fa904204");
 		loadSquad(characters, a1, germanBase.add(-10, 0, 15), Country.GERMAN, true, Weapon.RIFLE, Weapon.RIFLE, Weapon.RIFLE   );
 //		CharacterMessage panzer4 = loadPanzer4(UUID.fromString("ce0e6166-7299-4222-9f1a-938cdc9b24cb"), germanBase.add(-12, 0, 15), Country.GERMAN, a1, characters);
@@ -109,7 +109,7 @@ public class LostVictoryScene {
 		characters.put(loadAntiTankGun1.getId(), loadAntiTankGun1);
         
         CharacterMessage gv2 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, germanBase.add(81, 0, -10), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, gl3.getId());
-        loadSquad(characters, gv2, germanBase.add(82, 0, -11), Country.GERMAN, true, Weapon.RIFLE, Weapon.RIFLE, Weapon.RIFLE);
+        loadSquad(characters, gv2, germanBase.add(82, 0, -11), Country.GERMAN, true, Weapon.RIFLE, Weapon.RIFLE, Weapon.MG42);
         CharacterMessage loadHalfTrack = loadHalfTrack(germanBase.add(83, 0, -14), Country.GERMAN, gv2, characters);
 		characters.put(loadHalfTrack.getId(), loadHalfTrack);
         
@@ -123,7 +123,7 @@ public class LostVictoryScene {
         loadSquad(characters, gv5, germanBase.add(20, 0, 15), Country.GERMAN, true, Weapon.RIFLE, Weapon.RIFLE, Weapon.RIFLE);
 
         CharacterMessage gv6 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, germanBase.add(26, 0, 10), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, gl5.getId());
-        loadSquad(characters, gv6, germanBase.add(25, 0, 15), Country.GERMAN, true, Weapon.RIFLE, Weapon.RIFLE, Weapon.BAZOOKA);
+        loadSquad(characters, gv6, germanBase.add(25, 0, 15), Country.GERMAN, true, Weapon.RIFLE, Weapon.MORTAR, Weapon.BAZOOKA);
 
         
         
@@ -189,8 +189,8 @@ public class LostVictoryScene {
         al3.addCharactersUnderCommand(c1, c2);
         al4.addCharactersUnderCommand(c3, c4, c5);
         
-        a.addCharactersUnderCommand(gl1, gl2, gl3, gl4);
-        b.addCharactersUnderCommand(al1, al2, al3, al4);
+        a.addCharactersUnderCommand(gl1, gl2, gl3, gl4, gl5);
+        b.addCharactersUnderCommand(al1, al2, al3, al4, al5);
         
         characters.values().stream().forEach(c -> characterDAO.putCharacter(c.getId(), c));
 

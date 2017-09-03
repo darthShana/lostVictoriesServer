@@ -55,7 +55,7 @@ public class CaptureTown extends Objective {
 				}
 				exclude.add(toSecure);
 				log.info(c.getCountry()+": assigning new sector:"+toSecure.rects.iterator().next()+" houses:"+toSecure.houses.size());
-				SecureSector i = new SecureSector(toSecure.getHouses(), 8, 5, c.getLocation());
+				SecureSector i = new SecureSector(toSecure.getHouses(), 10, 5, c.getLocation());
 				try {
 					unit.addObjective(UUID.randomUUID(), i);
 					toSave.put(unit.getId(), unit);

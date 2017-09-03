@@ -85,11 +85,12 @@ public class LostVictoriesServerGRPC {
                 .addService(grpcService)
                 .build();
 
+        log.info("starting server services.");
         worldRunner.setLostVictoryService(grpcService);
-        ScheduledExecutorService worldRunnerService = Executors.newScheduledThreadPool(2);
+        ScheduledExecutorService worldRunnerService = Executors.newSingleThreadScheduledExecutor();
         worldRunnerService.scheduleAtFixedRate(worldRunner, 0, 2, TimeUnit.SECONDS);
-        CharacterRunner characterRunner = CharacterRunner.instance(service, jedisPool, gameName);
-        worldRunnerService.scheduleAtFixedRate(characterRunner, 0, 2, TimeUnit.SECONDS);
+        CharacterRunner characterRunner = CharacterRunner.instance(service, jedisPool, instance);
+        worldRunnerService.scheduleAtFixedRate(characterRunner, 1, 2, TimeUnit.SECONDS);
 
 
         server.start();

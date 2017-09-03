@@ -38,10 +38,12 @@ public class FollowCommander extends Objective implements PassiveObjective{
 		}
 		
 		Vector3f dest = toFollow.getLocation().toVector();
-		Vector3f newLocation = currentLocation.add(dest.subtract(currentLocation).normalize().mult(10*SCENE_SCALE));
-		
-		Vector vector = new Vector(newLocation.x, newLocation.y, newLocation.z);
-		character.setLocation(vector);
+		if(dest.distance(currentLocation)>maxDistance) {
+			Vector3f newLocation = currentLocation.add(dest.subtract(currentLocation).normalize().mult(10 * SCENE_SCALE));
+
+			Vector vector = new Vector(newLocation.x, newLocation.y, newLocation.z);
+			character.setLocation(vector);
+		}
 	}
 	
 	@Override

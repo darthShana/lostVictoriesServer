@@ -168,6 +168,7 @@ public enum SecureSectorState {
 				try {
 					TransportSquad deployToSector = new TransportSquad(location);
 					unit.addObjective(UUID.randomUUID(), deployToSector);
+					System.out.println("assigning transport to:"+unit.getId()+" dest:"+location);
 					toSave.put(unit.getId(), unit);
 					objective.issuedOrders.put(unit.getId(), deployToSector);	
 				} catch (IOException e) {

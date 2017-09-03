@@ -68,8 +68,12 @@ public class WorldRunner implements Runnable{
 
 	@Override
 	public void run() {
-		structureOwnership = lostVictoryService.runWorld(victoryPoints, manPower, weaponsFactory, vehicleFactory, nextRespawnTime, gameName);
-	}
+		try {
+            structureOwnership = lostVictoryService.runWorld(victoryPoints, manPower, weaponsFactory, vehicleFactory, nextRespawnTime, gameName);
+        }catch (Exception e){
+		    e.printStackTrace();
+        }
+    }
 
 
 
