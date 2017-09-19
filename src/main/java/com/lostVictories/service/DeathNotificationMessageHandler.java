@@ -8,7 +8,8 @@ import io.grpc.stub.StreamObserver;
 import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.EquipmentDAO;
 import lostVictories.messageHanders.CharacterCatch;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
@@ -19,7 +20,7 @@ import static com.lostVictories.service.LostVictoriesService.uuid;
  */
 public class DeathNotificationMessageHandler {
 
-    private static Logger log = Logger.getLogger(DeathNotificationMessageHandler.class);
+    private static Logger log = LoggerFactory.getLogger(DeathNotificationMessageHandler.class);
     private final CharacterDAO characterDAO;
     private final EquipmentDAO equipmentDAO;
 

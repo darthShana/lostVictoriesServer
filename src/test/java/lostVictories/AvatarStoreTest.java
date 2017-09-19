@@ -56,8 +56,11 @@ public class AvatarStoreTest {
 		
 		assertTrue(deadAvatars.isPresent());
 		assertEquals(deadAvatars.get(), s3);
-		
-		
+
+		int[] myList  = {4, 3, 7};
+		new Thread();
+
+
 	}
 	
 	@Test

@@ -1,35 +1,19 @@
 package lostVictories;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.EnumMap;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+
 
 import com.lostVictories.service.LostVictoriesServiceImpl;
 import lostVictories.dao.CharacterDAO;
-import lostVictories.dao.GameRequestDAO;
-import lostVictories.dao.HouseDAO;
-import lostVictories.dao.PlayerUsageDAO;
-import lostVictories.messageHanders.MessageRepository;
-
-import lostVictories.service.LostVictoryService;
-import org.apache.log4j.Logger;
 
 import com.jme3.lostVictories.network.messages.AchievementStatus;
 import com.jme3.lostVictories.network.messages.CharacterMessage;
-import com.jme3.lostVictories.network.messages.CharacterType;
 import com.jme3.lostVictories.network.messages.Country;
 import com.jme3.lostVictories.network.messages.GameStatistics;
-import com.jme3.lostVictories.network.messages.HouseMessage;
 import com.jme3.lostVictories.network.messages.RankMessage;
-import com.jme3.lostVictories.objectives.SecureSectorState;
 
 public class WorldRunner implements Runnable{
 

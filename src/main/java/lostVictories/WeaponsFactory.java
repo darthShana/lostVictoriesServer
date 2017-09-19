@@ -3,12 +3,13 @@ package lostVictories;
 import java.util.EnumMap;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
 
 import com.jme3.lostVictories.network.messages.CharacterMessage;
 import com.jme3.lostVictories.network.messages.CharacterType;
 import com.jme3.lostVictories.network.messages.Country;
 import com.jme3.lostVictories.network.messages.Weapon;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class WeaponsFactory {
 
@@ -19,7 +20,7 @@ public class WeaponsFactory {
 	private long mortar_last_produced = System.currentTimeMillis();
 	private long bazooka_last_produced = System.currentTimeMillis();
 	private EnumMap<Weapon, Long> senses = new EnumMap<Weapon, Long>(Weapon.class);
-	private static Logger log = Logger.getLogger(WeaponsFactory.class);
+	private static Logger log = LoggerFactory.getLogger(WeaponsFactory.class);
 	private Country country; 
 	
 	public WeaponsFactory(Country country) {

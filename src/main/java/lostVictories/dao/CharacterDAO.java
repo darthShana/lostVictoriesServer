@@ -13,12 +13,10 @@ import java.util.*;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.jme3.lostVictories.network.messages.*;
 import com.jme3.lostVictories.network.messages.Vector;
-import org.apache.log4j.Logger;
 
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
@@ -26,19 +24,16 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
-import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.elasticsearch.index.query.FilteredQueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.search.SearchHit;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import redis.clients.jedis.*;
 import redis.clients.jedis.params.geo.GeoRadiusParam;
 
 public class CharacterDAO {
 	public static final double ZERO_LAT = toLatitute(new Vector(0, 0, 0));
 	public static final double ZERO_LONG = toLongitude(new Vector(0, 0, 0));
-	private static Logger log = Logger.getLogger(CharacterDAO.class);
+	private static Logger log = LoggerFactory.getLogger(CharacterDAO.class);
 	public static ObjectMapper MAPPER;
 	
     static{

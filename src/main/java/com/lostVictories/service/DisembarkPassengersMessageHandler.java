@@ -6,7 +6,8 @@ import com.lostVictories.api.DisembarkPassengersRequest;
 import com.lostVictories.api.LostVictoryMessage;
 import io.grpc.stub.StreamObserver;
 import lostVictories.dao.CharacterDAO;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -18,7 +19,7 @@ import static com.lostVictories.service.LostVictoriesService.uuid;
  * Created by dharshanar on 27/05/17.
  */
 public class DisembarkPassengersMessageHandler {
-    private Logger log = Logger.getLogger(DisembarkPassengersMessageHandler.class);
+    private Logger log = LoggerFactory.getLogger(DisembarkPassengersMessageHandler.class);
     private CharacterDAO characterDAO;
 
     public DisembarkPassengersMessageHandler(CharacterDAO characterDAO) {

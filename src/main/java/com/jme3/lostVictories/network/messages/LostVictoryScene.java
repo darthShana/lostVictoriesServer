@@ -14,17 +14,17 @@ import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.HouseDAO;
 import lostVictories.dao.TreeDAO;
 
-import org.apache.log4j.Logger;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.jme3.lostVictories.objectives.CaptureTown;
 import com.jme3.lostVictories.objectives.FollowCommander;
 import com.jme3.math.Vector3f;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class LostVictoryScene {
 	
@@ -36,7 +36,7 @@ public class LostVictoryScene {
 	public static Vector americanVehicleSpawnPoint = new Vector(50, 101, -366);
     public static Vector americanBase = new Vector(90, 100, -380);
 	
-	private static Logger log = Logger.getLogger(LostVictoryScene.class); 
+	private static Logger log = LoggerFactory.getLogger(LostVictoryScene.class);
 	
 	public void loadScene(CharacterDAO characterDAO, HouseDAO housesDAO, TreeDAO treeDAO) throws JsonGenerationException, JsonMappingException, IOException {
 		log.debug("Loading Scene");
@@ -47,7 +47,7 @@ public class LostVictoryScene {
 		CharacterMessage a = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, germanBase, Country.GERMAN, Weapon.RIFLE, RankMessage.COLONEL, null);
 		a.addObjective(UUID.randomUUID(), new CaptureTown(System.currentTimeMillis()));
 		CharacterMessage b = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, americanBase, Country.AMERICAN, Weapon.RIFLE, RankMessage.COLONEL, null);
-//		b.addObjective(UUID.randomUUID(), new CaptureTown(System.currentTimeMillis()));
+		b.addObjective(UUID.randomUUID(), new CaptureTown(System.currentTimeMillis()));
 		
 		CharacterMessage gl1 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, germanBase.add(5, 0, 5), Country.GERMAN, Weapon.RIFLE, RankMessage.LIEUTENANT, a.getId());
 		CharacterMessage gl2 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, germanBase.add(10, 0, 5), Country.GERMAN, Weapon.RIFLE, RankMessage.LIEUTENANT, a.getId());
@@ -75,7 +75,7 @@ public class LostVictoryScene {
 		characters.put(al4.getId(), al4);
 		characters.put(al5.getId(), al5);
 
-		CharacterMessage a1 = new CharacterMessage(UUID.fromString("2fbe421f-f701-49c9-a0d4-abb0fa904204"), CharacterType.SOLDIER, germanBase.add(22, 0, 13), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, gl1.getId());
+		CharacterMessage a1 = new CharacterMessage(UUID.fromString("2fbe421f-f701-49c9-a0d4-abb0fa904204"), CharacterType.AVATAR, germanBase.add(22, 0, 13), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, gl1.getId());
 		a1.userID = UUID.fromString("2fbe421f-f701-49c9-a0d4-abb0fa904204");
 		loadSquad(characters, a1, germanBase.add(-10, 0, 15), Country.GERMAN, true, Weapon.RIFLE, Weapon.RIFLE, Weapon.RIFLE   );
 //		CharacterMessage panzer4 = loadPanzer4(UUID.fromString("ce0e6166-7299-4222-9f1a-938cdc9b24cb"), germanBase.add(-12, 0, 15), Country.GERMAN, a1, characters);

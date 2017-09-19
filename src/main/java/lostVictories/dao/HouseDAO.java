@@ -11,7 +11,6 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import org.apache.log4j.Logger;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequest;
@@ -21,9 +20,11 @@ import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.search.SearchHit;
 
 import com.jme3.lostVictories.network.messages.HouseMessage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class HouseDAO {
-	private static Logger log = Logger.getLogger(HouseDAO.class); 
+	private static Logger log = LoggerFactory.getLogger(HouseDAO.class);
 
 	private Client esClient;
 	private String indexName;

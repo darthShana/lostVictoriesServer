@@ -14,7 +14,6 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import org.apache.log4j.Logger;
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.search.SearchResponse;
@@ -24,10 +23,12 @@ import org.elasticsearch.search.SearchHit;
 
 import com.jme3.lostVictories.network.messages.UnClaimedEquipmentMessage;
 import com.jme3.lostVictories.network.messages.Vector;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class EquipmentDAO {
 
-	private static Logger log = Logger.getLogger(EquipmentDAO.class); 
+	private static Logger log = LoggerFactory.getLogger(EquipmentDAO.class);
 	private Client esClient;
 	private String indexName;
 

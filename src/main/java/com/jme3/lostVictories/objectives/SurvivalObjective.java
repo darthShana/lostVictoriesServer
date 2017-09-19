@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.apache.log4j.Logger;
 
 import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.HouseDAO;
@@ -14,11 +13,13 @@ import lostVictories.dao.HouseDAO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jme3.lostVictories.network.messages.CharacterMessage;
 import com.jme3.lostVictories.network.messages.Vector;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SurvivalObjective extends Objective implements PassiveObjective{
 
 	@JsonIgnore
-	private static Logger log = Logger.getLogger(SurvivalObjective.class);
+	private static Logger log = LoggerFactory.getLogger(SurvivalObjective.class);
 	
 	@Override
 	public void runObjective(CharacterMessage c, String uuid, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave, Map<UUID, UUID> kills) {

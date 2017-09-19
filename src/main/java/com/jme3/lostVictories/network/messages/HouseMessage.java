@@ -18,13 +18,14 @@ import java.util.stream.Collectors;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lostVictories.dao.CharacterDAO;
 
-import org.apache.log4j.Logger;
 import org.elasticsearch.common.geo.GeoPoint;
 import org.elasticsearch.common.xcontent.XContentBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class HouseMessage implements Serializable{
-	private static Logger log = Logger.getLogger(HouseMessage.class); 
+	private static Logger log = LoggerFactory.getLogger(HouseMessage.class);
 	public static final float CAPTURE_RANGE = 45;
 	
 	private final UUID id;

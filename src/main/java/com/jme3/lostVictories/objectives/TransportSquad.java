@@ -9,16 +9,17 @@ import java.util.function.Consumer;
 import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.HouseDAO;
 
-import org.apache.log4j.Logger;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jme3.lostVictories.network.messages.CharacterMessage;
 import com.jme3.lostVictories.network.messages.CharacterType;
 import com.jme3.lostVictories.network.messages.Vector;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TransportSquad extends Objective implements CleanupBeforeTransmitting{
 	@JsonIgnore
-	private static Logger log = Logger.getLogger(TransportSquad.class);
+	private static Logger log = LoggerFactory.getLogger(TransportSquad.class);
 
 	Vector destination;
 	Map<UUID, Objective> issuedOrders = new HashMap<>();

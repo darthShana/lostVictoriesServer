@@ -1,31 +1,18 @@
 package com.lostVictories.service;
 
-import com.jme3.lostVictories.network.messages.*;
 import com.jme3.lostVictories.network.messages.AchievementStatus;
 import com.jme3.lostVictories.network.messages.CharacterMessage;
-import com.jme3.lostVictories.network.messages.Country;
 import com.jme3.lostVictories.network.messages.GameStatistics;
-import com.jme3.lostVictories.network.messages.HouseMessage;
-import com.jme3.lostVictories.network.messages.UnClaimedEquipmentMessage;
 import com.jme3.lostVictories.network.messages.Vector;
-import com.jme3.lostVictories.network.messages.actions.*;
-import com.jme3.lostVictories.network.messages.wrapper.*;
-import com.jme3.lostVictories.network.messages.wrapper.CharacterStatusResponse;
-import com.jme3.lostVictories.network.messages.wrapper.EquipmentStatusResponse;
 import com.jme3.lostVictories.network.messages.wrapper.GameStatsResponse;
-import com.jme3.lostVictories.network.messages.wrapper.HouseStatusResponse;
-import com.jme3.lostVictories.network.messages.wrapper.RelatedCharacterStatusResponse;
-import com.lostVictories.api.*;
-import com.lostVictories.api.Action;
-import com.lostVictories.api.LostVictoryMessage;
 import com.lostVictories.api.UpdateCharactersRequest;
-import io.grpc.stub.StreamObserver;
 import lostVictories.WorldRunner;
 import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.EquipmentDAO;
 import lostVictories.dao.HouseDAO;
 import lostVictories.messageHanders.*;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.*;
@@ -42,7 +29,7 @@ public class UpdateCharactersMessageHandler {
     public static final long CHECKOUT_TIMEOUT = 2*1000;
 
     private CharacterDAO characterDAO;
-    private static Logger log = Logger.getLogger(UpdateCharactersMessageHandler.class);
+    private static Logger log = LoggerFactory.getLogger(UpdateCharactersMessageHandler.class);
     private HouseDAO houseDAO;
     private EquipmentDAO equipmentDAO;
     private WorldRunner worldRunner;

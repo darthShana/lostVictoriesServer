@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 
 import com.jme3.lostVictories.network.messages.*;
 import com.jme3.lostVictories.network.messages.Vector;
-import org.apache.log4j.Logger;
 
 import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.HouseDAO;
@@ -16,11 +15,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.jme3.math.Vector3f;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CaptureTown extends Objective {
 
 	@JsonIgnore
-	private static Logger log = Logger.getLogger(CaptureTown.class);
+	private static Logger log = LoggerFactory.getLogger(CaptureTown.class);
 	@JsonIgnore
 	private Set<GameSector> gameSectors;
 	@JsonIgnore

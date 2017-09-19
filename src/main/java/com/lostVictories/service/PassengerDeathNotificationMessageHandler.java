@@ -6,7 +6,8 @@ import com.lostVictories.api.PassengerDeathNotificationRequest;
 import io.grpc.stub.StreamObserver;
 import lostVictories.dao.CharacterDAO;
 import lostVictories.messageHanders.CharacterCatch;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
@@ -16,7 +17,7 @@ import static com.lostVictories.service.LostVictoriesService.uuid;
  * Created by dharshanar on 27/05/17.
  */
 public class PassengerDeathNotificationMessageHandler {
-    private static Logger log = Logger.getLogger(PassengerDeathNotificationMessageHandler.class);
+    private static Logger log = LoggerFactory.getLogger(PassengerDeathNotificationMessageHandler.class);
     private CharacterDAO characterDAO;
 
     public PassengerDeathNotificationMessageHandler(CharacterDAO characterDAO) {

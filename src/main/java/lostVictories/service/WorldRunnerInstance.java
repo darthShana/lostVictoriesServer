@@ -1,15 +1,19 @@
 package lostVictories.service;
 
 import com.jme3.lostVictories.network.messages.*;
+import com.jme3.lostVictories.network.messages.Vector;
 import com.jme3.lostVictories.objectives.SecureSectorState;
+import com.jme3.math.Vector3f;
 import com.lostVictories.service.MessageMapper;
 import com.lostVictories.service.SafeStreamObserver;
 import lostVictories.AvatarStore;
+import lostVictories.NavMeshStore;
 import lostVictories.VehicleFactory;
 import lostVictories.WeaponsFactory;
 import lostVictories.dao.*;
 import lostVictories.messageHanders.MessageRepository;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.*;
@@ -21,7 +25,7 @@ import java.util.stream.Collectors;
  */
 public class WorldRunnerInstance {
 
-    private static Logger log = Logger.getLogger(WorldRunnerInstance.class);
+    private static Logger log = LoggerFactory.getLogger(WorldRunnerInstance.class);
     private static final int COST_OF_UNIT = 500;
     MessageMapper mp = new MessageMapper();
 
@@ -83,15 +87,16 @@ public class WorldRunnerInstance {
                             CharacterMessage replaceWithAvatar = avatarStore.reincarnateAvatar(deadAvatars.get(), c, toUpdate);
                             if(replaceWithAvatar!=null){
                                 characterDAO.delete(c);
-                                toUpdate.addAll(replaceWithAvatar.reenforceCharacter(c.getLocation().add(15, 7, 15), weaponsFactory.get(c.getCountry()), vehicleFactory.get(c.getCountry()), characterDAO));
+                                toUpdate.addAll(replaceWithAvatar.reenforceCharacter(c.getLocation(), weaponsFactory.get(c.getCountry()), vehicleFactory.get(c.getCountry()), characterDAO));
                                 log.debug("character:"+c.getId()+" replaced by avatar:"+deadAvatars.get().getId()+" loc:"+replaceWithAvatar.getLocation());
                             }
                             characterDAO.save(toUpdate);
                         }else{
                             log.debug("in here test reenforce:"+c.getId());
-                            HouseMessage point = SecureSectorState.findClosestHouse(c, houseDAO.getAllHouses(), h -> h.getOwner()==c.getCountry());
+                            HouseMessage house = SecureSectorState.findClosestHouse(c, houseDAO.getAllHouses(), h -> h.getOwner()==c.getCountry());
+                            Vector3f point = NavMeshStore.intstace().warp(house.getLocation());
                             if(point!=null){
-                                c.reenforceCharacter(point.getLocation(), weaponsFactory.get(c.getCountry()), vehicleFactory.get(c.getCountry()), characterDAO);
+                                c.reenforceCharacter(new Vector(point), weaponsFactory.get(c.getCountry()), vehicleFactory.get(c.getCountry()), characterDAO);
                                 characterDAO.updateCharactersUnderCommand(c);
                             }
                         }
@@ -124,13 +129,11 @@ public class WorldRunnerInstance {
                         }
                     }
                     if(avatar.getCheckoutClient()!=null && avatar.getCheckoutClient().equals(avatar.getId())){
-                        messageRepository.addMessage(avatar.getCheckoutClient(), "Congradulations! You have been promoted to:"+avatar.getRank());
+                        messageRepository.addMessage(avatar.getCheckoutClient(), "Congratulations! You have been promoted to:"+avatar.getRank());
                     }
                 }
             }
 
-            log.trace("german vp:"+victoryPoints.get(Country.GERMAN));
-            log.trace("american vp:"+victoryPoints.get(Country.AMERICAN));
             if(victoryPoints.get(Country.GERMAN)<=0){
                 playerUsageDAO.endAllGameSessions(System.currentTimeMillis());
                 UUID gameRequest = gameRequestDAO.getGameRequest(gameName);
@@ -144,6 +147,9 @@ public class WorldRunnerInstance {
                 if(gameRequest!=null) {
                     gameRequestDAO.recordGermanVictory(gameRequest);
                 }
+            }
+            if(victoryPoints.get(Country.GERMAN)<=-50 || victoryPoints.get(Country.AMERICAN)<=-50){
+                System.exit(0);
             }
             return structureOwnership;
 

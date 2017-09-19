@@ -8,18 +8,20 @@ import lostVictories.WorldRunner;
 import lostVictories.dao.*;
 import lostVictories.messageHanders.MessageRepository;
 import lostVictories.service.LostVictoryService;
-import org.apache.log4j.Logger;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequestBuilder;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.IndicesAdminClient;
 import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.common.settings.ImmutableSettings;
-import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
@@ -34,7 +36,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class LostVictoriesServerGRPC {
 
-    private static Logger log = Logger.getLogger(LostVictoriesServerGRPC.class);
+    private static Logger log = LoggerFactory.getLogger(LostVictoriesServerGRPC.class);
 
     private int port;
     private String characterIndexName;
@@ -73,7 +75,7 @@ public class LostVictoriesServerGRPC {
         JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
         jedisPoolConfig.setMaxTotal(1024);
         jedisPoolConfig.setMinIdle(1024);
-        JedisPool jedisPool = new JedisPool(jedisPoolConfig, "localhost" );
+        JedisPool jedisPool = new JedisPool(jedisPoolConfig, System.getProperty("redis.host"));
         service = new LostVictoryService(jedisPool, instance, houseDAO, treeDAO, equipmentDAO, gameRequestDAO, playerUsageDAO, messageRepository, worldRunner);
 
 
@@ -162,21 +164,46 @@ public class LostVictoriesServerGRPC {
         }
     }
 
-    private Client getESClient() {
-        Settings settings = ImmutableSettings.settingsBuilder().put("cluster.name", "lostVictories").build();
-        TransportClient transportClient = new TransportClient(settings);
-        transportClient = transportClient.addTransportAddress(new InetSocketTransportAddress("localhost", 9300));
-        return (Client) transportClient;
+    private Client getESClient() throws IOException {
+        isElasticHealthy();
+        TransportClient transportClient = new TransportClient();
+        transportClient = transportClient.addTransportAddress(new InetSocketTransportAddress(System.getProperty("elasticsearch.host"), 9300));
+        return transportClient;
 
 
     }
 
+    private boolean isElasticHealthy() throws IOException {
+        CloseableHttpClient httpclient = HttpClientBuilder.create().setRetryHandler((exception, executionCount, context) -> {
+            if (executionCount > 3) {
+                return false;
+            }
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) { }
+            return true;
+        }).build();
+
+        try {
+            HttpGet httpget = new HttpGet("http://"+System.getProperty("elasticsearch.host")+":9200/_cluster/health");
+            System.out.println("Executing request " + httpget.getRequestLine());
+            httpclient.execute(httpget);
+            System.out.println("----------------------------------------");
+            return true;
+        } finally {
+            httpclient.close();
+        }
+    }
+
 
     public static void main (String[] args) throws IOException, InterruptedException {
-        if(args.length==0){
-            new LostVictoriesServerGRPC("test_lost_victories1", 5055).run();
-        }else{
+        if(args.length==2) {
             new LostVictoriesServerGRPC(args[0], Integer.parseInt(args[1])).run();
+        }else if(System.getenv("GAME_NAME")!=null && System.getenv("GAME_PORT")!=null){
+            System.out.println("starting game from env:"+System.getenv("GAME_NAME"));
+            new LostVictoriesServerGRPC(System.getenv("GAME_NAME"), Integer.parseInt(System.getenv("GAME_PORT"))).run();
+        }else{
+            new LostVictoriesServerGRPC("test_lost_victories1", 5055).run();
         }
 
     }

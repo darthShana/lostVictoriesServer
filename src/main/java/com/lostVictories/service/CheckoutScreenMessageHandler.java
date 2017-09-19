@@ -9,17 +9,11 @@ import com.lostVictories.api.CaptureStatus;
 import com.lostVictories.api.CharacterMessage;
 import com.lostVictories.api.CharacterType;
 import com.lostVictories.api.CheckoutScreenRequest;
-import com.lostVictories.api.Country;
-import com.lostVictories.api.HouseMessage;
-import com.lostVictories.api.Quaternion;
-import com.lostVictories.api.RankMessage;
-import com.lostVictories.api.SquadType;
-import com.lostVictories.api.TreeGroupMessage;
-import com.lostVictories.api.UnClaimedEquipmentMessage;
-import com.lostVictories.api.Weapon;
+
 import io.grpc.stub.StreamObserver;
 import lostVictories.dao.*;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static com.lostVictories.service.LostVictoriesService.uuid;
 
@@ -28,7 +22,7 @@ import static com.lostVictories.service.LostVictoriesService.uuid;
  */
 public class CheckoutScreenMessageHandler {
 
-    private static Logger log = Logger.getLogger(CheckoutScreenMessageHandler.class);
+    private static Logger log = LoggerFactory.getLogger(CheckoutScreenMessageHandler.class);
     public static float CLIENT_RANGE = 250l;
 
     private final CharacterDAO characterDAO;

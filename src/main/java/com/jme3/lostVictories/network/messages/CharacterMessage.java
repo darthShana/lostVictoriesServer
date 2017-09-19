@@ -32,7 +32,6 @@ import lostVictories.dao.CharacterDAO;
 import lostVictories.messageHanders.CharacterCatch;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -40,11 +39,13 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.jme3.lostVictories.network.messages.actions.Action;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import redis.clients.jedis.GeoCoordinate;
 
 public class CharacterMessage implements Serializable{
 
-	private static Logger log = Logger.getLogger(CharacterMessage.class);
+	private static Logger log = LoggerFactory.getLogger(CharacterMessage.class);
 
 	UUID id;
 	UUID userID;
@@ -687,14 +688,8 @@ public class CharacterMessage implements Serializable{
 							this.objectives.remove(entry.getKey());
 						}
 					}
-				}catch(ClassNotFoundException e){
-					log.trace(e);
-				} catch (JsonParseException e) {
-					log.trace(e);
-				} catch (JsonMappingException e) {
-					log.trace(e);
-				} catch (IOException e) {
-					log.trace(e);
+				}catch(ClassNotFoundException | IOException e) {
+					log.trace("unknown objective on server. will save but no run: "+entry.getValue().get("class").asText());
 				}
 			}
 		}catch(Throwable e){

@@ -3,16 +3,17 @@ package lostVictories;
 import java.util.EnumMap;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
 
 import com.jme3.lostVictories.network.messages.CharacterMessage;
 import com.jme3.lostVictories.network.messages.CharacterType;
 import com.jme3.lostVictories.network.messages.Country;
 import com.jme3.lostVictories.network.messages.RankMessage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class VehicleFactory {
 
-	private static Logger log = Logger.getLogger(VehicleFactory.class); 
+	private static Logger log = LoggerFactory.getLogger(VehicleFactory.class);
 
 	
 	EnumMap<CharacterType, Long> senses = new EnumMap<CharacterType, Long>(CharacterType.class);

@@ -6,17 +6,17 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.UUID;
 
-import org.apache.log4j.Logger;
 import org.elasticsearch.ElasticsearchException;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
-import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHits;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class GameRequestDAO {
 
-	private static Logger log = Logger.getLogger(GameRequestDAO.class); 
+	private static Logger log = LoggerFactory.getLogger(GameRequestDAO.class);
 	
 	private Client esClient;
 	private String indexName = "game_request";
@@ -59,7 +59,7 @@ public class GameRequestDAO {
     }
 
     public void recordAmericanVictory(UUID requestID) throws ElasticsearchException, IOException {
-        log.debug("updating game request:"+requestID);
+        log.info("recordAmericanVictory game request:"+requestID);
         esClient.prepareUpdate(indexName, indexName, requestID.toString())
                 .setDoc(jsonBuilder()
                         .startObject()
@@ -71,7 +71,7 @@ public class GameRequestDAO {
     }
 
     public void recordGermanVictory(UUID requestID) throws ElasticsearchException, IOException {
-        log.debug("updating game request:"+requestID);
+        log.info("recordGermanVictory game request:"+requestID);
         esClient.prepareUpdate(indexName, indexName, requestID.toString())
                 .setDoc(jsonBuilder()
                         .startObject()

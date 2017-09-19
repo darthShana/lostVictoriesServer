@@ -8,7 +8,8 @@ import com.lostVictories.api.LostVictoryMessage;
 import io.grpc.stub.StreamObserver;
 import lostVictories.dao.CharacterDAO;
 import lostVictories.messageHanders.MessageRepository;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.*;
@@ -20,7 +21,7 @@ import static com.lostVictories.service.LostVictoriesService.uuid;
  */
 public class BoardingVehicleMessageHandler {
 
-    Logger log = Logger.getLogger(BoardingVehicleMessageHandler.class);
+    Logger log = LoggerFactory.getLogger(BoardingVehicleMessageHandler.class);
     private final CharacterDAO characterDAO;
     private final MessageRepository messageRepository;
 

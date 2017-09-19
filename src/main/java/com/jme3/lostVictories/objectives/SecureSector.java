@@ -8,9 +8,6 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import com.jme3.lostVictories.network.messages.Country;
-import org.apache.log4j.Logger;
-
 import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.HouseDAO;
 
@@ -18,11 +15,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jme3.lostVictories.network.messages.CharacterMessage;
 import com.jme3.lostVictories.network.messages.HouseMessage;
 import com.jme3.lostVictories.network.messages.Vector;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SecureSector extends Objective implements CleanupBeforeTransmitting{
 
 	@JsonIgnore
-	private static Logger log = Logger.getLogger(SecureSector.class);
+	private static Logger log = LoggerFactory.getLogger(SecureSector.class);
 	
 	Set<UUID> houses = new HashSet<UUID>();
 	Vector centre;

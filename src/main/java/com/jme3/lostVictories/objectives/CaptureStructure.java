@@ -4,7 +4,6 @@ package com.jme3.lostVictories.objectives;
 import java.util.Map;
 import java.util.UUID;
 
-import org.apache.log4j.Logger;
 
 import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.HouseDAO;
@@ -14,10 +13,12 @@ import com.jme3.lostVictories.network.messages.CharacterMessage;
 import com.jme3.lostVictories.network.messages.CharacterType;
 import com.jme3.lostVictories.network.messages.HouseMessage;
 import com.jme3.lostVictories.network.messages.Vector;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CaptureStructure extends Objective{
 	@JsonIgnore
-	private static Logger log = Logger.getLogger(CaptureStructure.class);
+	private static Logger log = LoggerFactory.getLogger(CaptureStructure.class);
 	String structure;
 	Objective travelObjective;
 	

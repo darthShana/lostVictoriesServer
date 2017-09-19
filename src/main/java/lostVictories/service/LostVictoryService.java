@@ -5,7 +5,8 @@ import com.jme3.lostVictories.network.messages.LostVictoryScene;
 import lostVictories.WorldRunner;
 import lostVictories.dao.*;
 import lostVictories.messageHanders.*;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
@@ -13,7 +14,7 @@ import redis.clients.jedis.JedisPool;
  * Created by dharshanar on 6/05/17.
  */
 public class LostVictoryService {
-    private static Logger log = Logger.getLogger(LostVictoryService.class);
+    private static Logger log = LoggerFactory.getLogger(LostVictoryService.class);
 
     private JedisPool jedisPool;
     private String nameSpace;

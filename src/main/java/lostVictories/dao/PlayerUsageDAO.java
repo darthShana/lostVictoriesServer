@@ -8,7 +8,6 @@ import lostVictories.model.GameUsage;
 import static org.elasticsearch.index.query.FilterBuilders.termFilter;
 import static org.elasticsearch.index.query.FilterBuilders.andFilter;
 
-import org.apache.log4j.Logger;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequestBuilder;
 import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsResponse;
 import org.elasticsearch.action.search.SearchResponse;
@@ -21,9 +20,11 @@ import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.sort.FieldSortBuilder;
 import org.elasticsearch.search.sort.SortBuilders;
 import org.elasticsearch.search.sort.SortOrder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PlayerUsageDAO {
-	private static Logger log = Logger.getLogger(PlayerUsageDAO.class); 
+	private static Logger log = LoggerFactory.getLogger(PlayerUsageDAO.class);
 
 	private Client esClient;
 	private final String indexName = "player_usage";

@@ -16,7 +16,8 @@ import lostVictories.WeaponsFactory;
 import lostVictories.WorldRunner;
 import lostVictories.dao.*;
 import lostVictories.messageHanders.MessageRepository;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import redis.clients.jedis.JedisPool;
 
 import java.util.*;
@@ -28,7 +29,7 @@ import static com.lostVictories.service.LostVictoriesService.uuid;
  */
 public class LostVictoriesServiceImpl extends LostVictoriesServerGrpc.LostVictoriesServerImplBase {
 
-    private static Logger log = Logger.getLogger(LostVictoriesServiceImpl.class);
+    private static Logger log = LoggerFactory.getLogger(LostVictoriesServiceImpl.class);
     LostVictoriesService lostVictoriesSerice;
 
     Set<SafeStreamObserver> clientObserverSet = new HashSet<>();

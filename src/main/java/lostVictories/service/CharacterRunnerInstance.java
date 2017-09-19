@@ -13,7 +13,8 @@ import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.HouseDAO;
 import lostVictories.dao.PlayerUsageDAO;
 import lostVictories.messageHanders.CharacterCatch;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -28,7 +29,7 @@ import static lostVictories.dao.CharacterDAO.MAPPER;
  */
 public class CharacterRunnerInstance {
 
-    private static Logger log = Logger.getLogger(CharacterRunnerInstance.class);
+    private static Logger log = LoggerFactory.getLogger(CharacterRunnerInstance.class);
 
 
     public void doRunCharacter(CharacterMessage _character, CharacterDAO characterDAO, HouseDAO houseDAO, PlayerUsageDAO playerUsageDAO) {

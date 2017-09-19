@@ -17,7 +17,6 @@ public class AttackBoggies extends Objective{
 
     @Override
     public void runObjective(CharacterMessage c, String uuid, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave, Map<UUID, UUID> kills) {
-
         if(travelObjective == null && !targets.isEmpty()){
             travelObjective = new TravelObjective(c, targets.get(0), null);
         }

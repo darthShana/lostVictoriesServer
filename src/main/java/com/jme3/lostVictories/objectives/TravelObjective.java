@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import org.apache.log4j.Logger;
 
 import lostVictories.NavMeshStore;
 import lostVictories.dao.CharacterDAO;
@@ -17,10 +16,12 @@ import com.jme3.lostVictories.network.messages.CharacterMessage;
 import com.jme3.lostVictories.network.messages.CharacterType;
 import com.jme3.lostVictories.network.messages.Vector;
 import com.jme3.math.Vector3f;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TravelObjective extends Objective implements CleanupBeforeTransmitting{
 	@JsonIgnore
-	private static Logger log = Logger.getLogger(TravelObjective.class);
+	private static Logger log = LoggerFactory.getLogger(TravelObjective.class);
 	
 	private Vector facePoint;
     List<Vector> path;

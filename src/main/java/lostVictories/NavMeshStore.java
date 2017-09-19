@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.apache.log4j.Logger;
 
 import com.jme3.ai.navmesh.CustomNavMeshPathfinder;
 import com.jme3.ai.navmesh.DebugInfo;
@@ -18,11 +17,13 @@ import com.jme3.export.binary.BinaryImporter;
 import com.jme3.lostVictories.network.messages.Vector;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class NavMeshStore {
 	private static NavMeshStore instance;
 	private final NavMeshPathfinder pathFinder;
-	private static Logger log = Logger.getLogger(NavMeshStore.class);
+	private static Logger log = LoggerFactory.getLogger(NavMeshStore.class);
 
 	public static synchronized NavMeshStore intstace(){
 		if(instance == null){
@@ -65,6 +66,12 @@ public class NavMeshStore {
 				return null;
 
 			}
+		}
+	}
+
+	public Vector3f warp(Vector point){
+		synchronized (instance){
+			return pathFinder.warp(point.toVector());
 		}
 	}
 
