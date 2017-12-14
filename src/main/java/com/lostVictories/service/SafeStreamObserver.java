@@ -11,6 +11,7 @@ import java.util.UUID;
 public class SafeStreamObserver {
     private StreamObserver<LostVictoryMessage> responseObserver;
     private UUID clientID;
+    public int backOff;
 
     public SafeStreamObserver(StreamObserver<LostVictoryMessage> responseObserver) {
         this.responseObserver = responseObserver;

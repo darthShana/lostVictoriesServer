@@ -48,21 +48,70 @@
 		  <artifactId>jME3-ai</artifactId>
 		  <version>0.1.831</version>
 		</dependency>
-  		<dependency>
-			<groupId>org.elasticsearch</groupId>
-			<artifactId>elasticsearch</artifactId>
-			<version>1.4.2</version>
-		</dependency>
-	  <dependency>
+        <dependency>
+          <groupId>org.elasticsearch.client</groupId>
+          <artifactId>transport</artifactId>
+          <version>5.6.3</version>
+          <exclusions>
+            <exclusion>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-common</artifactId>
+            </exclusion>
+              <exclusion>
+                  <groupId>io.netty</groupId>
+                  <artifactId>netty-codec-http</artifactId>
+              </exclusion>
+              <exclusion>
+                  <groupId>io.netty</groupId>
+                  <artifactId>netty-handler</artifactId>
+              </exclusion>
+              <exclusion>
+                  <groupId>io.netty</groupId>
+                  <artifactId>netty-transport</artifactId>
+              </exclusion>
+          </exclusions>
+        </dependency>
+        <dependency>
+          <groupId>io.netty</groupId>
+          <artifactId>netty-common</artifactId>
+          <version>4.1.16.Final</version>
+        </dependency>
+	    <dependency>
 		  <groupId>redis.clients</groupId>
 		  <artifactId>jedis</artifactId>
 		  <version>2.9.0</version>
-	  </dependency>
-	  <dependency>
+	    </dependency>
+	    <dependency>
 		    <groupId>com.fasterxml.jackson.core</groupId>
 		    <artifactId>jackson-databind</artifactId>
 		    <version>2.8.5</version>
 		</dependency>
+        <dependency>
+              <groupId>commons-lang</groupId>
+              <artifactId>commons-lang</artifactId>
+              <version>2.6</version>
+        </dependency>
+        <dependency>
+              <groupId>org.slf4j</groupId>
+              <artifactId>slf4j-api</artifactId>
+              <version>1.7.5</version>
+        </dependency>
+        <dependency>
+              <groupId>org.slf4j</groupId>
+              <artifactId>slf4j-simple</artifactId>
+              <version>1.6.4</version>
+        </dependency>
+        <dependency>
+              <groupId>org.apache.httpcomponents</groupId>
+              <artifactId>httpclient</artifactId>
+              <version>4.5.3</version>
+        </dependency>
+        <dependency>
+              <groupId>com.lostVictories</groupId>
+              <artifactId>lostVictoriesAPI</artifactId>
+              <version>1.0-SNAPSHOT</version>
+        </dependency>
+
 	    <dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
@@ -74,32 +123,8 @@
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
 			<scope>test</scope>
-		</dependency>	
-		<dependency>
-		    <groupId>commons-lang</groupId>
-		    <artifactId>commons-lang</artifactId>
-		    <version>2.6</version>
 		</dependency>
-	  <dependency>
-		  <groupId>org.slf4j</groupId>
-		  <artifactId>slf4j-api</artifactId>
-		  <version>1.7.5</version>
-	  </dependency>
-	  <dependency>
-		  <groupId>org.slf4j</groupId>
-		  <artifactId>slf4j-simple</artifactId>
-		  <version>1.6.4</version>
-	  </dependency>
-      <dependency>
-          <groupId>org.apache.httpcomponents</groupId>
-          <artifactId>httpclient</artifactId>
-          <version>4.5.3</version>
-      </dependency>
-	  <dependency>
-		  <groupId>com.lostVictories</groupId>
-		  <artifactId>lostVictoriesAPI</artifactId>
-		  <version>1.0-SNAPSHOT</version>
-	  </dependency>
+
   </dependencies>
 
   <build>
@@ -132,24 +157,26 @@
             </executions>
         </plugin>
         <plugin>
-			<groupId>com.spotify</groupId>
-			<artifactId>dockerfile-maven-plugin</artifactId>
-			<version>1.3.5</version>
-			<executions>
-				<execution>
-					<id>default</id>
-					<phase>package</phase>
-					<goals>
-						<goal>build</goal>
-						<goal>push</goal>
-					</goals>
-				</execution>
-			</executions>
-			<configuration>
-				<repository>darthshana/lostvictoryserver</repository>
-				<tag>${project.version}</tag>
-			</configuration>
-		</plugin>
+            <groupId>io.fabric8</groupId>
+            <artifactId>docker-maven-plugin</artifactId>
+            <version>0.22.1</version>
+            <configuration>
+                <images>
+                    <image>
+                        <name>darthshana/lostvictoryserver:${project.version}</name>
+                        <alias>lostvictories-game-engine</alias>
+                        <build>
+                            <from>frolvlad/alpine-oraclejdk8</from>
+                            <assembly>
+                                <descriptorRef>artifact</descriptorRef>
+                                <targetDir>/usr/share/game_engine</targetDir>
+                            </assembly>
+                            <cmd>/usr/bin/java -jar /usr/share/game_engine/app.jar</cmd>
+                        </build>
+                    </image>
+                </images>
+            </configuration>
+        </plugin>
     </plugins>
   </build>
 </project>

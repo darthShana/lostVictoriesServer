@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import com.google.common.collect.ImmutableSet;
 import com.jme3.lostVictories.network.messages.*;
 import com.jme3.lostVictories.network.messages.Vector;
 import com.jme3.lostVictories.network.messages.wrapper.RelatedCharacterStatusResponse;
@@ -24,7 +25,6 @@ import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.EquipmentDAO;
 import lostVictories.dao.HouseDAO;
 
-import org.elasticsearch.common.collect.ImmutableSet;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;

@@ -2,9 +2,7 @@ package lostVictories.dao;
 
 import static com.jme3.lostVictories.network.messages.CharacterMessage.toLatitute;
 import static com.jme3.lostVictories.network.messages.CharacterMessage.toLongitude;
-import static org.elasticsearch.index.query.FilterBuilders.geoBoundingBoxFilter;
-import static org.elasticsearch.index.query.QueryBuilders.filteredQuery;
-import static org.elasticsearch.index.query.QueryBuilders.matchAllQuery;
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 import java.io.IOException;
 import java.util.Iterator;
@@ -68,7 +66,7 @@ public class EquipmentDAO {
 		br_longitude = br_longitude > 180 ? 180 : br_longitude;
 		
 		SearchResponse searchResponse = esClient.prepareSearch(indexName)
-                .setQuery(filteredQuery(matchAllQuery(), geoBoundingBoxFilter("location").topLeft(tl_latitute, tl_longitude).bottomRight(br_latitute, br_longitude))).setSize(10000)
+                .setQuery(constantScoreQuery(boolQuery().must(geoBoundingBoxQuery("location").setCorners(tl_latitute, tl_longitude, br_latitute, br_longitude))))
                 .setVersion(true)
                 .execute().actionGet();
 		
@@ -76,6 +74,17 @@ public class EquipmentDAO {
 		Iterator<SearchHit> iterator = searchResponse.getHits().iterator();
 		Iterable<SearchHit> iterable = () -> iterator;
 		return StreamSupport.stream(iterable.spliterator(), true).map(hit -> fromFields(UUID.fromString(hit.getId()), hit.getVersion(), hit.getSource())).collect(Collectors.toSet());
+	}
+
+	public Set<UnClaimedEquipmentMessage> getAllUnclaimedEquipment() {
+		SearchResponse searchResponse = esClient.prepareSearch(indexName)
+				.setQuery(matchAllQuery()).setSize(10000)
+				.execute().actionGet();
+
+		Iterator<SearchHit> iterator = searchResponse.getHits().iterator();
+		Iterable<SearchHit> iterable = () -> iterator;
+		return StreamSupport.stream(iterable.spliterator(), true).map(hit -> fromFields(UUID.fromString(hit.getId()), hit.getVersion(), hit.getSource())).collect(Collectors.toSet());
+
 	}
 	
 	private UnClaimedEquipmentMessage fromFields(UUID id, long version, Map<String, Object> source) {
@@ -92,12 +101,11 @@ public class EquipmentDAO {
 		return fromFields(UUID.fromString(response.getId()), response.getVersion(), response.getSource());
 	}
 
-	public boolean delete(UnClaimedEquipmentMessage equipment) {
-		DeleteResponse response = esClient.prepareDelete(indexName, "equipmentStatus", equipment.getId().toString())
+	public void delete(UnClaimedEquipmentMessage equipment) {
+		esClient.prepareDelete(indexName, "equipmentStatus", equipment.getId().toString())
 		        .execute()
 		        .actionGet();
-		return response.isFound();
-		
+
 	}	
 
 }

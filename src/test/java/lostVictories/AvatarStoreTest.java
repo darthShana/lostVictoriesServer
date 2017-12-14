@@ -4,10 +4,9 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import lostVictories.dao.CharacterDAO;
 
@@ -57,10 +56,6 @@ public class AvatarStoreTest {
 		assertTrue(deadAvatars.isPresent());
 		assertEquals(deadAvatars.get(), s3);
 
-		int[] myList  = {4, 3, 7};
-		new Thread();
-
-
 	}
 	
 	@Test
@@ -76,5 +71,7 @@ public class AvatarStoreTest {
 		assertEquals(s3.getId(), updated.iterator().next().getId());
 		assertFalse(updated.iterator().next().isDead());
 	}
+
+
 
 }

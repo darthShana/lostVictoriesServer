@@ -1,7 +1,5 @@
 package lostVictories.dao;
 
-import static org.elasticsearch.index.query.QueryBuilders.idsQuery;
-import static org.elasticsearch.index.query.QueryBuilders.matchAllQuery;
 
 import java.io.IOException;
 import java.util.Iterator;
@@ -16,12 +14,13 @@ import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
-import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.search.SearchHit;
 
 import com.jme3.lostVictories.network.messages.HouseMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import static org.elasticsearch.index.query.QueryBuilders.matchAllQuery;
 
 public class HouseDAO {
 	private static Logger log = LoggerFactory.getLogger(HouseDAO.class);
@@ -83,18 +82,5 @@ public class HouseDAO {
 		return fromFields(UUID.fromString(response.getId()), response.getSource());
 	}
 
-	public Set<HouseMessage> getHouses(Set<UUID> ids) {
-		String[] i = ids.stream().map(UUID::toString).toArray(size->new String[size]);
-		QueryBuilder qb = idsQuery().ids(i);
-		SearchResponse searchResponse = esClient.prepareSearch(indexName)
-                .setQuery(qb).setSize(10000)
-                .setVersion(true)
-                .execute().actionGet();
-		
-		log.trace("retrived :"+searchResponse.getHits().hits().length+" from elasticsearch");
-		Iterator<SearchHit> iterator = searchResponse.getHits().iterator();
-		Iterable<SearchHit> iterable = () -> iterator;
-		return StreamSupport.stream(iterable.spliterator(), true).map(hit -> fromFields(UUID.fromString(hit.getId()), hit.getSource())).collect(Collectors.toSet());
-	}
 
 }

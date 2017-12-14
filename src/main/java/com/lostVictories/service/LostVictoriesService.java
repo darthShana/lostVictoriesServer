@@ -16,6 +16,8 @@ import lostVictories.WorldRunner;
 import lostVictories.dao.*;
 import lostVictories.messageHanders.MessageRepository;
 import lostVictories.service.WorldRunnerInstance;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
@@ -29,6 +31,8 @@ import java.util.UUID;
  * Created by dharshanar on 26/05/17.
  */
 public class LostVictoriesService {
+
+    private static Logger log = LoggerFactory.getLogger(LostVictoriesService.class);
 
     private final JedisPool jedisPool;
     private final String nameSpace;
@@ -169,18 +173,19 @@ public class LostVictoriesService {
 
         try (Jedis jedis = jedisPool.getResource()){
             CharacterDAO characterDAO = new CharacterDAO(jedis, nameSpace);
-            return new WorldRunnerInstance().runWorld(characterDAO, houseDAO, victoryPoints, manPower, weaponsFactory, vehicleFactory, nextRespawnTime, messageRepository, playerUsageDAO, gameRequestDAO, gameName, clientObserverMap);
+            return new WorldRunnerInstance().runWorld(characterDAO, houseDAO, gameRequestDAO, playerUsageDAO, equipmentDAO, victoryPoints, manPower, weaponsFactory, vehicleFactory, nextRespawnTime, messageRepository, gameName, clientObserverMap);
         }catch(Throwable e){
             throw new RuntimeException(e);
         }
     }
 
-    public void joinGame(JoinRequest request, StreamObserver<JoinRequest> responseObserver) {
+    public void joinGame(JoinRequest request, StreamObserver<JoinResponse> responseObserver) {
         try (Jedis jedis = jedisPool.getResource()){
+            log.info("joining game for user:"+request.getUserID()+" for country:"+request.getCountry());
             CharacterDAO characterDAO = new CharacterDAO(jedis, nameSpace);
             UUID characterID =  characterDAO.joinGame(UUID.fromString(request.getUserID()), com.jme3.lostVictories.network.messages.Country.valueOf(request.getCountry()));
             if(characterID!=null) {
-                responseObserver.onNext(JoinRequest.newBuilder()
+                responseObserver.onNext(JoinResponse.newBuilder()
                         .setCharacterID(characterID.toString())
                         .build());
             }

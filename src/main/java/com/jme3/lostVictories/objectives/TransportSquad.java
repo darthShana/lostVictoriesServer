@@ -33,27 +33,31 @@ public class TransportSquad extends Objective implements CleanupBeforeTransmitti
 	
 	@Override
 	public void runObjective(CharacterMessage c, String uuid,CharacterDAO characterDAO, HouseDAO houseDAO,Map<UUID, CharacterMessage> toSave, Map<UUID, UUID> kills)  {
+		c.getUnitsUnderCommand().stream().forEach(id->{
+			if(characterDAO.getCharacter(id)==null){
+				System.out.println("officer :"+c.getId()+" hanging on the removed charater:"+id);
+			}
+		});
+
 		c.getUnitsUnderCommand().stream()
 			.filter(id->!issuedOrders.containsKey(id))
 			.map(id->characterDAO.getCharacter(id))
-			.forEach(new Consumer<CharacterMessage>() {
-
-			@Override
-			public void accept(CharacterMessage c) {				
+			.filter(c1 -> c1!=null)
+			.forEach(c1 -> {
 				try {
-					Objective t = null;
-					if(CharacterType.AVATAR == c.getCharacterType() || CharacterType.SOLDIER == c.getCharacterType()){
+					Objective t;
+					if(CharacterType.AVATAR == c1.getCharacterType() || CharacterType.SOLDIER == c1.getCharacterType()){
 						t = new FollowCommander(new Vector(0, 0, 2), 5);
 					}else{
 						t = new NavigateObjective(destination, null);
 					}
-					c.addObjective(UUID.randomUUID(), t);
-					issuedOrders.put(c.getId(), t);
+					c1.addObjective(UUID.randomUUID(), t);
+					issuedOrders.put(c1.getId(), t);
 				} catch (IOException e) {
 					throw new RuntimeException(e);
-				}				
-			}
-		});
+				}
+			});
+
 		if(!issuedOrders.containsKey(c.getId())){
 			Objective t = null;
 			if(CharacterType.AVATAR == c.getCharacterType() || CharacterType.SOLDIER == c.getCharacterType()){

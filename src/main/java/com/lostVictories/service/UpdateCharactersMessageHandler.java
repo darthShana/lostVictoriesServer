@@ -57,6 +57,19 @@ public class UpdateCharactersMessageHandler {
             return;
         }
 
+        if("2fbe421f-f701-49c9-a0d4-abb0fa904204".equals(characterId.toString()) && (System.currentTimeMillis()-sentFromClient.getCreationTime())>2000){
+            System.out.println("older request from client:"+(System.currentTimeMillis()-sentFromClient.getCreationTime()));
+        }
+
+        if(characterId.equals(uuid(msg.getAvatar()))){
+            if((System.currentTimeMillis()-sentFromClient.getCreationTime())>2000){
+                System.out.println("back off initiated");
+                responseObserver.backOff = 1000;
+            }else if((System.currentTimeMillis()-sentFromClient.getCreationTime())<1000){
+                responseObserver.backOff = 0;
+            }
+        }
+
         if(serverVersion.isAvailableForUpdate(clientID, sentFromClient, CHECKOUT_TIMEOUT)){
             serverVersion.updateState(sentFromClient, clientID, System.currentTimeMillis());
             CharacterMessage characterMessage = characterDAO.updateCharacterState(serverVersion);
@@ -71,7 +84,7 @@ public class UpdateCharactersMessageHandler {
                 .collect(Collectors.toMap(c->c.getId(), Function.identity()));
 
         if(inRange.containsKey(serverVersion.getId())) {
-            responseObserver.onNext(mp.toMessage(serverVersion));
+            responseObserver.onNext(mp.toMessage(serverVersion, responseObserver.backOff));
         }
 
         final CharacterMessage toSend = serverVersion;
@@ -80,13 +93,13 @@ public class UpdateCharactersMessageHandler {
                 .filter(entry->!entry.getClientID().equals(clientID))
                 .filter(ee->characterDAO.isInRangeOf(toSend.getLocation(), ee.getClientID(), CheckoutScreenMessageHandler.CLIENT_RANGE))
                 .forEach(e->{
-                    e.onNext(mp.toMessage(toSend));
+                    e.onNext(mp.toMessage(toSend, responseObserver.backOff));
                 });
 
         if(msg.getClientStartTime()>5000 && characterId.equals(uuid(msg.getAvatar()))) {
             inRange.values().stream()
                     .filter(cc -> cc.isAvailableForCheckout(5000))
-                    .forEach(c -> responseObserver.onNext(mp.toMessage(c)));
+                    .forEach(c -> responseObserver.onNext(mp.toMessage(c, responseObserver.backOff)));
         }
 
         if(!serverVersion.isDead()) {
@@ -119,7 +132,7 @@ public class UpdateCharactersMessageHandler {
                     List<CharacterMessage> values = new ArrayList<>();
                     values.add(vehicle);
                     characterDAO.save(values);
-                    responseObserver.onNext(mp.toMessage(vehicle));
+                    responseObserver.onNext(mp.toMessage(vehicle, responseObserver.backOff));
                 }
 
             }

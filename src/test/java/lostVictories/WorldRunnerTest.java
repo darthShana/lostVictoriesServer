@@ -9,13 +9,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 
+import com.google.common.collect.ImmutableSet;
 import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.GameRequestDAO;
 import lostVictories.dao.HouseDAO;
 import lostVictories.dao.PlayerUsageDAO;
 import lostVictories.messageHanders.MessageRepository;
 
-import org.elasticsearch.common.collect.ImmutableSet;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

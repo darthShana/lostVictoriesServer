@@ -6,9 +6,9 @@ import static org.mockito.Mockito.*;
 import java.util.HashSet;
 import java.util.UUID;
 
+import com.google.common.collect.ImmutableSet;
 import lostVictories.dao.CharacterDAO;
 
-import org.elasticsearch.common.collect.ImmutableSet;
 import org.junit.Test;
 
 public class HouseMessageTest {

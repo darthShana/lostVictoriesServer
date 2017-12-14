@@ -30,7 +30,7 @@ public class WorldRunnerInstance {
     MessageMapper mp = new MessageMapper();
 
 
-    public Map<Country, Integer> runWorld(CharacterDAO characterDAO, HouseDAO houseDAO, Map<Country, Integer> victoryPoints, Map<Country, Integer> manPower, Map<Country, WeaponsFactory> weaponsFactory, Map<Country, VehicleFactory> vehicleFactory, Map<Country, Integer> nextRespawnTime, MessageRepository messageRepository, PlayerUsageDAO playerUsageDAO, GameRequestDAO gameRequestDAO, String gameName, Set<SafeStreamObserver> clientObserverMap) throws IOException {
+    public Map<Country, Integer> runWorld(CharacterDAO characterDAO, HouseDAO houseDAO, GameRequestDAO gameRequestDAO, PlayerUsageDAO playerUsageDAO, EquipmentDAO equipmentDAO, Map<Country, Integer> victoryPoints, Map<Country, Integer> manPower, Map<Country, WeaponsFactory> weaponsFactory, Map<Country, VehicleFactory> vehicleFactory, Map<Country, Integer> nextRespawnTime, MessageRepository messageRepository, String gameName, Set<SafeStreamObserver> clientObserverMap) throws IOException {
             Set<HouseMessage> allHouses = houseDAO.getAllHouses();
             Set<HouseMessage> dchanged = allHouses.stream().filter(h->h.checkOwnership(characterDAO)).collect(Collectors.toSet());
             houseDAO.save(dchanged);
@@ -133,6 +133,10 @@ public class WorldRunnerInstance {
                     }
                 }
             }
+
+            equipmentDAO.getAllUnclaimedEquipment().stream()
+                    .filter(e->(System.currentTimeMillis()-e.getCreationTime())>60000)
+                    .forEach(e->equipmentDAO.delete(e));
 
             if(victoryPoints.get(Country.GERMAN)<=0){
                 playerUsageDAO.endAllGameSessions(System.currentTimeMillis());

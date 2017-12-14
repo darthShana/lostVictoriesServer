@@ -17,15 +17,18 @@ import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsRespon
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.IndicesAdminClient;
 import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
+import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.util.UUID;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -62,6 +65,10 @@ public class LostVictoriesServerGRPC {
     public void run() throws IOException, InterruptedException {
         System.out.println("Starting server......");
 
+
+
+
+
         Client esClient = getESClient();
         IndicesAdminClient adminClient = esClient.admin().indices();
         HouseDAO houseDAO = new HouseDAO(esClient, houseIndexName);
@@ -73,15 +80,22 @@ public class LostVictoriesServerGRPC {
         WorldRunner worldRunner = WorldRunner.instance(gameName);
 
         JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
-        jedisPoolConfig.setMaxTotal(1024);
-        jedisPoolConfig.setMinIdle(1024);
-        JedisPool jedisPool = new JedisPool(jedisPoolConfig, System.getProperty("redis.host"));
+        jedisPoolConfig.setMaxTotal(100);
+        jedisPoolConfig.setMinIdle(100);
+        JedisPool jedisPool = new JedisPool(jedisPoolConfig, "localhost");
         service = new LostVictoryService(jedisPool, instance, houseDAO, treeDAO, equipmentDAO, gameRequestDAO, playerUsageDAO, messageRepository, worldRunner);
 
 
         boolean existing = createIndices(adminClient, service, houseDAO, treeDAO);
 
+//        Server server = ServerBuilder.forPort(5055).addService(new MockLostVictoryService()).build();
+//        System.out.println("starting server....");
+//        server.start();
+//        System.out.println("server started");
+//        server.awaitTermination();
 
+
+//
         LostVictoriesServiceImpl grpcService = new LostVictoriesServiceImpl(jedisPool, instance, houseDAO, treeDAO, equipmentDAO, gameRequestDAO, playerUsageDAO, messageRepository, worldRunner);
         Server server = ServerBuilder.forPort(port)
                 .addService(grpcService)
@@ -107,7 +121,7 @@ public class LostVictoriesServerGRPC {
 
         if(gameRequest!=null){
             if(!existing){
-                gameRequestDAO.updateGameStatus(gameRequest, this.instance, gameName, port, characterIndexName, houseIndexName, equipmentIndexName);
+                gameRequestDAO.updateGameStatus(gameRequest, this.instance, gameName, port, instance);
             }
         }
         log.info("Listening on "+port);
@@ -130,6 +144,8 @@ public class LostVictoriesServerGRPC {
                 .field("type", "geo_point")
                 .field("store", "yes")
                 .endObject();
+        builder.endObject().endObject().endObject();
+
         houseIndexRequestBuilder.addMapping("houseStatus", builder);
         houseIndexRequestBuilder.execute().actionGet();
 
@@ -139,6 +155,8 @@ public class LostVictoriesServerGRPC {
                 .field("type", "geo_point")
                 .field("store", "yes")
                 .endObject();
+        builder.endObject().endObject().endObject();
+
         treeIndexRequestBuilder.addMapping("treeStatus", builder);
         treeIndexRequestBuilder.execute().actionGet();
 
@@ -148,6 +166,7 @@ public class LostVictoriesServerGRPC {
                 .field("type", "geo_point")
                 .field("store", "yes")
                 .endObject();
+        builder.endObject().endObject().endObject();
 
         equipmentIndexRequestBuilder.addMapping("equipmentStatus", builder);
         equipmentIndexRequestBuilder.execute().actionGet();
@@ -166,8 +185,8 @@ public class LostVictoriesServerGRPC {
 
     private Client getESClient() throws IOException {
         isElasticHealthy();
-        TransportClient transportClient = new TransportClient();
-        transportClient = transportClient.addTransportAddress(new InetSocketTransportAddress(System.getProperty("elasticsearch.host"), 9300));
+        TransportClient transportClient = new PreBuiltTransportClient(Settings.EMPTY)
+                .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("localhost"), 9300));
         return transportClient;
 
 
@@ -185,7 +204,7 @@ public class LostVictoriesServerGRPC {
         }).build();
 
         try {
-            HttpGet httpget = new HttpGet("http://"+System.getProperty("elasticsearch.host")+":9200/_cluster/health");
+            HttpGet httpget = new HttpGet("http://localhost:9200/_cluster/health");
             System.out.println("Executing request " + httpget.getRequestLine());
             httpclient.execute(httpget);
             System.out.println("----------------------------------------");

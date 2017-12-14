@@ -110,7 +110,7 @@ public class LostVictoriesServiceImpl extends LostVictoriesServerGrpc.LostVictor
     }
 
     @Override
-    public void joinGame(JoinRequest request, StreamObserver<JoinRequest> responseObserver) {
+    public void joinGame(JoinRequest request, StreamObserver<JoinResponse> responseObserver) {
         lostVictoriesSerice.joinGame(request, responseObserver);
     }
 

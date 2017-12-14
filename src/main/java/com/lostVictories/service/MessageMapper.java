@@ -1,9 +1,6 @@
 package com.lostVictories.service;
 
-import com.jme3.lostVictories.network.messages.*;
 import com.jme3.lostVictories.network.messages.SquadType;
-import com.jme3.lostVictories.network.messages.wrapper.*;
-import com.lostVictories.api.*;
 import com.lostVictories.api.AchievementStatus;
 import com.lostVictories.api.CaptureStatus;
 import com.lostVictories.api.CharacterMessage;
@@ -87,7 +84,7 @@ public class MessageMapper {
 
     }
 
-    public LostVictoryMessage toMessage(com.jme3.lostVictories.network.messages.CharacterMessage characterMessage) {
+    public LostVictoryMessage toMessage(com.jme3.lostVictories.network.messages.CharacterMessage characterMessage, int backoff) {
         CharacterMessage.Builder characterBuilder = CharacterMessage.newBuilder()
                 .setId(bytes(characterMessage.getId()))
                 .setLocation(characterMessage.getLocation().toMessage())
@@ -127,11 +124,13 @@ public class MessageMapper {
             characterBuilder.setTimeOfDeath(characterMessage.getTimeOfDeath());
         }
 
+        CharacterStatusResponse.Builder builder = CharacterStatusResponse.newBuilder();
+        builder.setUnit(characterBuilder.build());
+        builder.setBackoff(backoff);
+
+        CharacterStatusResponse build = builder.build();
         return LostVictoryMessage.newBuilder()
-                .setCharacterStatusResponse(CharacterStatusResponse.newBuilder()
-                        .setUnit(characterBuilder
-                                .build())
-                        .build())
+                .setCharacterStatusResponse(build)
                 .build();
     }
 

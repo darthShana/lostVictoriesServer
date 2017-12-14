@@ -1,13 +1,8 @@
 package com.lostVictories.service;
 
-import com.jme3.lostVictories.network.messages.*;
 import com.jme3.lostVictories.network.messages.Vector;
-import com.jme3.lostVictories.network.messages.actions.Action;
 
 import com.lostVictories.api.*;
-import com.lostVictories.api.CaptureStatus;
-import com.lostVictories.api.CharacterMessage;
-import com.lostVictories.api.CharacterType;
 import com.lostVictories.api.CheckoutScreenRequest;
 
 import io.grpc.stub.StreamObserver;
@@ -47,7 +42,7 @@ public class CheckoutScreenMessageHandler {
         if(avatar!=null){
             Vector l = avatar.getLocation();
 
-            characterDAO.getAllCharacters(l.x, l.y, l.z, CLIENT_RANGE).stream().map(c->mp.toMessage(c)).forEach(cm->responseObserver.onNext(cm));
+            characterDAO.getAllCharacters(l.x, l.y, l.z, CLIENT_RANGE).stream().map(c->mp.toMessage(c, 0)).forEach(cm->responseObserver.onNext(cm));
             equipmentDAO.getUnClaimedEquipment(l.x, l.y, l.z, CLIENT_RANGE).stream().map(e->mp.toMessage(e)).forEach(em->responseObserver.onNext(em));
             houseDAO.getAllHouses().stream().map(h->mp.toMessage(h)).forEach(hm->responseObserver.onNext(hm));
             treeDAO.getAllTrees().stream().map(t->mp.toMessage(t)).forEach(tm->responseObserver.onNext(tm));

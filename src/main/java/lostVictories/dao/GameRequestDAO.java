@@ -3,6 +3,7 @@ package lostVictories.dao;
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
 import java.io.IOException;
+import java.net.Inet4Address;
 import java.util.Date;
 import java.util.UUID;
 
@@ -28,7 +29,7 @@ public class GameRequestDAO {
 	public UUID getGameRequest(String gameName){
 		SearchResponse response = esClient.prepareSearch(indexName)
 		        .setTypes(indexName)
-		        .setQuery(QueryBuilders.termQuery("gameName", gameName))             // Query
+		        .setQuery(QueryBuilders.termQuery("gameName", gameName))
 		        .setFrom(0).setSize(60).setExplain(true)
 		        .execute()
 		        .actionGet();
@@ -40,16 +41,17 @@ public class GameRequestDAO {
 		return null;
 	}
 
-    public void updateGameStatus(UUID requestID, String gameID, String gameName, int gamePort, String... indexes) throws IOException {
+    public void updateGameStatus(UUID requestID, String gameID, String gameName, int gamePort, String nameSpace) throws IOException {
 
         esClient.prepareUpdate(indexName, indexName, requestID.toString())
                 .setDoc(jsonBuilder()
 						.startObject()
 						.field("name", gameName)
 						.field("host", "connect.lostvictories.com")
+                        .field("localIP", Inet4Address.getLocalHost())
 						.field("port", gamePort)
 						.field("gameID", gameID)
-						.field("indexes", indexes)
+						.field("nameSpace", nameSpace)
 						.field("gameVersion", "pre_alpha")
 						.field("status", "inProgress")
 						.field("startDate", new Date().getTime())

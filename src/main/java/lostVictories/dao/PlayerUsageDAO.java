@@ -5,8 +5,6 @@ import java.util.Iterator;
 import java.util.UUID;
 
 import lostVictories.model.GameUsage;
-import static org.elasticsearch.index.query.FilterBuilders.termFilter;
-import static org.elasticsearch.index.query.FilterBuilders.andFilter;
 
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequestBuilder;
 import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsResponse;
@@ -17,11 +15,13 @@ import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
-import org.elasticsearch.search.sort.FieldSortBuilder;
-import org.elasticsearch.search.sort.SortBuilders;
 import org.elasticsearch.search.sort.SortOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import static org.elasticsearch.index.query.QueryBuilders.boolQuery;
+import static org.elasticsearch.index.query.QueryBuilders.constantScoreQuery;
+import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
 
 public class PlayerUsageDAO {
 	private static Logger log = LoggerFactory.getLogger(PlayerUsageDAO.class);
@@ -58,7 +58,8 @@ public class PlayerUsageDAO {
 	        	.field("type", "long")
 	        	.field("index", "not_analyzed")
 	        	.field("store", "yes")
-	        	.endObject();;
+	        	.endObject();
+		    builder.endObject().endObject();
 			    
 		    createIndexRequestBuilder.addMapping(indexName, builder);
 		    createIndexRequestBuilder.execute().actionGet();
@@ -82,9 +83,8 @@ public class PlayerUsageDAO {
 
 	public void registerStopGame(UUID userID, long currentTimeMillis) {
 		SearchResponse searchResponse = esClient.prepareSearch(indexName)
-	    		.setQuery(QueryBuilders.filteredQuery(
-	    				QueryBuilders.matchAllQuery(), 
-	    				andFilter(termFilter("userID",userID.toString()), termFilter("gameName", gameName)))).setSize(100)
+	    		.setQuery(constantScoreQuery(
+	    				boolQuery().must(matchQuery("userID",userID.toString())).must(matchQuery("gameName", gameName))))
 	    		.addSort("startTime", SortOrder.DESC)
 	            .execute().actionGet();
 
@@ -104,14 +104,12 @@ public class PlayerUsageDAO {
 
 	public void endAllGameSessions(long currentTimeMillis) {
 		SearchResponse searchResponse = esClient.prepareSearch(indexName)
-	    		.setQuery(QueryBuilders.filteredQuery(
-	    				QueryBuilders.matchAllQuery(), 
-	    				termFilter("gameName", gameName))).setSize(10000)
+	    		.setQuery(constantScoreQuery(boolQuery().must(matchQuery("gameName", gameName))))
 	    		.execute().actionGet();
 
 	    for(Iterator<SearchHit> it = searchResponse.getHits().iterator();it.hasNext();){
 	    	SearchHit hit = it.next();
-	    	GameUsage usage = new GameUsage(hit.sourceAsMap());
+	    	GameUsage usage = new GameUsage(hit.getSourceAsMap());
 	    	usage.setEndTime(currentTimeMillis);
 	    	try {
 	    		esClient.prepareUpdate(indexName, indexName, hit.getId()).setDoc(usage.getJSONRepresentation()).execute().actionGet();

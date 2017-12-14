@@ -22,12 +22,14 @@ public class UnClaimedEquipmentMessage implements Serializable{
 	private Weapon weapon;
 	private Vector location;
 	private Vector rotation;
+	private long creationTime;
 
 	public UnClaimedEquipmentMessage(UUID id, Weapon weapon, Vector location, Vector rotation) {
 		this.id = id;
 		this.weapon = weapon;
 		this.location = location;
 		this.rotation = rotation;
+		this.creationTime = System.currentTimeMillis();
 	}
 
 	public UnClaimedEquipmentMessage(UUID id, long version, Map<String, Object> source) {
@@ -39,7 +41,7 @@ public class UnClaimedEquipmentMessage implements Serializable{
 		float altitude = ((Double)source.get("altitude")).floatValue();
 		this.location = latLongToVector(altitude, location.get("lon").floatValue(), location.get("lat").floatValue());
 		this.rotation = new Vector(ori.get("x").floatValue(), ori.get("y").floatValue(), ori.get("z").floatValue());
-		
+		this.creationTime = (long) source.get("creationTime");
 	}
 
 	public UUID getId() {
@@ -56,7 +58,8 @@ public class UnClaimedEquipmentMessage implements Serializable{
 	                .field("weapon", weapon)
 	                .field("location", new GeoPoint(toLatitute(location), toLongitude(location)))
 	                .field("altitude", location.y)
-	                .field("rotation", rotation.toMap())                	                
+	                .field("rotation", rotation.toMap())
+                    .field("creationTime", creationTime)
 	            .endObject();
 	}
 
@@ -72,4 +75,8 @@ public class UnClaimedEquipmentMessage implements Serializable{
 	public Vector getRotation() {
 		return rotation;
 	}
+
+    public long getCreationTime() {
+        return creationTime;
+    }
 }

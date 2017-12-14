@@ -1,10 +1,7 @@
 package lostVictories.dao;
 
-import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 import static com.jme3.lostVictories.network.messages.CharacterMessage.toLatitute;
 import static com.jme3.lostVictories.network.messages.CharacterMessage.toLongitude;
-import static org.elasticsearch.index.query.FilterBuilders.andFilter;
-import static org.elasticsearch.index.query.FilterBuilders.termFilter;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
