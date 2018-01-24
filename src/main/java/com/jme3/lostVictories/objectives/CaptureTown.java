@@ -3,6 +3,7 @@ package com.jme3.lostVictories.objectives;
 import java.awt.Rectangle;
 import java.io.IOException;
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import com.jme3.lostVictories.network.messages.*;
@@ -55,8 +56,8 @@ public class CaptureTown extends Objective {
 					continue;
 				}
 				exclude.add(toSecure);
-				log.info(c.getCountry()+": assigning new sector:"+toSecure.rects.iterator().next()+" houses:"+toSecure.houses.size());
-				SecureSector i = new SecureSector(toSecure.getHouses(), 10, 5, c.getLocation());
+				log.info(c.getCountry()+": assigning new sector:"+toSecure.rects.iterator().next()+" houses:"+toSecure.structures.size());
+				SecureSector i = new SecureSector(toSecure.getHouses(), toSecure.getBunkers(),10, 5, c.getLocation());
 				try {
 					unit.addObjective(UUID.randomUUID(), i);
 					toSave.put(unit.getId(), unit);
@@ -90,26 +91,26 @@ public class CaptureTown extends Objective {
 	}
 
 	Set<GameSector> calculateGameSectors(HouseDAO houseDAO) {
-        Set<GameSector> remaining = new HashSet<GameSector>();
+        final Set<GameSector> sectors = new HashSet<GameSector>();
         
         for(int y = mapBounds.y;y<=mapBounds.getMaxY();y=y+50){
             for(int x = mapBounds.x;x<=mapBounds.getMaxX();x=x+50){
-                remaining.add(new GameSector(new Rectangle(x, y, 50, 50)));
+                sectors.add(new GameSector(new Rectangle(x, y, 50, 50)));
             }
         }
-        
-        for(HouseMessage house:houseDAO.getAllHouses()){
-            for(GameSector sector:remaining){
-                if(sector.containsHouse(house)){
-                    sector.add(house);
-                }
-            }
-        }
-        
-        remaining = remaining.stream().filter(s->!s.houses.isEmpty()).collect(Collectors.toSet());
+
+        Consumer<Structure> structureVisitor = structure -> {
+            sectors.stream().filter(s->s.containsHouse(structure)).findFirst().ifPresent(s->s.add(structure));
+        };
+
+        houseDAO.getAllHouses().forEach(structureVisitor);
+        houseDAO.getAllBunkers().forEach(structureVisitor);
+
+
+        Set<GameSector> remaining = sectors.stream().filter(s->!s.structures.isEmpty()).collect(Collectors.toSet());
         
         //merge joining houses together with a limit on the number of houses
-        Set<GameSector> merged = new HashSet<GameSector>();
+        Set<GameSector> merged = new HashSet<>();
         GameSector next = remaining.iterator().next();
 		merged.add(next);
 		remaining.remove(next);
@@ -139,8 +140,8 @@ public class CaptureTown extends Objective {
 	}
 
 	static class GameSector {
-        private final Set<Rectangle> rects = new HashSet<Rectangle>();
-        private final Set<HouseMessage> houses = new HashSet<HouseMessage>();
+        private final Set<Rectangle> rects = new HashSet<>();
+        private final Set<Structure> structures = new HashSet<>();
 
         public GameSector(Rectangle rect) {
             this.rects.add(rect);
@@ -159,12 +160,12 @@ public class CaptureTown extends Objective {
 		}
 
 		public void merge(GameSector neighbour) {
-			houses.addAll(neighbour.houses);
+            structures.addAll(neighbour.structures);
 			rects.addAll(neighbour.rects);
 			
 		}
 
-		private boolean containsHouse(HouseMessage house) {
+		private boolean containsHouse(Structure house) {
             return rects.stream().filter(r->r.contains(house.getLocation().x, house.getLocation().z)).findAny().isPresent();
         }
 
@@ -183,12 +184,12 @@ public class CaptureTown extends Objective {
 			return union.contains(centre.x, centre.z);
 		}
 
-        void add(HouseMessage house) {
-            houses.add(house);
+        void add(Structure house) {
+            structures.add(house);
         }
 
         private boolean isUnsecured(Country country) {
-            for(HouseMessage h:houses){
+            for(Structure h:structures){
                 if(h.getOwner()!=country){
                     return true;
                 }
@@ -202,14 +203,22 @@ public class CaptureTown extends Objective {
         }
         
         Set<HouseMessage> getHouses(){
-            return houses;
+            return structures.stream()
+                    .filter(s->s instanceof HouseMessage)
+                    .map(h->(HouseMessage)h).collect(Collectors.toSet());
+        }
+
+        Set<BunkerMessage> getBunkers(){
+            return structures.stream()
+                    .filter(s->s instanceof BunkerMessage)
+                    .map(b->(BunkerMessage)b).collect(Collectors.toSet());
         }
 
 	}
-	
-	@Override
-	public boolean clashesWith(Class<? extends Objective> newObjective) {
-		return false;
-	}
+
+    @Override
+    public boolean clashesWith(Class<? extends Objective> newObjective) {
+        return false;
+    }
 
 }

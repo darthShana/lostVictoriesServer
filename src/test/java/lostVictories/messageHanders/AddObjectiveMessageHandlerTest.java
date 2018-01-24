@@ -28,7 +28,7 @@ import com.jme3.lostVictories.objectives.TravelObjective;
 public class AddObjectiveMessageHandlerTest {
 
 	@Test
-	public void testHandle() throws JsonGenerationException, JsonMappingException, IOException {
+	public void testHandle() throws IOException {
 		UUID characterID = UUID.randomUUID();
 		UUID captureStructureID = UUID.randomUUID();
 		CharacterMessage characterMessage = new CharacterMessage(characterID, CharacterType.SOLDIER, new Vector(0, 0, 0), Country.AMERICAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, UUID.randomUUID());
@@ -50,7 +50,7 @@ public class AddObjectiveMessageHandlerTest {
 				.setObjective(MAPPER.writeValueAsString(travel))
 				.build(), mock(StreamObserver.class));
 
-		assertEquals(2, characterMessage.readObjectives().size());
+		assertEquals(4, characterMessage.readObjectives().size());
 		assertTrue(characterMessage.readObjectives().containsKey(travelId.toString()));
 		assertFalse(characterMessage.readObjectives().containsKey(captureStructureID.toString()));
 	}

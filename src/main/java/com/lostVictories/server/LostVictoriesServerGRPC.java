@@ -65,10 +65,6 @@ public class LostVictoriesServerGRPC {
     public void run() throws IOException, InterruptedException {
         System.out.println("Starting server......");
 
-
-
-
-
         Client esClient = getESClient();
         IndicesAdminClient adminClient = esClient.admin().indices();
         HouseDAO houseDAO = new HouseDAO(esClient, houseIndexName);
@@ -88,14 +84,6 @@ public class LostVictoriesServerGRPC {
 
         boolean existing = createIndices(adminClient, service, houseDAO, treeDAO);
 
-//        Server server = ServerBuilder.forPort(5055).addService(new MockLostVictoryService()).build();
-//        System.out.println("starting server....");
-//        server.start();
-//        System.out.println("server started");
-//        server.awaitTermination();
-
-
-//
         LostVictoriesServiceImpl grpcService = new LostVictoriesServiceImpl(jedisPool, instance, houseDAO, treeDAO, equipmentDAO, gameRequestDAO, playerUsageDAO, messageRepository, worldRunner);
         Server server = ServerBuilder.forPort(port)
                 .addService(grpcService)

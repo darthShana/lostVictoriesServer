@@ -24,7 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-public class HouseMessage implements Serializable{
+public class HouseMessage implements Serializable, Structure{
 	private static Logger log = LoggerFactory.getLogger(HouseMessage.class);
 	public static final float CAPTURE_RANGE = 45;
 	

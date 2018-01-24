@@ -74,7 +74,7 @@ public class CharacterMessage implements Serializable{
 	long creationTime;
 
 
-	private CharacterMessage(){}
+	public CharacterMessage(){}
 
 	public CharacterMessage(UUID identity, CharacterType type, Vector location, Country country, Weapon weapon, RankMessage rank, UUID commandingOfficer) {
 		this(identity, null, type, location, country, weapon, rank, commandingOfficer);

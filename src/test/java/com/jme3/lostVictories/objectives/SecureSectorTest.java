@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.UUID;
 
+import com.jme3.lostVictories.network.messages.*;
 import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.HouseDAO;
 
@@ -16,19 +17,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
-import com.jme3.lostVictories.network.messages.CharacterMessage;
-import com.jme3.lostVictories.network.messages.CharacterType;
-import com.jme3.lostVictories.network.messages.Country;
-import com.jme3.lostVictories.network.messages.HouseMessage;
-import com.jme3.lostVictories.network.messages.Quaternion;
-import com.jme3.lostVictories.network.messages.RankMessage;
-import com.jme3.lostVictories.network.messages.Vector;
-import com.jme3.lostVictories.network.messages.Weapon;
-
 public class SecureSectorTest {
 
 	private HouseDAO houseDAO;
 	private HashSet<HouseMessage> houses;
+	private HashSet<BunkerMessage> bunkers;
 	private CharacterMessage oldCo;
 	private CharacterMessage unit1;
 	private CharacterMessage unit2;
@@ -45,6 +38,7 @@ public class SecureSectorTest {
 	public void setup(){
 		houseDAO = mock(HouseDAO.class);
 		houses = new HashSet<>();
+		bunkers = new HashSet<>();
 		house1 = new HouseMessage("type2", new Vector(100, 1, 100), new Quaternion(1, 1, 1, 1));
 		house2 = new HouseMessage("type2", new Vector(110, 1, 100), new Quaternion(1, 1, 1, 1));
 		house3 = new HouseMessage("type2", new Vector(120, 1, 100), new Quaternion(1, 1, 1, 1));
@@ -74,18 +68,18 @@ public class SecureSectorTest {
 	
 	@Test
 	public void testSaveAndRestoreObjective(){
-		SecureSector objective = new SecureSector(houses, 3, 1, new Vector(100, 0, 100));
+		SecureSector objective = new SecureSector(houses, bunkers, 3, 1, new Vector(100, 0, 100));
 		oldCo.setLocation(new Vector(100, 1, 100));
 		objective.state = SecureSectorState.DEPLOY_TO_SECTOR;
 		objective.runObjective(oldCo, UUID.randomUUID().toString(), characterDAO, houseDAO, toSave, kills);
-		assertEquals(1, unit1.readObjectives().size());
+		assertEquals(3, unit1.readObjectives().size());
 		objective.runObjective(oldCo, UUID.randomUUID().toString(), characterDAO, houseDAO, toSave, kills);
-		assertEquals(1, unit1.readObjectives().size());
+		assertEquals(3, unit1.readObjectives().size());
 	}
 	
 	@Test
 	public void testCompleteDeployPhaseAndChangeToCaptureHouse(){
-		SecureSector objective = new SecureSector(houses, 3, 1, new Vector(100, 0, 100));
+		SecureSector objective = new SecureSector(houses, bunkers,3, 1, new Vector(100, 0, 100));
 		oldCo.setLocation(new Vector(110, 1, 100));
 		objective.state = SecureSectorState.DEPLOY_TO_SECTOR;
 		objective.runObjective(oldCo, UUID.randomUUID().toString(), characterDAO, houseDAO, toSave, kills);
@@ -95,7 +89,7 @@ public class SecureSectorTest {
 	
 	@Test
 	public void testCaptureHouses() {
-		SecureSector objective = new SecureSector(houses, 3, 1, new Vector(100, 0, 100));
+		SecureSector objective = new SecureSector(houses, bunkers, 3, 1, new Vector(100, 0, 100));
 		objective.state = SecureSectorState.CAPTURE_HOUSES;
 		
 		objective.runObjective(oldCo, UUID.randomUUID().toString(), characterDAO, houseDAO, toSave, kills);
@@ -119,19 +113,19 @@ public class SecureSectorTest {
 
 	@Test
     public void testCaptureHousesWhenEnterSectorBoundary(){
-        SecureSector objective = new SecureSector(houses, 3, 1, new Vector(100, 0, 100));
+        SecureSector objective = new SecureSector(houses, bunkers,3, 1, new Vector(100, 0, 100));
         assertEquals(new Rectangle(100, 100, 20, 10), objective.boundary);
         objective.state = SecureSectorState.DEPLOY_TO_SECTOR;
         objective.runObjective(oldCo, UUID.randomUUID().toString(), characterDAO, houseDAO, toSave, kills);
 
-        oldCo.setLocation(new Vector(110, 0, 100));
+        oldCo.setLocation(new Vector(105, 0, 105));
         objective.runObjective(oldCo, UUID.randomUUID().toString(), characterDAO, houseDAO, toSave, kills);
         assertEquals(SecureSectorState.CAPTURE_HOUSES, objective.state);
     }
 	
 	@Test
     public void testWaitsForNorminalStrengthBeforeDeployment(){
-		SecureSector objective = new SecureSector(houses, 4, 1, new Vector(100, 0, 100));
+		SecureSector objective = new SecureSector(houses, bunkers,4, 1, new Vector(100, 0, 100));
 		
 		objective.runObjective(oldCo, UUID.randomUUID().toString(), characterDAO, houseDAO, toSave, kills);
 		assertEquals(SecureSectorState.WAIT_FOR_REENFORCEMENTS, objective.state);
@@ -147,7 +141,7 @@ public class SecureSectorTest {
 	@Test
     public void testRetreatsWhenStrengthFalls(){
 		oldCo.setLocation(new Vector(110, 100, 110));
-		SecureSector objective = new SecureSector(houses, 4, 3, new Vector(100, 0, 100));
+		SecureSector objective = new SecureSector(houses, bunkers,4, 3, new Vector(100, 0, 100));
 		
 		objective.state = SecureSectorState.DEPLOY_TO_SECTOR;
 		objective.runObjective(oldCo, UUID.randomUUID().toString(), characterDAO, houseDAO, toSave, kills);
@@ -170,7 +164,7 @@ public class SecureSectorTest {
 	@Test
     public void testReteatEndsWhenReachedEnemyBase(){
 		oldCo.setLocation(new Vector(110, 100, 110));
-		SecureSector objective = new SecureSector(houses, 4, 3, new Vector(100, 100, 100));
+		SecureSector objective = new SecureSector(houses, bunkers,4, 3, new Vector(100, 100, 100));
 		objective.state = SecureSectorState.RETREAT;
 		
 		objective.runObjective(oldCo, UUID.randomUUID().toString(), characterDAO, houseDAO, toSave, kills);

@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import com.jme3.lostVictories.network.messages.BunkerMessage;
 import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.HouseDAO;
 
@@ -23,25 +24,26 @@ public class SecureSector extends Objective implements CleanupBeforeTransmitting
 	@JsonIgnore
 	private static Logger log = LoggerFactory.getLogger(SecureSector.class);
 	
-	Set<UUID> houses = new HashSet<UUID>();
+	Set<UUID> houses = new HashSet<>();
+	Set<UUID> bunkers = new HashSet<>();
 	Vector centre;
     @JsonIgnore
 	Rectangle.Float boundary;
 	Map<UUID, Objective> issuedOrders = new HashMap<>();
 	int deploymentStrength;
-    int minimumFightingStrenght;
-    SecureSectorState lastState;
+    int minimumFightingStrength;
     Vector homeBase;
 	SecureSectorState state = SecureSectorState.WAIT_FOR_REENFORCEMENTS;
 	
 	@SuppressWarnings("unused")
 	private SecureSector() {}
 	
-	public SecureSector(Set<HouseMessage> houses, int deploymentStrength, int minimumFightingStrenght, Vector homeBase) {
+	public SecureSector(Set<HouseMessage> houses, Set<BunkerMessage> bunkers, int deploymentStrength, int minimumFightingStrength, Vector homeBase) {
 		this.deploymentStrength = deploymentStrength;
-		this.minimumFightingStrenght = minimumFightingStrenght;
+		this.minimumFightingStrength = minimumFightingStrength;
 		this.homeBase = homeBase;
 		this.houses = houses.stream().map(h->h.getId()).collect(Collectors.toSet());
+		this.bunkers = bunkers.stream().map(b->b.getId()).collect(Collectors.toSet());
         calculateBoundry(houses);
         log.trace("securing sector:"+centre+" with houses:"+houses.size());
 	}

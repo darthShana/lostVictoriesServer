@@ -70,7 +70,7 @@ public class CharacterRunnerInstance {
 
     private void runCharacterBehavior(CharacterMessage c, Map<UUID, CharacterMessage> toSave, Map<UUID, UUID> kills, CharacterDAO characterDAO, PlayerUsageDAO playerUsageDAO, HouseDAO houseDAO) {
         Map<String, JsonNode> objectives = c.readObjectives().entrySet().stream().collect(Collectors.toMap(e->e.getKey(), e->toJsonNodeSafe(e.getValue())));
-        String cot = (c.getCheckoutTime()!=null)?(System.currentTimeMillis()-c.getCheckoutTime())+"":"";
+//        String cot = (c.getCheckoutTime()!=null)?(System.currentTimeMillis()-c.getCheckoutTime())+"":"";
 //		System.out.println("runCharacterBehavior:"+c.getId()+" version:"+c.getVersion()+" checkout client:"+c.getCheckoutClient()+"cheout time:"+cot);
         if(c.getCheckoutClient()!=null){
             if(CharacterType.AVATAR==c.getCharacterType() && c.getUserID()!=null){

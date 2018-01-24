@@ -2,35 +2,34 @@ package com.jme3.lostVictories.objectives;
 
 import java.awt.geom.Point2D;
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
-import java.util.UUID;
-import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.jme3.lostVictories.network.messages.*;
+import com.jme3.lostVictories.network.messages.Vector;
 import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.HouseDAO;
 
-import com.jme3.lostVictories.network.messages.CharacterMessage;
-import com.jme3.lostVictories.network.messages.CharacterType;
-import com.jme3.lostVictories.network.messages.HouseMessage;
-import com.jme3.lostVictories.network.messages.RankMessage;
-import com.jme3.lostVictories.network.messages.Vector;
 import com.jme3.math.Vector3f;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public enum SecureSectorState {
-	WAIT_FOR_REENFORCEMENTS {
+
+    WAIT_FOR_REENFORCEMENTS {
 		@Override
 		public void runObjective(CharacterMessage c, String uuid, SecureSector objective, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave, Map<UUID, UUID> kills) {			
 		}
 
 		@Override
 		public SecureSectorState transition(CharacterMessage c, String uuid, SecureSector objective, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave) {
-			if(c.getCurrentStrength(characterDAO)>=objective.deploymentStrength){
+            if(objective.boundary.contains(new Point2D.Float(c.getLocation().x, c.getLocation().z))){
+                return DEFEND_SECTOR;
+            }
+		    if(c.getCurrentStrength(characterDAO)>=objective.deploymentStrength){
 				return DEPLOY_TO_SECTOR;
 			}
 			return WAIT_FOR_REENFORCEMENTS;
@@ -58,7 +57,7 @@ public enum SecureSectorState {
 
 		@Override
 		public SecureSectorState transition(CharacterMessage c, String uuid, SecureSector objective, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave) {
-			if(c.getCurrentStrength(characterDAO)<=objective.minimumFightingStrenght){
+			if(c.getCurrentStrength(characterDAO)<=objective.minimumFightingStrength){
 				return RETREAT;
 			}
 			if(objective.issuedOrders.get(c.getId()).isComplete){
@@ -75,12 +74,9 @@ public enum SecureSectorState {
 		@Override
 		public void runObjective(CharacterMessage c, String uuid, SecureSector objective, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave, Map<UUID, UUID> kills) {
 			final Set<String> exclude = new HashSet<>();
-			Predicate<HouseMessage> houseToCapture = new Predicate<HouseMessage>() {				
-				@Override
-				public boolean test(HouseMessage t) {
-					return t.getOwner()!=c.getCountry() && !exclude.contains(t.getId().toString());
-				}
-			};
+			Predicate<HouseMessage> houseToCapture = t -> t.getOwner()!=c.getCountry() && !exclude.contains(t.getId().toString());
+
+
 			
 			for(Iterator<Entry<UUID, Objective>> it = objective.issuedOrders.entrySet().iterator();it.hasNext();){
 				Objective o = it.next().getValue();
@@ -101,7 +97,7 @@ public enum SecureSectorState {
 					HouseMessage house = findClosestHouse(unit, objective.houses.stream().map(h->houseDAO.getHouse(h)).collect(Collectors.toSet()), houseToCapture);
 					if(house!=null){
 						try {
-							System.out.println(unit.getId()+"CaptureStructure:"+house.getId().toString()+" sector:"+objective.centre);
+							log.info(unit.getId()+"CaptureStructure:"+house.getId().toString()+" sector:"+objective.centre);
 
 							CaptureStructure captureStructure = new CaptureStructure(house.getId().toString());
 							unit.addObjective(UUID.randomUUID(), captureStructure);
@@ -117,7 +113,7 @@ public enum SecureSectorState {
 		}
 
 		public SecureSectorState transition(CharacterMessage c, String uuid, SecureSector objective, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave) {
-			if(c.getCurrentStrength(characterDAO)<=objective.minimumFightingStrenght){
+			if(c.getCurrentStrength(characterDAO)<=objective.minimumFightingStrength){
 				return RETREAT;
 			}
 			if(objective.issuedOrders.values().stream().anyMatch(o->!o.isComplete)){
@@ -130,7 +126,28 @@ public enum SecureSectorState {
     DEFEND_SECTOR {
         @Override
         public void runObjective(CharacterMessage c, String uuid, SecureSector objective, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave, Map<UUID, UUID> kills) {
+            final List<BunkerMessage> bunkers = new ArrayList<>();
 
+            characterDAO.getAllCharacters(c.getUnitsUnderCommand()).entrySet().stream()
+                    .filter(entry -> !objective.issuedOrders.containsKey(entry.getKey()))
+                    .forEach(entry -> {
+                        if(bunkers.isEmpty()){
+                            bunkers.addAll(houseDAO.getBunkers(objective.bunkers));
+                        }
+                        if(!bunkers.isEmpty()){
+                            BunkerMessage bunkerMessage = bunkers.get(0);
+                            log.info(entry.getKey()+" moving to bunker:"+ bunkerMessage.getLocation());
+                            TransportSquad travelObjective = new TransportSquad(bunkerMessage.getLocation());
+                            objective.issuedOrders.put(entry.getKey(), travelObjective);
+                            try {
+                                entry.getValue().addObjective(UUID.randomUUID(), travelObjective);
+                            } catch (JsonProcessingException e) {
+                                throw new RuntimeException(e);
+                            }
+                            toSave.put(entry.getKey(), entry.getValue());
+                            bunkers.remove(0);
+                        }
+                    });
         }
 
         @Override
@@ -194,5 +211,7 @@ public enum SecureSectorState {
 	public abstract void runObjective(CharacterMessage c, String uuid, SecureSector objective, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave, Map<UUID, UUID> kills);
 
 	public abstract SecureSectorState transition(CharacterMessage c, String uuid, SecureSector objective, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave);
+
+    private static Logger log = LoggerFactory.getLogger(SecureSectorState.class);
 
 }

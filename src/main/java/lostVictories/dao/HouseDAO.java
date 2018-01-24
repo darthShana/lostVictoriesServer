@@ -1,14 +1,14 @@
 package lostVictories.dao;
 
 
+import java.awt.geom.Rectangle2D;
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import com.jme3.lostVictories.network.messages.BunkerMessage;
+import com.jme3.lostVictories.network.messages.Vector;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequest;
@@ -28,9 +28,20 @@ public class HouseDAO {
 	private Client esClient;
 	private String indexName;
 
+	private List<BunkerMessage> bunkers = new ArrayList<>();
+
+
 	public HouseDAO(Client esClient, String indexName) {
 		this.esClient = esClient;
 		this.indexName = indexName;
+        bunkers.add(new BunkerMessage(UUID.randomUUID(), new Vector(-250.0f, 96.289536f, -225.11862f)));
+        bunkers.add(new BunkerMessage(UUID.randomUUID(), new Vector(-342.9169f, 96.32557f, -144.11838f)));
+        bunkers.add(new BunkerMessage(UUID.randomUUID(), new Vector(57.210407f, 100.232506f, -270.88477f)));
+        bunkers.add(new BunkerMessage(UUID.randomUUID(), new Vector(99.83392f, 96.43404f, 95.658516f)));
+        bunkers.add(new BunkerMessage(UUID.randomUUID(), new Vector(336.1358f, 95.88243f, 66.05069f)));
+        bunkers.add(new BunkerMessage(UUID.randomUUID(), new Vector(-96.58569f, 97.62429f, 231.24171f)));
+        bunkers.add(new BunkerMessage(UUID.randomUUID(), new Vector(204.1758f, 102.116066f, -24.266691f)));
+        bunkers.add(new BunkerMessage(UUID.randomUUID(), new Vector(137.88399f, 100.28509f, -270.88477f)));
 	}
 	
 	public void putHouse(UUID uuid, HouseMessage house) {
@@ -82,5 +93,11 @@ public class HouseDAO {
 		return fromFields(UUID.fromString(response.getId()), response.getSource());
 	}
 
+    public List<BunkerMessage> getAllBunkers() {
+        return bunkers;
+    }
 
+    public List<BunkerMessage> getBunkers(Set<UUID> ids) {
+	    return bunkers.stream().filter(b->ids.contains(b.getId())).collect(Collectors.toList());
+    }
 }
