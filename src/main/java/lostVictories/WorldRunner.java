@@ -22,12 +22,10 @@ public class WorldRunner implements Runnable{
 	private Map<Country, Integer> victoryPoints = new EnumMap<Country, Integer>(Country.class);
 	private Map<Country, Integer> manPower = new EnumMap<Country, Integer>(Country.class);
 
-	private Map<Country, Integer> structureOwnership = new EnumMap<>(Country.class);
 	private Map<Country, Integer> nextRespawnTime = new EnumMap<>(Country.class);
 	private Map<Country, WeaponsFactory> weaponsFactory = new HashMap<Country, WeaponsFactory>();
 	private Map<Country, VehicleFactory> vehicleFactory = new HashMap<Country, VehicleFactory>();
 
-	private Map<UUID, AchievementStatus> achivementCache = new HashMap<UUID, AchievementStatus>();
 
 	private String gameName;
 
@@ -53,7 +51,7 @@ public class WorldRunner implements Runnable{
 	@Override
 	public void run() {
 		try {
-            structureOwnership = lostVictoryService.runWorld(victoryPoints, manPower, weaponsFactory, vehicleFactory, nextRespawnTime, gameName);
+            lostVictoryService.runWorld(victoryPoints, manPower, weaponsFactory, vehicleFactory, nextRespawnTime, gameName);
         }catch (Exception e){
 		    e.printStackTrace();
         }
@@ -63,32 +61,9 @@ public class WorldRunner implements Runnable{
 
 
 
-	public GameStatistics getStatistics(Country country) {
-		GameStatistics statistics = new GameStatistics();
-		
-		final Country other;
-		if(country==Country.GERMAN){
-			other = Country.AMERICAN;
-		}else{
-			other = Country.GERMAN;
-		}
-		
-		statistics.setVictorypoints(victoryPoints.get(country), victoryPoints.get(other));
-		statistics.setHousesCaptured(structureOwnership.get(country), structureOwnership.get(other));
-		statistics.setAvatarRespawnEstimate(nextRespawnTime.get(country));
-		
-		return statistics;
-	}
 
-	public AchievementStatus getAchivementStatus(CharacterMessage avatar, CharacterDAO characterDAO) {
-		AchievementStatus achivementStatus = achivementCache .get(avatar.getId());
-		if(achivementStatus==null || System.currentTimeMillis()-achivementStatus.getSentTime()>2000){
-			RankMessage rank = avatar.getRank();
-			achivementStatus = new AchievementStatus(rank.getAchivementMessage(), avatar.totalKillCount(characterDAO), rank.getTotalAchivementCount(), System.currentTimeMillis());
-			achivementCache.put(avatar.getId(), achivementStatus);
-		}
-		return achivementStatus;
-	}
+
+
 
 
 	public void setLostVictoryService(LostVictoriesServiceImpl lostVictoryService) {

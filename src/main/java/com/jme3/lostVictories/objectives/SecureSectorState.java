@@ -137,7 +137,7 @@ public enum SecureSectorState {
                         if(!bunkers.isEmpty()){
                             BunkerMessage bunkerMessage = bunkers.get(0);
                             log.info(entry.getKey()+" moving to bunker:"+ bunkerMessage.getLocation());
-                            TransportSquad travelObjective = new TransportSquad(bunkerMessage.getLocation());
+                            TransportSquad travelObjective = new TransportSquad(bunkerMessage.getEntryPoint());
                             objective.issuedOrders.put(entry.getKey(), travelObjective);
                             try {
                                 entry.getValue().addObjective(UUID.randomUUID(), travelObjective);
@@ -185,7 +185,6 @@ public enum SecureSectorState {
 				try {
 					TransportSquad deployToSector = new TransportSquad(location);
 					unit.addObjective(UUID.randomUUID(), deployToSector);
-					System.out.println("assigning transport to:"+unit.getId()+" dest:"+location);
 					toSave.put(unit.getId(), unit);
 					objective.issuedOrders.put(unit.getId(), deployToSector);	
 				} catch (IOException e) {

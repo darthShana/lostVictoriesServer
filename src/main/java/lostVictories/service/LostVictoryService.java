@@ -18,7 +18,6 @@ public class LostVictoryService {
 
     private JedisPool jedisPool;
     private String nameSpace;
-    private final HouseDAO houseDAO;
     private final TreeDAO treeDAO;
     private final EquipmentDAO equipmentDAO;
     private final GameRequestDAO gameRequestDAO;
@@ -26,10 +25,9 @@ public class LostVictoryService {
     private MessageRepository messageRepository;
     private WorldRunner worldRunner;
 
-    public LostVictoryService(JedisPool jedisPool, String nameSpace, HouseDAO houseDAO, TreeDAO treeDAO, EquipmentDAO equipmentDAO, GameRequestDAO gameRequestDAO, PlayerUsageDAO playerUsageDAO, MessageRepository messageRepository, WorldRunner worldRunner) {
+    public LostVictoryService(JedisPool jedisPool, String nameSpace, TreeDAO treeDAO, EquipmentDAO equipmentDAO, GameRequestDAO gameRequestDAO, PlayerUsageDAO playerUsageDAO, MessageRepository messageRepository, WorldRunner worldRunner) {
         this.jedisPool = jedisPool;
         this.nameSpace = nameSpace;
-        this.houseDAO = houseDAO;
         this.treeDAO = treeDAO;
         this.equipmentDAO = equipmentDAO;
         this.gameRequestDAO = gameRequestDAO;
@@ -42,6 +40,7 @@ public class LostVictoryService {
 
         try (Jedis jedis = jedisPool.getResource()){
             CharacterDAO characterDAO = new CharacterDAO(jedis, nameSpace);
+            HouseDAO houseDAO = new HouseDAO(jedis, nameSpace);
             characterDAO.deleteAllCharacters();
             new LostVictoryScene().loadScene(characterDAO, houseDAO, treeDAO);
         } catch(Throwable e){
@@ -55,6 +54,7 @@ public class LostVictoryService {
     public void doRunCharacters(CharacterMessage characterMessage) {
         try (Jedis jedis = jedisPool.getResource()){
             CharacterDAO characterDAO = new CharacterDAO(jedis, nameSpace);
+            HouseDAO houseDAO = new HouseDAO(jedis, nameSpace);
             new CharacterRunnerInstance().doRunCharacter(characterMessage, characterDAO, houseDAO, playerUsageDAO);
         }catch(Throwable e){
             e.printStackTrace();

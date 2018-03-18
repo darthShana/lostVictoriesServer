@@ -27,20 +27,10 @@ public class CaptureTown extends Objective {
 	private Set<GameSector> gameSectors;
 	@JsonIgnore
 	public Rectangle mapBounds = new Rectangle(-512, -512, 1024, 1024);
-	private long startTime;
-	
-	@SuppressWarnings("unused")
-	private CaptureTown() {}
-	
-	public CaptureTown(long startTime){
-		this.startTime = startTime;
-	}
 	
 	@Override
 	public void runObjective(CharacterMessage c, String uuid, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave, Map<UUID, UUID> kills) {
-		if(System.currentTimeMillis()-startTime<(60*1000)){
-			return;
-		}
+
 		
 		if(gameSectors==null){
             gameSectors = calculateGameSectors(houseDAO);
@@ -91,7 +81,7 @@ public class CaptureTown extends Objective {
 	}
 
 	Set<GameSector> calculateGameSectors(HouseDAO houseDAO) {
-        final Set<GameSector> sectors = new HashSet<GameSector>();
+        final Set<GameSector> sectors = new HashSet<>();
         
         for(int y = mapBounds.y;y<=mapBounds.getMaxY();y=y+50){
             for(int x = mapBounds.x;x<=mapBounds.getMaxX();x=x+50){

@@ -46,8 +46,6 @@ public class UpdateCharactersMessageHandlerTest {
         GameStatistics t = new GameStatistics();
         t.setHousesCaptured(5, 6);
         t.setVictorypoints(500, 600);
-        when(worldRunner.getStatistics(any())).thenReturn(t);
-        when(worldRunner.getAchivementStatus(any(), any())).thenReturn(new AchievementStatus("", 1, 2, 3));
         handler = new UpdateCharactersMessageHandler(characterDAO, mock(HouseDAO.class), mock(EquipmentDAO.class), worldRunner, new MessageRepository());
 	}
 
@@ -68,7 +66,7 @@ public class UpdateCharactersMessageHandlerTest {
         ArgumentCaptor<LostVictoryMessage> argument = ArgumentCaptor.forClass(LostVictoryMessage.class);
         SafeStreamObserver mock = mock(SafeStreamObserver.class);
 
-        handler.handle(convertToCharacterMessage(cc3, clientID, 5000), mock, new HashSet<>());
+        handler.handle(convertToCharacterMessage(cc3, clientID, 5000), mock, new HashMap<>());
 
         verify(mock).onNext(argument.capture());
 		verify(characterDAO, times(1)).updateCharacterState(anyObject());
@@ -95,7 +93,7 @@ public class UpdateCharactersMessageHandlerTest {
         ArgumentCaptor<LostVictoryMessage> argument = ArgumentCaptor.forClass(LostVictoryMessage.class);
         SafeStreamObserver mock = mock(SafeStreamObserver.class);
 
-        handler.handle(convertToCharacterMessage(cc3, clientID, 5000), mock, new HashSet<>());
+        handler.handle(convertToCharacterMessage(cc3, clientID, 5000), mock, new HashMap<>());
 
         verify(mock).onNext(argument.capture());
         verify(characterDAO, times(0)).updateCharacterState(anyObject());
@@ -127,7 +125,7 @@ public class UpdateCharactersMessageHandlerTest {
         ArgumentCaptor<LostVictoryMessage> argument1 = ArgumentCaptor.forClass(LostVictoryMessage.class);
         SafeStreamObserver mock1 = mock(SafeStreamObserver.class);
 
-        handler.handle(convertToCharacterMessage(cc3, clientID, 5000), mock1, new HashSet<>());
+        handler.handle(convertToCharacterMessage(cc3, clientID, 5000), mock1, new HashMap<>());
 
         verify(mock1).onNext(argument1.capture());
         assertEquals(1, argument1.getAllValues().stream().filter(m->m.hasCharacterStatusResponse()).collect(Collectors.toSet()).size());
@@ -135,7 +133,7 @@ public class UpdateCharactersMessageHandlerTest {
         ArgumentCaptor<LostVictoryMessage> argument2 = ArgumentCaptor.forClass(LostVictoryMessage.class);
         SafeStreamObserver mock2 = mock(SafeStreamObserver.class);
 
-        handler.handle(convertToCharacterMessage(avatar, clientID, 5001), mock2, new HashSet<>());
+        handler.handle(convertToCharacterMessage(avatar, clientID, 5001), mock2, new HashMap<>());
 
         verify(mock2, times(2)).onNext(argument2.capture());
 
@@ -164,7 +162,7 @@ public class UpdateCharactersMessageHandlerTest {
         ArgumentCaptor<LostVictoryMessage> argument = ArgumentCaptor.forClass(LostVictoryMessage.class);
         SafeStreamObserver mock = mock(SafeStreamObserver.class);
 
-        handler.handle(convertToCharacterMessage(cc3, clientID, 5001), mock, new HashSet<>());
+        handler.handle(convertToCharacterMessage(cc3, clientID, 5001), mock, new HashMap<>());
         verify(mock, times(3)).onNext(argument.capture());
         Set<UUID> collect = argument.getAllValues().stream().filter(m -> m.hasCharacterStatusResponse()).map(msg->uuid(msg.getCharacterStatusResponse().getUnit().getId())).collect(Collectors.toSet());
 		assertEquals(1, collect.size());
@@ -194,7 +192,7 @@ public class UpdateCharactersMessageHandlerTest {
 
 		CharacterMessage cc3 = getCharacterSource(c1.getId(), new Vector(600.1f, 2, 2), new Vector(0, 0, 1), Action.move(), null);
         SafeStreamObserver mock = mock(SafeStreamObserver.class);
-        handler.handle(convertToCharacterMessage(cc3, avatar.getId(), 5000), mock, new HashSet<>());
+        handler.handle(convertToCharacterMessage(cc3, avatar.getId(), 5000), mock, new HashMap<>());
 
 		verify(characterDAO, times(1)).updateCharacterState(anyObject());
 		verify(mock, never()).onNext(anyObject());

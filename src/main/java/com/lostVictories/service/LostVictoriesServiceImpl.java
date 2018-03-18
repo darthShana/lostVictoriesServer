@@ -1,6 +1,5 @@
 package com.lostVictories.service;
 
-import com.jme3.lostVictories.network.messages.*;
 import com.jme3.lostVictories.network.messages.Country;
 import com.lostVictories.api.*;
 import com.lostVictories.api.AddObjectiveRequest;
@@ -30,91 +29,114 @@ import static com.lostVictories.service.LostVictoriesService.uuid;
 public class LostVictoriesServiceImpl extends LostVictoriesServerGrpc.LostVictoriesServerImplBase {
 
     private static Logger log = LoggerFactory.getLogger(LostVictoriesServiceImpl.class);
-    LostVictoriesService lostVictoriesSerice;
+    LostVictoriesService lostVictoriesService;
 
-    Set<SafeStreamObserver> clientObserverSet = new HashSet<>();
-    Set<UUID> clientIDSet = new HashSet<>();
+    Map<UUID, SafeStreamObserver<LostVictoryMessage>> characterObserverMap = new HashMap<>();
+    Map<UUID, SafeStreamObserver<LostVictoryStatusMessage>> gameStatusObserverMap = new HashMap<>();
 
-    public LostVictoriesServiceImpl(JedisPool jedisPool, String instance, HouseDAO houseDAO, TreeDAO treeDAO, EquipmentDAO equipmentDAO, GameRequestDAO gameRequestDAO, PlayerUsageDAO playerUsageDAO, MessageRepository messageRepository, WorldRunner worldRunner) {
-        lostVictoriesSerice = new LostVictoriesService(jedisPool, instance, houseDAO, treeDAO, equipmentDAO, gameRequestDAO, playerUsageDAO, messageRepository, worldRunner);
+    public LostVictoriesServiceImpl(JedisPool jedisPool, String instance, TreeDAO treeDAO, EquipmentDAO equipmentDAO, GameRequestDAO gameRequestDAO, PlayerUsageDAO playerUsageDAO, MessageRepository messageRepository, WorldRunner worldRunner) {
+        lostVictoriesService = new LostVictoriesService(jedisPool, instance, treeDAO, equipmentDAO, gameRequestDAO, playerUsageDAO, messageRepository, worldRunner);
     }
 
     @Override
-    public void checkoutSceen(CheckoutScreenRequest request, StreamObserver<LostVictoryMessage> responseObserver) {
-        lostVictoriesSerice.checkoutSceen(request, responseObserver);
+    public void checkoutSceen(CheckoutScreenRequest request, StreamObserver<LostVictoryCheckout> responseObserver) {
+        lostVictoriesService.checkoutSceen(request, responseObserver);
     }
 
     @Override
     public StreamObserver<UpdateCharactersRequest> updateLocalCharacters(StreamObserver<LostVictoryMessage> responseObserver) {
-        SafeStreamObserver safeStreamObserver = new SafeStreamObserver(responseObserver);
+        SafeStreamObserver safeStreamObserver = new SafeStreamObserver<>(responseObserver);
         return new StreamObserver<UpdateCharactersRequest>() {
             @Override
             public void onNext(UpdateCharactersRequest updateCharactersRequest) {
 
                 UUID uuid = uuid(updateCharactersRequest.getClientID());
-                if(!clientIDSet.contains(uuid)){
-                    log.debug("registering new client:"+uuid);
+                if(!characterObserverMap.containsKey(uuid)){
+                    log.debug("registering new character client:"+uuid);
                     safeStreamObserver.setClientID(uuid);
-                    clientIDSet.add(uuid);
-                    clientObserverSet.add(safeStreamObserver);
+                    characterObserverMap.put(uuid, safeStreamObserver);
                 }
-                lostVictoriesSerice.updateLocalCharacters(updateCharactersRequest, safeStreamObserver, clientObserverSet);
+                lostVictoriesService.updateLocalCharacters(updateCharactersRequest, safeStreamObserver, characterObserverMap);
             }
 
             @Override
             public void onError(Throwable throwable) {
-                if(clientObserverSet.remove(safeStreamObserver)){
+                if(characterObserverMap.remove(safeStreamObserver.getClientID())!=null){
                     log.debug("de-registering client:"+safeStreamObserver.getClientID());
-                    clientIDSet.remove(safeStreamObserver.getClientID());
                 }
             }
 
             @Override
             public void onCompleted() {
-                if(clientObserverSet.remove(safeStreamObserver)){
+                if(characterObserverMap.remove(safeStreamObserver.getClientID())!=null){
                     log.debug("de-registering client:"+safeStreamObserver.getClientID());
-                    clientIDSet.remove(safeStreamObserver.getClientID());
                 }
             }
         };
     }
 
     @Override
+    public StreamObserver<RegisterClientRequest> registerClient(StreamObserver<LostVictoryStatusMessage> responseObserver) {
+        SafeStreamObserver safeStreamObserver = new SafeStreamObserver<>(responseObserver);
+        return new StreamObserver<RegisterClientRequest>() {
+            @Override
+            public void onNext(RegisterClientRequest updateCharactersRequest) {
+
+                UUID uuid = uuid(updateCharactersRequest.getClientID());
+                if(!gameStatusObserverMap.containsKey(uuid)){
+                    safeStreamObserver.setClientID(uuid);
+                    gameStatusObserverMap.put(uuid, safeStreamObserver);
+                }
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                gameStatusObserverMap.remove(safeStreamObserver);
+            }
+
+            @Override
+            public void onCompleted() {
+                gameStatusObserverMap.remove(safeStreamObserver);
+            }
+        };
+    }
+
+    @Override
     public void deathNotification(DeathNotificationRequest request, StreamObserver<LostVictoryMessage> responseObserver) {
-        lostVictoriesSerice.deathNotification(request, responseObserver);
+        lostVictoriesService.deathNotification(request, responseObserver);
     }
 
     @Override
     public void gunnerDeathNotification(PassengerDeathNotificationRequest request, StreamObserver<LostVictoryMessage> responseObserver) {
-        lostVictoriesSerice.gunnerDeathNotification(request, responseObserver);
+        lostVictoriesService.gunnerDeathNotification(request, responseObserver);
     }
 
     @Override
     public void addObjective(AddObjectiveRequest request, StreamObserver<LostVictoryMessage> responseObserver) {
-        lostVictoriesSerice.addObjective(request, responseObserver);
+        lostVictoriesService.addObjective(request, responseObserver);
     }
 
     @Override
     public void requestEquipmentCollection(EquipmentCollectionRequest request, StreamObserver<LostVictoryMessage> responseObserver) {
-        lostVictoriesSerice.requestEquipmentCollection(request, responseObserver);
+        lostVictoriesService.requestEquipmentCollection(request, responseObserver);
     }
 
     @Override
     public void boardVehicle(BoardVehicleRequest request, StreamObserver<LostVictoryMessage> responseObserver) {
-        lostVictoriesSerice.boardVehicle(request, responseObserver);
+        lostVictoriesService.boardVehicle(request, responseObserver);
     }
 
     @Override
     public void disembarkPassengers(DisembarkPassengersRequest request, StreamObserver<LostVictoryMessage> responseObserver) {
-        lostVictoriesSerice.disembarkPassengers(request, responseObserver);
+        lostVictoriesService.disembarkPassengers(request, responseObserver);
     }
 
     @Override
     public void joinGame(JoinRequest request, StreamObserver<JoinResponse> responseObserver) {
-        lostVictoriesSerice.joinGame(request, responseObserver);
+        lostVictoriesService.joinGame(request, responseObserver);
     }
 
     public Map<Country, Integer> runWorld(Map<Country, Integer> victoryPoints, Map<Country, Integer> manPower, Map<Country, WeaponsFactory> weaponsFactory, Map<Country, VehicleFactory> vehicleFactory, Map<Country, Integer> nextRespawnTime, String gameName) {
-        return lostVictoriesSerice.runWorld(victoryPoints, manPower, weaponsFactory, vehicleFactory, nextRespawnTime, gameName, clientObserverSet);
+        return lostVictoriesService.runWorld(victoryPoints, manPower, weaponsFactory, vehicleFactory, nextRespawnTime, gameName, gameStatusObserverMap);
     }
 }

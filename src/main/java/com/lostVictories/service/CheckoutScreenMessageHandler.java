@@ -36,16 +36,18 @@ public class CheckoutScreenMessageHandler {
         this.playerUsageDAO = playerUsageDAO;
     }
 
-    public void handle(CheckoutScreenRequest request, StreamObserver<LostVictoryMessage> responseObserver) {
+    public void handle(CheckoutScreenRequest request, StreamObserver<LostVictoryCheckout> responseObserver) {
         log.info("checking out scene for avatar:"+uuid(request.getAvatar()));
         com.jme3.lostVictories.network.messages.CharacterMessage avatar = characterDAO.getCharacter(uuid(request.getAvatar()));
         if(avatar!=null){
             Vector l = avatar.getLocation();
 
-            characterDAO.getAllCharacters(l.x, l.y, l.z, CLIENT_RANGE).stream().map(c->mp.toMessage(c, 0)).forEach(cm->responseObserver.onNext(cm));
-            equipmentDAO.getUnClaimedEquipment(l.x, l.y, l.z, CLIENT_RANGE).stream().map(e->mp.toMessage(e)).forEach(em->responseObserver.onNext(em));
-            houseDAO.getAllHouses().stream().map(h->mp.toMessage(h)).forEach(hm->responseObserver.onNext(hm));
-            treeDAO.getAllTrees().stream().map(t->mp.toMessage(t)).forEach(tm->responseObserver.onNext(tm));
+            LostVictoryCheckout.Builder builder = LostVictoryCheckout.newBuilder();
+
+            characterDAO.getAllCharacters(l.x, l.y, l.z, CLIENT_RANGE).stream().map(c->mp.toMessage(c)).forEach(cm->builder.addCharacters(cm));
+            houseDAO.getAllHouses().stream().map(h->mp.toMessage(h)).forEach(hm->builder.addHouses(hm));
+
+            responseObserver.onNext(builder.build());
 
             playerUsageDAO.registerStartGame(avatar.getUserID(), System.currentTimeMillis());
         }

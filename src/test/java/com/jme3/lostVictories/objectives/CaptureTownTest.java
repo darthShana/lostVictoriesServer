@@ -21,7 +21,7 @@ public class CaptureTownTest {
 
 	@Test
 	public void testCalculateGameSector() {
-		CaptureTown captureTown = new CaptureTown(System.currentTimeMillis());
+		CaptureTown captureTown = new CaptureTown();
 		
 		HouseDAO houseDAO = mock(HouseDAO.class);
 		when(houseDAO.getAllHouses()).thenReturn(getAllHouses());
@@ -64,7 +64,7 @@ public class CaptureTownTest {
 	
 	@Test
 	public void testFindNeighbouringSectors(){
-		CaptureTown captureTown = new CaptureTown(System.currentTimeMillis());
+		CaptureTown captureTown = new CaptureTown();
 		
 		GameSector merged = new GameSector(new Rectangle(-512, -512, 100, 100));
 		
@@ -79,7 +79,7 @@ public class CaptureTownTest {
 
 	@Test
     public void testFindClosestUnsecuredGameSector(){
-        CaptureTown captureTown = new CaptureTown(System.currentTimeMillis());
+        CaptureTown captureTown = new CaptureTown();
         CharacterMessage oldCo = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, LostVictoryScene.americanBase, Country.AMERICAN, Weapon.RIFLE, RankMessage.COLONEL, null);
 
 

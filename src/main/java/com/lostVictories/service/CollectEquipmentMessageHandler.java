@@ -62,6 +62,7 @@ public class CollectEquipmentMessageHandler {
         }
         equipmentDAO.delete(equipment);
         characterDAO.putCharacter(character.getId(), character);
+        responseObserver.onNext(LostVictoryMessage.newBuilder().build());
         responseObserver.onCompleted();
     }
 }

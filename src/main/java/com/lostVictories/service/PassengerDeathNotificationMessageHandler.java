@@ -49,6 +49,7 @@ public class PassengerDeathNotificationMessageHandler {
         }
 
         characterDAO.saveCommandStructure(toSave);
+        responseObserver.onNext(LostVictoryMessage.newBuilder().build());
         responseObserver.onCompleted();
     }
 }

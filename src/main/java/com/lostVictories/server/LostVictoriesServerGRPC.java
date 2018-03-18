@@ -67,7 +67,6 @@ public class LostVictoriesServerGRPC {
 
         Client esClient = getESClient();
         IndicesAdminClient adminClient = esClient.admin().indices();
-        HouseDAO houseDAO = new HouseDAO(esClient, houseIndexName);
         TreeDAO treeDAO = new TreeDAO(esClient, treeIndexName);
         EquipmentDAO equipmentDAO = new EquipmentDAO(esClient, equipmentIndexName);
         GameRequestDAO gameRequestDAO = new GameRequestDAO(esClient);
@@ -79,12 +78,12 @@ public class LostVictoriesServerGRPC {
         jedisPoolConfig.setMaxTotal(100);
         jedisPoolConfig.setMinIdle(100);
         JedisPool jedisPool = new JedisPool(jedisPoolConfig, "localhost");
-        service = new LostVictoryService(jedisPool, instance, houseDAO, treeDAO, equipmentDAO, gameRequestDAO, playerUsageDAO, messageRepository, worldRunner);
+        service = new LostVictoryService(jedisPool, instance, treeDAO, equipmentDAO, gameRequestDAO, playerUsageDAO, messageRepository, worldRunner);
 
 
-        boolean existing = createIndices(adminClient, service, houseDAO, treeDAO);
+        boolean existing = createIndices(adminClient, service, treeDAO);
 
-        LostVictoriesServiceImpl grpcService = new LostVictoriesServiceImpl(jedisPool, instance, houseDAO, treeDAO, equipmentDAO, gameRequestDAO, playerUsageDAO, messageRepository, worldRunner);
+        LostVictoriesServiceImpl grpcService = new LostVictoriesServiceImpl(jedisPool, instance, treeDAO, equipmentDAO, gameRequestDAO, playerUsageDAO, messageRepository, worldRunner);
         Server server = ServerBuilder.forPort(port)
                 .addService(grpcService)
                 .build();
@@ -120,25 +119,12 @@ public class LostVictoriesServerGRPC {
 
     }
 
-    private boolean createIndices(IndicesAdminClient adminClient, LostVictoryService service, HouseDAO housesDAO, TreeDAO treeDAO) throws IOException {
-        deleteIndex(adminClient, houseIndexName);
+    private boolean createIndices(IndicesAdminClient adminClient, LostVictoryService service, TreeDAO treeDAO) throws IOException {
         deleteIndex(adminClient, equipmentIndexName);
         deleteIndex(adminClient, treeIndexName);
 
-
-        final CreateIndexRequestBuilder houseIndexRequestBuilder = adminClient.prepareCreate(houseIndexName);
-        XContentBuilder builder = XContentFactory.jsonBuilder().startObject().startObject("houseStatus").startObject("properties");
-        builder.startObject("location")
-                .field("type", "geo_point")
-                .field("store", "yes")
-                .endObject();
-        builder.endObject().endObject().endObject();
-
-        houseIndexRequestBuilder.addMapping("houseStatus", builder);
-        houseIndexRequestBuilder.execute().actionGet();
-
         final CreateIndexRequestBuilder treeIndexRequestBuilder = adminClient.prepareCreate(treeIndexName);
-        builder = XContentFactory.jsonBuilder().startObject().startObject("treeStatus").startObject("properties");
+        XContentBuilder builder = XContentFactory.jsonBuilder().startObject().startObject("treeStatus").startObject("properties");
         builder.startObject("location")
                 .field("type", "geo_point")
                 .field("store", "yes")

@@ -91,14 +91,7 @@ public class CharacterMessage implements Serializable{
 		if(commandingOfficer!=null){
 			this.commandingOfficer = commandingOfficer;
 		}
-        try {
-            if(rank == RankMessage.CADET_CORPORAL){
-                addObjective(UUID.randomUUID(), new CollectUnusedEquipment());
-            }
-            addObjective(UUID.randomUUID(), new SurvivalObjective());
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+
 
     }
 

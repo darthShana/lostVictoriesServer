@@ -36,7 +36,6 @@ public class LostVictoriesService {
 
     private final JedisPool jedisPool;
     private final String nameSpace;
-    private final HouseDAO houseDAO;
     private final TreeDAO treeDAO;
     private final EquipmentDAO equipmentDAO;
     private final GameRequestDAO gameRequestDAO;
@@ -44,10 +43,9 @@ public class LostVictoriesService {
     private final MessageRepository messageRepository;
     private final WorldRunner worldRunner;
 
-    public LostVictoriesService(JedisPool jedisPool, String nameSpace, HouseDAO houseDAO, TreeDAO treeDAO, EquipmentDAO equipmentDAO, GameRequestDAO gameRequestDAO, PlayerUsageDAO playerUsageDAO, MessageRepository messageRepository, WorldRunner worldRunner) {
+    public LostVictoriesService(JedisPool jedisPool, String nameSpace, TreeDAO treeDAO, EquipmentDAO equipmentDAO, GameRequestDAO gameRequestDAO, PlayerUsageDAO playerUsageDAO, MessageRepository messageRepository, WorldRunner worldRunner) {
         this.jedisPool = jedisPool;
         this.nameSpace = nameSpace;
-        this.houseDAO = houseDAO;
         this.treeDAO = treeDAO;
         this.equipmentDAO = equipmentDAO;
         this.gameRequestDAO = gameRequestDAO;
@@ -57,10 +55,11 @@ public class LostVictoriesService {
     }
 
 
-    public void checkoutSceen(CheckoutScreenRequest request, StreamObserver<LostVictoryMessage> responseObserver) {
+    public void checkoutSceen(CheckoutScreenRequest request, StreamObserver<LostVictoryCheckout> responseObserver) {
         Jedis jedis = jedisPool.getResource();
         try {
             CharacterDAO characterDAO = new CharacterDAO(jedis, nameSpace);
+            HouseDAO houseDAO = new HouseDAO(jedis, nameSpace);
             CheckoutScreenMessageHandler checkoutScreenMessageHandler = new CheckoutScreenMessageHandler(characterDAO, houseDAO, equipmentDAO, treeDAO, playerUsageDAO);
             checkoutScreenMessageHandler.handle(request, responseObserver);
         }finally {
@@ -68,12 +67,13 @@ public class LostVictoriesService {
         }
     }
 
-    public void updateLocalCharacters(UpdateCharactersRequest updateCharactersRequest, SafeStreamObserver responseObserver, Set<SafeStreamObserver> clientObserverMap) {
+    public void updateLocalCharacters(UpdateCharactersRequest updateCharactersRequest, SafeStreamObserver responseObserver, Map<UUID, SafeStreamObserver<LostVictoryMessage>> clientObserverMap) {
         Jedis jedis = jedisPool.getResource();
         try {
             CharacterDAO characterDAO = new CharacterDAO(jedis, nameSpace);
-            UpdateCharactersMessageHandler checkoutScreenMessageHandler = new UpdateCharactersMessageHandler(characterDAO, houseDAO, equipmentDAO, worldRunner, messageRepository);
-            checkoutScreenMessageHandler.handle(updateCharactersRequest, responseObserver, clientObserverMap);
+            HouseDAO houseDAO = new HouseDAO(jedis, nameSpace);
+            UpdateCharactersMessageHandler updateCharacterMessageHandler = new UpdateCharactersMessageHandler(characterDAO, houseDAO, equipmentDAO, worldRunner, messageRepository);
+            updateCharacterMessageHandler.handle(updateCharactersRequest, responseObserver, clientObserverMap);
         }catch (IOException e){
             throw new RuntimeException(e);
         }finally {
@@ -169,10 +169,11 @@ public class LostVictoriesService {
         }
     }
 
-    public Map<com.jme3.lostVictories.network.messages.Country, Integer> runWorld(Map<com.jme3.lostVictories.network.messages.Country, Integer> victoryPoints, Map<com.jme3.lostVictories.network.messages.Country, Integer> manPower, Map<com.jme3.lostVictories.network.messages.Country, WeaponsFactory> weaponsFactory, Map<com.jme3.lostVictories.network.messages.Country, VehicleFactory> vehicleFactory, Map<com.jme3.lostVictories.network.messages.Country, Integer> nextRespawnTime, String gameName, Set<SafeStreamObserver> clientObserverMap) {
+    public Map<com.jme3.lostVictories.network.messages.Country, Integer> runWorld(Map<com.jme3.lostVictories.network.messages.Country, Integer> victoryPoints, Map<com.jme3.lostVictories.network.messages.Country, Integer> manPower, Map<com.jme3.lostVictories.network.messages.Country, WeaponsFactory> weaponsFactory, Map<com.jme3.lostVictories.network.messages.Country, VehicleFactory> vehicleFactory, Map<com.jme3.lostVictories.network.messages.Country, Integer> nextRespawnTime, String gameName, Map<UUID, SafeStreamObserver<LostVictoryStatusMessage>> clientObserverMap) {
 
         try (Jedis jedis = jedisPool.getResource()){
             CharacterDAO characterDAO = new CharacterDAO(jedis, nameSpace);
+            HouseDAO houseDAO = new HouseDAO(jedis, nameSpace);
             return new WorldRunnerInstance().runWorld(characterDAO, houseDAO, gameRequestDAO, playerUsageDAO, equipmentDAO, victoryPoints, manPower, weaponsFactory, vehicleFactory, nextRespawnTime, messageRepository, gameName, clientObserverMap);
         }catch(Throwable e){
             throw new RuntimeException(e);

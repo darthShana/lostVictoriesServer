@@ -39,7 +39,6 @@ public class EquipmentDAO {
 		try {
 			esClient.prepareIndex(indexName, "equipmentStatus", equipment.getId().toString())
 			        .setSource(equipment.getJSONRepresentation())
-			        .setVersion(equipment.getVersion())
 			        .execute()
 			        .actionGet();
 

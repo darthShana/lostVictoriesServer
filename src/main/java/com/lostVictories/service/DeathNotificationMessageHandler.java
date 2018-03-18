@@ -53,7 +53,7 @@ public class DeathNotificationMessageHandler {
         if(victim.getWeapon().isReusable() && (victim.getCharacterType()== CharacterType.SOLDIER || victim.getCharacterType()==CharacterType.AVATAR)){
             equipmentDAO.addUnclaiimedEquipment(new UnClaimedEquipmentMessage(UUID.randomUUID(), victim.getWeapon(), victim.getLocation(), new com.jme3.lostVictories.network.messages.Vector(0, 0, 0)));
         }
-
+        responseObserver.onNext(LostVictoryMessage.newBuilder().build());
         responseObserver.onCompleted();
     }
 }

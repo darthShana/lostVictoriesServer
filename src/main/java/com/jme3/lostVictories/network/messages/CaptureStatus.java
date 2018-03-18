@@ -7,7 +7,7 @@ public enum CaptureStatus {
 		@Override
 		public CaptureStatus transition(Set<CharacterMessage> allCharacters, HouseMessage houseMessage) {
 			if(!allCharacters.isEmpty() && allCharacters.stream().allMatch(c->c.getCountry()==houseMessage.getCompetingOwner())){
-				if(houseMessage.captureTimeExceded()){
+				if(houseMessage.captureTimeExceeded()){
 					houseMessage.changeOwnership();
 					return CaptureStatus.CAPTURED;
 				}else{
@@ -43,7 +43,7 @@ public enum CaptureStatus {
 		@Override
 		public CaptureStatus transition(Set<CharacterMessage> allCharacters, HouseMessage houseMessage) {
 			if(!allCharacters.isEmpty() && allCharacters.stream().allMatch(c->c.getCountry()!=houseMessage.getOwner())){
-				if(houseMessage.captureTimeExceded()){
+				if(houseMessage.captureTimeExceeded()){
 					houseMessage.vacate();
 					return CaptureStatus.NONE;
 				}else{

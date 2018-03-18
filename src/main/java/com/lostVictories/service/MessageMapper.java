@@ -1,24 +1,7 @@
 package com.lostVictories.service;
 
 import com.jme3.lostVictories.network.messages.SquadType;
-import com.lostVictories.api.AchievementStatus;
-import com.lostVictories.api.CaptureStatus;
-import com.lostVictories.api.CharacterMessage;
-import com.lostVictories.api.CharacterStatusResponse;
-import com.lostVictories.api.CharacterType;
-import com.lostVictories.api.Country;
-import com.lostVictories.api.EquipmentStatusResponse;
-import com.lostVictories.api.GameStatistics;
-import com.lostVictories.api.GameStatsResponse;
-import com.lostVictories.api.HouseMessage;
-import com.lostVictories.api.HouseStatusResponse;
-import com.lostVictories.api.LostVictoryMessage;
-import com.lostVictories.api.RankMessage;
-import com.lostVictories.api.RelatedCharacterStatusResponse;
-import com.lostVictories.api.TreeGroupMessage;
-import com.lostVictories.api.TreeStatusResponse;
-import com.lostVictories.api.UnClaimedEquipmentMessage;
-import com.lostVictories.api.Weapon;
+import com.lostVictories.api.*;
 
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -30,19 +13,23 @@ import static com.lostVictories.service.LostVictoriesService.bytes;
  */
 public class MessageMapper {
 
-    public LostVictoryMessage toMessage(com.jme3.lostVictories.network.messages.TreeGroupMessage t) {
-        return LostVictoryMessage.newBuilder()
-                .setTreeStatusResponse(TreeStatusResponse.newBuilder()
-                        .setTreeGroup(TreeGroupMessage.newBuilder()
+    public TreeGroupMessage toMessage(com.jme3.lostVictories.network.messages.TreeGroupMessage t) {
+        return TreeGroupMessage.newBuilder()
                                 .setId(bytes(t.getId()))
                                 .setLocation(t.getLocation().toMessage())
                                 .addAllTrees(t.getTrees().stream().map(tt->tt.toMessage()).collect(Collectors.toSet()))
-                                .build())
-                        .build())
-                .build();
+                                .build();
+
     }
 
-    public LostVictoryMessage toMessage(com.jme3.lostVictories.network.messages.HouseMessage h) {
+    public LostVictoryStatusMessage toMessageStatus(com.jme3.lostVictories.network.messages.HouseMessage h) {
+        HouseMessage builder = toMessage(h);
+
+        return LostVictoryStatusMessage.newBuilder().setHouseStatusResponse(builder).build();
+
+    }
+
+    public HouseMessage toMessage(com.jme3.lostVictories.network.messages.HouseMessage h) {
         HouseMessage.Builder builder = HouseMessage.newBuilder()
                 .setId(bytes(h.getId()))
                 .setType(h.getType())
@@ -61,30 +48,35 @@ public class MessageMapper {
         if(h.getStatusChangeTime()!=null){
             builder.setStatusChangeTime(h.getStatusChangeTime());
         }
-
-        HouseMessage build = builder.build();
-        return LostVictoryMessage.newBuilder()
-                .setHouseStatusResponse(HouseStatusResponse.newBuilder()
-                        .setHouse(build)
-                        .build())
-                .build();
+        return builder.build();
     }
 
-    public LostVictoryMessage toMessage(com.jme3.lostVictories.network.messages.UnClaimedEquipmentMessage e) {
-        return LostVictoryMessage.newBuilder()
-                .setEquipmentStatusResponse(EquipmentStatusResponse.newBuilder()
+
+    public EquipmentStatusResponse toMessage(com.jme3.lostVictories.network.messages.UnClaimedEquipmentMessage e) {
+        return EquipmentStatusResponse.newBuilder()
                         .setUnClaimedEquipment(UnClaimedEquipmentMessage.newBuilder()
                                 .setId(bytes(e.getId()))
                                 .setWeapon(Weapon.valueOf(e.getWeapon().name()))
                                 .setLocation(e.getLocation().toMessage())
                                 .setRotation(e.getRotation().toMessage())
                                 .build())
-                        .build())
-                .build();
-
+                        .build();
     }
 
     public LostVictoryMessage toMessage(com.jme3.lostVictories.network.messages.CharacterMessage characterMessage, int backoff) {
+        CharacterMessage.Builder characterBuilder = toMessage(characterMessage);
+
+        CharacterStatusResponse.Builder builder = CharacterStatusResponse.newBuilder();
+        builder.setUnit(characterBuilder.build());
+        builder.setBackoff(backoff);
+
+        CharacterStatusResponse build = builder.build();
+        return LostVictoryMessage.newBuilder()
+                .setCharacterStatusResponse(build)
+                .build();
+    }
+
+    public CharacterMessage.Builder toMessage(com.jme3.lostVictories.network.messages.CharacterMessage characterMessage) {
         CharacterMessage.Builder characterBuilder = CharacterMessage.newBuilder()
                 .setId(bytes(characterMessage.getId()))
                 .setLocation(characterMessage.getLocation().toMessage())
@@ -123,15 +115,7 @@ public class MessageMapper {
         if(characterMessage.getTimeOfDeath()!=null){
             characterBuilder.setTimeOfDeath(characterMessage.getTimeOfDeath());
         }
-
-        CharacterStatusResponse.Builder builder = CharacterStatusResponse.newBuilder();
-        builder.setUnit(characterBuilder.build());
-        builder.setBackoff(backoff);
-
-        CharacterStatusResponse build = builder.build();
-        return LostVictoryMessage.newBuilder()
-                .setCharacterStatusResponse(build)
-                .build();
+        return characterBuilder;
     }
 
     public LostVictoryMessage toMessage(com.jme3.lostVictories.network.messages.CharacterMessage characterMessage, boolean b) {
@@ -179,7 +163,7 @@ public class MessageMapper {
                 .build();
     }
 
-    public LostVictoryMessage toMessage(com.jme3.lostVictories.network.messages.wrapper.GameStatsResponse gameStatsResponse) {
+    public LostVictoryStatusMessage toMessage(com.jme3.lostVictories.network.messages.wrapper.GameStatsResponse gameStatsResponse) {
         GameStatistics.Builder builder = GameStatistics.newBuilder()
                 .setBlueVictoryPoints(gameStatsResponse.getGameStatistics().getBlueVictoryPoints())
                 .setRedVictoryPoints(gameStatsResponse.getGameStatistics().getRedVictoryPoints());
@@ -195,18 +179,18 @@ public class MessageMapper {
 
         }
 
-        return LostVictoryMessage.newBuilder()
-                .setGameStatsResponse(GameStatsResponse.newBuilder()
-                        .setAchivementStatus(AchievementStatus.newBuilder()
-                                .setAchivementCurrent(gameStatsResponse.getAchivementStatus().getAchivementCurrent())
-                                .setAchivementStatusText(gameStatsResponse.getAchivementStatus().getAchivementStatusText())
-                                .setAchivementTotal(gameStatsResponse.getAchivementStatus().getAchivementTotal())
-                                .setSentTime(gameStatsResponse.getAchivementStatus().getSentTime())
-                                .build())
-                        .setGameStatistics(builder
-                                .build())
-                        .addAllMessages(gameStatsResponse.getMessages())
+        GameStatsResponse build = GameStatsResponse.newBuilder()
+                .setAchivementStatus(AchievementStatus.newBuilder()
+                        .setAchivementCurrent(gameStatsResponse.getAchivementStatus().getAchivementCurrent())
+                        .setAchivementStatusText(gameStatsResponse.getAchivementStatus().getAchivementStatusText())
+                        .setAchivementTotal(gameStatsResponse.getAchivementStatus().getAchivementTotal())
+                        .setSentTime(gameStatsResponse.getAchivementStatus().getSentTime())
                         .build())
+                .setGameStatistics(builder
+                        .build())
+                .addAllMessages(gameStatsResponse.getMessages())
                 .build();
+        return LostVictoryStatusMessage.newBuilder().setGameStatsResponse(build).build();
+
     }
 }

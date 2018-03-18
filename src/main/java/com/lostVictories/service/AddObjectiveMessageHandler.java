@@ -26,6 +26,7 @@ public class AddObjectiveMessageHandler {
         CharacterMessage character = characterDAO.getCharacter(uuid(request.getCharacterId()));
         character.addObjective(uuid(request.getIdentity()), request.getObjective());
         characterDAO.putCharacter(character.getId(), character);
+        responseObserver.onNext(LostVictoryMessage.newBuilder().build());
         responseObserver.onCompleted();
     }
 }

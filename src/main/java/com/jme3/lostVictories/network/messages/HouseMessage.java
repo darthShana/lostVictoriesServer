@@ -1,11 +1,8 @@
 package com.jme3.lostVictories.network.messages;
 
-import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
-import static com.jme3.lostVictories.network.messages.CharacterMessage.toLatitute;
-import static com.jme3.lostVictories.network.messages.CharacterMessage.toLongitude;
+import static lostVictories.dao.CharacterDAO.MAPPER;
 import static com.jme3.lostVictories.network.messages.Vector.latLongToVector;
 import static com.jme3.lostVictories.network.messages.LostVictoryScene.SCENE_SCALE;
-import static com.jme3.lostVictories.network.messages.Quaternion.toQuaternion;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -18,10 +15,9 @@ import java.util.stream.Collectors;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lostVictories.dao.CharacterDAO;
 
-import org.elasticsearch.common.geo.GeoPoint;
-import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import redis.clients.jedis.GeoCoordinate;
 
 
 public class HouseMessage implements Serializable, Structure{
@@ -45,42 +41,50 @@ public class HouseMessage implements Serializable, Structure{
 		this.captureStatus = CaptureStatus.NONE;
 	}
 
-	public HouseMessage(UUID id, Map<String, Object> source) {
-		this.id = id;
-		this.type = (String) source.get("type");
+	public HouseMessage(Map<String, String> source, GeoCoordinate geoCoordinate) throws IOException {
+        this.id = UUID.fromString(source.get("id"));
+		this.type = source.get("type");
 		
-		HashMap<String, Double> loc =  (HashMap<String, Double>) source.get("location");
-		HashMap<String, Double> rot =  (HashMap<String, Double>) source.get("rotation");
-		float altitude = ((Double)source.get("altitude")).floatValue();
-		this.location = latLongToVector(altitude, loc.get("lon").floatValue(), loc.get("lat").floatValue());
-		this.rotation = toQuaternion(rot);
-		
-		if(source.get("owner")!=null){
-			this.owner = Country.valueOf((String) source.get("owner"));
+        float altitude = Float.parseFloat(source.get("altitude"));
+
+        this.location = latLongToVector(altitude, (float) geoCoordinate.getLongitude(), (float) geoCoordinate.getLatitude());
+
+        this.rotation = MAPPER.readValue(source.get("rotation"), Quaternion.class);
+
+
+        if(source.get("owner")!=null){
+			this.owner = Country.valueOf(source.get("owner"));
 		}
 		if(source.get("contestingOwner")!=null){
-			this.contestingOwner = Country.valueOf((String) source.get("contestingOwner"));
+			this.contestingOwner = Country.valueOf(source.get("contestingOwner"));
 		}
 		if(source.get("captureStatus")!=null){
-			this.captureStatus = CaptureStatus.valueOf((String) source.get("captureStatus"));
+			this.captureStatus = CaptureStatus.valueOf(source.get("captureStatus"));
 		}
 		if(source.get("statusChangeTime")!=null){
-			this.statusChangeTime = (Long) source.get("statusChangeTime");
+			this.statusChangeTime = Long.parseLong(source.get("statusChangeTime"));
 		}
 	}
 
-	public XContentBuilder getJSONRepresentation() throws IOException {
-		return jsonBuilder()
-	            .startObject()
-	                .field("type", getType())
-	                .field("location", new GeoPoint(toLatitute(getLocation()), toLongitude(getLocation())))
-	                .field("altitude", getLocation().y)
-	                .field("rotation", rotation.toMap())
-	                .field("owner", owner)
-	                .field("contestingOwner", contestingOwner)
-	                .field("captureStatus", getStatus())
-	                .field("statusChangeTime", getStatusChangeTime())	                
-	            .endObject();
+    public Map<String, String> getMapRepresentation() throws IOException {
+        Map<String, String> ret = new HashMap<>();
+        ret.put("id", id.toString());
+		ret.put("type", getType());
+        ret.put("altitude", getLocation().y+"");
+        ret.put("rotation", CharacterDAO.MAPPER.writeValueAsString(rotation));
+        if(owner!=null) {
+            ret.put("owner", owner + "");
+        }
+        if(contestingOwner!=null) {
+            ret.put("contestingOwner", contestingOwner + "");
+        }
+        if(captureStatus!=null) {
+            ret.put("captureStatus", getStatus() + "");
+        }
+        if(statusChangeTime!=null) {
+            ret.put("statusChangeTime", getStatusChangeTime() + "");
+        }
+        return ret;
 	}
 
 	public String getType() {
@@ -149,16 +153,8 @@ public class HouseMessage implements Serializable, Structure{
 		return id;
 	}
 
-	public boolean captureTimeExceded() {
+	public boolean captureTimeExceeded() {
 		return (statusChangeTime!=null)?System.currentTimeMillis()-statusChangeTime>10000:false;
-	}
-
-	public XContentBuilder getJSONRepresentationUnChecked() {
-		try {
-			return getJSONRepresentation();
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
 	}
 
 	@JsonIgnore

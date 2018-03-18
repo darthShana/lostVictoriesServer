@@ -1,10 +1,8 @@
 package com.lostVictories.service;
 
-import com.jme3.lostVictories.network.messages.AchievementStatus;
 import com.jme3.lostVictories.network.messages.CharacterMessage;
-import com.jme3.lostVictories.network.messages.GameStatistics;
 import com.jme3.lostVictories.network.messages.Vector;
-import com.jme3.lostVictories.network.messages.wrapper.GameStatsResponse;
+import com.lostVictories.api.LostVictoryMessage;
 import com.lostVictories.api.UpdateCharactersRequest;
 import lostVictories.WorldRunner;
 import lostVictories.dao.CharacterDAO;
@@ -44,7 +42,7 @@ public class UpdateCharactersMessageHandler {
         this.messageRepository = messageRepository;
     }
 
-    public void handle(UpdateCharactersRequest msg, SafeStreamObserver responseObserver, Set<SafeStreamObserver> clientObserverMap) throws IOException {
+    public void handle(UpdateCharactersRequest msg, SafeStreamObserver responseObserver, Map<UUID, SafeStreamObserver<LostVictoryMessage>> clientObserverMap) throws IOException {
 
         UUID characterId = uuid(msg.getCharacter().getId());
         UUID clientID = uuid(msg.getClientID());
@@ -89,7 +87,7 @@ public class UpdateCharactersMessageHandler {
 
         final CharacterMessage toSend = serverVersion;
 
-        clientObserverMap.stream()
+        clientObserverMap.values().stream()
                 .filter(entry->!entry.getClientID().equals(clientID))
                 .filter(ee->characterDAO.isInRangeOf(toSend.getLocation(), ee.getClientID(), CheckoutScreenMessageHandler.CLIENT_RANGE))
                 .forEach(e->{
@@ -117,12 +115,6 @@ public class UpdateCharactersMessageHandler {
 
 
         if(characterId.equals(uuid(msg.getAvatar()))){
-            GameStatistics statistics = worldRunner.getStatistics(storedAvatar.getCountry());
-            AchievementStatus achievementStatus = worldRunner.getAchivementStatus(storedAvatar, characterDAO);
-            equipmentDAO.getUnClaimedEquipment(v.x, v.y, v.z, CheckoutScreenMessageHandler.CLIENT_RANGE).forEach(e->responseObserver.onNext(mp.toMessage(e)));
-
-            responseObserver.onNext(mp.toMessage(new GameStatsResponse(messageRepository.popMessages(clientID), statistics, achievementStatus)));
-
             if(storedAvatar.getBoardedVehicle()!=null){
                 CharacterMessage vehicle = characterDAO.getCharacter(storedAvatar.getBoardedVehicle());
                 if(vehicle!=null && vehicle.getCheckoutClient()!=null && !vehicle.getCheckoutClient().equals(clientID)){
