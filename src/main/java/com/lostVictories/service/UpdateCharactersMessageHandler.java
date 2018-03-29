@@ -55,14 +55,10 @@ public class UpdateCharactersMessageHandler {
             return;
         }
 
-        if("2fbe421f-f701-49c9-a0d4-abb0fa904204".equals(characterId.toString()) && (System.currentTimeMillis()-sentFromClient.getCreationTime())>2000){
-            System.out.println("older request from client:"+(System.currentTimeMillis()-sentFromClient.getCreationTime()));
-        }
-
         if(characterId.equals(uuid(msg.getAvatar()))){
             if((System.currentTimeMillis()-sentFromClient.getCreationTime())>2000){
                 System.out.println("back off initiated");
-                responseObserver.backOff = 1000;
+                responseObserver.backOff = 2000;
             }else if((System.currentTimeMillis()-sentFromClient.getCreationTime())<1000){
                 responseObserver.backOff = 0;
             }

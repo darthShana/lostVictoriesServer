@@ -34,8 +34,8 @@ public class LostVictoriesServiceImpl extends LostVictoriesServerGrpc.LostVictor
     Map<UUID, SafeStreamObserver<LostVictoryMessage>> characterObserverMap = new HashMap<>();
     Map<UUID, SafeStreamObserver<LostVictoryStatusMessage>> gameStatusObserverMap = new HashMap<>();
 
-    public LostVictoriesServiceImpl(JedisPool jedisPool, String instance, TreeDAO treeDAO, EquipmentDAO equipmentDAO, GameRequestDAO gameRequestDAO, PlayerUsageDAO playerUsageDAO, MessageRepository messageRepository, WorldRunner worldRunner) {
-        lostVictoriesService = new LostVictoriesService(jedisPool, instance, treeDAO, equipmentDAO, gameRequestDAO, playerUsageDAO, messageRepository, worldRunner);
+    public LostVictoriesServiceImpl(JedisPool jedisPool, String instance, TreeDAO treeDAO, GameRequestDAO gameRequestDAO, PlayerUsageDAO playerUsageDAO, MessageRepository messageRepository, WorldRunner worldRunner) {
+        lostVictoriesService = new LostVictoriesService(jedisPool, instance, treeDAO, gameRequestDAO, playerUsageDAO, messageRepository, worldRunner);
     }
 
     @Override

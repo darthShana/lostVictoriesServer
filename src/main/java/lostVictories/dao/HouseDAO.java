@@ -1,20 +1,13 @@
 package lostVictories.dao;
 
 
-import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 import com.jme3.lostVictories.network.messages.*;
 import com.jme3.lostVictories.network.messages.Vector;
-import org.elasticsearch.action.bulk.BulkRequestBuilder;
-import org.elasticsearch.action.get.GetResponse;
-import org.elasticsearch.action.index.IndexRequest;
-import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.client.Client;
-import org.elasticsearch.search.SearchHit;
+
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +18,6 @@ import redis.clients.jedis.Jedis;
 
 import static com.jme3.lostVictories.network.messages.CharacterMessage.toLatitute;
 import static com.jme3.lostVictories.network.messages.CharacterMessage.toLongitude;
-import static org.elasticsearch.index.query.QueryBuilders.matchAllQuery;
 
 public class HouseDAO {
 	private static Logger log = LoggerFactory.getLogger(HouseDAO.class);

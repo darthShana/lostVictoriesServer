@@ -95,63 +95,67 @@ public class CharacterMessage implements Serializable{
 
     }
 
-	public CharacterMessage(Map<String, String> source, GeoCoordinate geoCoordinate) throws IOException {
-		this.id = UUID.fromString(source.get("id"));
-		this.type = CharacterType.valueOf((String) source.get("type"));
-		if(source.containsKey("userID")){
-			this.userID = UUID.fromString(source.get("userID"));
-		}
+	public CharacterMessage(Map<String, String> source, GeoCoordinate geoCoordinate) {
+        try {
+            this.id = UUID.fromString(source.get("id"));
+            this.type = CharacterType.valueOf((String) source.get("type"));
+            if(source.containsKey("userID")){
+                this.userID = UUID.fromString(source.get("userID"));
+            }
 
-		this.country = Country.valueOf(source.get("country"));
-		this.weapon = Weapon.valueOf(source.get("weapon"));
-		this.rank = RankMessage.valueOf(source.get("rank"));
-		if(source.containsKey("commandingOfficer")){
-			this.commandingOfficer = UUID.fromString(source.get("commandingOfficer"));
-		}
-		if(source.containsKey("boardedVehicle")){
-			this.boardedVehicle = UUID.fromString(source.get("boardedVehicle"));
-		}
-		if(source.containsKey("unitsUnderCommand")){
-			JavaType type = MAPPER.getTypeFactory().constructCollectionType(Set.class, UUID.class);
-			unitsUnderCommand = MAPPER.readValue(source.get("unitsUnderCommand"), type);
-		}
-		if(source.containsKey("passengers")){
-			JavaType type = MAPPER.getTypeFactory().constructCollectionType(Set.class, UUID.class);
-			passengers = MAPPER.readValue(source.get("passengers"), type);
-		}
-		if(source.containsKey("boardedVehicle")){
-			this.boardedVehicle = UUID.fromString(source.get("boardedVehicle"));
-		}
-		if(source.containsKey("checkoutClient")){
-			this.checkoutClient = UUID.fromString(source.get("checkoutClient"));
-		}
-		if(source.containsKey("checkoutTime")){
-			this.checkoutTime = Long.parseLong(source.get("checkoutTime"));
-		}
-		this.orientation = MAPPER.readValue(source.get("orientation"), Vector.class);
+            this.country = Country.valueOf(source.get("country"));
+            this.weapon = Weapon.valueOf(source.get("weapon"));
+            this.rank = RankMessage.valueOf(source.get("rank"));
+            if(source.containsKey("commandingOfficer")){
+                this.commandingOfficer = UUID.fromString(source.get("commandingOfficer"));
+            }
+            if(source.containsKey("boardedVehicle")){
+                this.boardedVehicle = UUID.fromString(source.get("boardedVehicle"));
+            }
+            if(source.containsKey("unitsUnderCommand")){
+                JavaType type = MAPPER.getTypeFactory().constructCollectionType(Set.class, UUID.class);
+                unitsUnderCommand = MAPPER.readValue(source.get("unitsUnderCommand"), type);
+            }
+            if(source.containsKey("passengers")){
+                JavaType type = MAPPER.getTypeFactory().constructCollectionType(Set.class, UUID.class);
+                passengers = MAPPER.readValue(source.get("passengers"), type);
+            }
+            if(source.containsKey("boardedVehicle")){
+                this.boardedVehicle = UUID.fromString(source.get("boardedVehicle"));
+            }
+            if(source.containsKey("checkoutClient")){
+                this.checkoutClient = UUID.fromString(source.get("checkoutClient"));
+            }
+            if(source.containsKey("checkoutTime")){
+                this.checkoutTime = Long.parseLong(source.get("checkoutTime"));
+            }
+            this.orientation = MAPPER.readValue(source.get("orientation"), Vector.class);
 
-		if(source.containsKey("actions")){
-			JavaType type = MAPPER.getTypeFactory().constructCollectionType(Set.class, Action.class);
-			actions = MAPPER.readValue(source.get("actions"), type);
-		}
-		String o = source.get("objectives");
-		if(!"[{}]".equals(o)){
-			this.objectives = CharacterDAO.MAPPER.readValue(o, new TypeReference<Map<String, String>>() {});
-		}
-		dead = Boolean.parseBoolean(source.get("isDead"));
-		engineDamaged = Boolean.parseBoolean(source.get("engineDamaged"));
-		if(source.containsKey("timeOfDeath")){
-			this.timeOfDeath = Long.parseLong(source.get("timeOfDeath"));
-		}
-		this.version = Long.parseLong(source.get("version"));
-		if(source.containsKey("kills")){
-			JavaType type = MAPPER.getTypeFactory().constructCollectionType(Set.class, UUID.class);
-			kills = MAPPER.readValue(source.get("kills"), type);
-		}
-		squadType = SquadType.valueOf(source.get("squadType"));
-		float altitude = Float.parseFloat(source.get("altitude"));
+            if(source.containsKey("actions")){
+                JavaType type = MAPPER.getTypeFactory().constructCollectionType(Set.class, Action.class);
+                actions = MAPPER.readValue(source.get("actions"), type);
+            }
+            String o = source.get("objectives");
+            if(!"[{}]".equals(o)){
+                this.objectives = CharacterDAO.MAPPER.readValue(o, new TypeReference<Map<String, String>>() {});
+            }
+            dead = Boolean.parseBoolean(source.get("isDead"));
+            engineDamaged = Boolean.parseBoolean(source.get("engineDamaged"));
+            if(source.containsKey("timeOfDeath")){
+                this.timeOfDeath = Long.parseLong(source.get("timeOfDeath"));
+            }
+            this.version = Long.parseLong(source.get("version"));
+            if(source.containsKey("kills")){
+                JavaType type = MAPPER.getTypeFactory().constructCollectionType(Set.class, UUID.class);
+                kills = MAPPER.readValue(source.get("kills"), type);
+            }
+            squadType = SquadType.valueOf(source.get("squadType"));
+            float altitude = Float.parseFloat(source.get("altitude"));
 
-		this.location = latLongToVector(altitude, (float) geoCoordinate.getLongitude(), (float) geoCoordinate.getLatitude());
+            this.location = latLongToVector(altitude, (float) geoCoordinate.getLongitude(), (float) geoCoordinate.getLatitude());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 	}
 
 

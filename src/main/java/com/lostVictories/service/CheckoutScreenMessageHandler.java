@@ -46,6 +46,7 @@ public class CheckoutScreenMessageHandler {
 
             characterDAO.getAllCharacters(l.x, l.y, l.z, CLIENT_RANGE).stream().map(c->mp.toMessage(c)).forEach(cm->builder.addCharacters(cm));
             houseDAO.getAllHouses().stream().map(h->mp.toMessage(h)).forEach(hm->builder.addHouses(hm));
+            houseDAO.getAllBunkers().stream().map(b->mp.toMessage(b)).forEach(bm->builder.addBunkers(bm));
 
             responseObserver.onNext(builder.build());
 

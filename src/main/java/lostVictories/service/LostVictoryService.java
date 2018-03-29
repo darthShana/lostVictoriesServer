@@ -19,17 +19,15 @@ public class LostVictoryService {
     private JedisPool jedisPool;
     private String nameSpace;
     private final TreeDAO treeDAO;
-    private final EquipmentDAO equipmentDAO;
     private final GameRequestDAO gameRequestDAO;
     private final PlayerUsageDAO playerUsageDAO;
     private MessageRepository messageRepository;
     private WorldRunner worldRunner;
 
-    public LostVictoryService(JedisPool jedisPool, String nameSpace, TreeDAO treeDAO, EquipmentDAO equipmentDAO, GameRequestDAO gameRequestDAO, PlayerUsageDAO playerUsageDAO, MessageRepository messageRepository, WorldRunner worldRunner) {
+    public LostVictoryService(JedisPool jedisPool, String nameSpace, TreeDAO treeDAO, GameRequestDAO gameRequestDAO, PlayerUsageDAO playerUsageDAO, MessageRepository messageRepository, WorldRunner worldRunner) {
         this.jedisPool = jedisPool;
         this.nameSpace = nameSpace;
         this.treeDAO = treeDAO;
-        this.equipmentDAO = equipmentDAO;
         this.gameRequestDAO = gameRequestDAO;
         this.playerUsageDAO = playerUsageDAO;
         this.messageRepository = messageRepository;

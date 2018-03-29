@@ -27,7 +27,7 @@ public enum SecureSectorState {
 		@Override
 		public SecureSectorState transition(CharacterMessage c, String uuid, SecureSector objective, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave) {
             if(objective.boundary.contains(new Point2D.Float(c.getLocation().x, c.getLocation().z))){
-                return DEFEND_SECTOR;
+                return CAPTURE_HOUSES;
             }
 		    if(c.getCurrentStrength(characterDAO)>=objective.deploymentStrength){
 				return DEPLOY_TO_SECTOR;
@@ -97,7 +97,7 @@ public enum SecureSectorState {
 					HouseMessage house = findClosestHouse(unit, objective.houses.stream().map(h->houseDAO.getHouse(h)).collect(Collectors.toSet()), houseToCapture);
 					if(house!=null){
 						try {
-							log.info(unit.getId()+"CaptureStructure:"+house.getId().toString()+" sector:"+objective.centre);
+							log.info(unit.getId()+" CaptureStructure:"+house.getId().toString()+" sector:"+objective.centre);
 
 							CaptureStructure captureStructure = new CaptureStructure(house.getId().toString());
 							unit.addObjective(UUID.randomUUID(), captureStructure);
@@ -113,7 +113,7 @@ public enum SecureSectorState {
 		}
 
 		public SecureSectorState transition(CharacterMessage c, String uuid, SecureSector objective, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave) {
-			if(c.getCurrentStrength(characterDAO)<=objective.minimumFightingStrength){
+			if(!objective.boundary.contains(new Point2D.Float(c.getLocation().x, c.getLocation().z)) && c.getCurrentStrength(characterDAO)<=objective.minimumFightingStrength){
 				return RETREAT;
 			}
 			if(objective.issuedOrders.values().stream().anyMatch(o->!o.isComplete)){

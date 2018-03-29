@@ -3,6 +3,7 @@ package com.jme3.lostVictories.network.messages;
 import static com.jme3.lostVictories.network.messages.CharacterMessage.toLatitute;
 import static com.jme3.lostVictories.network.messages.CharacterMessage.toLongitude;
 import static com.jme3.lostVictories.network.messages.Vector.latLongToVector;
+import static lostVictories.dao.CharacterDAO.MAPPER;
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
 import java.io.IOException;
@@ -11,18 +12,19 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import lostVictories.dao.CharacterDAO;
 import org.elasticsearch.common.geo.GeoPoint;
 import org.elasticsearch.common.xcontent.XContentBuilder;
+import redis.clients.jedis.GeoCoordinate;
 
 
 public class UnClaimedEquipmentMessage implements Serializable{
 
 	private UUID id;
-	long version;
 	private Weapon weapon;
 	private Vector location;
 	private Vector rotation;
-	private long creationTime;
+	private Long creationTime;
 
 	public UnClaimedEquipmentMessage(UUID id, Weapon weapon, Vector location, Vector rotation) {
 		this.id = id;
@@ -32,35 +34,32 @@ public class UnClaimedEquipmentMessage implements Serializable{
 		this.creationTime = System.currentTimeMillis();
 	}
 
-	public UnClaimedEquipmentMessage(UUID id, long version, Map<String, Object> source) {
-		this.id = id;
-		this.version = version;
-		HashMap<String, Double> location =  (HashMap<String, Double>) source.get("location");
-		HashMap<String, Double> ori =  (HashMap<String, Double>) source.get("rotation");
-		this.weapon = Weapon.valueOf((String) source.get("weapon"));
-		float altitude = ((Double)source.get("altitude")).floatValue();
-		this.location = latLongToVector(altitude, location.get("lon").floatValue(), location.get("lat").floatValue());
-		this.rotation = new Vector(ori.get("x").floatValue(), ori.get("y").floatValue(), ori.get("z").floatValue());
-		this.creationTime = (long) source.get("creationTime");
+	public UnClaimedEquipmentMessage(Map<String, String> source, GeoCoordinate geoCoordinate) {
+	    try {
+            this.id = UUID.fromString(source.get("id"));
+            this.weapon = Weapon.valueOf(source.get("weapon"));
+            float altitude = Float.parseFloat(source.get("altitude"));
+            this.location = latLongToVector(altitude, (float) geoCoordinate.getLongitude(), (float) geoCoordinate.getLatitude());
+            this.rotation = MAPPER.readValue(source.get("rotation"), Vector.class);
+            this.creationTime = Long.parseLong(source.get("creationTime"));
+        }catch(IOException e){
+	        throw new RuntimeException(e);
+        }
 	}
 
 	public UUID getId() {
 		return id;
 	}
 
-	public long getVersion() {
-		return version;
-	}
-	
-	public XContentBuilder getJSONRepresentation() throws IOException {
-		return jsonBuilder()
-	            .startObject()
-	                .field("weapon", weapon)
-	                .field("location", new GeoPoint(toLatitute(location), toLongitude(location)))
-	                .field("altitude", location.y)
-	                .field("rotation", rotation.toMap())
-                    .field("creationTime", creationTime)
-	            .endObject();
+	public Map<String, String> getMapRepresentation() throws IOException {
+		Map<String, String> ret = new HashMap<>();
+		ret.put("id", id.toString());
+		ret.put("weapon", weapon.name());
+	    ret.put("altitude", location.y+"");
+        ret.put("rotation", CharacterDAO.MAPPER.writeValueAsString(rotation));
+        ret.put("creationTime", creationTime.toString());
+        return ret;
+
 	}
 
 	public Weapon getWeapon() {

@@ -86,8 +86,6 @@ public class CharacterDAO {
 		if(mapResponse !=null && !mapResponse.isEmpty() && !geoLocation.isEmpty() && geoLocation.get(0)!=null){
 			try {
 				return new CharacterMessage(mapResponse, geoLocation.get(0));
-			} catch (IOException e) {
-				throw new RuntimeException(e);
 			} catch (Exception e){
                 log.info("partial character:"+id+" present"+mapResponse);
                 throw e;
@@ -112,11 +110,44 @@ public class CharacterDAO {
 		Rectangle.Float boundingBox = new Rectangle2D.Float(x-range, z-range, range*2, range*2);
 
 		List<GeoRadiusResponse> geoLocation = jedis.georadius(characterLocation, lon1, lat1, inKM, GeoUnit.KM);
-		return geoLocation.stream()
-				.map(r->getCharacter(UUID.fromString(r.getMemberByString())))
-				.filter(c->c!=null && boundingBox.contains(c.getLocation().x, c.getLocation().z))
-				.collect(Collectors.toSet());
+
+        return getCharacterInRange(boundingBox, geoLocation);
 	}
+
+    private Set<CharacterMessage> getCharacterInRange(Rectangle2D.Float boundingBox, List<GeoRadiusResponse> geoLocation) {
+        Map<String, Response<Map<String, String>>> propertyMap = new HashMap<>();
+        Map<String, Response<List<GeoCoordinate>>> locationMap = new HashMap<>();
+        Pipeline pipelined = jedis.pipelined();
+        geoLocation.stream().forEach(geo->{
+            propertyMap.put(geo.getMemberByString(), pipelined.hgetAll(characterStatus + "." + geo.getMemberByString()));
+            locationMap.put(geo.getMemberByString(), pipelined.geopos(characterLocation, geo.getMemberByString()));
+        });
+        pipelined.sync();
+
+        return geoLocation.stream()
+                .filter(r->!propertyMap.get(r.getMemberByString()).get().isEmpty())
+				.map(r->new CharacterMessage(propertyMap.get(r.getMemberByString()).get(), locationMap.get(r.getMemberByString()).get().get(0)))
+				.filter(c->boundingBox.contains(c.getLocation().x, c.getLocation().z))
+				.collect(Collectors.toSet());
+    }
+
+    public Map<UUID, CharacterMessage> getAllCharacters(Set<UUID> ids) {
+        Map<UUID, Response<Map<String, String>>> propertyMap = new HashMap<>();
+        Map<UUID, Response<List<GeoCoordinate>>> locationMap = new HashMap<>();
+        Pipeline pipelined = jedis.pipelined();
+
+        ids.stream().forEach(id->{
+            propertyMap.put(id, pipelined.hgetAll(characterStatus + "." + id));
+            locationMap.put(id, pipelined.geopos(characterLocation, id.toString()));
+
+        });
+        pipelined.sync();
+
+        return ids.stream()
+                .filter(id->!propertyMap.get(id).get().isEmpty())
+                .map(id->new CharacterMessage(propertyMap.get(id).get(), locationMap.get(id).get().get(0)))
+                .collect(Collectors.toMap(c->c.getId(), Function.identity()));
+    }
 
 	public boolean isInRangeOf(Vector location, UUID id, float range) {
 		CharacterMessage character = getCharacter(id, false);
@@ -124,8 +155,8 @@ public class CharacterDAO {
 		return boundingBox.contains(location.x, location.z);
 	}
 
+    static final double _eQuatorialEarthRadius = 6378.1370D;
 
-	static final double _eQuatorialEarthRadius = 6378.1370D;
 	static final double _d2r = (Math.PI / 180D);
 
 	public static int haversineInM(double lat1, double long1, double lat2, double long2) {
@@ -142,7 +173,7 @@ public class CharacterDAO {
 
 		return d;
 	}
-	
+
 	public CharacterMessage findClosestCharacter(CharacterMessage c, RankMessage rank) {
 		double lat1 = toLatitute(c.getLocation());
 		double lon1 = toLongitude(c.getLocation());
@@ -160,13 +191,11 @@ public class CharacterDAO {
 		return null;
 	}
 
-	public Map<UUID, CharacterMessage> getAllCharacters(Set<UUID> ids) {
-		return ids.stream().map(id->getCharacter(id, false)).filter(c->c!=null).collect(Collectors.toMap(c->c.getId(), Function.identity()));
-	}
-
 	public Set<CharacterMessage> getAllCharacters() {
-		List<GeoRadiusResponse> mapResponse = jedis.georadius(this.characterLocation, 0, 0, 1000000, GeoUnit.KM);
-		return mapResponse.stream().map(r->getCharacter(UUID.fromString(r.getMemberByString()), false)).filter(c->c!=null).collect(Collectors.toSet());
+        Rectangle.Float boundingBox = new Rectangle2D.Float(-1024, -1024, 2048, 2048);
+
+        List<GeoRadiusResponse> geoLocation = jedis.georadius(this.characterLocation, 0, 0, 1000000, GeoUnit.KM);
+        return getCharacterInRange(boundingBox, geoLocation);
 	}
 
 	public void save(Collection<CharacterMessage> values) throws IOException {

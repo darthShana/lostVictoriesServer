@@ -6,6 +6,7 @@ import java.util.UUID;
 
 public class BunkerMessage implements Structure{
 
+
     private final Quaternion rotation;
     private Vector location;
     private UUID id;
@@ -18,6 +19,10 @@ public class BunkerMessage implements Structure{
 
     public Vector getLocation() {
         return location;
+    }
+
+    public Quaternion getRotation() {
+        return rotation;
     }
 
     public Vector getEntryPoint() {

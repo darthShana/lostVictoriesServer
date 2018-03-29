@@ -4,18 +4,17 @@ import static com.jme3.lostVictories.network.messages.CharacterMessage.toLatitut
 import static com.jme3.lostVictories.network.messages.CharacterMessage.toLongitude;
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
+import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import org.elasticsearch.action.delete.DeleteResponse;
+import com.jme3.lostVictories.network.messages.CharacterMessage;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.client.Client;
 import org.elasticsearch.index.engine.VersionConflictEngineException;
 import org.elasticsearch.search.SearchHit;
 
@@ -23,87 +22,91 @@ import com.jme3.lostVictories.network.messages.UnClaimedEquipmentMessage;
 import com.jme3.lostVictories.network.messages.Vector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import redis.clients.jedis.*;
 
 public class EquipmentDAO {
 
 	private static Logger log = LoggerFactory.getLogger(EquipmentDAO.class);
-	private Client esClient;
-	private String indexName;
+	private Jedis jedis;
+	private String nameSpace;
+	private String equipmentLocation;
+	private String equipmentStatus;
 
-	public EquipmentDAO(Client esClient, String indexName) {
-		this.esClient = esClient;
-		this.indexName = indexName;
+	public EquipmentDAO(Jedis jedis, String nameSpace) {
+		this.jedis = jedis;
+		this.nameSpace = nameSpace;
+        this.equipmentStatus = nameSpace+".equipmentStatus";
+        this.equipmentLocation = nameSpace+".equipmentLocation";
 	}
 	
-	public void addUnclaiimedEquipment(UnClaimedEquipmentMessage equipment) {
+	public void addUnclaimedEquipment(UnClaimedEquipmentMessage equipment) {
 		try {
-			esClient.prepareIndex(indexName, "equipmentStatus", equipment.getId().toString())
-			        .setSource(equipment.getJSONRepresentation())
-			        .execute()
-			        .actionGet();
-
-		} catch (VersionConflictEngineException ee){
-			log.info("Discarding put to equipment:"+equipment.getId()+", equipment has been updated since been loaded");
-		} catch (IOException e) {
+            jedis.del(equipmentStatus + "." + equipment.getId());
+            jedis.zrem(equipmentLocation, equipment.getId().toString());
+            equipment.getMapRepresentation().entrySet().forEach(e -> {
+                jedis.hset(equipmentStatus + "." + equipment.getId(), e.getKey(), e.getValue());
+            });
+            jedis.geoadd(equipmentLocation, toLongitude(equipment.getLocation()), toLatitute(equipment.getLocation()), equipment.getId().toString());
+        } catch (IOException e) {
 			throw new RuntimeException(e);
 		}
 		
 	}
 
 	public Set<UnClaimedEquipmentMessage> getUnClaimedEquipment(float x, float y, float z, float range) {
-		Vector topLeft = new Vector(x-range, y, z+range);
-		Vector bottomRight = new Vector(x+range, y, z-range);
-		
-		double tl_latitute = toLatitute(topLeft);
-		double tl_longitude = toLongitude(topLeft);
-		double br_latitute = toLatitute(bottomRight);
-		double br_longitude = toLongitude(bottomRight);
-		
-		tl_latitute = tl_latitute > 80 ? 80 : tl_latitute;
-		tl_longitude = tl_longitude < -180 ? -180 : tl_longitude;
-		br_latitute = br_latitute < -80 ? -80 : br_latitute;
-		br_longitude = br_longitude > 180 ? 180 : br_longitude;
-		
-		SearchResponse searchResponse = esClient.prepareSearch(indexName)
-                .setQuery(constantScoreQuery(boolQuery().must(geoBoundingBoxQuery("location").setCorners(tl_latitute, tl_longitude, br_latitute, br_longitude))))
-                .setVersion(true)
-                .execute().actionGet();
-		
-		log.trace("retrived :"+searchResponse.getHits().hits().length+" from elasticsearch");
-		Iterator<SearchHit> iterator = searchResponse.getHits().iterator();
-		Iterable<SearchHit> iterable = () -> iterator;
-		return StreamSupport.stream(iterable.spliterator(), true).map(hit -> fromFields(UUID.fromString(hit.getId()), hit.getVersion(), hit.getSource())).collect(Collectors.toSet());
+        Vector v1 = new Vector(range, 0, range);
+        double lat = toLatitute(v1);
+        double lon = toLongitude(v1);
+        double inKM = CharacterDAO.haversineInKM(CharacterDAO.ZERO_LAT, CharacterDAO.ZERO_LONG, lat, lon);
+
+        Vector v2 = new Vector(x, y, z);
+        double lat1 = toLatitute(v2);
+        double lon1 = toLongitude(v2);
+
+        Rectangle.Float boundingBox = new Rectangle2D.Float(x-range, z-range, range*2, range*2);
+
+        List<GeoRadiusResponse> geoLocation = jedis.georadius(equipmentLocation, lon1, lat1, inKM, GeoUnit.KM);
+
+        return getUnClaimedEquipmentInRange(boundingBox, geoLocation);
 	}
 
-	public Set<UnClaimedEquipmentMessage> getAllUnclaimedEquipment() {
-		SearchResponse searchResponse = esClient.prepareSearch(indexName)
-				.setQuery(matchAllQuery()).setSize(10000)
-				.execute().actionGet();
+    private Set<UnClaimedEquipmentMessage> getUnClaimedEquipmentInRange(Rectangle2D.Float boundingBox, List<GeoRadiusResponse> geoLocation) {
+        Map<String, Response<Map<String, String>>> propertyMap = new HashMap<>();
+        Map<String, Response<List<GeoCoordinate>>> locationMap = new HashMap<>();
+        Pipeline pipelined = jedis.pipelined();
+        geoLocation.stream().forEach(geo->{
+            propertyMap.put(geo.getMemberByString(), pipelined.hgetAll(equipmentStatus + "." + geo.getMemberByString()));
+            locationMap.put(geo.getMemberByString(), pipelined.geopos(equipmentLocation, geo.getMemberByString()));
 
-		Iterator<SearchHit> iterator = searchResponse.getHits().iterator();
-		Iterable<SearchHit> iterable = () -> iterator;
-		return StreamSupport.stream(iterable.spliterator(), true).map(hit -> fromFields(UUID.fromString(hit.getId()), hit.getVersion(), hit.getSource())).collect(Collectors.toSet());
+        });
+        pipelined.sync();
 
-	}
-	
-	private UnClaimedEquipmentMessage fromFields(UUID id, long version, Map<String, Object> source) {
-		return new UnClaimedEquipmentMessage(id, version, source);
-	}
 
-	public UnClaimedEquipmentMessage get(UUID equipmentId) {
-		GetResponse response = esClient.prepareGet(indexName, "equipmentStatus", equipmentId.toString())
-		        .execute()
-		        .actionGet();
-		if(!response.isExists()){
-			return null;
-		}
-		return fromFields(UUID.fromString(response.getId()), response.getVersion(), response.getSource());
+        return geoLocation.stream()
+                .map(r ->  new UnClaimedEquipmentMessage(propertyMap.get(r.getMemberByString()).get(), locationMap.get(r.getMemberByString()).get().get(0)))
+                .filter(c->c!=null && boundingBox.contains(c.getLocation().x, c.getLocation().z))
+                .collect(Collectors.toSet());
+    }
+
+    public Set<UnClaimedEquipmentMessage> getAllUnclaimedEquipment() {
+        Rectangle.Float boundingBox = new Rectangle2D.Float(-1024, -1024, 2048, 2048);
+
+        List<GeoRadiusResponse> geoLocation = jedis.georadius(this.equipmentLocation, 0, 0, 1000000, GeoUnit.KM);
+        return getUnClaimedEquipmentInRange(boundingBox, geoLocation);
+    }
+
+	public UnClaimedEquipmentMessage get(UUID id) {
+        Map<String, String> mapResponse = jedis.hgetAll(equipmentStatus + "." + id.toString());
+        List<GeoCoordinate> geoLocation = jedis.geopos(equipmentLocation, id.toString());
+        if(mapResponse !=null && !mapResponse.isEmpty() && !geoLocation.isEmpty() && geoLocation.get(0)!=null){
+            return new UnClaimedEquipmentMessage(mapResponse, geoLocation.get(0));
+        }
+        return null;
 	}
 
 	public void delete(UnClaimedEquipmentMessage equipment) {
-		esClient.prepareDelete(indexName, "equipmentStatus", equipment.getId().toString())
-		        .execute()
-		        .actionGet();
+        jedis.zrem(this.equipmentLocation, equipment.getId().toString());
+        jedis.del(equipmentStatus + "." + equipment.getId().toString());
 
 	}	
 

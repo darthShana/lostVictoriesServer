@@ -68,7 +68,6 @@ public class LostVictoriesServerGRPC {
         Client esClient = getESClient();
         IndicesAdminClient adminClient = esClient.admin().indices();
         TreeDAO treeDAO = new TreeDAO(esClient, treeIndexName);
-        EquipmentDAO equipmentDAO = new EquipmentDAO(esClient, equipmentIndexName);
         GameRequestDAO gameRequestDAO = new GameRequestDAO(esClient);
         PlayerUsageDAO playerUsageDAO = new PlayerUsageDAO(esClient, gameName);
         MessageRepository messageRepository = new MessageRepository();
@@ -78,12 +77,12 @@ public class LostVictoriesServerGRPC {
         jedisPoolConfig.setMaxTotal(100);
         jedisPoolConfig.setMinIdle(100);
         JedisPool jedisPool = new JedisPool(jedisPoolConfig, "localhost");
-        service = new LostVictoryService(jedisPool, instance, treeDAO, equipmentDAO, gameRequestDAO, playerUsageDAO, messageRepository, worldRunner);
+        service = new LostVictoryService(jedisPool, instance, treeDAO, gameRequestDAO, playerUsageDAO, messageRepository, worldRunner);
 
 
         boolean existing = createIndices(adminClient, service, treeDAO);
 
-        LostVictoriesServiceImpl grpcService = new LostVictoriesServiceImpl(jedisPool, instance, treeDAO, equipmentDAO, gameRequestDAO, playerUsageDAO, messageRepository, worldRunner);
+        LostVictoriesServiceImpl grpcService = new LostVictoriesServiceImpl(jedisPool, instance, treeDAO, gameRequestDAO, playerUsageDAO, messageRepository, worldRunner);
         Server server = ServerBuilder.forPort(port)
                 .addService(grpcService)
                 .build();

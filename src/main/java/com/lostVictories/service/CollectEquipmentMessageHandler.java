@@ -58,7 +58,7 @@ public class CollectEquipmentMessageHandler {
 
         Weapon drop = character.switchWeapon(equipment);
         if(drop!=null){
-            equipmentDAO.addUnclaiimedEquipment(new UnClaimedEquipmentMessage(UUID.randomUUID(), drop, character.getLocation(), new Vector(0, 0, 0)));
+            equipmentDAO.addUnclaimedEquipment(new UnClaimedEquipmentMessage(UUID.randomUUID(), drop, character.getLocation(), new Vector(0, 0, 0)));
         }
         equipmentDAO.delete(equipment);
         characterDAO.putCharacter(character.getId(), character);

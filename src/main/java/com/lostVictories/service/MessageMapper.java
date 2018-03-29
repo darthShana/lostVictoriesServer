@@ -51,6 +51,16 @@ public class MessageMapper {
         return builder.build();
     }
 
+    public BunkerMessage toMessage(com.jme3.lostVictories.network.messages.BunkerMessage b){
+        BunkerMessage.Builder builder = BunkerMessage.newBuilder()
+                .setId(bytes(b.getId()))
+                .setType("")
+                .setLocation(b.getLocation().toMessage())
+                .setRotation(b.getRotation().toMessage());
+
+        return builder.build();
+    }
+
 
     public EquipmentStatusResponse toMessage(com.jme3.lostVictories.network.messages.UnClaimedEquipmentMessage e) {
         return EquipmentStatusResponse.newBuilder()

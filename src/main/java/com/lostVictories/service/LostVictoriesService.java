@@ -37,17 +37,15 @@ public class LostVictoriesService {
     private final JedisPool jedisPool;
     private final String nameSpace;
     private final TreeDAO treeDAO;
-    private final EquipmentDAO equipmentDAO;
     private final GameRequestDAO gameRequestDAO;
     private final PlayerUsageDAO playerUsageDAO;
     private final MessageRepository messageRepository;
     private final WorldRunner worldRunner;
 
-    public LostVictoriesService(JedisPool jedisPool, String nameSpace, TreeDAO treeDAO, EquipmentDAO equipmentDAO, GameRequestDAO gameRequestDAO, PlayerUsageDAO playerUsageDAO, MessageRepository messageRepository, WorldRunner worldRunner) {
+    public LostVictoriesService(JedisPool jedisPool, String nameSpace, TreeDAO treeDAO, GameRequestDAO gameRequestDAO, PlayerUsageDAO playerUsageDAO, MessageRepository messageRepository, WorldRunner worldRunner) {
         this.jedisPool = jedisPool;
         this.nameSpace = nameSpace;
         this.treeDAO = treeDAO;
-        this.equipmentDAO = equipmentDAO;
         this.gameRequestDAO = gameRequestDAO;
         this.playerUsageDAO = playerUsageDAO;
         this.messageRepository = messageRepository;
@@ -60,6 +58,7 @@ public class LostVictoriesService {
         try {
             CharacterDAO characterDAO = new CharacterDAO(jedis, nameSpace);
             HouseDAO houseDAO = new HouseDAO(jedis, nameSpace);
+            EquipmentDAO equipmentDAO = new EquipmentDAO(jedis, nameSpace);
             CheckoutScreenMessageHandler checkoutScreenMessageHandler = new CheckoutScreenMessageHandler(characterDAO, houseDAO, equipmentDAO, treeDAO, playerUsageDAO);
             checkoutScreenMessageHandler.handle(request, responseObserver);
         }finally {
@@ -72,6 +71,7 @@ public class LostVictoriesService {
         try {
             CharacterDAO characterDAO = new CharacterDAO(jedis, nameSpace);
             HouseDAO houseDAO = new HouseDAO(jedis, nameSpace);
+            EquipmentDAO equipmentDAO = new EquipmentDAO(jedis, nameSpace);
             UpdateCharactersMessageHandler updateCharacterMessageHandler = new UpdateCharactersMessageHandler(characterDAO, houseDAO, equipmentDAO, worldRunner, messageRepository);
             updateCharacterMessageHandler.handle(updateCharactersRequest, responseObserver, clientObserverMap);
         }catch (IOException e){
@@ -103,6 +103,7 @@ public class LostVictoriesService {
         Jedis jedis = jedisPool.getResource();
         try {
             CharacterDAO characterDAO = new CharacterDAO(jedis, nameSpace);
+            EquipmentDAO equipmentDAO = new EquipmentDAO(jedis, nameSpace);
             DeathNotificationMessageHandler checkoutScreenMessageHandler = new DeathNotificationMessageHandler(characterDAO, equipmentDAO);
             checkoutScreenMessageHandler.handle(request, responseObserver);
         }finally {
@@ -136,6 +137,7 @@ public class LostVictoriesService {
         Jedis jedis = jedisPool.getResource();
         try {
             CharacterDAO characterDAO = new CharacterDAO(jedis, nameSpace);
+            EquipmentDAO equipmentDAO = new EquipmentDAO(jedis, nameSpace);
             CollectEquipmentMessageHandler messageHandler = new CollectEquipmentMessageHandler(characterDAO, equipmentDAO, messageRepository);
             messageHandler.handle(request, responseObserver);
         }finally {
@@ -174,6 +176,7 @@ public class LostVictoriesService {
         try (Jedis jedis = jedisPool.getResource()){
             CharacterDAO characterDAO = new CharacterDAO(jedis, nameSpace);
             HouseDAO houseDAO = new HouseDAO(jedis, nameSpace);
+            EquipmentDAO equipmentDAO = new EquipmentDAO(jedis, nameSpace);
             return new WorldRunnerInstance().runWorld(characterDAO, houseDAO, gameRequestDAO, playerUsageDAO, equipmentDAO, victoryPoints, manPower, weaponsFactory, vehicleFactory, nextRespawnTime, messageRepository, gameName, clientObserverMap);
         }catch(Throwable e){
             throw new RuntimeException(e);

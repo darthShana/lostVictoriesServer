@@ -1,7 +1,6 @@
 package com.lostVictories.service;
 
 import com.jme3.lostVictories.network.messages.*;
-import com.jme3.lostVictories.network.messages.wrapper.GenericLostVictoryResponse;
 import com.lostVictories.api.DeathNotificationRequest;
 import com.lostVictories.api.LostVictoryMessage;
 import io.grpc.stub.StreamObserver;
@@ -51,7 +50,7 @@ public class DeathNotificationMessageHandler {
 
 
         if(victim.getWeapon().isReusable() && (victim.getCharacterType()== CharacterType.SOLDIER || victim.getCharacterType()==CharacterType.AVATAR)){
-            equipmentDAO.addUnclaiimedEquipment(new UnClaimedEquipmentMessage(UUID.randomUUID(), victim.getWeapon(), victim.getLocation(), new com.jme3.lostVictories.network.messages.Vector(0, 0, 0)));
+            equipmentDAO.addUnclaimedEquipment(new UnClaimedEquipmentMessage(UUID.randomUUID(), victim.getWeapon(), victim.getLocation(), new com.jme3.lostVictories.network.messages.Vector(0, 0, 0)));
         }
         responseObserver.onNext(LostVictoryMessage.newBuilder().build());
         responseObserver.onCompleted();
