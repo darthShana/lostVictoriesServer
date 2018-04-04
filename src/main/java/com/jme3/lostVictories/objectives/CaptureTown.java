@@ -37,29 +37,33 @@ public class CaptureTown extends Objective {
         }
 		
         Set<GameSector> exclude = new HashSet<>();
-		
-		for(UUID cid:c.getUnitsUnderCommand()){
-			CharacterMessage unit = characterDAO.getCharacter(cid);
-			if(unit !=null && !unit.isBusy() && RankMessage.LIEUTENANT == unit.getRank()){
-				GameSector toSecure = findClosestUnsecuredGameSector(unit, gameSectors, exclude);
-				if(toSecure==null){
-					continue;
-				}
-				exclude.add(toSecure);
-				log.info(c.getCountry()+": assigning new sector:"+toSecure.rects.iterator().next()+" houses:"+toSecure.structures.size());
-				SecureSector i = new SecureSector(toSecure.getHouses(), toSecure.getBunkers(),10, 5, c.getLocation());
-				try {
-					unit.addObjective(UUID.randomUUID(), i);
-					toSave.put(unit.getId(), unit);
-				} catch (JsonGenerationException e) {
-					throw new RuntimeException(e);
-				} catch (JsonMappingException e) {
-					throw new RuntimeException(e);
-				} catch (IOException e) {
-					throw new RuntimeException(e);
-				}
-			}
-		}
+
+		c.getUnitsUnderCommand().stream().map(id->characterDAO.getCharacter(id))
+                .filter(unit->unit!=null)
+                .filter(unit->!unit.isBusy())
+                .filter(unit->RankMessage.LIEUTENANT==unit.getRank())
+                .sorted(Comparator.comparingInt(unit -> -unit.getCurrentStrength(characterDAO)))
+                .forEach(unit->{
+
+                    GameSector toSecure = findClosestUnsecuredGameSector(unit, gameSectors, exclude);
+                    if(toSecure!=null){
+                        exclude.add(toSecure);
+                        log.info(c.getCountry()+": assigning new sector:"+toSecure.rects.iterator().next()+" houses:"+toSecure.structures.size());
+                        SecureSector i = new SecureSector(toSecure.getHouses(), toSecure.getBunkers(),10, 5, c.getLocation());
+                        try {
+                            unit.addObjective(UUID.randomUUID(), i);
+                            toSave.put(unit.getId(), unit);
+                        } catch (JsonGenerationException e) {
+                            throw new RuntimeException(e);
+                        } catch (JsonMappingException e) {
+                            throw new RuntimeException(e);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+
+                });
+
 	}
 	
 	GameSector findClosestUnsecuredGameSector(CharacterMessage character, Set<GameSector> gameSectors, Set<GameSector> exclude) {
@@ -130,8 +134,10 @@ public class CaptureTown extends Objective {
 	}
 
 	static class GameSector {
-        private final Set<Rectangle> rects = new HashSet<>();
-        private final Set<Structure> structures = new HashSet<>();
+        private Set<Rectangle> rects = new HashSet<>();
+        private Set<Structure> structures = new HashSet<>();
+
+        GameSector(){}
 
         public GameSector(Rectangle rect) {
             this.rects.add(rect);

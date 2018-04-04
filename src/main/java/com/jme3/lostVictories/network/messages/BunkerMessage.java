@@ -7,9 +7,11 @@ import java.util.UUID;
 public class BunkerMessage implements Structure{
 
 
-    private final Quaternion rotation;
+    private Quaternion rotation;
     private Vector location;
     private UUID id;
+
+    BunkerMessage(){}
 
     public BunkerMessage(UUID id, Vector location, Quaternion rotation) {
         this.id = id;

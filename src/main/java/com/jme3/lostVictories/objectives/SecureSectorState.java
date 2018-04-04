@@ -87,7 +87,7 @@ public enum SecureSectorState {
 					}else{
 						exclude.add(house.getId().toString());
 					}
-				}				
+				}
 			}
 			
 			c.getUnitsUnderCommand().stream()				
@@ -127,13 +127,11 @@ public enum SecureSectorState {
         @Override
         public void runObjective(CharacterMessage c, String uuid, SecureSector objective, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave, Map<UUID, UUID> kills) {
             final List<BunkerMessage> bunkers = new ArrayList<>();
+            bunkers.addAll(houseDAO.getBunkers(objective.bunkers));
 
             characterDAO.getAllCharacters(c.getUnitsUnderCommand()).entrySet().stream()
                     .filter(entry -> !objective.issuedOrders.containsKey(entry.getKey()))
                     .forEach(entry -> {
-                        if(bunkers.isEmpty()){
-                            bunkers.addAll(houseDAO.getBunkers(objective.bunkers));
-                        }
                         if(!bunkers.isEmpty()){
                             BunkerMessage bunkerMessage = bunkers.get(0);
                             log.info(entry.getKey()+" moving to bunker:"+ bunkerMessage.getLocation());

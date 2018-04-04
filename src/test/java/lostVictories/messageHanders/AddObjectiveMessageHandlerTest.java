@@ -50,7 +50,7 @@ public class AddObjectiveMessageHandlerTest {
 				.setObjective(MAPPER.writeValueAsString(travel))
 				.build(), mock(StreamObserver.class));
 
-		assertEquals(4, characterMessage.readObjectives().size());
+		assertEquals(2, characterMessage.readObjectives().size());
 		assertTrue(characterMessage.readObjectives().containsKey(travelId.toString()));
 		assertFalse(characterMessage.readObjectives().containsKey(captureStructureID.toString()));
 	}

@@ -11,7 +11,7 @@ import java.awt.geom.Rectangle2D
 
 class SecureSectorSpec extends spock.lang.Specification {
 
-    def "test commanders in the stating sector will occupy bunkers"(){
+    def "test commanders in the stating sector will capture houses"(){
         given:
         def secureSector = new SecureSector(boundary: new Rectangle2D.Float(100, 100, 20, 20))
         def coId = UUID.randomUUID()
@@ -24,19 +24,14 @@ class SecureSectorSpec extends spock.lang.Specification {
         def characterMessage = new CharacterMessage(id: coId, location: new Vector(105, 100, 105), unitsUnderCommand: [unit1.getId(), unit2.getId()])
         def houseDAO = Mock(HouseDAO.class)
         def characterDAO = Mock(CharacterDAO.class)
-        houseDAO.getBunkers(new Rectangle2D.Float(100, 100, 20, 20)) >> [new BunkerMessage(new Vector(120, 100, 120)), new BunkerMessage(new Vector(100, 100, 100))]
+        houseDAO.getBunkers(_) >> [new BunkerMessage(location:  new Vector(120, 100, 120)), new BunkerMessage(location:  new Vector(100, 100, 100))]
         characterDAO.getAllCharacters(_) >> [(unit1.id):unit1, (unit2.id):unit2]
 
         when:
-        secureSector.state = SecureSectorState.WAIT_FOR_REENFORCEMENTS
-        secureSector.runObjective(characterMessage, characterMessage.getId().toString(), characterDAO, houseDAO, [:], [:])
-
-        then:
-        SecureSectorState.DEFEND_SECTOR == secureSector.state
-
-        when:
+        secureSector.state = SecureSectorState.DEFEND_SECTOR
         def toSave = [:]
         secureSector.runObjective(characterMessage, characterMessage.getId().toString(), characterDAO, houseDAO, toSave, [:])
+
 
         then:
         secureSector.issuedOrders[unit1.id] instanceof TransportSquad
@@ -44,12 +39,12 @@ class SecureSectorSpec extends spock.lang.Specification {
         toSave[unit1.id]
         1 * unit1.addObjective(*_) >> {args ->
             assert args[1] == secureSector.issuedOrders[unit1.id]
-            assert args[1].destination == new Vector(120, 100, 120)
+            assert args[1].destination == new Vector(120, 100, 127)
         }
 
         1 * unit2.addObjective(*_) >> {args ->
             assert args[1] == secureSector.issuedOrders[unit2.id]
-            assert args[1].destination == new Vector(100, 100, 100)
+            assert args[1].destination == new Vector(100, 100, 107)
         }
 
         when:

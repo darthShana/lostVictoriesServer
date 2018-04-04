@@ -135,7 +135,7 @@ public class UpdateCharactersMessageHandlerTest {
 
         handler.handle(convertToCharacterMessage(avatar, clientID, 5001), mock2, new HashMap<>());
 
-        verify(mock2, times(2)).onNext(argument2.capture());
+        verify(mock2, times(1)).onNext(argument2.capture());
 
 	}
 

@@ -70,7 +70,7 @@ public class CharacterMessage implements Serializable{
 	long version;
 	@JsonIgnore
 	Set<UUID> kills = new HashSet<UUID>();
-	SquadType squadType = SquadType.RIFLE_TEAM;
+	SquadType squadType;
 	long creationTime;
 
 
@@ -88,6 +88,7 @@ public class CharacterMessage implements Serializable{
 		this.country = country;
 		this.weapon = weapon;
 		this.rank = rank;
+		this.squadType = getSquadType(SquadType.RIFLE_TEAM);
 		if(commandingOfficer!=null){
 			this.commandingOfficer = commandingOfficer;
 		}
@@ -722,13 +723,17 @@ public class CharacterMessage implements Serializable{
 	public SquadType getSquadType(SquadType squadType) {
 		if(type==CharacterType.ANTI_TANK_GUN){
 			squadType = SquadType.ANTI_TANK_GUN;
-		}else if(type==CharacterType.ARMORED_CAR && squadType!=SquadType.ANTI_TANK_GUN){
+		}else if(type==CharacterType.PANZER4 || type==CharacterType.M4SHERMAN){
+		    squadType = SquadType.TANK_SQUAD;
+        }else if(type==CharacterType.ARMORED_CAR ){
 			squadType = SquadType.ARMORED_VEHICLE;
-		}else if(weapon==Weapon.MORTAR && squadType!=SquadType.ARMORED_VEHICLE && squadType!=SquadType.ANTI_TANK_GUN){
+		}else if(weapon==Weapon.MORTAR){
 			squadType = SquadType.MORTAR_TEAM;
-		}else if(weapon==Weapon.MG42 && squadType!=SquadType.ARMORED_VEHICLE && squadType!=SquadType.ANTI_TANK_GUN){
+		}else if(weapon==Weapon.MG42){
 			squadType = SquadType.MG42_TEAM;
-		}
+		}else if(weapon==Weapon.BAZOOKA){
+		    squadType = SquadType.BAZOOKA_TEAM;
+        }
 		return squadType;
 	}
 
