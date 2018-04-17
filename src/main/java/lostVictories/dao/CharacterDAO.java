@@ -34,11 +34,10 @@ public class CharacterDAO {
 	public static ObjectMapper MAPPER;
 	
     static{
-            MAPPER = new ObjectMapper();
-            MAPPER.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
-            MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-            MAPPER.setSerializationInclusion(Include.NON_NULL);
-
+        MAPPER = new ObjectMapper();
+        MAPPER.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
+        MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        MAPPER.setSerializationInclusion(Include.NON_NULL);
     }
 
 	private final String characterLocation;
@@ -126,6 +125,7 @@ public class CharacterDAO {
 
         return geoLocation.stream()
                 .filter(r->!propertyMap.get(r.getMemberByString()).get().isEmpty())
+                .filter(r->!locationMap.get(r.getMemberByString()).get().isEmpty())
 				.map(r->new CharacterMessage(propertyMap.get(r.getMemberByString()).get(), locationMap.get(r.getMemberByString()).get().get(0)))
 				.filter(c->boundingBox.contains(c.getLocation().x, c.getLocation().z))
 				.collect(Collectors.toSet());

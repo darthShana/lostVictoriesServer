@@ -73,7 +73,7 @@ public class MessageMapper {
                         .build();
     }
 
-    public LostVictoryMessage toMessage(com.jme3.lostVictories.network.messages.CharacterMessage characterMessage, int backoff) {
+    public LostVictoryMessage toCharacterMessage(com.jme3.lostVictories.network.messages.CharacterMessage characterMessage, int backoff) {
         CharacterMessage.Builder characterBuilder = toMessage(characterMessage);
 
         CharacterStatusResponse.Builder builder = CharacterStatusResponse.newBuilder();
@@ -128,7 +128,7 @@ public class MessageMapper {
         return characterBuilder;
     }
 
-    public LostVictoryMessage toMessage(com.jme3.lostVictories.network.messages.CharacterMessage characterMessage, boolean b) {
+    public LostVictoryMessage toRelatedCharacterMessage(com.jme3.lostVictories.network.messages.CharacterMessage characterMessage) {
         CharacterMessage.Builder builder = CharacterMessage.newBuilder()
                 .setId(bytes(characterMessage.getId()))
                 .setLocation(characterMessage.getLocation().toMessage())

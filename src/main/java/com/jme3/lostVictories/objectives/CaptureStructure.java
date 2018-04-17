@@ -21,7 +21,7 @@ public class CaptureStructure extends Objective{
 	private static Logger log = LoggerFactory.getLogger(CaptureStructure.class);
 	String structure;
 	Objective travelObjective;
-	
+
 	public CaptureStructure(String structure){
 		this.structure = structure;
 	}
@@ -33,7 +33,7 @@ public class CaptureStructure extends Objective{
 	public void runObjective(CharacterMessage c, String uuid, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave, Map<UUID, UUID> kills) {
 		HouseMessage house = houseDAO.getHouse(UUID.fromString(structure));
 		if(house.getOwner()==c.getCountry()){
-			log.debug("completed stucture capture:"+structure);
+			log.debug("completed structure capture:"+structure);
 			isComplete = true;
 			return;
 		}
@@ -47,8 +47,9 @@ public class CaptureStructure extends Objective{
 		}
 		travelObjective.runObjective(c, uuid, characterDAO, houseDAO, toSave, kills);
 		if(travelObjective.isComplete){
-			isComplete = true;
-		}
+            isComplete = true;
+        }
+
 		
 	}
 	

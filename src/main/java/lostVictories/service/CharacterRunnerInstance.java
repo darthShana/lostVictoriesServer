@@ -38,6 +38,7 @@ public class CharacterRunnerInstance {
         CharacterMessage character = characterDAO.getCharacter(_character.getId(), true);
 
         if(character!=null && !character.isDead() && character.isAvailableForCheckout(5000)){
+
             Map<UUID, CharacterMessage> toSave = new HashMap<>();
             runCharacterBehavior(character, toSave, kills, characterDAO, playerUsageDAO, houseDAO);
             characterDAO.updateCharacterStateNoCheckout(toSave);
@@ -47,7 +48,7 @@ public class CharacterRunnerInstance {
     }
 
     private void doKill(UUID _killer, UUID _victim, CharacterDAO characterDAO) {
-        Map<UUID, CharacterMessage> toSave = new HashMap<UUID, CharacterMessage>();
+        Map<UUID, CharacterMessage> toSave = new HashMap<>();
         CharacterCatch catche = new CharacterCatch(characterDAO);
         CharacterMessage victim = catche.getCharacter(_victim);
         if(victim==null || victim.isDead()){

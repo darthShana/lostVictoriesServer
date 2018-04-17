@@ -78,7 +78,7 @@ public class UpdateCharactersMessageHandler {
                 .collect(Collectors.toMap(c->c.getId(), Function.identity()));
 
         if(inRange.containsKey(serverVersion.getId())) {
-            responseObserver.onNext(mp.toMessage(serverVersion, responseObserver.backOff));
+            responseObserver.onNext(mp.toCharacterMessage(serverVersion, responseObserver.backOff));
         }
 
         final CharacterMessage toSend = serverVersion;
@@ -87,23 +87,23 @@ public class UpdateCharactersMessageHandler {
                 .filter(entry->!entry.getClientID().equals(clientID))
                 .filter(ee->characterDAO.isInRangeOf(toSend.getLocation(), ee.getClientID(), CheckoutScreenMessageHandler.CLIENT_RANGE))
                 .forEach(e->{
-                    e.onNext(mp.toMessage(toSend, responseObserver.backOff));
+                    e.onNext(mp.toCharacterMessage(toSend, responseObserver.backOff));
                 });
 
         if(msg.getClientStartTime()>5000 && characterId.equals(uuid(msg.getAvatar()))) {
             inRange.values().stream()
                     .filter(cc -> cc.isAvailableForCheckout(5000))
-                    .forEach(c -> responseObserver.onNext(mp.toMessage(c, responseObserver.backOff)));
+                    .forEach(c -> responseObserver.onNext(mp.toCharacterMessage(c, responseObserver.backOff)));
         }
 
         if(!serverVersion.isDead()) {
             characterDAO.getAllCharacters(serverVersion.getUnitsUnderCommand()).values().stream()
                     .filter(u -> u != null && !inRange.containsKey(u.getId()))
-                    .forEach(r -> responseObserver.onNext(mp.toMessage(r, true)));
+                    .forEach(r -> responseObserver.onNext(mp.toRelatedCharacterMessage(r)));
             if(serverVersion.getCommandingOfficer()!=null){
                 CharacterMessage commandingOfficer = characterDAO.getCharacter(serverVersion.getCommandingOfficer());
                 if(commandingOfficer!=null && !inRange.containsKey(commandingOfficer.getId())){
-                    responseObserver.onNext(mp.toMessage(commandingOfficer, true));
+                    responseObserver.onNext(mp.toRelatedCharacterMessage(commandingOfficer));
                 }
             }
 
@@ -120,7 +120,7 @@ public class UpdateCharactersMessageHandler {
                     List<CharacterMessage> values = new ArrayList<>();
                     values.add(vehicle);
                     characterDAO.save(values);
-                    responseObserver.onNext(mp.toMessage(vehicle, responseObserver.backOff));
+                    responseObserver.onNext(mp.toCharacterMessage(vehicle, responseObserver.backOff));
                 }
 
             }

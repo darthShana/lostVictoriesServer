@@ -1,10 +1,7 @@
 package com.jme3.lostVictories.objectives;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-import java.util.function.Consumer;
+import java.util.*;
 
 import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.HouseDAO;
@@ -22,7 +19,8 @@ public class TransportSquad extends Objective implements CleanupBeforeTransmitti
 	private static Logger log = LoggerFactory.getLogger(TransportSquad.class);
 
 	Vector destination;
-	Map<UUID, Objective> issuedOrders = new HashMap<>();
+	Set<UUID> issuedOrders = new HashSet<>();
+	Objective moveObjective;
 	
 	@SuppressWarnings("unused")
 	private TransportSquad() {}
@@ -40,7 +38,7 @@ public class TransportSquad extends Objective implements CleanupBeforeTransmitti
 		});
 
 		c.getUnitsUnderCommand().stream()
-			.filter(id->!issuedOrders.containsKey(id))
+			.filter(id->!issuedOrders.contains(id))
 			.map(id->characterDAO.getCharacter(id))
 			.filter(c1 -> c1!=null)
 			.forEach(c1 -> {
@@ -51,25 +49,22 @@ public class TransportSquad extends Objective implements CleanupBeforeTransmitti
 					}else{
 						t = new NavigateObjective(destination, null);
 					}
-					c1.addObjective(UUID.randomUUID(), t);
-					issuedOrders.put(c1.getId(), t);
+                    c1.addObjective(UUID.randomUUID(), t);
+					issuedOrders.add(c1.getId());
 				} catch (IOException e) {
 					throw new RuntimeException(e);
 				}
 			});
 
-		if(!issuedOrders.containsKey(c.getId())){
-			Objective t = null;
+		if(moveObjective==null){
 			if(CharacterType.AVATAR == c.getCharacterType() || CharacterType.SOLDIER == c.getCharacterType()){
-				t = new TravelObjective(c, destination, null);
+                moveObjective = new TravelObjective(c, destination, null);
 			}else{
-				t = new NavigateObjective(destination, null);
+                moveObjective = new NavigateObjective(destination, null);
 			}
-			issuedOrders.put(c.getId(), t);
 		}
 		
-		Objective fromStringToObjective = issuedOrders.get(c.getId());
-		fromStringToObjective.runObjective(c, uuid, characterDAO, houseDAO, toSave, kills);		
+        moveObjective.runObjective(c, uuid, characterDAO, houseDAO, toSave, kills);
 	}
 
 	@Override

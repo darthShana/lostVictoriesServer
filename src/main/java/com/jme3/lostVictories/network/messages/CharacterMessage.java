@@ -725,7 +725,7 @@ public class CharacterMessage implements Serializable{
 			squadType = SquadType.ANTI_TANK_GUN;
 		}else if(type==CharacterType.PANZER4 || type==CharacterType.M4SHERMAN){
 		    squadType = SquadType.TANK_SQUAD;
-        }else if(type==CharacterType.ARMORED_CAR ){
+        }else if(type==CharacterType.ARMORED_CAR || type==CharacterType.HALF_TRACK){
 			squadType = SquadType.ARMORED_VEHICLE;
 		}else if(weapon==Weapon.MORTAR){
 			squadType = SquadType.MORTAR_TEAM;

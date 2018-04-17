@@ -108,4 +108,9 @@ public class HouseDAO {
     public List<BunkerMessage> getBunkers(Set<UUID> ids) {
 	    return bunkers.stream().filter(b->ids.contains(b.getId())).collect(Collectors.toList());
     }
+
+    public BunkerMessage getBunker(UUID i) {
+        Optional<BunkerMessage> first = bunkers.stream().filter(b -> i.equals(b.getId())).findFirst();
+        return first.orElse(null);
+    }
 }

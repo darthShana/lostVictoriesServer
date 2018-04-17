@@ -28,7 +28,7 @@ public enum RankMessage {
 
 		@Override
 		public String getAchivementMessage() {
-			return "Congradulations on your promotion Lieutenant!: You have several squads in your command.";
+			return "Congratulations on your promotion Lieutenant!: You have several squads in your command.";
 		}
 	}, 
 	CADET_CORPORAL{

@@ -1,6 +1,7 @@
 package com.jme3.lostVictories.objectives;
 
 import java.awt.*;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -29,13 +30,15 @@ public class SecureSector extends Objective implements CleanupBeforeTransmitting
 	Vector centre;
     @JsonIgnore
 	Rectangle.Float boundary;
-	Map<UUID, Objective> issuedOrders = new HashMap<>();
+	Map<UUID, UUID> issuedOrders = new HashMap<>();
 	int deploymentStrength;
     int minimumFightingStrength;
     Vector homeBase;
 	SecureSectorState state = SecureSectorState.WAIT_FOR_REENFORCEMENTS;
-	
-	@SuppressWarnings("unused")
+	Objective embededObjective;
+    public Long securedHouseCount;
+
+    @SuppressWarnings("unused")
 	private SecureSector() {}
 	
 	public SecureSector(Set<HouseMessage> houses, Set<BunkerMessage> bunkers, int deploymentStrength, int minimumFightingStrength, Vector homeBase) {
@@ -76,13 +79,21 @@ public class SecureSector extends Objective implements CleanupBeforeTransmitting
 		if(boundary == null){
 	        calculateBoundry(houses.stream().map(h->houseDAO.getHouse(h)).collect(Collectors.toSet()));
         }
-		state.runObjective(c, uuid, this, characterDAO, houseDAO, toSave, kills);
-		SecureSectorState newState = state.transition(c, uuid, this, characterDAO, houseDAO, toSave);
+        HashMap<UUID, CharacterMessage> toSave1 = new HashMap<>();
+        state.runObjective(c, uuid, this, characterDAO, houseDAO, toSave1, kills);
+        try {
+            characterDAO.save(toSave1.values());
+        } catch (IOException e) {
+            new RuntimeException(e);
+        }
+        SecureSectorState newState = state.transition(c, uuid, this, characterDAO, houseDAO, toSave);
 		
 		if(newState!=state){
             System.out.println(c.getCountry()+" "+c.getRank()+":"+c.getId()+" new state:"+newState+" houses:"+houses.size()+" centre:"+centre+" loc:"+c.getLocation()+" home:"+homeBase);
-			issuedOrders.clear();          
-            state = newState;            
+			issuedOrders.clear();
+            embededObjective = null;
+            state = newState;
+            securedHouseCount = null;
         }
 		
 	}

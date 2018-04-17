@@ -24,19 +24,20 @@ public class CaptureTown extends Objective {
 	@JsonIgnore
 	private static Logger log = LoggerFactory.getLogger(CaptureTown.class);
 	@JsonIgnore
-	private Set<GameSector> gameSectors;
-	@JsonIgnore
 	public Rectangle mapBounds = new Rectangle(-512, -512, 1024, 1024);
-	
+
+	private Map<UUID, GameSector> sectorAssignments = new HashMap<>();
+	private Set<GameSector> sectors = new HashSet<>();
+
 	@Override
 	public void runObjective(CharacterMessage c, String uuid, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave, Map<UUID, UUID> kills) {
 
 		
-		if(gameSectors==null){
-            gameSectors = calculateGameSectors(houseDAO);
+		if(sectors.isEmpty()){
+            sectors = calculateGameSectors(houseDAO);
         }
-		
-        Set<GameSector> exclude = new HashSet<>();
+
+        sectorAssignments.entrySet().removeIf(e->!c.getUnitsUnderCommand().contains(e.getKey()));
 
 		c.getUnitsUnderCommand().stream().map(id->characterDAO.getCharacter(id))
                 .filter(unit->unit!=null)
@@ -45,11 +46,11 @@ public class CaptureTown extends Objective {
                 .sorted(Comparator.comparingInt(unit -> -unit.getCurrentStrength(characterDAO)))
                 .forEach(unit->{
 
-                    GameSector toSecure = findClosestUnsecuredGameSector(unit, gameSectors, exclude);
+                    GameSector toSecure = findClosestUnsecuredGameSector(unit, sectors, new HashSet<>(sectorAssignments.values()), houseDAO);
                     if(toSecure!=null){
-                        exclude.add(toSecure);
-                        log.info(c.getCountry()+": assigning new sector:"+toSecure.rects.iterator().next()+" houses:"+toSecure.structures.size());
-                        SecureSector i = new SecureSector(toSecure.getHouses(), toSecure.getBunkers(),10, 5, c.getLocation());
+                        log.info(c.getCountry()+": assigning new sector:"+toSecure.rects.iterator().next()+" houses:"+toSecure.structures.size()+" platoon strength:"+unit.getCurrentStrength(characterDAO));
+                        SecureSector i = new SecureSector(toSecure.getHouses(houseDAO), toSecure.getBunkers(houseDAO),10, 5, c.getLocation());
+                        sectorAssignments.put(unit.getId(), toSecure);
                         try {
                             unit.addObjective(UUID.randomUUID(), i);
                             toSave.put(unit.getId(), unit);
@@ -66,10 +67,10 @@ public class CaptureTown extends Objective {
 
 	}
 	
-	GameSector findClosestUnsecuredGameSector(CharacterMessage character, Set<GameSector> gameSectors, Set<GameSector> exclude) {
+	GameSector findClosestUnsecuredGameSector(CharacterMessage character, Set<GameSector> gameSectors, Set<GameSector> exclude, HouseDAO houseDAO) {
         GameSector closest = null;
         for(GameSector gameSector:gameSectors){
-            if(gameSector.isUnsecured(character.getCountry())){
+            if(gameSector.isUnsecured(character.getCountry(), houseDAO)){
                 if(!exclude.contains(gameSector) &&
                 		(closest==null || weightedDistance(character, closest) > weightedDistance(character, gameSector))){
                     closest = gameSector;
@@ -81,7 +82,7 @@ public class CaptureTown extends Objective {
     }
 
 	private float weightedDistance(CharacterMessage character, GameSector closest) {
-		return closest.location().distance(character.getLocation().toVector())/closest.getHouses().size();
+		return closest.location().distance(character.getLocation().toVector())/closest.getHousesCount();
 	}
 
 	Set<GameSector> calculateGameSectors(HouseDAO houseDAO) {
@@ -131,85 +132,6 @@ public class CaptureTown extends Objective {
 	
 	Optional<GameSector> findNeighbouringSector(GameSector sector, Set<GameSector> ret) {
 		return ret.stream().filter(s->sector.isJoinedTo(s)).findFirst();
-	}
-
-	static class GameSector {
-        private Set<Rectangle> rects = new HashSet<>();
-        private Set<Structure> structures = new HashSet<>();
-
-        GameSector(){}
-
-        public GameSector(Rectangle rect) {
-            this.rects.add(rect);
-        }
-
-        public boolean isJoinedTo(GameSector s) {
-			for(Rectangle r1: rects){
-				for(Rectangle r2:s.rects){
-					if(new Rectangle(r1.x-1, r1.y-1, r1.width+2, r1.height+2).intersects(r2)){
-						return true;
-					}
-				}
-				
-			}
-			return false;
-		}
-
-		public void merge(GameSector neighbour) {
-            structures.addAll(neighbour.structures);
-			rects.addAll(neighbour.rects);
-			
-		}
-
-		private boolean containsHouse(Structure house) {
-            return rects.stream().filter(r->r.contains(house.getLocation().x, house.getLocation().z)).findAny().isPresent();
-        }
-
-		public boolean containsPoint(Vector centre) {
-        	if(rects.isEmpty()){
-        		return false;
-			}
-			Rectangle union = null;
-        	for(Iterator<Rectangle> it = rects.iterator();it.hasNext();){
-        		if(union == null){
-        			union = it.next();
-				}else{
-					union.add(it.next());
-				}
-			}
-			return union.contains(centre.x, centre.z);
-		}
-
-        void add(Structure house) {
-            structures.add(house);
-        }
-
-        private boolean isUnsecured(Country country) {
-            for(Structure h:structures){
-                if(h.getOwner()!=country){
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        private Vector3f location() {
-        	Rectangle rect = rects.iterator().next();
-            return new Vector3f((float)rect.getCenterX(), 0, (float)rect.getCenterY());
-        }
-        
-        Set<HouseMessage> getHouses(){
-            return structures.stream()
-                    .filter(s->s instanceof HouseMessage)
-                    .map(h->(HouseMessage)h).collect(Collectors.toSet());
-        }
-
-        Set<BunkerMessage> getBunkers(){
-            return structures.stream()
-                    .filter(s->s instanceof BunkerMessage)
-                    .map(b->(BunkerMessage)b).collect(Collectors.toSet());
-        }
-
 	}
 
     @Override

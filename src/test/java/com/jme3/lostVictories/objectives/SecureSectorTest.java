@@ -61,7 +61,11 @@ public class SecureSectorTest {
 		characterDAO = mock(CharacterDAO.class);
 		when(characterDAO.getCharacter(eq(unit1.getId()))).thenReturn(unit1);
 		when(characterDAO.getCharacter(eq(unit2.getId()))).thenReturn(unit2);
-		
+        HashMap<UUID, CharacterMessage> t = new HashMap<>();
+        t.put(unit1.getId(), unit1);
+        t.put(unit2.getId(), unit2);
+        when(characterDAO.getAllCharacters(eq(new HashSet<>(oldCo.getUnitsUnderCommand())))).thenReturn(t);
+
 		toSave = new HashMap<>();
 		kills = new HashMap<>();
 	}
@@ -94,9 +98,8 @@ public class SecureSectorTest {
 		
 		objective.runObjective(oldCo, UUID.randomUUID().toString(), characterDAO, houseDAO, toSave, kills);
 		
-		assertTrue(toSave.containsKey(unit1.getId()));
-		CaptureStructure order1 = (CaptureStructure) objective.issuedOrders.get(unit1.getId());
-		CaptureStructure order2 = (CaptureStructure) objective.issuedOrders.get(unit2.getId());
+		CaptureStructure order1 = (CaptureStructure) unit1.getObjectiveSafe(objective.issuedOrders.get(unit1.getId()));
+		CaptureStructure order2 = (CaptureStructure) unit2.getObjectiveSafe(objective.issuedOrders.get(unit2.getId()));
 		
 		assertEquals(order1.structure, house2.getId().toString());
 		assertEquals(order2.structure, house3.getId().toString());
@@ -104,9 +107,15 @@ public class SecureSectorTest {
 		CharacterMessage unit3 = new CharacterMessage(UUID.randomUUID(), CharacterType.SOLDIER, new Vector(0, 0, 0), Country.GERMAN, Weapon.RIFLE, RankMessage.CADET_CORPORAL, oldCo.getId());
 		oldCo.addCharactersUnderCommand(unit3);
 		when(characterDAO.getCharacter(eq(unit3.getId()))).thenReturn(unit3);
+
+        HashMap<UUID, CharacterMessage> t = new HashMap<>();
+        t.put(unit1.getId(), unit1);
+        t.put(unit2.getId(), unit2);
+        t.put(unit3.getId(), unit3);
+        when(characterDAO.getAllCharacters(eq(new HashSet<>(oldCo.getUnitsUnderCommand())))).thenReturn(t);
 		
 		objective.runObjective(oldCo, UUID.randomUUID().toString(), characterDAO, houseDAO, toSave, kills);
-		CaptureStructure order3 = (CaptureStructure) objective.issuedOrders.get(unit3.getId());
+		CaptureStructure order3 = (CaptureStructure) unit3.getObjectiveSafe(objective.issuedOrders.get(unit3.getId()));
 		assertFalse(order3.structure.equals(order1.structure));
 		assertFalse(order3.structure.equals(order2.structure));
 	}
@@ -153,9 +162,9 @@ public class SecureSectorTest {
 		
 		objective.issuedOrders.clear();
 		objective.runObjective(oldCo, UUID.randomUUID().toString(), characterDAO, houseDAO, toSave, kills);
-		TravelObjective t1 = (TravelObjective) objective.issuedOrders.get(oldCo.getId());
-		TransportSquad t2 = (TransportSquad) objective.issuedOrders.get(unit1.getId());
-		TransportSquad t3 = (TransportSquad) objective.issuedOrders.get(unit2.getId());
+		TravelObjective t1 = (TravelObjective)objective.embededObjective;
+		TransportSquad t2 = (TransportSquad) unit1.getObjectiveSafe(objective.issuedOrders.get(unit1.getId()));
+		TransportSquad t3 = (TransportSquad) unit2.getObjectiveSafe(objective.issuedOrders.get(unit2.getId()));
 		assertEquals(new Vector(100, 0, 100), t1.destination);
 		assertEquals(new Vector(100, 0, 100), t2.destination);
 		assertEquals(new Vector(100, 0, 100), t3.destination);
@@ -168,7 +177,7 @@ public class SecureSectorTest {
 		objective.state = SecureSectorState.RETREAT;
 		
 		objective.runObjective(oldCo, UUID.randomUUID().toString(), characterDAO, houseDAO, toSave, kills);
-		objective.issuedOrders.get(oldCo.getId()).isComplete = true;
+		objective.embededObjective.isComplete = true;
 		objective.runObjective(oldCo, UUID.randomUUID().toString(), characterDAO, houseDAO, toSave, kills);
 		assertEquals(SecureSectorState.WAIT_FOR_REENFORCEMENTS, objective.state);
 	}

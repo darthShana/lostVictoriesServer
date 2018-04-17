@@ -4,18 +4,14 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import java.awt.Rectangle;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 import com.jme3.lostVictories.network.messages.*;
-import lostVictories.GameCharacter;
+import com.jme3.lostVictories.network.messages.Vector;
 import lostVictories.dao.HouseDAO;
 
 import org.junit.Test;
 
-import com.jme3.lostVictories.objectives.CaptureTown.GameSector;
 
 public class CaptureTownTest {
 
@@ -24,21 +20,25 @@ public class CaptureTownTest {
 		CaptureTown captureTown = new CaptureTown();
 		
 		HouseDAO houseDAO = mock(HouseDAO.class);
-		when(houseDAO.getAllHouses()).thenReturn(getAllHouses());
+        Set<HouseMessage> allHouses = getAllHouses();
+        when(houseDAO.getAllHouses()).thenReturn(allHouses);
+        allHouses.forEach(h->{
+            when(houseDAO.getHouse(h.getId())).thenReturn(h);
+        });
 		
-		Set<GameSector> calculateGameSector = captureTown.calculateGameSectors(houseDAO);		
+		Set<GameSector> calculateGameSector = captureTown.calculateGameSectors(houseDAO);
 		assertEquals(5, calculateGameSector.size());
 
 		calculateGameSector.forEach(sector->{
             float totalX = 0, totalY = 0,totalZ = 0;
-            for(HouseMessage h:sector.getHouses()){
+            for(HouseMessage h:sector.getHouses(houseDAO)){
                 totalX+=h.getLocation().x;
                 totalY+=h.getLocation().y;
                 totalZ+=h.getLocation().z;
             }
-            final float x = totalX/sector.getHouses().size();
-            final float y = totalY/sector.getHouses().size();
-            final float z = totalZ/sector.getHouses().size();
+            final float x = totalX/sector.getHousesCount();
+            final float y = totalY/sector.getHousesCount();
+            final float z = totalZ/sector.getHousesCount();
             Vector centre = new Vector(x, y, z);
             System.out.println(centre);
             assertTrue(sector.containsPoint(centre));
@@ -48,17 +48,23 @@ public class CaptureTownTest {
 	@Test
 	public void testMerge(){
 		Set<HouseMessage> allHouses = getAllHouses();
+
+        HouseDAO houseDAO = mock(HouseDAO.class);
+
 		Iterator<HouseMessage> iterator = allHouses.iterator();
 		HouseMessage h1 = iterator.next();
 		HouseMessage h2 = iterator.next();
+		when(houseDAO.getHouse(h1.getId())).thenReturn(h1);
+		when(houseDAO.getHouse(h2.getId())).thenReturn(h2);
+
 		GameSector merged = new GameSector(new Rectangle(-512, -512, 100, 100));
 		merged.add(h1);
 		GameSector neighbour = new GameSector(new Rectangle(-512+100, -512+100, 100, 100));
 		neighbour.add(h2);
 		
 		merged.merge(neighbour);
-		assertTrue(merged.getHouses().contains(h1));
-		assertTrue(merged.getHouses().contains(h2));
+		assertTrue(merged.getHouses(houseDAO).contains(h1));
+		assertTrue(merged.getHouses(houseDAO).contains(h2));
 
 	}
 	
@@ -84,15 +90,19 @@ public class CaptureTownTest {
 
 
         HouseDAO houseDAO = mock(HouseDAO.class);
-        when(houseDAO.getAllHouses()).thenReturn(getAllHouses());
+        Set<HouseMessage> allHouses = getAllHouses();
+        allHouses.forEach(h->{
+            when(houseDAO.getHouse(h.getId())).thenReturn(h);
+        });
+        when(houseDAO.getAllHouses()).thenReturn(allHouses);
 
         Set<GameSector> calculateGameSector = captureTown.calculateGameSectors(houseDAO);
         HashSet<GameSector> exc = new HashSet<>();
-        GameSector gameSector1 = captureTown.findClosestUnsecuredGameSector(oldCo, calculateGameSector, exc);
+        GameSector gameSector1 = captureTown.findClosestUnsecuredGameSector(oldCo, calculateGameSector, exc, houseDAO);
         assertTrue(gameSector1.containsPoint(new Vector(87.875885f,100.49752f,-326.0263f)));
         exc.add(gameSector1);
 
-        GameSector gameSector2 = captureTown.findClosestUnsecuredGameSector(oldCo, calculateGameSector, exc);
+        GameSector gameSector2 = captureTown.findClosestUnsecuredGameSector(oldCo, calculateGameSector, exc, houseDAO);
         assertTrue(gameSector2.containsPoint(new Vector(139.33589f,96.62015f,31.722858f)));
 
 

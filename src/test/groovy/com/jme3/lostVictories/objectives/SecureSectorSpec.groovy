@@ -34,16 +34,13 @@ class SecureSectorSpec extends spock.lang.Specification {
 
 
         then:
-        secureSector.issuedOrders[unit1.id] instanceof TransportSquad
-        secureSector.issuedOrders[unit2.id] instanceof TransportSquad
-        toSave[unit1.id]
         1 * unit1.addObjective(*_) >> {args ->
-            assert args[1] == secureSector.issuedOrders[unit1.id]
+            assert args[1] instanceof TransportSquad
             assert args[1].destination == new Vector(120, 100, 127)
         }
 
         1 * unit2.addObjective(*_) >> {args ->
-            assert args[1] == secureSector.issuedOrders[unit2.id]
+            assert args[1] instanceof TransportSquad
             assert args[1].destination == new Vector(100, 100, 107)
         }
 

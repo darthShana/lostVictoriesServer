@@ -31,9 +31,9 @@ public class LostVictoryScene {
 	public static int SCENE_WIDTH = 512;
 	public static int SCENE_HEIGHT = 512;
 	public static float SCENE_SCALE = .25f;
-	public static Vector germanVehicleSpawnPoint = new Vector(257, 96, 31);
+	public static Vector germanVehicleSpawnPoint = new Vector(349, 97, 183);
     public static Vector germanBase = new Vector(150, 100, 20);
-	public static Vector americanVehicleSpawnPoint = new Vector(50, 101, -366);
+	public static Vector americanVehicleSpawnPoint = new Vector(143, 101, -485);
     public static Vector americanBase = new Vector(90, 100, -380);
 	
 	private static Logger log = LoggerFactory.getLogger(LostVictoryScene.class);
@@ -184,11 +184,13 @@ public class LostVictoryScene {
         gl2.addCharactersUnderCommand(a3, a4, a5);
         gl3.addCharactersUnderCommand(gv1, gv2);
         gl4.addCharactersUnderCommand(gv3, gv4);
+        gl5.addCharactersUnderCommand(gv5, gv6);
         al1.addCharactersUnderCommand(b1, b2);
         al2.addCharactersUnderCommand(b3, b4);
         al3.addCharactersUnderCommand(c1, c2);
         al4.addCharactersUnderCommand(c3, c4, c5);
-        
+        al5.addCharactersUnderCommand(c6, c7);
+
         a.addCharactersUnderCommand(gl1, gl2, gl3, gl4, gl5);
         b.addCharactersUnderCommand(al1, al2, al3, al4, al5);
         

@@ -43,7 +43,7 @@ public enum SecureSectorState {
 
 		@Override
 		public SecureSectorState transition(CharacterMessage c, String uuid, SecureSector objective, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave) {
-			if(objective.issuedOrders.get(c.getId()).isComplete){
+			if(objective.embededObjective.isComplete){
 				return WAIT_FOR_REENFORCEMENTS;
 			}
 			return RETREAT;
@@ -60,7 +60,7 @@ public enum SecureSectorState {
 			if(c.getCurrentStrength(characterDAO)<=objective.minimumFightingStrength){
 				return RETREAT;
 			}
-			if(objective.issuedOrders.get(c.getId()).isComplete){
+			if(objective.embededObjective.isComplete){
 				return CAPTURE_HOUSES;
 			}
 			if(objective.boundary.contains(new Point2D.Float(c.getLocation().x, c.getLocation().z))){
@@ -76,33 +76,37 @@ public enum SecureSectorState {
 			final Set<String> exclude = new HashSet<>();
 			Predicate<HouseMessage> houseToCapture = t -> t.getOwner()!=c.getCountry() && !exclude.contains(t.getId().toString());
 
+            HashSet<UUID> availableUnits = new HashSet<>(c.getUnitsUnderCommand());
+            Map<UUID, CharacterMessage> allCharacters = characterDAO.getAllCharacters(availableUnits);
 
-			
-			for(Iterator<Entry<UUID, Objective>> it = objective.issuedOrders.entrySet().iterator();it.hasNext();){
-				Objective o = it.next().getValue();
-				if(o instanceof CaptureStructure){
-					HouseMessage house = houseDAO.getHouse(UUID.fromString(((CaptureStructure)o).structure));
-					if(house.getOwner() == c.getCountry()){
-						it.remove();
-					}else{
-						exclude.add(house.getId().toString());
-					}
-				}
+            for(Iterator<Entry<UUID, UUID>> it = objective.issuedOrders.entrySet().iterator();it.hasNext();){
+                Entry<UUID, UUID> next = it.next();
+
+                CharacterMessage characterMessage = allCharacters.get(next.getKey());
+                if(characterMessage!=null) {
+                    Objective o = characterMessage.getObjectiveSafe(next.getValue());
+                    if (o instanceof CaptureStructure) {
+                        HouseMessage house = houseDAO.getHouse(UUID.fromString(((CaptureStructure) o).structure));
+                        if (!o.isComplete) {
+                            availableUnits.remove(next.getKey());
+                        }
+                        exclude.add(house.getId().toString());
+
+                    }
+                }
 			}
-			
-			c.getUnitsUnderCommand().stream()				
-				.filter(id->!objective.issuedOrders.containsKey(id))
-				.map(id->characterDAO.getCharacter(id))
+
+            availableUnits.stream()
+				.map(id->characterDAO.getCharacter(id)).filter(ch->ch!=null)
 				.forEach(unit -> {
 					HouseMessage house = findClosestHouse(unit, objective.houses.stream().map(h->houseDAO.getHouse(h)).collect(Collectors.toSet()), houseToCapture);
 					if(house!=null){
 						try {
-							log.info(unit.getId()+" CaptureStructure:"+house.getId().toString()+" sector:"+objective.centre);
-
 							CaptureStructure captureStructure = new CaptureStructure(house.getId().toString());
-							unit.addObjective(UUID.randomUUID(), captureStructure);
+                            UUID id = UUID.randomUUID();
+                            unit.addObjective(id, captureStructure);
 							toSave.put(unit.getId(), unit);
-							objective.issuedOrders.put(unit.getId(), captureStructure);
+							objective.issuedOrders.put(unit.getId(), id);
 							exclude.add(house.getId().toString());
 						} catch (IOException e) {
 							throw new RuntimeException(e);
@@ -116,7 +120,11 @@ public enum SecureSectorState {
 			if(!objective.boundary.contains(new Point2D.Float(c.getLocation().x, c.getLocation().z)) && c.getCurrentStrength(characterDAO)<=objective.minimumFightingStrength){
 				return RETREAT;
 			}
-			if(objective.issuedOrders.values().stream().anyMatch(o->!o.isComplete)){
+            Map<UUID, CharacterMessage> allCharacters = characterDAO.getAllCharacters(objective.issuedOrders.keySet());
+            if(objective.issuedOrders.entrySet().stream()
+                    .map(e-> allCharacters.get(e.getKey()).getObjectiveSafe(e.getValue()))
+                    .filter(o -> o!=null)
+                    .anyMatch(o->!o.isComplete)){
                 return CAPTURE_HOUSES;
             }
 			return DEFEND_SECTOR;
@@ -135,10 +143,11 @@ public enum SecureSectorState {
                         if(!bunkers.isEmpty()){
                             BunkerMessage bunkerMessage = bunkers.get(0);
                             log.info(entry.getKey()+" moving to bunker:"+ bunkerMessage.getLocation());
+                            UUID id = UUID.randomUUID();
                             TransportSquad travelObjective = new TransportSquad(bunkerMessage.getEntryPoint());
-                            objective.issuedOrders.put(entry.getKey(), travelObjective);
+                            objective.issuedOrders.put(entry.getKey(), id);
                             try {
-                                entry.getValue().addObjective(UUID.randomUUID(), travelObjective);
+                                entry.getValue().addObjective(id, travelObjective);
                             } catch (JsonProcessingException e) {
                                 throw new RuntimeException(e);
                             }
@@ -146,10 +155,17 @@ public enum SecureSectorState {
                             bunkers.remove(0);
                         }
                     });
+            if(objective.securedHouseCount==null) {
+                objective.securedHouseCount = objective.houses.stream().map(hid -> houseDAO.getHouse(hid)).filter(h -> c.getCountry() == h.getOwner()).count();
+            }
         }
 
         @Override
         public SecureSectorState transition(CharacterMessage c, String uuid, SecureSector objective, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave) {
+            long currentHouseCount = objective.houses.stream().map(hid->houseDAO.getHouse(hid)).filter(h->c.getCountry()==h.getOwner()).count();
+            if(currentHouseCount<objective.securedHouseCount){
+                return CAPTURE_HOUSES;
+            }
             return DEFEND_SECTOR;
         }
     };
@@ -182,26 +198,26 @@ public enum SecureSectorState {
 			.forEach(unit -> {
 				try {
 					TransportSquad deployToSector = new TransportSquad(location);
-					unit.addObjective(UUID.randomUUID(), deployToSector);
+                    UUID id = UUID.randomUUID();
+                    unit.addObjective(id, deployToSector);
 					toSave.put(unit.getId(), unit);
-					objective.issuedOrders.put(unit.getId(), deployToSector);	
+					objective.issuedOrders.put(unit.getId(), id);
 				} catch (IOException e) {
 					throw new RuntimeException(e);
 				}
 			});
 
-		if(!objective.issuedOrders.containsKey(c.getId())){
-			Objective t = null;
+		if(objective.embededObjective == null){
+			Objective t;
 			if(CharacterType.AVATAR == c.getCharacterType() || CharacterType.SOLDIER == c.getCharacterType()){
 				t = new TravelObjective(c, location, null);
 			}else{
 				t = new NavigateObjective(location, null);
 			}
-			objective.issuedOrders.put(c.getId(), t);
+			objective.embededObjective = t;
 		}
 
-		Objective fromStringToObjective = objective.issuedOrders.get(c.getId());
-		fromStringToObjective.runObjective(c, uuid, characterDAO, houseDAO, toSave, kills);
+		objective.embededObjective.runObjective(c, uuid, characterDAO, houseDAO, toSave, kills);
 		toSave.put(c.getId(), c);
 	}
 

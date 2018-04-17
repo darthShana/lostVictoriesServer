@@ -45,7 +45,7 @@ public class TransportSquadTest {
 	public void testStoreAndRetriveObjective() {
 		TransportSquad transportSquad = new TransportSquad(new Vector(100, 1, 1));
 		transportSquad.runObjective(oldCo, UUID.randomUUID().toString(), characterDAO, houseDAO, new HashMap<UUID, CharacterMessage>(), new HashMap<>());
-		Objective o = transportSquad.issuedOrders.get(oldCo.getId());
+		Objective o = transportSquad.moveObjective;
 		assertNotNull(o);
 		assertTrue(o instanceof TravelObjective);
 		assertEquals(1, unit.readObjectives().size());
