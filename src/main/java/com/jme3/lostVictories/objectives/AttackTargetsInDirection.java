@@ -9,16 +9,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class AttackBoggies extends Objective{
+public class AttackTargetsInDirection extends Objective{
 
-    List<Vector> targets;
+    Vector lastKnownLocation;
     TravelObjective travelObjective;
 
 
     @Override
     public void runObjective(CharacterMessage c, String uuid, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave, Map<UUID, UUID> kills) {
-        if(travelObjective == null && !targets.isEmpty()){
-            travelObjective = new TravelObjective(c, targets.get(0), null);
+        if(travelObjective == null){
+            travelObjective = new TravelObjective(c, lastKnownLocation, null);
         }
         if(travelObjective!=null && !travelObjective.isComplete){
             travelObjective.runObjective(c, uuid, characterDAO, houseDAO, toSave, kills);

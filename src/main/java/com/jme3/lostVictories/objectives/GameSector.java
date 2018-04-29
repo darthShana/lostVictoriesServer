@@ -105,6 +105,16 @@ public class GameSector {
         return structures.size();
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return ((GameSector)obj).structures.equals(structures);
+    }
+
+    @Override
+    public int hashCode() {
+        return structures.hashCode();
+    }
+
     public static class SectorRectangle{
         int x;
         int y;

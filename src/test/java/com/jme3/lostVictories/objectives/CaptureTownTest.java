@@ -74,7 +74,7 @@ public class CaptureTownTest {
 		
 		GameSector merged = new GameSector(new Rectangle(-512, -512, 100, 100));
 		
-		Set<GameSector> unMerged = new HashSet<GameSector>();
+		List<GameSector> unMerged = new ArrayList<>();
 		unMerged.add(new GameSector(new Rectangle(-512+200, -512+200, 100, 100)));		
 		assertFalse(captureTown.findNeighbouringSector(merged, unMerged).isPresent());
 				

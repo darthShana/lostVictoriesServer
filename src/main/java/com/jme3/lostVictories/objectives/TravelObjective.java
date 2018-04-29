@@ -81,7 +81,7 @@ public class TravelObjective extends Objective implements CleanupBeforeTransmitt
 		if(newObjective.isAssignableFrom(FollowCommander.class)){
 			return true;
 		}
-		if(newObjective.isAssignableFrom(AttackBoggies.class)){
+		if(newObjective.isAssignableFrom(AttackTargetsInDirection.class)){
 			return true;
 		}
 

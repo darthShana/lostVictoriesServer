@@ -97,9 +97,9 @@ public enum SecureSectorState {
 			}
 
             availableUnits.stream()
-				.map(id->characterDAO.getCharacter(id)).filter(ch->ch!=null)
+				.map(characterDAO::getCharacter).filter(Objects::nonNull)
 				.forEach(unit -> {
-					HouseMessage house = findClosestHouse(unit, objective.houses.stream().map(h->houseDAO.getHouse(h)).collect(Collectors.toSet()), houseToCapture);
+					HouseMessage house = findClosestHouse(unit, objective.houses.stream().map(houseDAO::getHouse).collect(Collectors.toSet()), houseToCapture);
 					if(house!=null){
 						try {
 							CaptureStructure captureStructure = new CaptureStructure(house.getId().toString());
@@ -123,7 +123,7 @@ public enum SecureSectorState {
             Map<UUID, CharacterMessage> allCharacters = characterDAO.getAllCharacters(objective.issuedOrders.keySet());
             if(objective.issuedOrders.entrySet().stream()
                     .map(e-> allCharacters.get(e.getKey()).getObjectiveSafe(e.getValue()))
-                    .filter(o -> o!=null)
+                    .filter(Objects::nonNull)
                     .anyMatch(o->!o.isComplete)){
                 return CAPTURE_HOUSES;
             }
@@ -156,13 +156,13 @@ public enum SecureSectorState {
                         }
                     });
             if(objective.securedHouseCount==null) {
-                objective.securedHouseCount = objective.houses.stream().map(hid -> houseDAO.getHouse(hid)).filter(h -> c.getCountry() == h.getOwner()).count();
+                objective.securedHouseCount = objective.houses.stream().map(houseDAO::getHouse).filter(h -> c.getCountry() == h.getOwner()).count();
             }
         }
 
         @Override
         public SecureSectorState transition(CharacterMessage c, String uuid, SecureSector objective, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave) {
-            long currentHouseCount = objective.houses.stream().map(hid->houseDAO.getHouse(hid)).filter(h->c.getCountry()==h.getOwner()).count();
+            long currentHouseCount = objective.houses.stream().map(houseDAO::getHouse).filter(h->c.getCountry()==h.getOwner()).count();
             if(currentHouseCount<objective.securedHouseCount){
                 return CAPTURE_HOUSES;
             }
