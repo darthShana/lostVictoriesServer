@@ -25,26 +25,25 @@ public class HouseDAO {
     private final String houseLocation;
 
     Jedis jedis;
-    private String nameSpace;
 
 	private List<BunkerMessage> bunkers = new ArrayList<>();
 
 
 	public HouseDAO(Jedis jedis, String nameSpace) {
 		this.jedis = jedis;
-		this.nameSpace = nameSpace;
         this.houseStatus = nameSpace+".houseStatus";
         this.houseLocation = nameSpace+".houseLocation";
 
-        bunkers.add(new BunkerMessage(UUID.randomUUID(), new Vector(204.1758f, 102.116066f, -24.266691f), new Quaternion(0.06678886f, -0.1626839f, 0.011040457f, 0.98435324f)));
-        bunkers.add(new BunkerMessage(UUID.randomUUID(), new Vector(99.83392f, 96.43404f, 95.658516f), new Quaternion(0.0f, 0.9294944f, 0.0f, 0.36883622f)));
-        bunkers.add(new BunkerMessage(UUID.randomUUID(), new Vector(336.1358f, 95.88243f, 66.05069f), new Quaternion(0.0f, 0.6047698f, 0.0f, 0.7964003f)));
-        bunkers.add(new BunkerMessage(UUID.randomUUID(), new Vector(-96.58569f, 97.62429f, 231.24171f), new Quaternion(0.0f, 0.2922327f, 0.0f, 0.9563472f)));
-        bunkers.add(new BunkerMessage(UUID.randomUUID(), new Vector(-342.9169f, 96.32557f, -144.11838f), new Quaternion(0.0f, -0.9938203f, 0.0f, 0.111000516f)));
-        bunkers.add(new BunkerMessage(UUID.randomUUID(), new Vector(-250.0f, 96.289536f, -225.11862f), new Quaternion(0.0f, -0.75833607f, 0.0f, 0.65186375f)));
-        bunkers.add(new BunkerMessage(UUID.randomUUID(), new Vector(137.88399f, 100.28509f, -270.88477f), new Quaternion(0.0f, -0.9334759f, 0.0f, 0.35864007f)));
-        bunkers.add(new BunkerMessage(UUID.randomUUID(), new Vector(57.210407f, 100.232506f, -270.88477f), new Quaternion(-4.4577834E-7f, 0.7684584f, 4.2731781E-7f, 0.6398997f)));
-	}
+        bunkers.add(new BunkerMessage(UUID.randomUUID(), new Vector(-100.58569f, 97.62429f, 231.24171f), new Quaternion(0.0f, 0.3360924f, 0.0f, 0.941829f)));
+        bunkers.add(new BunkerMessage(UUID.randomUUID(), new Vector(336.1358f, 95.88243f, 66.05069f), new Quaternion(0.0f, 0.5893206f, 0.0f, 0.8078993f)));
+        bunkers.add(new BunkerMessage(UUID.randomUUID(), new Vector(-250.0f, 96.289536f, -225.11862f), new Quaternion(0.0f, -0.7550778f, 0.0f, 0.65563524f)));
+        bunkers.add(new BunkerMessage(UUID.randomUUID(), new Vector(-342.9169f, 96.32557f, -144.11838f), new Quaternion(0.0f, -0.98937446f, 0.0f, 0.14538974f)));
+        bunkers.add(new BunkerMessage(UUID.randomUUID(), new Vector(82.83392f, 97.43404f, 100.658516f), new Quaternion(0.0f, 0.7570388f, 0.0f, 0.65336996f)));
+        bunkers.add(new BunkerMessage(UUID.randomUUID(), new Vector(57.210407f, 100.232506f, -270.88477f), new Quaternion(0.0f, 0.90899706f, 0.0f, 0.41680256f)));
+        bunkers.add(new BunkerMessage(UUID.randomUUID(), new Vector(137.88399f, 100.28509f, -270.88477f), new Quaternion(0.0f, -0.930234f, 0.0f, 0.3669669f)));
+        bunkers.add(new BunkerMessage(UUID.randomUUID(), new Vector(200.1758f, 102.116066f, -42.26669f), new Quaternion(0.0f, 0.0f, 0.0f, 1.0f)));
+
+    }
 	
 	public void putHouse(HouseMessage house) {
 		try {
@@ -93,7 +92,7 @@ public class HouseDAO {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             } catch (Exception e){
-                log.info("partial character:"+id+" present"+mapResponse);
+                log.info("partial house:"+id+" present"+mapResponse);
                 throw e;
             }
         }else{

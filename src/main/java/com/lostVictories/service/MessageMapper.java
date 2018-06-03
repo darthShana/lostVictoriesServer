@@ -34,6 +34,7 @@ public class MessageMapper {
                 .setId(bytes(h.getId()))
                 .setType(h.getType())
                 .setLocation(h.getLocation().toMessage())
+                .setScale(h.getScale().toMessage())
                 .setRotation(h.getRotation().toMessage());
 
         if(h.getOwner()!=null){

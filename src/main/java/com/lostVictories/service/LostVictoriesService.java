@@ -36,16 +36,14 @@ public class LostVictoriesService {
 
     private final JedisPool jedisPool;
     private final String nameSpace;
-    private final TreeDAO treeDAO;
     private final GameRequestDAO gameRequestDAO;
     private final PlayerUsageDAO playerUsageDAO;
     private final MessageRepository messageRepository;
     private final WorldRunner worldRunner;
 
-    public LostVictoriesService(JedisPool jedisPool, String nameSpace, TreeDAO treeDAO, GameRequestDAO gameRequestDAO, PlayerUsageDAO playerUsageDAO, MessageRepository messageRepository, WorldRunner worldRunner) {
+    public LostVictoriesService(JedisPool jedisPool, String nameSpace, GameRequestDAO gameRequestDAO, PlayerUsageDAO playerUsageDAO, MessageRepository messageRepository, WorldRunner worldRunner) {
         this.jedisPool = jedisPool;
         this.nameSpace = nameSpace;
-        this.treeDAO = treeDAO;
         this.gameRequestDAO = gameRequestDAO;
         this.playerUsageDAO = playerUsageDAO;
         this.messageRepository = messageRepository;
@@ -59,6 +57,7 @@ public class LostVictoriesService {
             CharacterDAO characterDAO = new CharacterDAO(jedis, nameSpace);
             HouseDAO houseDAO = new HouseDAO(jedis, nameSpace);
             EquipmentDAO equipmentDAO = new EquipmentDAO(jedis, nameSpace);
+            TreeDAO treeDAO = new TreeDAO(jedis, nameSpace);
             CheckoutScreenMessageHandler checkoutScreenMessageHandler = new CheckoutScreenMessageHandler(characterDAO, houseDAO, equipmentDAO, treeDAO, playerUsageDAO);
             checkoutScreenMessageHandler.handle(request, responseObserver);
         }finally {

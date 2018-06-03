@@ -1,34 +1,22 @@
 package com.lostVictories.server;
 
+import com.jme3.ai.navmesh.NavMeshPathfinder;
 import com.lostVictories.service.LostVictoriesServiceImpl;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import lostVictories.CharacterRunner;
+import lostVictories.NavMeshStore;
 import lostVictories.WorldRunner;
 import lostVictories.dao.*;
 import lostVictories.messageHanders.MessageRepository;
 import lostVictories.service.LostVictoryService;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.elasticsearch.action.admin.indices.create.CreateIndexRequestBuilder;
-import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
-import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsResponse;
-import org.elasticsearch.client.Client;
-import org.elasticsearch.client.IndicesAdminClient;
-import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.transport.InetSocketTransportAddress;
-import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.elasticsearch.common.xcontent.XContentFactory;
-import org.elasticsearch.transport.client.PreBuiltTransportClient;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
 import java.io.IOException;
-import java.net.InetAddress;
 import java.util.UUID;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -65,24 +53,23 @@ public class LostVictoriesServerGRPC {
     public void run() throws IOException, InterruptedException {
         System.out.println("Starting server......");
 
-        Client esClient = getESClient();
-        IndicesAdminClient adminClient = esClient.admin().indices();
-        TreeDAO treeDAO = new TreeDAO(esClient, treeIndexName);
-        GameRequestDAO gameRequestDAO = new GameRequestDAO(esClient);
-        PlayerUsageDAO playerUsageDAO = new PlayerUsageDAO(esClient, gameName);
+
+        GameRequestDAO gameRequestDAO = new GameRequestDAO();
+        PlayerUsageDAO playerUsageDAO = new PlayerUsageDAO();
         MessageRepository messageRepository = new MessageRepository();
         WorldRunner worldRunner = WorldRunner.instance(gameName);
+
+        NavMeshStore pathFinder = NavMeshStore.intstace();
 
         JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
         jedisPoolConfig.setMaxTotal(100);
         jedisPoolConfig.setMinIdle(100);
         JedisPool jedisPool = new JedisPool(jedisPoolConfig, "localhost");
-        service = new LostVictoryService(jedisPool, instance, treeDAO, gameRequestDAO, playerUsageDAO, messageRepository, worldRunner);
+        service = new LostVictoryService(jedisPool, instance, gameRequestDAO, playerUsageDAO, messageRepository, worldRunner);
+        service.loadScene(pathFinder);
 
 
-        boolean existing = createIndices(adminClient, service, treeDAO);
-
-        LostVictoriesServiceImpl grpcService = new LostVictoriesServiceImpl(jedisPool, instance, treeDAO, gameRequestDAO, playerUsageDAO, messageRepository, worldRunner);
+        LostVictoriesServiceImpl grpcService = new LostVictoriesServiceImpl(jedisPool, instance, gameRequestDAO, playerUsageDAO, messageRepository, worldRunner);
         Server server = ServerBuilder.forPort(port)
                 .addService(grpcService)
                 .build();
@@ -91,24 +78,23 @@ public class LostVictoriesServerGRPC {
         worldRunner.setLostVictoryService(grpcService);
         ScheduledExecutorService worldRunnerService = Executors.newSingleThreadScheduledExecutor();
         worldRunnerService.scheduleAtFixedRate(worldRunner, 0, 2, TimeUnit.SECONDS);
+        ScheduledExecutorService characterRunnerService = Executors.newSingleThreadScheduledExecutor();
         CharacterRunner characterRunner = CharacterRunner.instance(service, jedisPool, instance);
-        worldRunnerService.scheduleAtFixedRate(characterRunner, 1, 2, TimeUnit.SECONDS);
+        characterRunnerService.scheduleAtFixedRate(characterRunner, 1, 2, TimeUnit.SECONDS);
 
 
         server.start();
 
-        UUID gameRequest = null;
+        UUID gameID = null;
         try{
-            gameRequest = gameRequestDAO.getGameRequest(gameName);
-            log.info("starting game request:"+gameRequest+" for game:"+gameName);
+            gameID = UUID.fromString(System.getenv("GAME_ID"));
+            log.info("starting game request:"+gameID+" for game:"+gameName);
         }catch(Exception e){
             log.info("cant find game request for :"+gameName);
         }
 
-        if(gameRequest!=null){
-            if(!existing){
-                gameRequestDAO.updateGameStatus(gameRequest, this.instance, gameName, port, instance);
-            }
+        if(gameID!=null){
+            gameRequestDAO.updateGameStatus(gameID);
         }
         log.info("Listening on "+port);
         System.out.println("Server started......");
@@ -116,75 +102,6 @@ public class LostVictoriesServerGRPC {
 
         server.awaitTermination();
 
-    }
-
-    private boolean createIndices(IndicesAdminClient adminClient, LostVictoryService service, TreeDAO treeDAO) throws IOException {
-        deleteIndex(adminClient, equipmentIndexName);
-        deleteIndex(adminClient, treeIndexName);
-
-        final CreateIndexRequestBuilder treeIndexRequestBuilder = adminClient.prepareCreate(treeIndexName);
-        XContentBuilder builder = XContentFactory.jsonBuilder().startObject().startObject("treeStatus").startObject("properties");
-        builder.startObject("location")
-                .field("type", "geo_point")
-                .field("store", "yes")
-                .endObject();
-        builder.endObject().endObject().endObject();
-
-        treeIndexRequestBuilder.addMapping("treeStatus", builder);
-        treeIndexRequestBuilder.execute().actionGet();
-
-        final CreateIndexRequestBuilder equipmentIndexRequestBuilder = adminClient.prepareCreate(equipmentIndexName);
-        builder = XContentFactory.jsonBuilder().startObject().startObject("equipmentStatus").startObject("properties");
-        builder.startObject("location")
-                .field("type", "geo_point")
-                .field("store", "yes")
-                .endObject();
-        builder.endObject().endObject().endObject();
-
-        equipmentIndexRequestBuilder.addMapping("equipmentStatus", builder);
-        equipmentIndexRequestBuilder.execute().actionGet();
-
-        service.loadScene();
-        return false;
-    }
-
-    private void deleteIndex(IndicesAdminClient adminClient, String indexName) {
-        final IndicesExistsResponse house = adminClient.prepareExists(indexName).execute().actionGet();
-        if (house.isExists()) {
-            log.info("index:"+indexName+" already exisits so deleting");
-            adminClient.delete(new DeleteIndexRequest(indexName)).actionGet();
-        }
-    }
-
-    private Client getESClient() throws IOException {
-        isElasticHealthy();
-        TransportClient transportClient = new PreBuiltTransportClient(Settings.EMPTY)
-                .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("localhost"), 9300));
-        return transportClient;
-
-
-    }
-
-    private boolean isElasticHealthy() throws IOException {
-        CloseableHttpClient httpclient = HttpClientBuilder.create().setRetryHandler((exception, executionCount, context) -> {
-            if (executionCount > 3) {
-                return false;
-            }
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) { }
-            return true;
-        }).build();
-
-        try {
-            HttpGet httpget = new HttpGet("http://localhost:9200/_cluster/health");
-            System.out.println("Executing request " + httpget.getRequestLine());
-            httpclient.execute(httpget);
-            System.out.println("----------------------------------------");
-            return true;
-        } finally {
-            httpclient.close();
-        }
     }
 
 

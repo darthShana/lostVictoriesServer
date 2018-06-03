@@ -27,17 +27,19 @@ public class HouseMessage implements Serializable, Structure{
 	private final UUID id;
 	private String type;
 	private Vector location;
+	private Vector scale;
 	private Quaternion rotation;
 	Country owner;
 	Country contestingOwner;
 	CaptureStatus captureStatus;
 	Long statusChangeTime;
 
-	public HouseMessage(String type, Vector location, Quaternion rotation) {
+	public HouseMessage(String type, Vector location, Quaternion rotation, Vector scale) {
 		this.id = UUID.randomUUID();
 		this.type = type;
 		this.location = location;
 		this.rotation = rotation;
+		this.scale = scale;
 		this.captureStatus = CaptureStatus.NONE;
 	}
 
@@ -50,6 +52,7 @@ public class HouseMessage implements Serializable, Structure{
         this.location = latLongToVector(altitude, (float) geoCoordinate.getLongitude(), (float) geoCoordinate.getLatitude());
 
         this.rotation = MAPPER.readValue(source.get("rotation"), Quaternion.class);
+        this.scale = MAPPER.readValue(source.get("scale"), Vector.class);
 
 
         if(source.get("owner")!=null){
@@ -66,12 +69,17 @@ public class HouseMessage implements Serializable, Structure{
 		}
 	}
 
+    public HouseMessage(String type2, Vector vector, Quaternion quaternion) {
+	    this(type2, vector, quaternion, new Vector(1, 1, 1));
+    }
+
     public Map<String, String> getMapRepresentation() throws IOException {
         Map<String, String> ret = new HashMap<>();
         ret.put("id", id.toString());
 		ret.put("type", getType());
         ret.put("altitude", getLocation().y+"");
         ret.put("rotation", CharacterDAO.MAPPER.writeValueAsString(rotation));
+        ret.put("scale", CharacterDAO.MAPPER.writeValueAsString(scale));
         if(owner!=null) {
             ret.put("owner", owner + "");
         }
@@ -130,6 +138,9 @@ public class HouseMessage implements Serializable, Structure{
 	
 	public Vector getLocation() {
 		return location;
+	}
+	public Vector getScale() {
+		return scale;
 	}
 
 	public boolean checkOwnership(CharacterDAO characterDAO) {

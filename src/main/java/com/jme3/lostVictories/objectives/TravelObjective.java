@@ -48,7 +48,10 @@ public class TravelObjective extends Objective implements CleanupBeforeTransmitt
 		}
 		
 		if(path == null){
-	    	path = NavMeshStore.intstace().findPath(character.getLocation(), destination);
+	    	path = NavMeshStore.intstace().findPath(character, character.getLocation(), destination);
+	    	if(path==null) {
+                System.out.println("unable to calculate character path for char:" + character.getId() + " from:" + character.getLocation()+" -> "+destination);
+            }
 		}
 		if(path == null){
 			isComplete = true;

@@ -96,7 +96,7 @@ public class WorldRunnerInstance {
                     }else{
                         log.debug("in here test reenforce:"+c.getId());
                         HouseMessage house = SecureSectorState.findClosestHouse(c, houseDAO.getAllHouses(), h -> h.getOwner()==c.getCountry());
-                        Vector3f point = NavMeshStore.intstace().warp(house.getLocation());
+                        Vector3f point = NavMeshStore.intstace().warp(c, house.getLocation());
                         if(point!=null){
                             c.reenforceCharacter(new Vector(point), weaponsFactory.get(c.getCountry()), vehicleFactory.get(c.getCountry()), characterDAO);
                             characterDAO.updateCharactersUnderCommand(c);
@@ -141,17 +141,19 @@ public class WorldRunnerInstance {
                 .forEach(e->equipmentDAO.delete(e));
 
         if(victoryPoints.get(Country.GERMAN)<=0){
-            playerUsageDAO.endAllGameSessions(System.currentTimeMillis());
-            UUID gameRequest = gameRequestDAO.getGameRequest(gameName);
-            if(gameRequest!=null) {
-                gameRequestDAO.recordAmericanVictory(gameRequest);
+            Set<UUID> collect1 = clientObserverMap.keySet().stream().map(clientId -> characterDAO.getCharacter(clientId).getUserID()).collect(Collectors.toSet());
+            playerUsageDAO.endAllGameSessions(collect1);
+            UUID gameID = UUID.fromString(System.getenv("GAME_ID"));
+            if(gameID!=null) {
+                gameRequestDAO.recordAmericanVictory(gameID);
             }
         }
         if(victoryPoints.get(Country.AMERICAN)<=0){
-            playerUsageDAO.endAllGameSessions(System.currentTimeMillis());
-            UUID gameRequest = gameRequestDAO.getGameRequest(gameName);
-            if(gameRequest!=null) {
-                gameRequestDAO.recordGermanVictory(gameRequest);
+            Set<UUID> collect1 = clientObserverMap.keySet().stream().map(clientId -> characterDAO.getCharacter(clientId).getUserID()).collect(Collectors.toSet());
+            playerUsageDAO.endAllGameSessions(collect1);
+            UUID gameID = UUID.fromString(System.getenv("GAME_ID"));
+            if(gameID!=null) {
+                gameRequestDAO.recordGermanVictory(gameID);
             }
         }
 

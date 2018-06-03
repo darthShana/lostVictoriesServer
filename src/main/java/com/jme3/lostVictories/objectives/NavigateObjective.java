@@ -8,6 +8,8 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import com.jme3.lostVictories.network.messages.Country;
+import com.jme3.lostVictories.network.messages.RankMessage;
 import lostVictories.NavMeshStore;
 import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.HouseDAO;
@@ -40,10 +42,14 @@ public class NavigateObjective extends Objective implements CleanupBeforeTransmi
 		}
 		
 		if(path == null){
-	    	path = NavMeshStore.intstace().findPath(character.getLocation(), destination);
+	    	path = NavMeshStore.intstace().findPath(character, character.getLocation(), destination);
+	    	if(path==null) {
+                System.out.println("unable to calculate vehicle path for char:" + character.getId() + " from:" + character.getLocation()+" -> "+destination);
+            }
+
 		}
 		if(path == null){
-			isComplete = true;
+            isComplete = true;
 			return;
 		}
 
@@ -57,9 +63,9 @@ public class NavigateObjective extends Objective implements CleanupBeforeTransmi
 		}
 				
 		Vector3f newLocation = currentLocation.add(nextWaypoint.subtract(currentLocation).normalize().mult(20*SCENE_SCALE));
-		if(currentLocation.distance(newLocation)>currentLocation.distance(nextWaypoint)){
-			newLocation = nextWaypoint;
-		}
+        if(currentLocation.distance(newLocation)>currentLocation.distance(path.get(0).toVector())){
+            newLocation = path.get(0).toVector();
+        }
 		final Vector vector = new Vector(newLocation);
 		character.setLocation(vector);
 		character.setOrientation(new Vector(nextWaypoint.subtract(currentLocation).normalize()));

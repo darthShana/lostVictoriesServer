@@ -50,7 +50,7 @@ public class CheckoutScreenMessageHandler {
 
             responseObserver.onNext(builder.build());
 
-            playerUsageDAO.registerStartGame(avatar.getUserID(), System.currentTimeMillis());
+            playerUsageDAO.userConnected(avatar.getUserID());
         }
 
         responseObserver.onCompleted();

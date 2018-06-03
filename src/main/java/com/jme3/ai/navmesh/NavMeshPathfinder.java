@@ -1,15 +1,16 @@
 package com.jme3.ai.navmesh;
 
-import com.jme3.ai.navmesh.Path.Waypoint;
-import com.jme3.math.Vector2f;
-import com.jme3.math.Vector3f;
 import com.jme3.ai.navmesh.Cell.ClassifyResult;
 import com.jme3.ai.navmesh.Cell.PathResult;
 import com.jme3.ai.navmesh.Line2D.LineIntersect;
+import com.jme3.ai.navmesh.Path.Waypoint;
+import com.jme3.math.Vector2f;
+import com.jme3.math.Vector3f;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomNavMeshPathfinder extends NavMeshPathfinder{
+public class NavMeshPathfinder {
 
     private NavMesh navMesh;
     private Path path = new Path();
@@ -27,8 +28,7 @@ public class CustomNavMeshPathfinder extends NavMeshPathfinder{
     private volatile int sessionID = 0;
     private volatile Heap heap = new Heap();
 
-    public CustomNavMeshPathfinder(NavMesh navMesh) {
-        super(navMesh);
+    public NavMeshPathfinder(NavMesh navMesh) {
         this.navMesh = navMesh;
     }
 
@@ -60,7 +60,7 @@ public class CustomNavMeshPathfinder extends NavMeshPathfinder{
      * @return the new position in the nearest cell
      */
     public Vector3f warp(Vector3f newPos) {
-        Vector3f newPos2d = new Vector3f(newPos.x, 0, newPos.z);
+        Vector3f newPos2d = new Vector3f(newPos.x, newPos.y, newPos.z);
         currentCell = navMesh.findClosestCell(newPos2d);
         currentPos3d.set(navMesh.snapPointToCell(currentCell, newPos2d));
         currentPos3d.setY(newPos.getY());
@@ -76,7 +76,7 @@ public class CustomNavMeshPathfinder extends NavMeshPathfinder{
      * @return the position in the cell
      */
     public Vector3f warpInside(Vector3f position) {
-        Vector3f newPos2d = new Vector3f(position.x, 0, position.z);
+        Vector3f newPos2d = new Vector3f(position.x, position.y, position.z);
         Cell cell = navMesh.findClosestCell(newPos2d);
         position.set(navMesh.snapPointToCell(cell, newPos2d));
         return position;
@@ -114,16 +114,14 @@ public class CustomNavMeshPathfinder extends NavMeshPathfinder{
      */
     public boolean computePath(Vector3f goal, DebugInfo debugInfo) {
         // get the cell that this point is in
-        Vector3f newPos2d = new Vector3f(currentPos3d.x, 0, currentPos3d.z);
-        currentCell = navMesh.findClosestCell(newPos2d);
+        Vector3f newPos3d = new Vector3f(currentPos3d.x, currentPos3d.y, currentPos3d.z);
+        currentCell = navMesh.findClosestCell(newPos3d);
         if (currentCell == null) {
             return false;
         }
 
-        goalPos3d = goal;
-        goalPos = new Vector2f(goalPos3d.getX(), goalPos3d.getZ());
-        Vector3f goalPos2d = new Vector3f(goalPos.getX(), 0, goalPos.getY());
-        goalCell = navMesh.findClosestCell(goalPos2d);
+        Vector3f goalPos3d = new Vector3f(goal.x,goal.y,goal.z);
+        goalCell = navMesh.findClosestCell(goalPos3d);
         boolean result = buildNavigationPath(path, currentCell, currentPos3d, goalCell, goalPos3d, entityRadius, debugInfo);
         if (!result) {
             goalPos = null;
@@ -205,9 +203,9 @@ public class CustomNavMeshPathfinder extends NavMeshPathfinder{
      * Build a navigation path using the provided points and the A* method
      */
     private boolean buildNavigationPath(Path navPath,
-            Cell startCell, Vector3f startPos,
-            Cell endCell, Vector3f endPos,
-            float entityRadius, DebugInfo debugInfo) {
+                                        Cell startCell, Vector3f startPos,
+                                        Cell endCell, Vector3f endPos,
+                                        float entityRadius, DebugInfo debugInfo) {
 
         // Increment our path finding session ID
         // This Identifies each pathfinding session
@@ -256,7 +254,7 @@ public class CustomNavMeshPathfinder extends NavMeshPathfinder{
         // Step through each cell linked by our A* algorithm
         // from StartCell to EndCell
         Cell currentCell = startCell;
-        while (currentCell != null && currentCell != endCell && navPath.size()<1000) {
+        while (currentCell != null && currentCell != endCell && navPath.getWaypoints().size()<512) {
 
             if (debugInfo != null) {
                 debugInfo.addPlannedCell(currentCell);
@@ -286,10 +284,10 @@ public class CustomNavMeshPathfinder extends NavMeshPathfinder{
                         // cannot fit directly.
                         // try to find point where we can
                         if (d1 < d2) {
-                            intersectionPoint.interpolate(wall.getPointA(), wall.getPointB(), distBlend);
+                            intersectionPoint.interpolateLocal(wall.getPointA(), wall.getPointB(), distBlend);
                             newWayPoint = new Vector3f(intersectionPoint.x, 0, intersectionPoint.y);
                         } else {
-                            intersectionPoint.interpolate(wall.getPointB(), wall.getPointA(), distBlend);
+                            intersectionPoint.interpolateLocal(wall.getPointB(), wall.getPointA(), distBlend);
                             newWayPoint = new Vector3f(intersectionPoint.x, 0, intersectionPoint.y);
                         }
                     }
@@ -306,11 +304,11 @@ public class CustomNavMeshPathfinder extends NavMeshPathfinder{
                     Vector2f normalB = wall.getPointB().subtract(lastPt2d).normalizeLocal();
                     if (normalA.dot(normalEnd) < normalB.dot(normalEnd)) {
                         // choose point b
-                        intersectionPoint.interpolate(wall.getPointB(), wall.getPointA(), distBlend);
+                        intersectionPoint.interpolateLocal(wall.getPointB(), wall.getPointA(), distBlend);
                         newWayPoint = new Vector3f(intersectionPoint.x, 0, intersectionPoint.y);
                     } else {
                         // choose point a
-                        intersectionPoint.interpolate(wall.getPointA(), wall.getPointB(), distBlend);
+                        intersectionPoint.interpolateLocal(wall.getPointA(), wall.getPointB(), distBlend);
                         newWayPoint = new Vector3f(intersectionPoint.x, 0, intersectionPoint.y);
                     }
                     currentCell.computeHeightOnCell(newWayPoint);

@@ -29,8 +29,7 @@ public class DeathNotificationMessageHandler {
     }
 
     public void handle(DeathNotificationRequest request, StreamObserver<LostVictoryMessage> responseObserver) {
-        Set<com.jme3.lostVictories.network.messages.wrapper.LostVictoryMessage> ret = new HashSet<>();
-        Map<UUID, CharacterMessage> toSave = new HashMap<UUID, CharacterMessage>();
+        Map<UUID, CharacterMessage> toSave = new HashMap<>();
         CharacterCatch catche = new CharacterCatch(characterDAO);
         CharacterMessage victim = catche.getCharacter(uuid(request.getVictim()));
         if(victim==null || victim.isDead()){

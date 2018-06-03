@@ -4,7 +4,6 @@ import static com.jme3.lostVictories.network.messages.CharacterMessage.toLatitut
 import static com.jme3.lostVictories.network.messages.CharacterMessage.toLongitude;
 import static com.jme3.lostVictories.network.messages.Vector.latLongToVector;
 import static lostVictories.dao.CharacterDAO.MAPPER;
-import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -16,10 +15,10 @@ import java.util.UUID;
 
 import lostVictories.dao.CharacterDAO;
 
-import org.elasticsearch.common.geo.GeoPoint;
-import org.elasticsearch.common.xcontent.XContentBuilder;
+
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import redis.clients.jedis.GeoCoordinate;
 
 public class TreeGroupMessage implements Serializable{
 
@@ -29,11 +28,11 @@ public class TreeGroupMessage implements Serializable{
 	
 	private TreeGroupMessage(){}
 	
-	public TreeGroupMessage(UUID id, Map<String, Object> source) {
-		this.id = id;
-		HashMap<String, Double> loc =  (HashMap<String, Double>) source.get("location");
-		float altitude = ((Double)source.get("altitude")).floatValue();
-		this.location = latLongToVector(altitude, loc.get("lon").floatValue(), loc.get("lat").floatValue());
+	public TreeGroupMessage(Map<String, String> source, GeoCoordinate geoCoordinate) {
+        this.id = UUID.fromString(source.get("id"));
+        float altitude = Float.parseFloat(source.get("altitude"));
+
+        this.location = latLongToVector(altitude, (float) geoCoordinate.getLongitude(), (float) geoCoordinate.getLatitude());
 		try {
 			this.trees = CharacterDAO.MAPPER.readValue((String)source.get("trees"), new TypeReference<Set<TreeMessage>>() {});
 		} catch (IOException e) {
@@ -41,13 +40,13 @@ public class TreeGroupMessage implements Serializable{
 		}
 	}
 
-	public XContentBuilder getJSONRepresentation() throws IOException {
-		return jsonBuilder()
-	            .startObject()
-	                .field("location", new GeoPoint(toLatitute(location), toLongitude(location)))
-	                .field("altitude", location.y)
-	                .field("trees", MAPPER.writerFor(new TypeReference<Set<TreeMessage>>() {}).writeValueAsString(trees))
-	            .endObject();
+	public Map<String, String> getMapRepresentation() throws IOException {
+	    Map<String, String> ret = new HashMap<>();
+
+		ret.put("id", id+"");
+		ret.put("altitude", location.y+"");
+        ret.put("trees", MAPPER.writerFor(new TypeReference<Set<TreeMessage>>() {}).writeValueAsString(trees));
+        return ret;
 	}
 
 	public UUID getId() {

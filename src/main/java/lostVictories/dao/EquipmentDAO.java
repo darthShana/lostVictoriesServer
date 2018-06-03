@@ -2,7 +2,6 @@ package lostVictories.dao;
 
 import static com.jme3.lostVictories.network.messages.CharacterMessage.toLatitute;
 import static com.jme3.lostVictories.network.messages.CharacterMessage.toLongitude;
-import static org.elasticsearch.index.query.QueryBuilders.*;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -10,13 +9,6 @@ import java.io.IOException;
 import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-
-import com.jme3.lostVictories.network.messages.CharacterMessage;
-import org.elasticsearch.action.get.GetResponse;
-import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.index.engine.VersionConflictEngineException;
-import org.elasticsearch.search.SearchHit;
 
 import com.jme3.lostVictories.network.messages.UnClaimedEquipmentMessage;
 import com.jme3.lostVictories.network.messages.Vector;

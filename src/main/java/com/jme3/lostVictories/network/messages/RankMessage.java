@@ -39,7 +39,7 @@ public enum RankMessage {
         
 		@Override
         int getFullStrengthPopulation() {
-            return 4;
+            return 5;
         }
 
 		@Override

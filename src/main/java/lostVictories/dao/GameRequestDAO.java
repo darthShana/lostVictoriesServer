@@ -1,86 +1,68 @@
 package lostVictories.dao;
 
-import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
 import java.io.IOException;
-import java.net.Inet4Address;
-import java.util.Date;
 import java.util.UUID;
 
-import org.elasticsearch.ElasticsearchException;
-import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.client.Client;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.search.SearchHits;
+
+import com.jme3.lostVictories.network.messages.Country;
+import com.lostVictories.rest.api.model.GameCompleted;
+import com.lostVictories.rest.api.model.GameStarted;
+import com.lostVictories.rest.api.model.GameUpdateRequest;
+import lostVictories.AppConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.ws.rs.client.*;
+import javax.ws.rs.core.MediaType;
 
 public class GameRequestDAO {
 
 	private static Logger log = LoggerFactory.getLogger(GameRequestDAO.class);
-	
-	private Client esClient;
-	private String indexName = "game_request";
+    private final Client client;
 
-	public GameRequestDAO(Client esClient) {
-		this.esClient = esClient;
-	}
-	
-	public UUID getGameRequest(String gameName){
-		SearchResponse response = esClient.prepareSearch(indexName)
-		        .setTypes(indexName)
-		        .setQuery(QueryBuilders.termQuery("gameName", gameName))
-		        .setFrom(0).setSize(60).setExplain(true)
-		        .execute()
-		        .actionGet();
-		
-		SearchHits hits = response.getHits();
-		if(hits.getTotalHits()>0){
-			return UUID.fromString(hits.iterator().next().getId());
-		}
-		return null;
-	}
 
-    public void updateGameStatus(UUID requestID, String gameID, String gameName, int gamePort, String nameSpace) throws IOException {
-
-        esClient.prepareUpdate(indexName, indexName, requestID.toString())
-                .setDoc(jsonBuilder()
-						.startObject()
-						.field("name", gameName)
-						.field("host", "connect.lostvictories.com")
-                        .field("localIP", Inet4Address.getLocalHost())
-						.field("port", gamePort)
-						.field("gameID", gameID)
-						.field("nameSpace", nameSpace)
-						.field("gameVersion", "pre_alpha")
-						.field("status", "inProgress")
-						.field("startDate", new Date().getTime())
-						.endObject()
-				)
-                .get();
+    public GameRequestDAO() {
+        client = ClientBuilder.newClient();
     }
 
-    public void recordAmericanVictory(UUID requestID) throws ElasticsearchException, IOException {
-        log.info("recordAmericanVictory game request:"+requestID);
-        esClient.prepareUpdate(indexName, indexName, requestID.toString())
-                .setDoc(jsonBuilder()
-                        .startObject()
-                        .field("victor", "AMERICAN")
-                        .field("endDate", new Date().getTime())
-                        .field("status", "COMPLETED")
-                        .endObject())
-                .get();
+
+    public void updateGameStatus(UUID gameID) throws IOException {
+        try {
+            GameUpdateRequest request = new GameUpdateRequest();
+            request.gameStarted(new GameStarted().gameId(gameID.toString()));
+
+            postGameUpdate(request);
+        }catch(Throwable e){
+            log.error("unable to notify game start..");
+        }
     }
 
-    public void recordGermanVictory(UUID requestID) throws ElasticsearchException, IOException {
-        log.info("recordGermanVictory game request:"+requestID);
-        esClient.prepareUpdate(indexName, indexName, requestID.toString())
-                .setDoc(jsonBuilder()
-                        .startObject()
-                        .field("victor", "GERMAN")
-                        .field("endDate", new Date().getTime())
-                        .field("status", "COMPLETED")
-                        .endObject())
-                .get();
+    private void postGameUpdate(GameUpdateRequest request) {
+        WebTarget webTarget = client.target(AppConfig.GAME_MANAGER_URL.get()).path("games");
+        Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON);
+        invocationBuilder.post(Entity.entity(request, MediaType.APPLICATION_JSON_TYPE));
+    }
+
+    public void recordAmericanVictory(UUID gameID) {
+        try {
+            GameUpdateRequest request = new GameUpdateRequest();
+            request.gameCompleted(new GameCompleted().gameId(gameID.toString()).winner(Country.AMERICAN.name()));
+
+            postGameUpdate(request);
+        }catch(Throwable e){
+            log.error("unable to notify game complete with american victory game:"+gameID);
+        }
+    }
+
+    public void recordGermanVictory(UUID gameID)  {
+        try {
+            GameUpdateRequest request = new GameUpdateRequest();
+            request.gameCompleted(new GameCompleted().gameId(gameID.toString()).winner(Country.GERMAN.name()));
+
+            postGameUpdate(request);
+        }catch (Throwable e){
+            log.error("unable to notify game complete with german victory game:"+gameID);
+        }
     }
 }

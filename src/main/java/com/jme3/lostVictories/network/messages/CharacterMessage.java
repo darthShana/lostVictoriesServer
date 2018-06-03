@@ -519,7 +519,7 @@ public class CharacterMessage implements Serializable{
 
 		Map<UUID, CharacterMessage> oldSquad = characterDAO.getAllCharacters(unitsUnderCommand);
 
-		log.debug("finding field replacement for"+country+":"+id+" ->["+unitsUnderCommand+"]");
+
 
 		CharacterMessage co = null;
 		if(commandingOfficer!=null){
@@ -545,6 +545,7 @@ public class CharacterMessage implements Serializable{
 
 		Optional<CharacterMessage> findReplacement = findReplacement(oldSquad);
 		if(findReplacement.isPresent()){
+            log.info("field replacement for"+country+":"+id+" ->["+unitsUnderCommand+"] with =>"+findReplacement.get().id);
 			CharacterMessage cc = findReplacement.get().promoteCharacter(characterDAO, toSave, oldSquad, rank, commandingOfficer);
 			if(cc!=null){
 				toSave.put(cc.id, cc);

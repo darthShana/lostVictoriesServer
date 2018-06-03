@@ -36,6 +36,7 @@ public class CaptureTown extends Objective {
 		
 		if(sectors.isEmpty()){
             sectors = calculateGameSectors(houseDAO);
+            System.out.println("calculated game sectors:"+sectors);
         }
 
         sectorAssignments.entrySet().removeIf(e->!c.getUnitsUnderCommand().contains(e.getKey()));
@@ -43,7 +44,7 @@ public class CaptureTown extends Objective {
 		c.getUnitsUnderCommand().stream().map(characterDAO::getCharacter)
                 .filter(Objects::nonNull)
                 .filter(unit->!unit.isBusy())
-                .filter(unit->unit.getCurrentStrength(characterDAO)>=12)
+                .filter(unit->unit.getCurrentStrength(characterDAO)>=15)
                 .filter(unit->RankMessage.LIEUTENANT==unit.getRank())
                 .sorted(Comparator.comparingInt(unit -> -unit.getCurrentStrength(characterDAO)))
                 .forEach(unit->{
@@ -56,7 +57,7 @@ public class CaptureTown extends Objective {
 
                     if(toSecure!=null){
                         log.info(c.getCountry()+": assigning new sector:"+toSecure.rects.iterator().next()+" houses:"+toSecure.structures.size()+" platoon strength:"+unit.getCurrentStrength(characterDAO));
-                        SecureSector i = new SecureSector(toSecure.getHouses(houseDAO), toSecure.getBunkers(houseDAO),12, 5, c.getLocation());
+                        SecureSector i = new SecureSector(toSecure.getHouses(houseDAO), toSecure.getBunkers(houseDAO),15, 5, c.getLocation());
                         sectorAssignments.put(unit.getId(), toSecure);
                         attempted.add(toSecure);
                         try {
@@ -92,9 +93,9 @@ public class CaptureTown extends Objective {
 	Set<GameSector> calculateGameSectors(HouseDAO houseDAO) {
         final List<GameSector> sectors = new ArrayList<>();
         
-        for(int y = mapBounds.y;y<=mapBounds.getMaxY();y=y+50){
-            for(int x = mapBounds.x;x<=mapBounds.getMaxX();x=x+50){
-                sectors.add(new GameSector(new Rectangle(x, y, 50, 50)));
+        for(int y = mapBounds.y;y<=mapBounds.getMaxY();y=y+33){
+            for(int x = mapBounds.x;x<=mapBounds.getMaxX();x=x+33){
+                sectors.add(new GameSector(new Rectangle(x, y, 33, 33)));
             }
         }
 

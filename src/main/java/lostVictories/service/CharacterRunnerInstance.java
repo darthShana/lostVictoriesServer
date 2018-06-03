@@ -75,7 +75,7 @@ public class CharacterRunnerInstance {
 //		System.out.println("runCharacterBehavior:"+c.getId()+" version:"+c.getVersion()+" checkout client:"+c.getCheckoutClient()+"cheout time:"+cot);
         if(c.getCheckoutClient()!=null){
             if(CharacterType.AVATAR==c.getCharacterType() && c.getUserID()!=null){
-                playerUsageDAO.registerStopGame(c.getUserID(), System.currentTimeMillis());
+                playerUsageDAO.userDisconnected(c.getUserID());
             }
             c.setCheckoutClient(null);
             characterDAO.putCharacter(c.getId(), c);

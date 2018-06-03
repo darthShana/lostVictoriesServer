@@ -60,7 +60,7 @@ public class BoardingVehicleMessageHandler {
             return;
         }
 
-        log.debug("passenger:"+passenger.getId()+" checkes passed about to board vehicle:"+vehicleId);
+        log.debug("passenger:"+passenger.getId()+" checks passed about to board vehicle:"+vehicleId);
         Map<UUID, CharacterMessage> toSave = new HashMap<UUID, CharacterMessage>();
         passenger.boardVehicle(vehicle, characterDAO, toSave);
         log.debug("passenger:"+passenger.getId()+" boarding complete");

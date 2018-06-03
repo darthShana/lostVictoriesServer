@@ -115,6 +115,11 @@ public class GameSector {
         return structures.hashCode();
     }
 
+    @Override
+    public String toString() {
+        return "houses:"+getHousesCount();
+    }
+
     public static class SectorRectangle{
         int x;
         int y;

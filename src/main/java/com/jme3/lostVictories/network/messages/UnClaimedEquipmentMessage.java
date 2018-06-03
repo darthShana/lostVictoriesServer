@@ -1,10 +1,6 @@
 package com.jme3.lostVictories.network.messages;
-
-import static com.jme3.lostVictories.network.messages.CharacterMessage.toLatitute;
-import static com.jme3.lostVictories.network.messages.CharacterMessage.toLongitude;
 import static com.jme3.lostVictories.network.messages.Vector.latLongToVector;
 import static lostVictories.dao.CharacterDAO.MAPPER;
-import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -13,8 +9,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import lostVictories.dao.CharacterDAO;
-import org.elasticsearch.common.geo.GeoPoint;
-import org.elasticsearch.common.xcontent.XContentBuilder;
 import redis.clients.jedis.GeoCoordinate;
 
 

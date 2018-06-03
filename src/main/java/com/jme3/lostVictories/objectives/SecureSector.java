@@ -9,14 +9,11 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import com.jme3.lostVictories.network.messages.BunkerMessage;
+import com.jme3.lostVictories.network.messages.*;
 import lostVictories.dao.CharacterDAO;
 import lostVictories.dao.HouseDAO;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.jme3.lostVictories.network.messages.CharacterMessage;
-import com.jme3.lostVictories.network.messages.HouseMessage;
-import com.jme3.lostVictories.network.messages.Vector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -80,6 +77,9 @@ public class SecureSector extends Objective implements CleanupBeforeTransmitting
 	        calculateBoundry(houses.stream().map(h->houseDAO.getHouse(h)).collect(Collectors.toSet()));
         }
         HashMap<UUID, CharacterMessage> toSave1 = new HashMap<>();
+//        if(Country.AMERICAN == c.getCountry() && houses.size()>25){
+//            System.out.println(c.getCountry()+" lieu:"+c.getId()+" at:"+c.getLocation()+" strength:"+c.getCurrentStrength(characterDAO)+" state:"+state);
+//        }
         state.runObjective(c, uuid, this, characterDAO, houseDAO, toSave1, kills);
         try {
             characterDAO.save(toSave1.values());

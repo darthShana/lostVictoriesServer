@@ -217,7 +217,15 @@ public enum SecureSectorState {
 			objective.embededObjective = t;
 		}
 
-		objective.embededObjective.runObjective(c, uuid, characterDAO, houseDAO, toSave, kills);
+		long unitsInFront = c.getUnitsUnderCommand().stream()
+                .map(characterDAO::getCharacter)
+                .filter(Objects::nonNull)
+                .filter(unit->unit.getLocation().distance(location)<c.getLocation().distance(location))
+                .count();
+
+		if(unitsInFront>c.getUnitsUnderCommand().size()/2) {
+            objective.embededObjective.runObjective(c, uuid, characterDAO, houseDAO, toSave, kills);
+        }
 		toSave.put(c.getId(), c);
 	}
 
