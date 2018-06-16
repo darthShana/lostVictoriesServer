@@ -769,9 +769,11 @@ public class CharacterMessage implements Serializable{
 			vehicle.commandingOfficer = co.id;
 			vehicle.objectives.clear();
 			vehicle.country = country;
-			oldCo.unitsUnderCommand.remove(vehicle.id);
 			co.unitsUnderCommand.add(vehicle.id);
-			toSave.put(oldCo.id, oldCo);
+			if(oldCo!=null) {
+                oldCo.unitsUnderCommand.remove(vehicle.id);
+                toSave.put(oldCo.id, oldCo);
+            }
 			toSave.put(co.id, co);
 		}
 

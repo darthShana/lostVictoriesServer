@@ -1,14 +1,16 @@
 package lostVictories.dao;
 
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import com.jme3.lostVictories.network.messages.*;
-import com.jme3.lostVictories.network.messages.Vector;
 
 
+import com.jme3.lostVictories.objectives.GameSector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redis.clients.jedis.GeoCoordinate;
@@ -21,12 +23,21 @@ import static com.jme3.lostVictories.network.messages.CharacterMessage.toLongitu
 
 public class HouseDAO {
 	private static Logger log = LoggerFactory.getLogger(HouseDAO.class);
+    public Rectangle mapBounds = new Rectangle(-512, -512, 1024, 1024);
+
+
     private final String houseStatus;
     private final String houseLocation;
 
+    private final String bunkerStatus;
+    private final String bunkerLocation;
+
+    private final String sectorStatus;
+    private final String sectorSet;
+
+
     Jedis jedis;
 
-	private List<BunkerMessage> bunkers = new ArrayList<>();
 
 
 	public HouseDAO(Jedis jedis, String nameSpace) {
@@ -34,14 +45,11 @@ public class HouseDAO {
         this.houseStatus = nameSpace+".houseStatus";
         this.houseLocation = nameSpace+".houseLocation";
 
-        bunkers.add(new BunkerMessage(UUID.randomUUID(), new Vector(-100.58569f, 97.62429f, 231.24171f), new Quaternion(0.0f, 0.3360924f, 0.0f, 0.941829f)));
-        bunkers.add(new BunkerMessage(UUID.randomUUID(), new Vector(336.1358f, 95.88243f, 66.05069f), new Quaternion(0.0f, 0.5893206f, 0.0f, 0.8078993f)));
-        bunkers.add(new BunkerMessage(UUID.randomUUID(), new Vector(-250.0f, 96.289536f, -225.11862f), new Quaternion(0.0f, -0.7550778f, 0.0f, 0.65563524f)));
-        bunkers.add(new BunkerMessage(UUID.randomUUID(), new Vector(-342.9169f, 96.32557f, -144.11838f), new Quaternion(0.0f, -0.98937446f, 0.0f, 0.14538974f)));
-        bunkers.add(new BunkerMessage(UUID.randomUUID(), new Vector(82.83392f, 97.43404f, 100.658516f), new Quaternion(0.0f, 0.7570388f, 0.0f, 0.65336996f)));
-        bunkers.add(new BunkerMessage(UUID.randomUUID(), new Vector(57.210407f, 100.232506f, -270.88477f), new Quaternion(0.0f, 0.90899706f, 0.0f, 0.41680256f)));
-        bunkers.add(new BunkerMessage(UUID.randomUUID(), new Vector(137.88399f, 100.28509f, -270.88477f), new Quaternion(0.0f, -0.930234f, 0.0f, 0.3669669f)));
-        bunkers.add(new BunkerMessage(UUID.randomUUID(), new Vector(200.1758f, 102.116066f, -42.26669f), new Quaternion(0.0f, 0.0f, 0.0f, 1.0f)));
+        this.bunkerStatus = nameSpace+".bunkerStatus";
+        this.bunkerLocation = nameSpace+".bunkerLocation";
+
+        this.sectorStatus = nameSpace+".sectorStatus";
+        this.sectorSet = nameSpace+".sectorSet";
 
     }
 	
@@ -49,16 +57,35 @@ public class HouseDAO {
 		try {
             jedis.del(houseStatus+"."+house.getId().toString());
             jedis.zrem(houseLocation, house.getId().toString());
-            house.getMapRepresentation().entrySet().forEach(e->{
-                jedis.hset(houseStatus+"."+house.getId().toString(), e.getKey(), e.getValue());
-            });
+            house.getMapRepresentation().entrySet().forEach(e->jedis.hset(houseStatus+"."+house.getId().toString(), e.getKey(), e.getValue()));
             jedis.geoadd(houseLocation, toLongitude(house.getLocation()), toLatitute(house.getLocation()), house.getId().toString());
-
 
         } catch (IOException e) {
 			throw new RuntimeException(e);
 		}
 	}
+
+	public void putBunker(BunkerMessage bunker){
+	    try{
+	        jedis.del(bunkerStatus+"."+bunker.getId().toString());
+	        jedis.zrem(bunkerLocation, bunker.getId().toString());
+	        bunker.getMapRepresentation().entrySet().forEach(e->jedis.hset(bunkerStatus+""+bunker.getId().toString(), e.getKey(), e.getValue()));
+            jedis.geoadd(bunkerLocation, toLongitude(bunker.getLocation()), toLatitute(bunker.getLocation()), bunker.getId().toString());
+
+	    } catch (IOException e) {
+	        throw new RuntimeException(e);
+        }
+    }
+
+    public void putSector(GameSector sector){
+	    try{
+            jedis.del(sectorStatus+"."+sector.getId());
+            sector.getMapRepresentation().entrySet().forEach(e->jedis.hset(sectorStatus+"."+sector.getId(), e.getKey(), e.getValue()));
+            jedis.sadd(sectorSet, sector.getId().toString());
+        } catch(IOException e){
+            throw new RuntimeException(e);
+        }
+    }
 
 	public Set<HouseMessage> getAllHouses() {
         List<GeoRadiusResponse> mapResponse = jedis.georadius(this.houseLocation, 0, 0, 1000000, GeoUnit.KM);
@@ -66,6 +93,10 @@ public class HouseDAO {
 
 	}
 
+    public Set<BunkerMessage> getAllBunkers() {
+        List<GeoRadiusResponse> mapResponse = jedis.georadius(this.houseLocation, 0, 0, 1000000, GeoUnit.KM);
+        return mapResponse.stream().map(r->getBunker(UUID.fromString(r.getMemberByString()))).filter(c->c!=null).collect(Collectors.toSet());
+    }
 
 	public void save(Set<HouseMessage> values) {
         values.forEach(character -> {
@@ -100,16 +131,86 @@ public class HouseDAO {
         }
 	}
 
-    public List<BunkerMessage> getAllBunkers() {
-        return bunkers;
+	public BunkerMessage getBunker(UUID id){
+	    Map<String, String> mapResponse = jedis.hgetAll(bunkerStatus+"."+id.toString());
+	    List<GeoCoordinate> geoLocation = jedis.geopos(bunkerLocation, id.toString());
+
+	    if(mapResponse !=null && !mapResponse.isEmpty() && !geoLocation.isEmpty() && geoLocation.get(0)!=null){
+            try {
+                return new BunkerMessage(mapResponse, geoLocation.get(0));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }else{
+	        return null;
+        }
+
     }
 
-    public List<BunkerMessage> getBunkers(Set<UUID> ids) {
-	    return bunkers.stream().filter(b->ids.contains(b.getId())).collect(Collectors.toList());
+
+
+    public Set<GameSector> calculateGameSectors() {
+        final List<GameSector> sectors = new ArrayList<>();
+
+        for(int y = mapBounds.y;y<=mapBounds.getMaxY();y=y+33){
+            for(int x = mapBounds.x;x<=mapBounds.getMaxX();x=x+33){
+                sectors.add(new GameSector(new Rectangle(x, y, 33, 33)));
+            }
+        }
+
+        getAllHouses().forEach(house->{
+            sectors.stream().filter(s->s.contains(house)).findFirst().ifPresent(s->s.addHouse(house));
+        });
+        getAllBunkers().forEach(bunker->{
+            sectors.stream().filter(s->s.contains(bunker)).findFirst().ifPresent(s->s.addBunker(bunker));
+        });
+
+
+        List<GameSector> remaining = sectors.stream().filter(s->!s.allStructures().isEmpty()).collect(Collectors.toList());
+
+        //merge joining houses together with a limit on the number of houses
+        Set<GameSector> merged = new HashSet<>();
+        GameSector next = remaining.iterator().next();
+        merged.add(next);
+        remaining.remove(next);
+
+        while(!remaining.isEmpty()){
+            boolean foundMerge = false;
+            for(GameSector sector:merged){
+                Optional<GameSector> neighbour = findNeighbouringSector(sector, remaining);
+                if(neighbour.isPresent()){
+                    sector.merge(neighbour.get());
+                    remaining.remove(neighbour.get());
+                    foundMerge = true;
+                }
+            }
+            if(!foundMerge){
+                next = remaining.iterator().next();
+                merged.add(next);
+                remaining.remove(next);
+            }
+
+        }
+
+        merged.forEach(sector -> putSector(sector));
+        return merged;
     }
 
-    public BunkerMessage getBunker(UUID i) {
-        Optional<BunkerMessage> first = bunkers.stream().filter(b -> i.equals(b.getId())).findFirst();
-        return first.orElse(null);
+    Optional<GameSector> findNeighbouringSector(GameSector sector, List<GameSector> ret) {
+        return ret.stream().filter(s->sector.isJoinedTo(s)).findFirst();
+    }
+
+    public Collection<GameSector> getGameSectors(){
+        Set<String> smembers = jedis.smembers(sectorSet);
+        return smembers.stream().map(s->getGameSector(UUID.fromString(s))).collect(Collectors.toSet());
+    }
+
+    public GameSector getGameSector(UUID id) {
+        Map<String, String> mapResponse = jedis.hgetAll(sectorStatus + "." + id.toString());
+        try {
+            return new GameSector(mapResponse);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

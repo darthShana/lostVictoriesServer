@@ -72,7 +72,6 @@ public class BoardingVehicleMessageHandler {
             savedVehicle.setCheckoutTime(System.currentTimeMillis());
         }
 
-        log.debug("vehicle new passegers:"+toSave.get(vehicleId).getPassengers());
         characterDAO.save(toSave.values());
         responseObserver.onNext(LostVictoryMessage.newBuilder().build());
         responseObserver.onCompleted();

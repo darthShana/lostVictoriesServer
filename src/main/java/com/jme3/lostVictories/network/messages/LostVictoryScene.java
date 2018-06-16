@@ -306,6 +306,20 @@ public class LostVictoryScene {
         houses.add(new HouseMessage("Models/Structures/casaMedieval.j3o", new Vector(-90.86111f, 96.53069f, 231.42224f), new Quaternion(0.0f, 0.9971563f, 0.0f, 0.075361215f), new Vector(1.0f, 1.0f, 1.0f)));
 
         houses.forEach(h->housesDAO.putHouse(h));
+
+        Set<BunkerMessage> bunkers = new HashSet<>();
+        bunkers.add(new BunkerMessage(UUID.randomUUID(), new Vector(-100.58569f, 97.62429f, 231.24171f), new Quaternion(0.0f, 0.3360924f, 0.0f, 0.941829f)));
+        bunkers.add(new BunkerMessage(UUID.randomUUID(), new Vector(336.1358f, 95.88243f, 66.05069f), new Quaternion(0.0f, 0.5893206f, 0.0f, 0.8078993f)));
+        bunkers.add(new BunkerMessage(UUID.randomUUID(), new Vector(-250.0f, 96.289536f, -225.11862f), new Quaternion(0.0f, -0.7550778f, 0.0f, 0.65563524f)));
+        bunkers.add(new BunkerMessage(UUID.randomUUID(), new Vector(-342.9169f, 96.32557f, -144.11838f), new Quaternion(0.0f, -0.98937446f, 0.0f, 0.14538974f)));
+        bunkers.add(new BunkerMessage(UUID.randomUUID(), new Vector(82.83392f, 97.43404f, 100.658516f), new Quaternion(0.0f, 0.7570388f, 0.0f, 0.65336996f)));
+        bunkers.add(new BunkerMessage(UUID.randomUUID(), new Vector(57.210407f, 100.232506f, -270.88477f), new Quaternion(0.0f, 0.90899706f, 0.0f, 0.41680256f)));
+        bunkers.add(new BunkerMessage(UUID.randomUUID(), new Vector(137.88399f, 100.28509f, -270.88477f), new Quaternion(0.0f, -0.930234f, 0.0f, 0.3669669f)));
+        bunkers.add(new BunkerMessage(UUID.randomUUID(), new Vector(200.1758f, 102.116066f, -42.26669f), new Quaternion(0.0f, 0.0f, 0.0f, 1.0f)));
+
+        bunkers.forEach(bunker->housesDAO.putBunker(bunker));
+
+        housesDAO.calculateGameSectors();
         
         Set<TreeGroupMessage> trees = new HashSet<>();
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();

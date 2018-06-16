@@ -26,7 +26,7 @@ public class CaptureTownTest {
             when(houseDAO.getHouse(h.getId())).thenReturn(h);
         });
 		
-		Set<GameSector> calculateGameSector = captureTown.calculateGameSectors(houseDAO);
+		Set<GameSector> calculateGameSector = houseDAO.calculateGameSectors();
 		assertEquals(5, calculateGameSector.size());
 
 		calculateGameSector.forEach(sector->{
@@ -58,29 +58,14 @@ public class CaptureTownTest {
 		when(houseDAO.getHouse(h2.getId())).thenReturn(h2);
 
 		GameSector merged = new GameSector(new Rectangle(-512, -512, 100, 100));
-		merged.add(h1);
+		merged.addHouse(h1);
 		GameSector neighbour = new GameSector(new Rectangle(-512+100, -512+100, 100, 100));
-		neighbour.add(h2);
+		neighbour.addHouse(h2);
 		
 		merged.merge(neighbour);
 		assertTrue(merged.getHouses(houseDAO).contains(h1));
 		assertTrue(merged.getHouses(houseDAO).contains(h2));
 
-	}
-	
-	@Test
-	public void testFindNeighbouringSectors(){
-		CaptureTown captureTown = new CaptureTown();
-		
-		GameSector merged = new GameSector(new Rectangle(-512, -512, 100, 100));
-		
-		List<GameSector> unMerged = new ArrayList<>();
-		unMerged.add(new GameSector(new Rectangle(-512+200, -512+200, 100, 100)));		
-		assertFalse(captureTown.findNeighbouringSector(merged, unMerged).isPresent());
-				
-		GameSector neighbour = new GameSector(new Rectangle(-512+100, -512+100, 100, 100));
-		unMerged.add(neighbour);
-		assertEquals(neighbour, captureTown.findNeighbouringSector(merged, unMerged).get());
 	}
 
 	@Test
@@ -96,11 +81,11 @@ public class CaptureTownTest {
         });
         when(houseDAO.getAllHouses()).thenReturn(allHouses);
 
-        Set<GameSector> calculateGameSector = captureTown.calculateGameSectors(houseDAO);
-        HashSet<GameSector> exc = new HashSet<>();
+        Set<GameSector> calculateGameSector = houseDAO.calculateGameSectors();
+        HashSet<UUID> exc = new HashSet<>();
         GameSector gameSector1 = captureTown.findClosestUnsecuredGameSector(oldCo, calculateGameSector, exc, houseDAO);
         assertTrue(gameSector1.containsPoint(new Vector(87.875885f,100.49752f,-326.0263f)));
-        exc.add(gameSector1);
+        exc.add(gameSector1.id);
 
         GameSector gameSector2 = captureTown.findClosestUnsecuredGameSector(oldCo, calculateGameSector, exc, houseDAO);
         assertTrue(gameSector2.containsPoint(new Vector(139.33589f,96.62015f,31.722858f)));

@@ -10,6 +10,7 @@ import lostVictories.dao.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static com.lostVictories.service.LostVictoriesService.bytes;
 import static com.lostVictories.service.LostVictoriesService.uuid;
 
 /**
@@ -47,6 +48,14 @@ public class CheckoutScreenMessageHandler {
             characterDAO.getAllCharacters(l.x, l.y, l.z, CLIENT_RANGE).stream().map(c->mp.toMessage(c)).forEach(cm->builder.addCharacters(cm));
             houseDAO.getAllHouses().stream().map(h->mp.toMessage(h)).forEach(hm->builder.addHouses(hm));
             houseDAO.getAllBunkers().stream().map(b->mp.toMessage(b)).forEach(bm->builder.addBunkers(bm));
+
+            houseDAO.getGameSectors().forEach(sector->{
+                SectorMessage.Builder builder1 = SectorMessage.newBuilder();
+                builder1.setSectorID(bytes(sector.getId()));
+                sector.getHouses().forEach(hid->builder1.addHouses(bytes(hid)));
+                sector.getDefences().forEach(did->builder1.addDefences(bytes(did)));
+                builder.addSectors(builder1.build());
+            });
 
             responseObserver.onNext(builder.build());
 

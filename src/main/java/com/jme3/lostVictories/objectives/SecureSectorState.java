@@ -99,7 +99,8 @@ public enum SecureSectorState {
             availableUnits.stream()
 				.map(characterDAO::getCharacter).filter(Objects::nonNull)
 				.forEach(unit -> {
-					HouseMessage house = findClosestHouse(unit, objective.houses.stream().map(houseDAO::getHouse).collect(Collectors.toSet()), houseToCapture);
+                    GameSector gameSector = houseDAO.getGameSector(objective.sectorId);
+                    HouseMessage house = findClosestHouse(unit, gameSector.houses.stream().map(houseDAO::getHouse).collect(Collectors.toSet()), houseToCapture);
 					if(house!=null){
 						try {
 							CaptureStructure captureStructure = new CaptureStructure(house.getId().toString());
@@ -134,14 +135,15 @@ public enum SecureSectorState {
     DEFEND_SECTOR {
         @Override
         public void runObjective(CharacterMessage c, String uuid, SecureSector objective, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave, Map<UUID, UUID> kills) {
-            final List<BunkerMessage> bunkers = new ArrayList<>();
-            bunkers.addAll(houseDAO.getBunkers(objective.bunkers));
+            final List<UUID> bunkers = new ArrayList<>();
+            GameSector gameSector = houseDAO.getGameSector(objective.sectorId);
+            bunkers.addAll(gameSector.defences);
 
             characterDAO.getAllCharacters(c.getUnitsUnderCommand()).entrySet().stream()
                     .filter(entry -> !objective.issuedOrders.containsKey(entry.getKey()))
                     .forEach(entry -> {
                         if(!bunkers.isEmpty()){
-                            BunkerMessage bunkerMessage = bunkers.get(0);
+                            BunkerMessage bunkerMessage = houseDAO.getBunker(bunkers.get(0));
                             log.info(entry.getKey()+" moving to bunker:"+ bunkerMessage.getLocation());
                             UUID id = UUID.randomUUID();
                             TransportSquad travelObjective = new TransportSquad(bunkerMessage.getEntryPoint());
@@ -156,13 +158,14 @@ public enum SecureSectorState {
                         }
                     });
             if(objective.securedHouseCount==null) {
-                objective.securedHouseCount = objective.houses.stream().map(houseDAO::getHouse).filter(h -> c.getCountry() == h.getOwner()).count();
+                objective.securedHouseCount = gameSector.houses.stream().map(houseDAO::getHouse).filter(h -> c.getCountry() == h.getOwner()).count();
             }
         }
 
         @Override
         public SecureSectorState transition(CharacterMessage c, String uuid, SecureSector objective, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave) {
-            long currentHouseCount = objective.houses.stream().map(houseDAO::getHouse).filter(h->c.getCountry()==h.getOwner()).count();
+            GameSector gameSector = houseDAO.getGameSector(objective.sectorId);
+            long currentHouseCount = gameSector.houses.stream().map(houseDAO::getHouse).filter(h->c.getCountry()==h.getOwner()).count();
             if(currentHouseCount<objective.securedHouseCount){
                 return CAPTURE_HOUSES;
             }

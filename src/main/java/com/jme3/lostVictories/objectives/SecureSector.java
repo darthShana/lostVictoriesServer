@@ -1,9 +1,9 @@
 package com.jme3.lostVictories.objectives;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -22,11 +22,8 @@ public class SecureSector extends Objective implements CleanupBeforeTransmitting
 	@JsonIgnore
 	private static Logger log = LoggerFactory.getLogger(SecureSector.class);
 	
-	Set<UUID> houses = new HashSet<>();
-	Set<UUID> bunkers = new HashSet<>();
+	UUID sectorId;
 	Vector centre;
-    @JsonIgnore
-	Rectangle.Float boundary;
 	Map<UUID, UUID> issuedOrders = new HashMap<>();
 	int deploymentStrength;
     int minimumFightingStrength;
@@ -35,20 +32,21 @@ public class SecureSector extends Objective implements CleanupBeforeTransmitting
 	Objective embededObjective;
     public Long securedHouseCount;
 
+    @JsonIgnore
+    Rectangle2D.Float boundary;
+
     @SuppressWarnings("unused")
 	private SecureSector() {}
 	
-	public SecureSector(Set<HouseMessage> houses, Set<BunkerMessage> bunkers, int deploymentStrength, int minimumFightingStrength, Vector homeBase) {
+	public SecureSector(UUID sectorId, int deploymentStrength, int minimumFightingStrength, Vector homeBase) {
 		this.deploymentStrength = deploymentStrength;
 		this.minimumFightingStrength = minimumFightingStrength;
 		this.homeBase = homeBase;
-		this.houses = houses.stream().map(h->h.getId()).collect(Collectors.toSet());
-		this.bunkers = bunkers.stream().map(b->b.getId()).collect(Collectors.toSet());
-        calculateBoundry(houses);
-        log.trace("securing sector:"+centre+" with houses:"+houses.size());
+		this.sectorId = sectorId;
+        log.trace("securing sector:"+sectorId);
 	}
 
-    private void calculateBoundry(Set<HouseMessage> houses) {
+    private Rectangle2D.Float calculateBoundry(Set<HouseMessage> houses) {
 	    float totalX = 0, totalY = 0,totalZ = 0;
         Float minX = null, minY = null ,minZ = null;
         Float maxX = null , maxY = null ,maxZ = null;
@@ -67,15 +65,17 @@ public class SecureSector extends Objective implements CleanupBeforeTransmitting
         final float y = totalY/houses.size();
         final float z = totalZ/houses.size();
         centre = new Vector(x, y, z);
-        boundary = new Rectangle.Float(minX, minZ, (maxX-minX), (maxZ-minZ));
+        return new Rectangle.Float(minX, minZ, (maxX-minX), (maxZ-minZ));
     }
 
     @Override
 	public void runObjective(CharacterMessage c, String uuid, CharacterDAO characterDAO, HouseDAO houseDAO, Map<UUID, CharacterMessage> toSave, Map<UUID, UUID> kills) {
 
-		if(boundary == null){
-	        calculateBoundry(houses.stream().map(h->houseDAO.getHouse(h)).collect(Collectors.toSet()));
-        }
+        GameSector gameSector = houseDAO.getGameSector(sectorId);
+        Set<HouseMessage> houses = gameSector.getHouses(houseDAO);
+
+        this.boundary = calculateBoundry(houses);
+
         HashMap<UUID, CharacterMessage> toSave1 = new HashMap<>();
 //        if(Country.AMERICAN == c.getCountry() && houses.size()>25){
 //            System.out.println(c.getCountry()+" lieu:"+c.getId()+" at:"+c.getLocation()+" strength:"+c.getCurrentStrength(characterDAO)+" state:"+state);
@@ -105,7 +105,6 @@ public class SecureSector extends Objective implements CleanupBeforeTransmitting
 
 	@Override
 	public void cleanupBeforeTransmitting() {
-	    houses.clear();
 		issuedOrders.clear();
 	}
 
