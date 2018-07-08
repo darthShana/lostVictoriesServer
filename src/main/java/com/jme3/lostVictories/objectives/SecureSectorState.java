@@ -226,7 +226,7 @@ public enum SecureSectorState {
                 .filter(unit->unit.getLocation().distance(location)<c.getLocation().distance(location))
                 .count();
 
-		if(unitsInFront>c.getUnitsUnderCommand().size()/2) {
+		if(unitsInFront>Math.ceil(c.getUnitsUnderCommand().size()/2)) {
             objective.embededObjective.runObjective(c, uuid, characterDAO, houseDAO, toSave, kills);
         }
 		toSave.put(c.getId(), c);

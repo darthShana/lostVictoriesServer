@@ -58,7 +58,7 @@ public class TravelObjective extends Objective implements CleanupBeforeTransmitt
 			return;
 		}
 		
-		if(!path.isEmpty() && currentLocation.distance(path.get(0).toVector())<1){
+		if(!path.isEmpty() && currentLocation.distance(path.get(0).toVector())<.4f){
 			path.remove(0);
 		}
 		if(path.isEmpty()){

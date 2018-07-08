@@ -77,9 +77,6 @@ public class SecureSector extends Objective implements CleanupBeforeTransmitting
         this.boundary = calculateBoundry(houses);
 
         HashMap<UUID, CharacterMessage> toSave1 = new HashMap<>();
-//        if(Country.AMERICAN == c.getCountry() && houses.size()>25){
-//            System.out.println(c.getCountry()+" lieu:"+c.getId()+" at:"+c.getLocation()+" strength:"+c.getCurrentStrength(characterDAO)+" state:"+state);
-//        }
         state.runObjective(c, uuid, this, characterDAO, houseDAO, toSave1, kills);
         try {
             characterDAO.save(toSave1.values());
